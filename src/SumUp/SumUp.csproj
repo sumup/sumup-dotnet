@@ -12,7 +12,7 @@
     <RootNamespace>SumUp</RootNamespace>
     <Description>Modern SumUp .NET SDK generated from the official OpenAPI specification.</Description>
     <PackageId>SumUp</PackageId>
-    <Version>0.0.2</Version> <!-- x-release-please-version -->
+    <Version>0.0.3</Version> <!-- x-release-please-version -->
     <Authors>SumUp</Authors>
     <Company>SumUp</Company>
     <PackageTags>sumup;payments;sdk</PackageTags>
