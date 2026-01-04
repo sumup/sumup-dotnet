@@ -5,7 +5,7 @@
 [![NuGet](https://img.shields.io/nuget/v/sumup.svg)](https://www.nuget.org/packages/SumUp/)
 [![Documentation][docs-badge]](https://developer.sumup.com)
 [![CI Status](https://github.com/sumup/sumup-dotnet/workflows/CI/badge.svg)](https://github.com/sumup/sumup-dotnet/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/sumup/sumup-py)](./LICENSE)
+[![License](https://img.shields.io/github/license/sumup/sumup-dotnet)](./LICENSE)
 
 </div>
 
@@ -19,7 +19,7 @@ The .NET SDK for the SumUp [API](https://developer.sumup.com).
 dotnet add package SumUp --prerelease
 ```
 
-See `examples/BasicConsole` and `examples/CardReaderCheckout` for runnable projects.
+See `examples/Basic` and `examples/CardReaderCheckout` for runnable projects.
 
 ## Supported .NET Versions
 
@@ -106,7 +106,7 @@ Console.WriteLine($"Reader checkout created: {readerCheckout.Data?.Data?.ClientT
 
 ## Examples
 
-- `examples/BasicConsole` – lists recent checkouts to sanity check your API token.
+- `examples/Basic` – lists recent checkouts to sanity check your API token.
 - `examples/CardReaderCheckout` – mirrors the `../sumup-rs/examples/card_reader_checkout.rs` sample by listing the merchant’s paired readers and creating a €10 checkout on the first available device.
 
 To run the card reader example:
