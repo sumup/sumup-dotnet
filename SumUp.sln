@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{00434BF0-6DBC-4D10-A4E1-CCCE5AAFFCC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SumUp", "src\SumUp\SumUp.csproj", "{8E9FAE0B-D427-4A36-B173-8F5EAB93B47F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SumUp.Tests", "src\SumUp.Tests\SumUp.Tests.csproj", "{C3EB3DA3-79E1-483E-A838-CF8A563BF0CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{27A079ED-6B3F-4A5D-BC98-647A379F5864}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicConsole", "examples\BasicConsole\BasicConsole.csproj", "{38032149-4A67-4856-8854-00F400CBA388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardReaderCheckout", "examples\CardReaderCheckout\CardReaderCheckout.csproj", "{5DD2877F-E30C-42F1-9192-4E80DB983FA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E9FAE0B-D427-4A36-B173-8F5EAB93B47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E9FAE0B-D427-4A36-B173-8F5EAB93B47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E9FAE0B-D427-4A36-B173-8F5EAB93B47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E9FAE0B-D427-4A36-B173-8F5EAB93B47F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3EB3DA3-79E1-483E-A838-CF8A563BF0CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3EB3DA3-79E1-483E-A838-CF8A563BF0CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3EB3DA3-79E1-483E-A838-CF8A563BF0CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3EB3DA3-79E1-483E-A838-CF8A563BF0CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38032149-4A67-4856-8854-00F400CBA388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38032149-4A67-4856-8854-00F400CBA388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38032149-4A67-4856-8854-00F400CBA388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38032149-4A67-4856-8854-00F400CBA388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DD2877F-E30C-42F1-9192-4E80DB983FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DD2877F-E30C-42F1-9192-4E80DB983FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DD2877F-E30C-42F1-9192-4E80DB983FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DD2877F-E30C-42F1-9192-4E80DB983FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E9FAE0B-D427-4A36-B173-8F5EAB93B47F} = {00434BF0-6DBC-4D10-A4E1-CCCE5AAFFCC0}
+		{C3EB3DA3-79E1-483E-A838-CF8A563BF0CB} = {00434BF0-6DBC-4D10-A4E1-CCCE5AAFFCC0}
+		{38032149-4A67-4856-8854-00F400CBA388} = {27A079ED-6B3F-4A5D-BC98-647A379F5864}
+		{5DD2877F-E30C-42F1-9192-4E80DB983FA8} = {27A079ED-6B3F-4A5D-BC98-647A379F5864}
+EndGlobalSection
+EndGlobal

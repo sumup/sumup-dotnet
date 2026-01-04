@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet-version:
+          - '8.0.x'
+          - '9.0.x'
+          - '10.0.x'
+
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+        with:
+          go-version-file: ./tools/codegen/go.mod
+
+      - name: Generate SDK
+        working-directory: tools/codegen
+        run: go run ./cmd/sumup-dotnet --spec ../../openapi.json --output ../../src/SumUp --namespace SumUp
+
+      - name: Go tests
+        working-directory: tools/codegen
+        run: go test ./...
+
+      - name: Check no diff after generation
+        run: git diff --exit-code
+
+      - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Restore
+        run: dotnet restore SumUp.sln
+
+      - name: Format
+        run: dotnet format SumUp.sln --verify-no-changes
+
+      - name: Build
+        run: dotnet build SumUp.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test SumUp.sln --configuration Release --no-build --collect:"XPlat Code Coverage"
+
+  release-please:
+    name: Prepare release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: ${{ github.ref_name }}

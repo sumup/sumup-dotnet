@@ -1,0 +1,71 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    if: '!github.event.release.prerelease'
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+        with:
+          go-version-file: ./tools/codegen/go.mod
+
+      - name: Generate SDK
+        working-directory: tools/codegen
+        run: go run ./cmd/sumup-dotnet --spec ../../openapi.json --output ../../src/SumUp/Generated --namespace SumUp
+
+      - name: Go tests
+        working-directory: tools/codegen
+        run: go test ./...
+
+      - name: Check no diff after generation
+        run: git diff --exit-code
+
+      - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore SumUp.sln
+
+      - name: Format
+        run: dotnet format SumUp.sln --verify-no-changes
+
+      - name: Build
+        run: dotnet build SumUp.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test SumUp.sln --configuration Release --no-build
+
+  publish:
+    name: Publish to NuGet
+    needs: validate
+    runs-on: ubuntu-latest
+    if: '!github.event.release.prerelease'
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Pack
+        run: dotnet pack src/SumUp/SumUp.csproj --configuration Release --output nuget
+
+      - name: Publish package
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push nuget/*.nupkg \
+            --api-key "$NUGET_API_KEY" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate

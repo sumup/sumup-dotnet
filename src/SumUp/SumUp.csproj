@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;netstandard2.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <AssemblyName>SumUp</AssemblyName>
+    <RootNamespace>SumUp</RootNamespace>
+    <Description>Modern SumUp .NET SDK generated from the official OpenAPI specification.</Description>
+    <PackageId>SumUp</PackageId>
+    <Version>0.1.0</Version> <!-- x-release-please-version -->
+    <Authors>SumUp</Authors>
+    <Company>SumUp</Company>
+    <PackageTags>sumup;payments;sdk</PackageTags>
+    <RepositoryUrl>https://github.com/sumup/sumup-dotnet</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/sumup/sumup-dotnet</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.5" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SumUp.Tests" />
+  </ItemGroup>
+
+</Project>
