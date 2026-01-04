@@ -1,8 +1,19 @@
+<div align="center">
+
 # SumUp .NET SDK
 
-This repository hosts the official .NET SDK for the SumUp API. The public surface is generated from the OpenAPI specification and wrapped in a modern HTTP client that prioritises ergonomics and resilience.
+[![NuGet](https://img.shields.io/nuget/v/sumup.svg)](https://www.nuget.org/packages/SumUp/)
+[![Documentation][docs-badge]](https://developer.sumup.com)
+[![CI Status](https://github.com/sumup/sumup-dotnet/workflows/CI/badge.svg)](https://github.com/sumup/sumup-dotnet/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/sumup/sumup-py)](./LICENSE)
 
-## Getting started
+</div>
+
+_**IMPORTANT:** This SDK is under development. We might still introduce minor breaking changes before reaching v1._
+
+The .NET SDK for the SumUp [API](https://developer.sumup.com).
+
+## Getting Started
 
 ```sh
 dotnet add package SumUp --prerelease
@@ -10,7 +21,7 @@ dotnet add package SumUp --prerelease
 
 See `examples/BasicConsole` and `examples/CardReaderCheckout` for runnable projects.
 
-## Supported .NET versions
+## Supported .NET Versions
 
 We target every currently supported .NET release line. Continuous Integration runs restore/build/test on .NET 8.x, 9.x, and 10.x to ensure the SDK works across all supported versions.
 
@@ -23,6 +34,7 @@ export SUMUP_ACCESS_TOKEN="my-token"
 Then call the API:
 
 ```csharp
+using System;
 using SumUp;
 
 using var client = new SumUpClient();
@@ -34,49 +46,63 @@ foreach (var checkout in response.Data ?? Array.Empty<CheckoutSuccess>())
 }
 ```
 
-## Repository layout
+## Usage
 
-- `src/SumUp` – the SDK (handwritten runtime + generated clients)
-  - `*.g.cs` files under `src/SumUp` – per-tag clients (`CheckoutsClient`, `MerchantsClient`, …)
-  - `src/SumUp/Models` – strongly typed request/response models from the spec
-- `src/SumUp.Tests` – xUnit tests covering helpers and request builders
-- `tools/codegen` – Go-based generator that transforms `openapi.json`
-- `examples/BasicConsole` – console project demonstrating SDK usage
+### Creating a Checkout
 
-## Development
+```csharp
+using System;
+using SumUp;
 
-1. Install dependencies and create the generated clients:
+using var client = new SumUpClient();
 
-   ```sh
-   just generate
-   ```
+// Merchant profile contains the merchant code required when creating checkouts
+var merchantResponse = await client.Merchant.GetAsync();
+var merchantCode = merchantResponse.Data?.MerchantProfile?.MerchantCode
+    ?? throw new InvalidOperationException("Merchant code not returned.");
 
-2. Run the usual validation pipeline locally prior to opening a PR:
+var checkoutReference = $"checkout-{Guid.NewGuid():N}";
 
-   ```sh
-   just ci
-   ```
+var checkoutResponse = await client.Checkouts.CreateAsync(new CheckoutCreateRequest
+{
+    Amount = 10.00f,
+    Currency = Currency.Eur,
+    CheckoutReference = checkoutReference,
+    MerchantCode = merchantCode,
+    Description = "Test payment",
+    RedirectUrl = "https://example.com/success",
+    ReturnUrl = "https://example.com/webhook",
+});
 
-CI mirrors these steps via GitHub Actions (see `.github/workflows/ci.yml`).
-
-## Code generation
-
-The SDK clients live next to the handwritten runtime in `src/SumUp`, and the strongly typed models they depend on live in `src/SumUp/Models`. Both are generated through the Go CLI located in `tools/codegen`. You can regenerate them at any time with:
-
-```sh
-cd tools/codegen
-go run ./cmd/sumup-dotnet \
-  --spec ../../openapi.json \
-  --output ../../src/SumUp \
-  --namespace SumUp
+Console.WriteLine($"Checkout ID: {checkoutResponse.Data?.Id}");
+Console.WriteLine($"Checkout Reference: {checkoutResponse.Data?.CheckoutReference}");
 ```
 
-The generator produces:
+### Creating a Reader Checkout
 
-- One client per OpenAPI tag wired into `SumUpClient`.
-- Request/response models (records, enums, dictionaries) sourced from `components.schemas`, so every method returns `ApiResponse<T>` where `T` is a concrete type such as `CheckoutSuccess`.
+```csharp
+using System;
+using SumUp;
 
-Custom runtime code (authentication, resiliency, convenience helpers) should be added under `src/SumUp` but outside of the generated `.g.cs` files.
+using var client = new SumUpClient();
+
+var readerCheckout = await client.Readers.CreateCheckoutAsync(
+    merchantCode: "your-merchant-code",
+    readerId: "your-reader-id",
+    body: new CreateReaderCheckoutRequest
+    {
+        Description = "Coffee purchase",
+        ReturnUrl = "https://example.com/webhook",
+        TotalAmount = new CreateReaderCheckoutRequestTotalAmount
+        {
+            Currency = "EUR",
+            MinorUnit = 2,
+            Value = 1000, // €10.00
+        },
+    });
+
+Console.WriteLine($"Reader checkout created: {readerCheckout.Data?.Data?.ClientTransactionId}");
+```
 
 ## Examples
 
@@ -92,3 +118,5 @@ export SUMUP_MERCHANT_CODE="your_merchant_code"
 # export SUMUP_READER_ID="your_reader_id"
 dotnet run --project examples/CardReaderCheckout
 ```
+
+[docs-badge]: https://img.shields.io/badge/SumUp-documentation-white.svg?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgY29sb3I9IndoaXRlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPHBhdGggZD0iTTIyLjI5IDBIMS43Qy43NyAwIDAgLjc3IDAgMS43MVYyMi4zYzAgLjkzLjc3IDEuNyAxLjcxIDEuN0gyMi4zYy45NCAwIDEuNzEtLjc3IDEuNzEtMS43MVYxLjdDMjQgLjc3IDIzLjIzIDAgMjIuMjkgMFptLTcuMjIgMTguMDdhNS42MiA1LjYyIDAgMCAxLTcuNjguMjQuMzYuMzYgMCAwIDEtLjAxLS40OWw3LjQ0LTcuNDRhLjM1LjM1IDAgMCAxIC40OSAwIDUuNiA1LjYgMCAwIDEtLjI0IDcuNjlabTEuNTUtMTEuOS03LjQ0IDcuNDVhLjM1LjM1IDAgMCAxLS41IDAgNS42MSA1LjYxIDAgMCAxIDcuOS03Ljk2bC4wMy4wM2MuMTMuMTMuMTQuMzUuMDEuNDlaIiBmaWxsPSJjdXJyZW50Q29sb3IiLz4KPC9zdmc+

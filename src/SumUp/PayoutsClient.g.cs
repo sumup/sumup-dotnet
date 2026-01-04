@@ -30,8 +30,9 @@ public sealed partial class PayoutsClient
     /// <param name="format">Request parameter.</param>
     /// <param name="limit">Request parameter.</param>
     /// <param name="order">Request parameter.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<JsonDocument>> List(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<JsonDocument>> List(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
@@ -42,7 +43,7 @@ public sealed partial class PayoutsClient
             builder.AddQuery("limit", limit);
             builder.AddQuery("order", order);
         });
-        return _client.Send<IEnumerable<JsonDocument>>(request, null, null, cancellationToken);
+        return _client.Send<IEnumerable<JsonDocument>>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -55,8 +56,9 @@ public sealed partial class PayoutsClient
     /// <param name="format">Request parameter.</param>
     /// <param name="limit">Request parameter.</param>
     /// <param name="order">Request parameter.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<JsonDocument>>> ListAsync(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<JsonDocument>>> ListAsync(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
@@ -67,7 +69,7 @@ public sealed partial class PayoutsClient
             builder.AddQuery("limit", limit);
             builder.AddQuery("order", order);
         });
-        return await _client.SendAsync<IEnumerable<JsonDocument>>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<IEnumerable<JsonDocument>>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -79,8 +81,9 @@ public sealed partial class PayoutsClient
     /// <param name="format">Request parameter.</param>
     /// <param name="limit">Request parameter.</param>
     /// <param name="order">Request parameter.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<JsonDocument>> ListDeprecated(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<JsonDocument>> ListDeprecated(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {
@@ -90,7 +93,7 @@ public sealed partial class PayoutsClient
             builder.AddQuery("limit", limit);
             builder.AddQuery("order", order);
         });
-        return _client.Send<IEnumerable<JsonDocument>>(request, null, null, cancellationToken);
+        return _client.Send<IEnumerable<JsonDocument>>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -102,8 +105,9 @@ public sealed partial class PayoutsClient
     /// <param name="format">Request parameter.</param>
     /// <param name="limit">Request parameter.</param>
     /// <param name="order">Request parameter.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<JsonDocument>>> ListDeprecatedAsync(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<JsonDocument>>> ListDeprecatedAsync(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {
@@ -113,6 +117,6 @@ public sealed partial class PayoutsClient
             builder.AddQuery("limit", limit);
             builder.AddQuery("order", order);
         });
-        return await _client.SendAsync<IEnumerable<JsonDocument>>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<IEnumerable<JsonDocument>>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

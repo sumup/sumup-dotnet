@@ -25,11 +25,12 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Creates a new saved customer resource which you can later manipulate and save payment instruments to.</remarks>
     /// <param name="body">Details of the customer.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Customer> Create(Customer body, CancellationToken cancellationToken = default)
+    public ApiResponse<Customer> Create(Customer body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/customers");
-        return _client.Send<Customer>(request, body, "application/json", cancellationToken);
+        return _client.Send<Customer>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -37,11 +38,12 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Creates a new saved customer resource which you can later manipulate and save payment instruments to.</remarks>
     /// <param name="body">Details of the customer.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Customer>> CreateAsync(Customer body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Customer>> CreateAsync(Customer body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/customers");
-        return await _client.SendAsync<Customer>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Customer>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -50,15 +52,16 @@ public sealed partial class CustomersClient
     /// <remarks>Deactivates an identified card payment instrument resource for a customer.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
     /// <param name="token">Unique token identifying the card saved as a payment instrument resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> DeactivatePaymentInstrument(string customerId, string token, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> DeactivatePaymentInstrument(string customerId, string token, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/customers/{customer_id}/payment-instruments/{token}", builder =>
         {
             builder.AddPath("customer_id", customerId);
             builder.AddPath("token", token);
         });
-        return _client.Send<JsonDocument>(request, null, null, cancellationToken);
+        return _client.Send<JsonDocument>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -67,15 +70,16 @@ public sealed partial class CustomersClient
     /// <remarks>Deactivates an identified card payment instrument resource for a customer.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
     /// <param name="token">Unique token identifying the card saved as a payment instrument resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> DeactivatePaymentInstrumentAsync(string customerId, string token, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> DeactivatePaymentInstrumentAsync(string customerId, string token, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/customers/{customer_id}/payment-instruments/{token}", builder =>
         {
             builder.AddPath("customer_id", customerId);
             builder.AddPath("token", token);
         });
-        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -83,14 +87,15 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Retrieves an identified saved customer resource through the unique `customer_id` parameter, generated upon customer creation.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Customer> Get(string customerId, CancellationToken cancellationToken = default)
+    public ApiResponse<Customer> Get(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/customers/{customer_id}", builder =>
         {
             builder.AddPath("customer_id", customerId);
         });
-        return _client.Send<Customer>(request, null, null, cancellationToken);
+        return _client.Send<Customer>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -98,14 +103,15 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Retrieves an identified saved customer resource through the unique `customer_id` parameter, generated upon customer creation.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Customer>> GetAsync(string customerId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Customer>> GetAsync(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/customers/{customer_id}", builder =>
         {
             builder.AddPath("customer_id", customerId);
         });
-        return await _client.SendAsync<Customer>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Customer>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -113,14 +119,15 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Lists all payment instrument resources that are saved for an identified customer.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<PaymentInstrumentResponse>> ListPaymentInstruments(string customerId, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<PaymentInstrumentResponse>> ListPaymentInstruments(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/customers/{customer_id}/payment-instruments", builder =>
         {
             builder.AddPath("customer_id", customerId);
         });
-        return _client.Send<IEnumerable<PaymentInstrumentResponse>>(request, null, null, cancellationToken);
+        return _client.Send<IEnumerable<PaymentInstrumentResponse>>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -128,14 +135,15 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Lists all payment instrument resources that are saved for an identified customer.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<PaymentInstrumentResponse>>> ListPaymentInstrumentsAsync(string customerId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<PaymentInstrumentResponse>>> ListPaymentInstrumentsAsync(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/customers/{customer_id}/payment-instruments", builder =>
         {
             builder.AddPath("customer_id", customerId);
         });
-        return await _client.SendAsync<IEnumerable<PaymentInstrumentResponse>>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<IEnumerable<PaymentInstrumentResponse>>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -144,14 +152,15 @@ public sealed partial class CustomersClient
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Customer> Update(string customerId, CustomersUpdateRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<Customer> Update(string customerId, CustomersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/customers/{customer_id}", builder =>
         {
             builder.AddPath("customer_id", customerId);
         });
-        return _client.Send<Customer>(request, body, "application/json", cancellationToken);
+        return _client.Send<Customer>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -160,13 +169,14 @@ public sealed partial class CustomersClient
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Customer>> UpdateAsync(string customerId, CustomersUpdateRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Customer>> UpdateAsync(string customerId, CustomersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/customers/{customer_id}", builder =>
         {
             builder.AddPath("customer_id", customerId);
         });
-        return await _client.SendAsync<Customer>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Customer>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

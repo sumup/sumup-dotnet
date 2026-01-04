@@ -25,14 +25,15 @@ public sealed partial class RolesClient
     /// <remarks>Create a custom role for the merchant. Roles are defined by the set of permissions that they grant to the members that they are assigned to.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Role> Create(string merchantCode, RolesCreateRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<Role> Create(string merchantCode, RolesCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/merchants/{merchant_code}/roles", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return _client.Send<Role>(request, body, "application/json", cancellationToken);
+        return _client.Send<Role>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -41,14 +42,15 @@ public sealed partial class RolesClient
     /// <remarks>Create a custom role for the merchant. Roles are defined by the set of permissions that they grant to the members that they are assigned to.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Role>> CreateAsync(string merchantCode, RolesCreateRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Role>> CreateAsync(string merchantCode, RolesCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/merchants/{merchant_code}/roles", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return await _client.SendAsync<Role>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Role>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -57,15 +59,16 @@ public sealed partial class RolesClient
     /// <remarks>Delete a custom role.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> Delete(string merchantCode, string roleId, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> Delete(string merchantCode, string roleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/roles/{role_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("role_id", roleId);
         });
-        return _client.Send<JsonDocument>(request, null, null, cancellationToken);
+        return _client.Send<JsonDocument>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -74,15 +77,16 @@ public sealed partial class RolesClient
     /// <remarks>Delete a custom role.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> DeleteAsync(string merchantCode, string roleId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> DeleteAsync(string merchantCode, string roleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/roles/{role_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("role_id", roleId);
         });
-        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -91,15 +95,16 @@ public sealed partial class RolesClient
     /// <remarks>Retrieve a custom role by ID.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Role> Get(string merchantCode, string roleId, CancellationToken cancellationToken = default)
+    public ApiResponse<Role> Get(string merchantCode, string roleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/roles/{role_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("role_id", roleId);
         });
-        return _client.Send<Role>(request, null, null, cancellationToken);
+        return _client.Send<Role>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -108,15 +113,16 @@ public sealed partial class RolesClient
     /// <remarks>Retrieve a custom role by ID.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Role>> GetAsync(string merchantCode, string roleId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Role>> GetAsync(string merchantCode, string roleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/roles/{role_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("role_id", roleId);
         });
-        return await _client.SendAsync<Role>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Role>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -124,14 +130,15 @@ public sealed partial class RolesClient
     /// </summary>
     /// <remarks>List merchant's custom roles.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<RolesListResponse> List(string merchantCode, CancellationToken cancellationToken = default)
+    public ApiResponse<RolesListResponse> List(string merchantCode, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/roles", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return _client.Send<RolesListResponse>(request, null, null, cancellationToken);
+        return _client.Send<RolesListResponse>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -139,14 +146,15 @@ public sealed partial class RolesClient
     /// </summary>
     /// <remarks>List merchant's custom roles.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<RolesListResponse>> ListAsync(string merchantCode, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<RolesListResponse>> ListAsync(string merchantCode, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/roles", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return await _client.SendAsync<RolesListResponse>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<RolesListResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -156,15 +164,16 @@ public sealed partial class RolesClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Role> Update(string merchantCode, string roleId, RolesUpdateRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<Role> Update(string merchantCode, string roleId, RolesUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/roles/{role_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("role_id", roleId);
         });
-        return _client.Send<Role>(request, body, "application/json", cancellationToken);
+        return _client.Send<Role>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -174,14 +183,15 @@ public sealed partial class RolesClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Role>> UpdateAsync(string merchantCode, string roleId, RolesUpdateRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Role>> UpdateAsync(string merchantCode, string roleId, RolesUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/roles/{role_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("role_id", roleId);
         });
-        return await _client.SendAsync<Role>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Role>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

@@ -25,11 +25,12 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Creates a new payment checkout resource. The unique `checkout_reference` created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the `redirect_url` parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Checkout> Create(CheckoutCreateRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<Checkout> Create(CheckoutCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/checkouts");
-        return _client.Send<Checkout>(request, body, "application/json", cancellationToken);
+        return _client.Send<Checkout>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -37,11 +38,12 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Creates a new payment checkout resource. The unique `checkout_reference` created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the `redirect_url` parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Checkout>> CreateAsync(CheckoutCreateRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Checkout>> CreateAsync(CheckoutCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/checkouts");
-        return await _client.SendAsync<Checkout>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Checkout>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -49,14 +51,15 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Deactivates an identified checkout resource. If the checkout has already been processed it can not be deactivated.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Checkout> Deactivate(string id, CancellationToken cancellationToken = default)
+    public ApiResponse<Checkout> Deactivate(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/checkouts/{id}", builder =>
         {
             builder.AddPath("id", id);
         });
-        return _client.Send<Checkout>(request, null, null, cancellationToken);
+        return _client.Send<Checkout>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -64,14 +67,15 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Deactivates an identified checkout resource. If the checkout has already been processed it can not be deactivated.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Checkout>> DeactivateAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Checkout>> DeactivateAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/checkouts/{id}", builder =>
         {
             builder.AddPath("id", id);
         });
-        return await _client.SendAsync<Checkout>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Checkout>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -79,14 +83,15 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Retrieves an identified checkout resource. Use this request after processing a checkout to confirm its status and inform the end user respectively.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<CheckoutSuccess> Get(string id, CancellationToken cancellationToken = default)
+    public ApiResponse<CheckoutSuccess> Get(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts/{id}", builder =>
         {
             builder.AddPath("id", id);
         });
-        return _client.Send<CheckoutSuccess>(request, null, null, cancellationToken);
+        return _client.Send<CheckoutSuccess>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -94,14 +99,15 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Retrieves an identified checkout resource. Use this request after processing a checkout to confirm its status and inform the end user respectively.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<CheckoutSuccess>> GetAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<CheckoutSuccess>> GetAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts/{id}", builder =>
         {
             builder.AddPath("id", id);
         });
-        return await _client.SendAsync<CheckoutSuccess>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<CheckoutSuccess>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -109,14 +115,15 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Lists created checkout resources according to the applied `checkout_reference`.</remarks>
     /// <param name="checkoutReference">Filters the list of checkout resources by the unique ID of the checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<CheckoutSuccess>> List(string? checkoutReference = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<CheckoutSuccess>> List(string? checkoutReference = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts", builder =>
         {
             builder.AddQuery("checkout_reference", checkoutReference);
         });
-        return _client.Send<IEnumerable<CheckoutSuccess>>(request, null, null, cancellationToken);
+        return _client.Send<IEnumerable<CheckoutSuccess>>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -124,14 +131,15 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Lists created checkout resources according to the applied `checkout_reference`.</remarks>
     /// <param name="checkoutReference">Filters the list of checkout resources by the unique ID of the checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<CheckoutSuccess>>> ListAsync(string? checkoutReference = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<CheckoutSuccess>>> ListAsync(string? checkoutReference = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts", builder =>
         {
             builder.AddQuery("checkout_reference", checkoutReference);
         });
-        return await _client.SendAsync<IEnumerable<CheckoutSuccess>>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<IEnumerable<CheckoutSuccess>>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -141,8 +149,9 @@ public sealed partial class CheckoutsClient
     /// <param name="merchantCode">The SumUp merchant code.</param>
     /// <param name="amount">The amount for which the payment methods should be eligible, in major units. Note that currency must also be provided when filtering by amount.</param>
     /// <param name="currency">The currency for which the payment methods should be eligible.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<CheckoutsListAvailablePaymentMethodsResponse> ListAvailablePaymentMethods(string merchantCode, decimal? amount = null, string? currency = null, CancellationToken cancellationToken = default)
+    public ApiResponse<CheckoutsListAvailablePaymentMethodsResponse> ListAvailablePaymentMethods(string merchantCode, decimal? amount = null, string? currency = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/payment-methods", builder =>
         {
@@ -150,7 +159,7 @@ public sealed partial class CheckoutsClient
             builder.AddQuery("amount", amount);
             builder.AddQuery("currency", currency);
         });
-        return _client.Send<CheckoutsListAvailablePaymentMethodsResponse>(request, null, null, cancellationToken);
+        return _client.Send<CheckoutsListAvailablePaymentMethodsResponse>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -160,8 +169,9 @@ public sealed partial class CheckoutsClient
     /// <param name="merchantCode">The SumUp merchant code.</param>
     /// <param name="amount">The amount for which the payment methods should be eligible, in major units. Note that currency must also be provided when filtering by amount.</param>
     /// <param name="currency">The currency for which the payment methods should be eligible.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<CheckoutsListAvailablePaymentMethodsResponse>> ListAvailablePaymentMethodsAsync(string merchantCode, decimal? amount = null, string? currency = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<CheckoutsListAvailablePaymentMethodsResponse>> ListAvailablePaymentMethodsAsync(string merchantCode, decimal? amount = null, string? currency = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/payment-methods", builder =>
         {
@@ -169,7 +179,7 @@ public sealed partial class CheckoutsClient
             builder.AddQuery("amount", amount);
             builder.AddQuery("currency", currency);
         });
-        return await _client.SendAsync<CheckoutsListAvailablePaymentMethodsResponse>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<CheckoutsListAvailablePaymentMethodsResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -178,14 +188,15 @@ public sealed partial class CheckoutsClient
     /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the `Create a checkout` endpoint. Follow this request with `Retrieve a checkout` to confirm its status.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<CheckoutSuccess> Process(string id, ProcessCheckout body, CancellationToken cancellationToken = default)
+    public ApiResponse<CheckoutSuccess> Process(string id, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{id}", builder =>
         {
             builder.AddPath("id", id);
         });
-        return _client.Send<CheckoutSuccess>(request, body, "application/json", cancellationToken);
+        return _client.Send<CheckoutSuccess>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -194,13 +205,14 @@ public sealed partial class CheckoutsClient
     /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the `Create a checkout` endpoint. Follow this request with `Retrieve a checkout` to confirm its status.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<CheckoutSuccess>> ProcessAsync(string id, ProcessCheckout body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<CheckoutSuccess>> ProcessAsync(string id, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{id}", builder =>
         {
             builder.AddPath("id", id);
         });
-        return await _client.SendAsync<CheckoutSuccess>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<CheckoutSuccess>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

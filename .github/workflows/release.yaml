@@ -17,15 +17,11 @@ jobs:
 
       - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
         with:
-          go-version-file: ./tools/codegen/go.mod
+          go-version-file: ./codegen/go.mod
 
       - name: Generate SDK
-        working-directory: tools/codegen
-        run: go run ./cmd/sumup-dotnet --spec ../../openapi.json --output ../../src/SumUp/Generated --namespace SumUp
-
-      - name: Go tests
-        working-directory: tools/codegen
-        run: go test ./...
+        working-directory: codegen
+        run: go run ./... --spec ../openapi.json --output ../src/SumUp --namespace SumUp
 
       - name: Check no diff after generation
         run: git diff --exit-code

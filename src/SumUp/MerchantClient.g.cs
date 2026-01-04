@@ -25,14 +25,15 @@ public sealed partial class MerchantClient
     /// </summary>
     /// <remarks>Returns user profile information.</remarks>
     /// <param name="include">A list of additional information you want to receive for the user. By default only personal and merchant profile information will be returned.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<MerchantAccount> Get(IEnumerable<string>? include = null, CancellationToken cancellationToken = default)
+    public ApiResponse<MerchantAccount> Get(IEnumerable<string>? include = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me", builder =>
         {
             builder.AddQuery("include[]", include);
         });
-        return _client.Send<MerchantAccount>(request, null, null, cancellationToken);
+        return _client.Send<MerchantAccount>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -40,79 +41,86 @@ public sealed partial class MerchantClient
     /// </summary>
     /// <remarks>Returns user profile information.</remarks>
     /// <param name="include">A list of additional information you want to receive for the user. By default only personal and merchant profile information will be returned.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<MerchantAccount>> GetAsync(IEnumerable<string>? include = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<MerchantAccount>> GetAsync(IEnumerable<string>? include = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me", builder =>
         {
             builder.AddQuery("include[]", include);
         });
-        return await _client.SendAsync<MerchantAccount>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<MerchantAccount>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Retrieve DBA
     /// </summary>
     /// <remarks>Retrieves Doing Business As profile.</remarks>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<DoingBusinessAsLegacy> GetDoingBusinessAs(CancellationToken cancellationToken = default)
+    public ApiResponse<DoingBusinessAsLegacy> GetDoingBusinessAs(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/merchant-profile/doing-business-as");
-        return _client.Send<DoingBusinessAsLegacy>(request, null, null, cancellationToken);
+        return _client.Send<DoingBusinessAsLegacy>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
     /// Retrieve DBA
     /// </summary>
     /// <remarks>Retrieves Doing Business As profile.</remarks>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<DoingBusinessAsLegacy>> GetDoingBusinessAsAsync(CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<DoingBusinessAsLegacy>> GetDoingBusinessAsAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/merchant-profile/doing-business-as");
-        return await _client.SendAsync<DoingBusinessAsLegacy>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<DoingBusinessAsLegacy>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Retrieve a merchant profile
     /// </summary>
     /// <remarks>Retrieves merchant profile data.</remarks>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<MerchantProfileLegacy> GetMerchantProfile(CancellationToken cancellationToken = default)
+    public ApiResponse<MerchantProfileLegacy> GetMerchantProfile(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/merchant-profile");
-        return _client.Send<MerchantProfileLegacy>(request, null, null, cancellationToken);
+        return _client.Send<MerchantProfileLegacy>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
     /// Retrieve a merchant profile
     /// </summary>
     /// <remarks>Retrieves merchant profile data.</remarks>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<MerchantProfileLegacy>> GetMerchantProfileAsync(CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<MerchantProfileLegacy>> GetMerchantProfileAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/merchant-profile");
-        return await _client.SendAsync<MerchantProfileLegacy>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<MerchantProfileLegacy>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Retrieve a personal profile
     /// </summary>
     /// <remarks>Retrieves personal profile data.</remarks>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<PersonalProfileLegacy> GetPersonalProfile(CancellationToken cancellationToken = default)
+    public ApiResponse<PersonalProfileLegacy> GetPersonalProfile(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/personal-profile");
-        return _client.Send<PersonalProfileLegacy>(request, null, null, cancellationToken);
+        return _client.Send<PersonalProfileLegacy>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
     /// Retrieve a personal profile
     /// </summary>
     /// <remarks>Retrieves personal profile data.</remarks>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<PersonalProfileLegacy>> GetPersonalProfileAsync(CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<PersonalProfileLegacy>> GetPersonalProfileAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/personal-profile");
-        return await _client.SendAsync<PersonalProfileLegacy>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<PersonalProfileLegacy>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

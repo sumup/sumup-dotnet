@@ -34,8 +34,9 @@ public sealed partial class MembershipsClient
     /// <param name="resourceParentId">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
     /// <param name="resourceParentType">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
     /// <param name="roles">Filter the returned memberships by role.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<MembershipsListResponse> List(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, string? resourceParentId = null, JsonDocument? resourceParentType = null, IEnumerable<string>? roles = null, CancellationToken cancellationToken = default)
+    public ApiResponse<MembershipsListResponse> List(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, string? resourceParentId = null, JsonDocument? resourceParentType = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/memberships", builder =>
         {
@@ -50,7 +51,7 @@ public sealed partial class MembershipsClient
             builder.AddQuery("resource.parent.type", resourceParentType);
             builder.AddQuery("roles", roles);
         });
-        return _client.Send<MembershipsListResponse>(request, null, null, cancellationToken);
+        return _client.Send<MembershipsListResponse>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -67,8 +68,9 @@ public sealed partial class MembershipsClient
     /// <param name="resourceParentId">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
     /// <param name="resourceParentType">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
     /// <param name="roles">Filter the returned memberships by role.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<MembershipsListResponse>> ListAsync(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, string? resourceParentId = null, JsonDocument? resourceParentType = null, IEnumerable<string>? roles = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<MembershipsListResponse>> ListAsync(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, string? resourceParentId = null, JsonDocument? resourceParentType = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/memberships", builder =>
         {
@@ -83,6 +85,6 @@ public sealed partial class MembershipsClient
             builder.AddQuery("resource.parent.type", resourceParentType);
             builder.AddQuery("roles", roles);
         });
-        return await _client.SendAsync<MembershipsListResponse>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<MembershipsListResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

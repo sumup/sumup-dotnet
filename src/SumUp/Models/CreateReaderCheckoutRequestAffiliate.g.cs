@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+using System.Collections.Generic;
 using System.Text.Json;
 /// <summary>Affiliate metadata for the transaction. It is a field that allow for integrators to track the source of the transaction.</summary>
 public sealed partial class CreateReaderCheckoutRequestAffiliate
@@ -19,5 +20,5 @@ public sealed partial class CreateReaderCheckoutRequestAffiliate
     public string Key { get; set; } = default!;
     /// <summary>Additional metadata for the transaction. It is key-value object that can be associated with the transaction.</summary>
     [JsonPropertyName("tags")]
-    public JsonDocument? Tags { get; set; }
+    public IDictionary<string, JsonElement>? Tags { get; set; }
 }

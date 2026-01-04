@@ -30,8 +30,9 @@ public sealed partial class TransactionsClient
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
     /// <param name="foreignTransactionId">External/foreign transaction id (passed by clients).</param>
     /// <param name="clientTransactionId">Client transaction id.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionFull> Get(string merchantCode, string? id = null, string? internalId = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionFull> Get(string merchantCode, string? id = null, string? internalId = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions", builder =>
         {
@@ -42,7 +43,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("foreign_transaction_id", foreignTransactionId);
             builder.AddQuery("client_transaction_id", clientTransactionId);
         });
-        return _client.Send<TransactionFull>(request, null, null, cancellationToken);
+        return _client.Send<TransactionFull>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -55,8 +56,9 @@ public sealed partial class TransactionsClient
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
     /// <param name="foreignTransactionId">External/foreign transaction id (passed by clients).</param>
     /// <param name="clientTransactionId">Client transaction id.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionFull>> GetAsync(string merchantCode, string? id = null, string? internalId = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionFull>> GetAsync(string merchantCode, string? id = null, string? internalId = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions", builder =>
         {
@@ -67,7 +69,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("foreign_transaction_id", foreignTransactionId);
             builder.AddQuery("client_transaction_id", clientTransactionId);
         });
-        return await _client.SendAsync<TransactionFull>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<TransactionFull>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -77,8 +79,9 @@ public sealed partial class TransactionsClient
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
     /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionFull> GetDeprecated(string? id = null, string? internalId = null, string? transactionCode = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionFull> GetDeprecated(string? id = null, string? internalId = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
         {
@@ -86,7 +89,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("internal_id", internalId);
             builder.AddQuery("transaction_code", transactionCode);
         });
-        return _client.Send<TransactionFull>(request, null, null, cancellationToken);
+        return _client.Send<TransactionFull>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -96,8 +99,9 @@ public sealed partial class TransactionsClient
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
     /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionFull>> GetDeprecatedAsync(string? id = null, string? internalId = null, string? transactionCode = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionFull>> GetDeprecatedAsync(string? id = null, string? internalId = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
         {
@@ -105,7 +109,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("internal_id", internalId);
             builder.AddQuery("transaction_code", transactionCode);
         });
-        return await _client.SendAsync<TransactionFull>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<TransactionFull>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -125,8 +129,9 @@ public sealed partial class TransactionsClient
     /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
     /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionsListResponse> List(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionsListResponse> List(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions/history", builder =>
         {
@@ -144,7 +149,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("oldest_time", oldestTime);
             builder.AddQuery("oldest_ref", oldestRef);
         });
-        return _client.Send<TransactionsListResponse>(request, null, null, cancellationToken);
+        return _client.Send<TransactionsListResponse>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -164,8 +169,9 @@ public sealed partial class TransactionsClient
     /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
     /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionsListResponse>> ListAsync(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionsListResponse>> ListAsync(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions/history", builder =>
         {
@@ -183,7 +189,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("oldest_time", oldestTime);
             builder.AddQuery("oldest_ref", oldestRef);
         });
-        return await _client.SendAsync<TransactionsListResponse>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<TransactionsListResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -202,8 +208,9 @@ public sealed partial class TransactionsClient
     /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
     /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionsListDeprecatedResponse> ListDeprecated(string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionsListDeprecatedResponse> ListDeprecated(string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions/history", builder =>
         {
@@ -220,7 +227,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("oldest_time", oldestTime);
             builder.AddQuery("oldest_ref", oldestRef);
         });
-        return _client.Send<TransactionsListDeprecatedResponse>(request, null, null, cancellationToken);
+        return _client.Send<TransactionsListDeprecatedResponse>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -239,8 +246,9 @@ public sealed partial class TransactionsClient
     /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
     /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionsListDeprecatedResponse>> ListDeprecatedAsync(string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionsListDeprecatedResponse>> ListDeprecatedAsync(string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions/history", builder =>
         {
@@ -257,7 +265,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("oldest_time", oldestTime);
             builder.AddQuery("oldest_ref", oldestRef);
         });
-        return await _client.SendAsync<TransactionsListDeprecatedResponse>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<TransactionsListDeprecatedResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -266,14 +274,15 @@ public sealed partial class TransactionsClient
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
     /// <param name="txnId">Unique ID of the transaction.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> Refund(string txnId, TransactionsRefundRequest? body = null, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> Refund(string txnId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/me/refund/{txn_id}", builder =>
         {
             builder.AddPath("txn_id", txnId);
         });
-        return _client.Send<JsonDocument>(request, body, "application/json", cancellationToken);
+        return _client.Send<JsonDocument>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -282,13 +291,14 @@ public sealed partial class TransactionsClient
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
     /// <param name="txnId">Unique ID of the transaction.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> RefundAsync(string txnId, TransactionsRefundRequest? body = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> RefundAsync(string txnId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/me/refund/{txn_id}", builder =>
         {
             builder.AddPath("txn_id", txnId);
         });
-        return await _client.SendAsync<JsonDocument>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<JsonDocument>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

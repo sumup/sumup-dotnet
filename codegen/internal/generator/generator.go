@@ -10,9 +10,12 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/getkin/kin-openapi/openapi3"
+	base "github.com/pb33f/libopenapi/datamodel/high/base"
+	v3 "github.com/pb33f/libopenapi/datamodel/high/v3"
+	"github.com/pb33f/libopenapi/orderedmap"
+	"go.yaml.in/yaml/v4"
 
-	"github.com/sumup/sumup-dotnet/tools/codegen/internal/naming"
+	"github.com/sumup/sumup-dotnet/codegen/internal/naming"
 )
 
 //go:embed templates/*.tmpl
@@ -30,7 +33,7 @@ type schemaTypeInfo struct {
 	Name             string
 	TypeName         string
 	Kind             schemaKind
-	Schema           *openapi3.SchemaRef
+	Schema           *base.SchemaProxy
 	EnumValues       []string
 	AliasType        string
 	AliasIsValueType bool
@@ -60,7 +63,7 @@ func New(config Config) *Generator {
 }
 
 // Run executes the generator.
-func (g *Generator) Run(doc *openapi3.T) error {
+func (g *Generator) Run(doc *v3.Document) error {
 	if g.config.OutputDir == "" {
 		return fmt.Errorf("output directory is required")
 	}
@@ -181,19 +184,20 @@ func (g *Generator) renderModels(t *template.Template, models []modelTemplateDat
 	return nil
 }
 
-func (g *Generator) buildModels(doc *openapi3.T) ([]modelTemplateData, error) {
+func (g *Generator) buildModels(doc *v3.Document) ([]modelTemplateData, error) {
 	g.schemaTypes = map[string]*schemaTypeInfo{}
-	if doc.Components.Schemas == nil {
+	if doc.Components == nil || doc.Components.Schemas == nil || doc.Components.Schemas.Len() == 0 {
 		return nil, nil
 	}
 
-	names := make([]string, 0, len(doc.Components.Schemas))
-	for name, schemaRef := range doc.Components.Schemas {
+	names := []string{}
+	for name := range doc.Components.Schemas.KeysFromOldest() {
 		names = append(names, name)
+		schemaProxy := doc.Components.Schemas.GetOrZero(name)
 		g.schemaTypes[name] = &schemaTypeInfo{
 			Name:     name,
 			TypeName: naming.PascalIdentifier(name),
-			Schema:   schemaRef,
+			Schema:   schemaProxy,
 		}
 		g.modelNames[g.schemaTypes[name].TypeName] = struct{}{}
 	}
@@ -201,7 +205,7 @@ func (g *Generator) buildModels(doc *openapi3.T) ([]modelTemplateData, error) {
 
 	for _, name := range names {
 		info := g.schemaTypes[name]
-		schema := g.schemaFromRef(info.Schema)
+		schema := g.schemaFromProxy(info.Schema)
 		if schema == nil {
 			continue
 		}
@@ -213,11 +217,11 @@ func (g *Generator) buildModels(doc *openapi3.T) ([]modelTemplateData, error) {
 		if info.Kind != schemaKindAlias {
 			continue
 		}
-		schema := g.schemaFromRef(info.Schema)
+		schema := g.schemaFromProxy(info.Schema)
 		if schema == nil {
 			continue
 		}
-		typeInfo := g.resolveType(&openapi3.SchemaRef{Value: schema}, true)
+		typeInfo := g.resolveType(base.CreateSchemaProxy(schema), true)
 		info.AliasType = strings.TrimSuffix(typeInfo.TypeName, "?")
 		info.AliasIsValueType = typeInfo.IsValueType
 	}
@@ -225,7 +229,7 @@ func (g *Generator) buildModels(doc *openapi3.T) ([]modelTemplateData, error) {
 	models := make([]modelTemplateData, 0, len(names))
 	for _, name := range names {
 		info := g.schemaTypes[name]
-		schema := g.schemaFromRef(info.Schema)
+		schema := g.schemaFromProxy(info.Schema)
 		if schema == nil {
 			continue
 		}
@@ -261,14 +265,14 @@ func (g *Generator) buildModels(doc *openapi3.T) ([]modelTemplateData, error) {
 	return models, nil
 }
 
-func (g *Generator) buildEnumValues(schema *openapi3.Schema) []enumValueTemplateData {
+func (g *Generator) buildEnumValues(schema *base.Schema) []enumValueTemplateData {
 	if schema == nil || len(schema.Enum) == 0 {
 		return nil
 	}
 	names := map[string]int{}
 	values := make([]enumValueTemplateData, 0, len(schema.Enum))
 	for _, raw := range schema.Enum {
-		str := fmt.Sprintf("%v", raw)
+		str := yamlNodeToString(raw)
 		name := naming.PascalIdentifier(str)
 		if count, exists := names[name]; exists {
 			count++
@@ -285,23 +289,25 @@ func (g *Generator) buildEnumValues(schema *openapi3.Schema) []enumValueTemplate
 	return values
 }
 
-func (g *Generator) buildClassModel(typeName string, schema *openapi3.Schema) (modelTemplateData, error) {
+func (g *Generator) buildClassModel(typeName string, schema *base.Schema) (modelTemplateData, error) {
 	props, usesCollections, usesJson, err := g.collectProperties(typeName, schema)
 	if err != nil {
 		return modelTemplateData{}, err
 	}
 	extensionType := ""
-	if schema.AdditionalProperties.Schema != nil {
-		val := g.resolveType(schema.AdditionalProperties.Schema, true)
-		extensionType = strings.TrimSuffix(val.TypeName, "?")
-		usesCollections = true
-		if strings.Contains(extensionType, "Json") {
+	if schema.AdditionalProperties != nil {
+		if schema.AdditionalProperties.IsA() && schema.AdditionalProperties.A != nil {
+			val := g.resolveType(schema.AdditionalProperties.A, true)
+			extensionType = strings.TrimSuffix(val.TypeName, "?")
+			usesCollections = true
+			if strings.Contains(extensionType, "Json") {
+				usesJson = true
+			}
+		} else if schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
+			extensionType = "JsonElement"
+			usesCollections = true
 			usesJson = true
 		}
-	} else if schema.AdditionalProperties.Has != nil && *schema.AdditionalProperties.Has {
-		extensionType = "JsonElement"
-		usesCollections = true
-		usesJson = true
 	}
 	return modelTemplateData{
 		Namespace:              g.config.Namespace,
@@ -317,7 +323,7 @@ func (g *Generator) buildClassModel(typeName string, schema *openapi3.Schema) (m
 	}, nil
 }
 
-func (g *Generator) collectProperties(ownerName string, schema *openapi3.Schema) ([]modelPropertyTemplateData, bool, bool, error) {
+func (g *Generator) collectProperties(ownerName string, schema *base.Schema) ([]modelPropertyTemplateData, bool, bool, error) {
 	if schema == nil {
 		return nil, false, false, nil
 	}
@@ -325,7 +331,7 @@ func (g *Generator) collectProperties(ownerName string, schema *openapi3.Schema)
 	usesCollections := false
 	usesJson := false
 
-	addProps := func(source *openapi3.Schema) error {
+	addProps := func(source *base.Schema) error {
 		if source == nil {
 			return nil
 		}
@@ -333,13 +339,18 @@ func (g *Generator) collectProperties(ownerName string, schema *openapi3.Schema)
 		for _, name := range source.Required {
 			requiredSet[name] = struct{}{}
 		}
-		names := make([]string, 0, len(source.Properties))
-		for name := range source.Properties {
-			names = append(names, name)
+		names := make([]string, 0)
+		if source.Properties != nil {
+			for name := range source.Properties.KeysFromOldest() {
+				names = append(names, name)
+			}
 		}
 		sort.Strings(names)
 		for _, name := range names {
-			propRef := source.Properties[name]
+			if source.Properties == nil {
+				continue
+			}
+			propRef := source.Properties.GetOrZero(name)
 			required := false
 			if _, ok := requiredSet[name]; ok {
 				required = true
@@ -372,7 +383,7 @@ func (g *Generator) collectProperties(ownerName string, schema *openapi3.Schema)
 		return nil, false, false, err
 	}
 	for _, allOf := range schema.AllOf {
-		sub := g.schemaFromRef(allOf)
+		sub := g.schemaFromProxy(allOf)
 		if sub == nil {
 			continue
 		}
@@ -393,88 +404,74 @@ func (g *Generator) collectProperties(ownerName string, schema *openapi3.Schema)
 	return properties, usesCollections, usesJson, nil
 }
 
-func (g *Generator) schemaFromRef(ref *openapi3.SchemaRef) *openapi3.Schema {
-	if ref == nil {
+func (g *Generator) schemaFromProxy(proxy *base.SchemaProxy) *base.Schema {
+	if proxy == nil {
 		return nil
 	}
-	if ref.Value != nil {
-		return ref.Value
+	if schema := proxy.Schema(); schema != nil {
+		return schema
 	}
-	if ref.Ref == "" {
-		return nil
-	}
-	name := componentName(ref.Ref)
-	if info, ok := g.schemaTypes[name]; ok && info.Schema != nil && info.Schema.Value != nil {
-		return info.Schema.Value
+	if proxy.IsReference() {
+		name := componentName(proxy.GetReference())
+		if info, ok := g.schemaTypes[name]; ok {
+			return g.schemaFromProxy(info.Schema)
+		}
 	}
 	return nil
 }
 
-func (g *Generator) schemaDescription(ref *openapi3.SchemaRef) string {
-	if ref == nil {
+func (g *Generator) schemaDescription(proxy *base.SchemaProxy) string {
+	if proxy == nil {
 		return ""
 	}
-	if ref.Value != nil && ref.Value.Description != "" {
-		return ref.Value.Description
-	}
-	if ref.Ref != "" {
-		name := componentName(ref.Ref)
-		if info, ok := g.schemaTypes[name]; ok {
-			if schema := g.schemaFromRef(info.Schema); schema != nil {
-				return schema.Description
-			}
-		}
+	if schema := g.schemaFromProxy(proxy); schema != nil {
+		return schema.Description
 	}
 	return ""
 }
 
-func (g *Generator) classifySchema(schema *openapi3.Schema) schemaKind {
+func (g *Generator) classifySchema(schema *base.Schema) schemaKind {
 	if schema == nil {
 		return schemaKindAlias
 	}
 	if len(schema.Enum) > 0 {
 		return schemaKindEnum
 	}
-	if len(schema.Properties) > 0 || len(schema.AllOf) > 0 {
+	if (schema.Properties != nil && schema.Properties.Len() > 0) || len(schema.AllOf) > 0 {
 		return schemaKindObject
 	}
-	if schema.Type == "object" || schema.AdditionalProperties.Schema != nil {
+	if schemaHasType(schema, "object") {
+		return schemaKindObject
+	}
+	if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsA() && schema.AdditionalProperties.A != nil {
 		return schemaKindObject
 	}
 	return schemaKindAlias
 }
 
-func (g *Generator) buildClients(doc *openapi3.T) ([]clientTemplateData, error) {
+func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error) {
 	clientMap := map[string]*clientTemplateData{}
 	nameCounts := map[string]int{}
 
-	if doc.Paths == nil {
+	if doc.Paths == nil || doc.Paths.PathItems == nil || doc.Paths.PathItems.Len() == 0 {
 		return nil, fmt.Errorf("spec contains no paths")
 	}
 
-	for rawPath, pathItem := range doc.Paths.Map() {
+	for rawPath, pathItem := range doc.Paths.PathItems.FromOldest() {
 		if pathItem == nil {
 			continue
 		}
-		for _, entry := range []struct {
-			Method string
-			Op     *openapi3.Operation
-		}{
-			{"Get", pathItem.Get},
-			{"Put", pathItem.Put},
-			{"Post", pathItem.Post},
-			{"Delete", pathItem.Delete},
-			{"Options", pathItem.Options},
-			{"Head", pathItem.Head},
-			{"Patch", pathItem.Patch},
-			{"Trace", pathItem.Trace},
-		} {
-			if entry.Op == nil {
+		ops := pathItem.GetOperations()
+		if ops == nil {
+			continue
+		}
+		for methodName, operation := range ops.FromOldest() {
+			if operation == nil {
 				continue
 			}
 			tag := "Core"
-			if len(entry.Op.Tags) > 0 {
-				tag = entry.Op.Tags[0]
+			if len(operation.Tags) > 0 {
+				tag = operation.Tags[0]
 			}
 			clientName := naming.PascalIdentifier(tag)
 			ct, ok := clientMap[clientName]
@@ -487,20 +484,21 @@ func (g *Generator) buildClients(doc *openapi3.T) ([]clientTemplateData, error) 
 				clientMap[clientName] = ct
 			}
 
-			baseName := g.operationBaseName(entry.Method, rawPath, entry.Op)
+			httpMethod := canonicalMethodName(methodName)
+			baseName := g.operationBaseName(httpMethod, rawPath, operation)
 			pascalName := naming.PascalIdentifier(baseName)
 			if pascalName == "" {
-				pascalName = generateOperationName(entry.Method, rawPath)
+				pascalName = generateOperationName(httpMethod, rawPath)
 			}
 			key := fmt.Sprintf("%s.%s", clientName, pascalName)
 			count := nameCounts[key]
 			nameCounts[key] = count + 1
-			methodName := pascalName
+			methodNameFinal := pascalName
 			if count > 0 {
-				methodName = fmt.Sprintf("%s%d", pascalName, count+1)
+				methodNameFinal = fmt.Sprintf("%s%d", pascalName, count+1)
 			}
 
-			method, err := g.buildOperation(doc, rawPath, entry.Method, methodName, clientName, entry.Op, pathItem)
+			method, err := g.buildOperation(rawPath, httpMethod, methodNameFinal, clientName, operation, pathItem)
 			if err != nil {
 				return nil, err
 			}
@@ -523,7 +521,7 @@ func (g *Generator) buildClients(doc *openapi3.T) ([]clientTemplateData, error) 
 	return clients, nil
 }
 
-func (g *Generator) buildOperation(doc *openapi3.T, path, method, methodName, clientName string, op *openapi3.Operation, pathItem *openapi3.PathItem) (operationTemplateData, error) {
+func (g *Generator) buildOperation(path, method, methodName, clientName string, op *v3.Operation, pathItem *v3.PathItem) (operationTemplateData, error) {
 	parameters := mergeParameters(pathItem.Parameters, op.Parameters)
 	var (
 		pathParams   []parameterTemplateData
@@ -535,7 +533,10 @@ func (g *Generator) buildOperation(doc *openapi3.T, path, method, methodName, cl
 	headerIndex := map[string]int{}
 
 	for _, param := range parameters {
-		parameter, err := g.convertParameter(doc, param)
+		if param == nil {
+			continue
+		}
+		parameter, err := g.convertParameter(param)
 		if err != nil {
 			return operationTemplateData{}, err
 		}
@@ -564,7 +565,7 @@ func (g *Generator) buildOperation(doc *openapi3.T, path, method, methodName, cl
 		}
 	}
 
-	body, err := g.buildRequestBody(doc, clientName, methodName, op.RequestBody)
+	body, err := g.buildRequestBody(clientName, methodName, op.RequestBody)
 	if err != nil {
 		return operationTemplateData{}, err
 	}
@@ -620,14 +621,14 @@ func (g *Generator) buildOperation(doc *openapi3.T, path, method, methodName, cl
 	return data, nil
 }
 
-func (g *Generator) convertParameter(doc *openapi3.T, paramRef *openapi3.ParameterRef) (parameterTemplateData, error) {
-	param, err := resolveParameter(doc, paramRef)
-	if err != nil {
-		return parameterTemplateData{}, err
+func (g *Generator) convertParameter(param *v3.Parameter) (parameterTemplateData, error) {
+	if param == nil {
+		return parameterTemplateData{}, fmt.Errorf("parameter is nil")
 	}
-	typeInfo := g.resolveType(param.Schema, param.Required)
+	required := param.Required != nil && *param.Required
+	typeInfo := g.resolveType(param.Schema, required)
 	defaultValue := ""
-	if !param.Required {
+	if !required {
 		defaultValue = " = null"
 	}
 
@@ -638,20 +639,15 @@ func (g *Generator) convertParameter(doc *openapi3.T, paramRef *openapi3.Paramet
 		ArgName:      argName,
 		Declaration:  fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue),
 		Description:  sanitizeText(param.Description),
-		Required:     param.Required,
+		Required:     required,
 		BuilderCall:  builderCall(param.In, param.Name, argName),
 		IsCollection: typeInfo.IsCollection,
 	}, nil
 }
 
-func (g *Generator) buildRequestBody(doc *openapi3.T, clientName, methodName string, bodyRef *openapi3.RequestBodyRef) (*bodyTemplateData, error) {
-	if bodyRef == nil {
+func (g *Generator) buildRequestBody(clientName, methodName string, body *v3.RequestBody) (*bodyTemplateData, error) {
+	if body == nil {
 		return nil, nil
-	}
-
-	body, err := resolveRequestBody(doc, bodyRef)
-	if err != nil {
-		return nil, err
 	}
 
 	contentType := firstContentType(body.Content)
@@ -664,12 +660,13 @@ func (g *Generator) buildRequestBody(doc *openapi3.T, clientName, methodName str
 		return nil, nil
 	}
 
-	typeInfo, err := g.resolveRequestBodyType(schemaRef, body.Required, clientName, methodName)
+	required := body.Required != nil && *body.Required
+	typeInfo, err := g.resolveRequestBodyType(schemaRef, required, clientName, methodName)
 	if err != nil {
 		return nil, err
 	}
 	signature := fmt.Sprintf("%s body", typeInfo.TypeName)
-	if !body.Required {
+	if !required {
 		signature = fmt.Sprintf("%s body = null", typeInfo.TypeName)
 	}
 
@@ -677,28 +674,31 @@ func (g *Generator) buildRequestBody(doc *openapi3.T, clientName, methodName str
 		ArgName:      "body",
 		Signature:    signature,
 		Description:  sanitizeText(body.Description),
-		Required:     body.Required,
+		Required:     required,
 		ContentType:  contentType,
 		TypeName:     typeInfo.TypeName,
 		IsCollection: typeInfo.IsCollection,
 	}, nil
 }
 
-func (g *Generator) resolveRequestBodyType(schemaRef *openapi3.SchemaRef, required bool, clientName, methodName string) (typeInfo, error) {
+func (g *Generator) resolveRequestBodyType(schemaRef *base.SchemaProxy, required bool, clientName, methodName string) (typeInfo, error) {
 	return g.resolveInlineSchemaType(schemaRef, required, fmt.Sprintf("%s%sRequest", clientName, methodName))
 }
 
-func (g *Generator) resolvePropertyType(ownerName, propertyName string, schemaRef *openapi3.SchemaRef, required bool) (typeInfo, error) {
+func (g *Generator) resolvePropertyType(ownerName, propertyName string, schemaRef *base.SchemaProxy, required bool) (typeInfo, error) {
 	inlineBase := fmt.Sprintf("%s%s", ownerName, naming.PascalIdentifier(propertyName))
 	return g.resolveInlineSchemaType(schemaRef, required, inlineBase)
 }
 
-func (g *Generator) resolveInlineSchemaType(schemaRef *openapi3.SchemaRef, required bool, inlineBase string) (typeInfo, error) {
+func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, required bool, inlineBase string) (typeInfo, error) {
 	if schemaRef == nil {
 		return g.nullableType("JsonDocument", false, required), nil
 	}
-	if inlineBase != "" && schemaRef.Ref == "" && schemaRef.Value != nil {
-		schema := schemaRef.Value
+	if inlineBase != "" && !schemaRef.IsReference() {
+		schema := g.schemaFromProxy(schemaRef)
+		if schema == nil {
+			return g.nullableType("JsonDocument", false, required), nil
+		}
 		if schemaDefinesStructuredObject(schema) {
 			typeName, err := g.createInlineModel(inlineBase, schema)
 			if err != nil {
@@ -706,8 +706,8 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *openapi3.SchemaRef, requi
 			}
 			return g.nullableType(typeName, false, required), nil
 		}
-		if schema.AdditionalProperties.Schema != nil {
-			valueInfo, err := g.resolveInlineSchemaType(schema.AdditionalProperties.Schema, true, inlineBase+"Value")
+		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsA() && schema.AdditionalProperties.A != nil {
+			valueInfo, err := g.resolveInlineSchemaType(schema.AdditionalProperties.A, true, inlineBase+"Value")
 			if err != nil {
 				return typeInfo{}, err
 			}
@@ -715,8 +715,11 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *openapi3.SchemaRef, requi
 			typeName := fmt.Sprintf("IDictionary<string, %s>", valueName)
 			return g.nullableType(typeName, false, required, true), nil
 		}
-		if schema.Items != nil && (schema.Type == "array" || schema.Type == "") {
-			itemInfo, err := g.resolveInlineSchemaType(schema.Items, true, inlineBase+"Item")
+		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
+			return g.nullableType("IDictionary<string, JsonElement>", false, required, true), nil
+		}
+		if schema.Items != nil && schema.Items.IsA() {
+			itemInfo, err := g.resolveInlineSchemaType(schema.Items.A, true, inlineBase+"Item")
 			if err != nil {
 				return typeInfo{}, err
 			}
@@ -728,17 +731,17 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *openapi3.SchemaRef, requi
 	return g.resolveType(schemaRef, required), nil
 }
 
-func schemaDefinesStructuredObject(schema *openapi3.Schema) bool {
+func schemaDefinesStructuredObject(schema *base.Schema) bool {
 	if schema == nil {
 		return false
 	}
-	if len(schema.Properties) > 0 || len(schema.AllOf) > 0 {
+	if (schema.Properties != nil && schema.Properties.Len() > 0) || len(schema.AllOf) > 0 {
 		return true
 	}
 	return false
 }
 
-func (g *Generator) createInlineModel(baseName string, schema *openapi3.Schema) (string, error) {
+func (g *Generator) createInlineModel(baseName string, schema *base.Schema) (string, error) {
 	typeName := g.reserveModelName(baseName)
 	model, err := g.buildClassModel(typeName, schema)
 	if err != nil {
@@ -764,12 +767,12 @@ func (g *Generator) reserveModelName(base string) string {
 	}
 }
 
-func (g *Generator) resolveResponseType(op *openapi3.Operation, clientName, methodName string) (typeInfo, error) {
-	if op == nil || op.Responses == nil || op.Responses.Len() == 0 {
+func (g *Generator) resolveResponseType(op *v3.Operation, clientName, methodName string) (typeInfo, error) {
+	if op == nil || op.Responses == nil || op.Responses.Codes == nil || op.Responses.Codes.Len() == 0 {
 		return g.nullableType("JsonDocument", false, true), nil
 	}
-	codes := make([]string, 0, op.Responses.Len())
-	for code := range op.Responses.Map() {
+	codes := make([]string, 0, op.Responses.Codes.Len())
+	for code := range op.Responses.Codes.KeysFromOldest() {
 		codes = append(codes, code)
 	}
 	sort.Strings(codes)
@@ -777,14 +780,15 @@ func (g *Generator) resolveResponseType(op *openapi3.Operation, clientName, meth
 		if !strings.HasPrefix(code, "2") {
 			continue
 		}
-		if info, err := g.responseTypeForRef(op.Responses.Value(code), fmt.Sprintf("%s%sResponse", clientName, methodName)); err != nil {
+		resp := op.Responses.Codes.GetOrZero(code)
+		if info, err := g.responseTypeForResponse(resp, fmt.Sprintf("%s%sResponse", clientName, methodName)); err != nil {
 			return typeInfo{}, err
 		} else if info.TypeName != "" {
 			return info, nil
 		}
 	}
-	if resp := op.Responses.Default(); resp != nil {
-		if info, err := g.responseTypeForRef(resp, fmt.Sprintf("%s%sResponseDefault", clientName, methodName)); err != nil {
+	if resp := op.Responses.Default; resp != nil {
+		if info, err := g.responseTypeForResponse(resp, fmt.Sprintf("%s%sResponseDefault", clientName, methodName)); err != nil {
 			return typeInfo{}, err
 		} else if info.TypeName != "" {
 			return info, nil
@@ -793,42 +797,42 @@ func (g *Generator) resolveResponseType(op *openapi3.Operation, clientName, meth
 	return g.nullableType("JsonDocument", false, true), nil
 }
 
-func (g *Generator) responseTypeForRef(respRef *openapi3.ResponseRef, inlineBase string) (typeInfo, error) {
-	if respRef == nil || respRef.Value == nil || respRef.Value.Content == nil {
+func (g *Generator) responseTypeForResponse(resp *v3.Response, inlineBase string) (typeInfo, error) {
+	if resp == nil || resp.Content == nil || resp.Content.Len() == 0 {
 		return typeInfo{}, nil
 	}
-	schemaRef := preferredSchema(respRef.Value.Content)
+	schemaRef := preferredSchema(resp.Content)
 	if schemaRef == nil {
 		return typeInfo{}, nil
 	}
 	return g.resolveInlineSchemaType(schemaRef, true, inlineBase)
 }
 
-func (g *Generator) operationBaseName(method, path string, op *openapi3.Operation) string {
+func (g *Generator) operationBaseName(method, path string, op *v3.Operation) string {
 	if name := methodNameFromExtension(op); name != "" {
 		return name
 	}
-	if op != nil && op.OperationID != "" {
-		return op.OperationID
+	if op != nil && op.OperationId != "" {
+		return op.OperationId
 	}
 	return generateOperationName(method, path)
 }
 
-func methodNameFromExtension(op *openapi3.Operation) string {
+func methodNameFromExtension(op *v3.Operation) string {
 	if op == nil || op.Extensions == nil {
 		return ""
 	}
-	raw, ok := op.Extensions["x-codegen"]
-	if !ok {
+	node := op.Extensions.GetOrZero("x-codegen")
+	if node == nil || len(node.Content) == 0 {
 		return ""
 	}
-	asMap, ok := raw.(map[string]interface{})
-	if !ok {
-		return ""
-	}
-	if value, ok := asMap["method_name"]; ok {
-		if str, ok := value.(string); ok && strings.TrimSpace(str) != "" {
-			return str
+	for i := 0; i+1 < len(node.Content); i += 2 {
+		keyNode := node.Content[i]
+		valueNode := node.Content[i+1]
+		if keyNode != nil && keyNode.Value == "method_name" {
+			if valueNode != nil && strings.TrimSpace(valueNode.Value) != "" {
+				return valueNode.Value
+			}
 		}
 	}
 	return ""
@@ -841,11 +845,21 @@ func generateOperationName(method, path string) string {
 	return naming.PascalIdentifier(combined)
 }
 
-func mergeParameters(pathParams, opParams openapi3.Parameters) []*openapi3.ParameterRef {
-	result := make([]*openapi3.ParameterRef, 0, len(pathParams)+len(opParams))
-	result = append(result, pathParams...)
-	result = append(result, opParams...)
+func mergeParameters(pathParams, opParams []*v3.Parameter) []*v3.Parameter {
+	result := make([]*v3.Parameter, 0, len(pathParams)+len(opParams))
+	result = appendParameters(result, pathParams)
+	result = appendParameters(result, opParams)
 	return result
+}
+
+func appendParameters(dst []*v3.Parameter, src []*v3.Parameter) []*v3.Parameter {
+	for _, param := range src {
+		if param == nil {
+			continue
+		}
+		dst = append(dst, param)
+	}
+	return dst
 }
 
 func builderCall(location, name, arg string) string {
@@ -884,46 +898,12 @@ func httpMethodExpression(method string) string {
 	}
 }
 
-func resolveParameter(doc *openapi3.T, ref *openapi3.ParameterRef) (*openapi3.Parameter, error) {
-	if ref == nil {
-		return nil, fmt.Errorf("parameter ref is nil")
-	}
-	if ref.Value != nil {
-		return ref.Value, nil
-	}
-	if ref.Ref == "" {
-		return nil, fmt.Errorf("parameter %v missing reference", ref)
-	}
-	name := strings.TrimPrefix(ref.Ref, "#/components/parameters/")
-	if resolved, ok := doc.Components.Parameters[name]; ok && resolved != nil && resolved.Value != nil {
-		return resolved.Value, nil
-	}
-	return nil, fmt.Errorf("parameter %s not found in components", ref.Ref)
-}
-
-func resolveRequestBody(doc *openapi3.T, ref *openapi3.RequestBodyRef) (*openapi3.RequestBody, error) {
-	if ref == nil {
-		return nil, nil
-	}
-	if ref.Value != nil {
-		return ref.Value, nil
-	}
-	if ref.Ref == "" {
-		return nil, fmt.Errorf("request body %v missing reference", ref)
-	}
-	name := strings.TrimPrefix(ref.Ref, "#/components/requestBodies/")
-	if resolved, ok := doc.Components.RequestBodies[name]; ok && resolved != nil && resolved.Value != nil {
-		return resolved.Value, nil
-	}
-	return nil, fmt.Errorf("request body %s not found in components", ref.Ref)
-}
-
-func (g *Generator) resolveType(schemaRef *openapi3.SchemaRef, required bool) typeInfo {
+func (g *Generator) resolveType(schemaRef *base.SchemaProxy, required bool) typeInfo {
 	if schemaRef == nil {
 		return g.nullableType("JsonDocument", false, required)
 	}
-	if schemaRef.Ref != "" {
-		name := componentName(schemaRef.Ref)
+	if schemaRef.IsReference() {
+		name := componentName(schemaRef.GetReference())
 		if info, ok := g.schemaTypes[name]; ok {
 			typeName := info.TypeName
 			isValueType := info.AliasIsValueType
@@ -939,16 +919,16 @@ func (g *Generator) resolveType(schemaRef *openapi3.SchemaRef, required bool) ty
 			return g.nullableType(typeName, isValueType, required)
 		}
 	}
-	if schemaRef.Value == nil {
+	schema := g.schemaFromProxy(schemaRef)
+	if schema == nil {
 		return g.nullableType("JsonDocument", false, required)
 	}
-	schema := schemaRef.Value
-	if schema.Nullable {
+	if schema.Nullable != nil && *schema.Nullable {
 		required = false
 	}
 
-	switch schema.Type {
-	case "string":
+	switch {
+	case schemaHasType(schema, "string"):
 		typeName := "string"
 		switch schema.Format {
 		case "date-time":
@@ -961,13 +941,13 @@ func (g *Generator) resolveType(schemaRef *openapi3.SchemaRef, required bool) ty
 			typeName = "byte[]"
 		}
 		return g.nullableType(typeName, false, required)
-	case "integer":
+	case schemaHasType(schema, "integer"):
 		typeName := "int"
 		if schema.Format == "int64" {
 			typeName = "long"
 		}
 		return g.nullableType(typeName, true, required)
-	case "number":
+	case schemaHasType(schema, "number"):
 		typeName := "decimal"
 		if schema.Format == "float" {
 			typeName = "float"
@@ -976,21 +956,27 @@ func (g *Generator) resolveType(schemaRef *openapi3.SchemaRef, required bool) ty
 			typeName = "double"
 		}
 		return g.nullableType(typeName, true, required)
-	case "boolean":
+	case schemaHasType(schema, "boolean"):
 		return g.nullableType("bool", true, required)
-	case "array":
-		elem := g.resolveType(schema.Items, true)
-		elemName := strings.TrimSuffix(elem.TypeName, "?")
-		typeName := fmt.Sprintf("IEnumerable<%s>", elemName)
-		return g.nullableType(typeName, false, required, true)
-	case "object":
-		if schema.AdditionalProperties.Schema != nil {
-			valueType := g.resolveType(schema.AdditionalProperties.Schema, true)
+	case schemaHasType(schema, "array") || (schema.Items != nil && schema.Items.IsA()):
+		if schema.Items != nil && schema.Items.IsA() {
+			elem := g.resolveType(schema.Items.A, true)
+			elemName := strings.TrimSuffix(elem.TypeName, "?")
+			typeName := fmt.Sprintf("IEnumerable<%s>", elemName)
+			return g.nullableType(typeName, false, required, true)
+		}
+		return g.nullableType("IEnumerable<JsonDocument>", false, required, true)
+	case schemaHasType(schema, "object"):
+		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsA() && schema.AdditionalProperties.A != nil {
+			valueType := g.resolveType(schema.AdditionalProperties.A, true)
 			valueName := strings.TrimSuffix(valueType.TypeName, "?")
 			typeName := fmt.Sprintf("IDictionary<string, %s>", valueName)
 			return g.nullableType(typeName, false, required, true)
 		}
-		if len(schema.Properties) == 0 && len(schema.AllOf) == 0 {
+		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
+			return g.nullableType("IDictionary<string, JsonElement>", false, required, true)
+		}
+		if (schema.Properties == nil || schema.Properties.Len() == 0) && len(schema.AllOf) == 0 {
 			return g.nullableType("JsonDocument", false, required)
 		}
 		return g.nullableType("JsonDocument", false, required)
@@ -1014,18 +1000,24 @@ func (g *Generator) nullableType(typeName string, isValueType bool, required boo
 	}
 }
 
-func firstContentType(content openapi3.Content) string {
-	for k := range content {
+func firstContentType(content *orderedmap.Map[string, *v3.MediaType]) string {
+	if content == nil {
+		return ""
+	}
+	for k := range content.KeysFromOldest() {
 		return k
 	}
 	return ""
 }
 
-func preferredSchema(content openapi3.Content) *openapi3.SchemaRef {
-	if media, ok := content["application/json"]; ok && media != nil && media.Schema != nil {
+func preferredSchema(content *orderedmap.Map[string, *v3.MediaType]) *base.SchemaProxy {
+	if content == nil {
+		return nil
+	}
+	if media := content.GetOrZero("application/json"); media != nil && media.Schema != nil {
 		return media.Schema
 	}
-	for _, media := range content {
+	for _, media := range content.FromOldest() {
 		if media != nil && media.Schema != nil {
 			return media.Schema
 		}
@@ -1051,6 +1043,40 @@ func sanitizeText(value string) string {
 	value = strings.ReplaceAll(value, "\n", " ")
 	value = strings.Join(strings.Fields(value), " ")
 	return value
+}
+
+func yamlNodeToString(node *yaml.Node) string {
+	if node == nil {
+		return ""
+	}
+	if node.Kind == yaml.ScalarNode {
+		return node.Value
+	}
+	data, err := yaml.Marshal(node)
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(string(data))
+}
+
+func schemaHasType(schema *base.Schema, target string) bool {
+	if schema == nil {
+		return false
+	}
+	for _, t := range schema.Type {
+		if strings.EqualFold(t, target) {
+			return true
+		}
+	}
+	return false
+}
+
+func canonicalMethodName(method string) string {
+	if method == "" {
+		return ""
+	}
+	lower := strings.ToLower(method)
+	return strings.ToUpper(lower[:1]) + lower[1:]
 }
 
 type typeInfo struct {

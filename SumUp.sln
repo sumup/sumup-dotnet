@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SumUp.Tests", "src\SumUp.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{27A079ED-6B3F-4A5D-BC98-647A379F5864}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicConsole", "examples\BasicConsole\BasicConsole.csproj", "{38032149-4A67-4856-8854-00F400CBA388}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic", "examples\Basic\Basic.csproj", "{38032149-4A67-4856-8854-00F400CBA388}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardReaderCheckout", "examples\CardReaderCheckout\CardReaderCheckout.csproj", "{5DD2877F-E30C-42F1-9192-4E80DB983FA8}"
 EndProject

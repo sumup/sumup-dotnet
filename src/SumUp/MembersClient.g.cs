@@ -26,14 +26,15 @@ public sealed partial class MembersClient
     /// <remarks>Create a merchant member.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Member> Create(string merchantCode, MembersCreateRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<Member> Create(string merchantCode, MembersCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/merchants/{merchant_code}/members", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return _client.Send<Member>(request, body, "application/json", cancellationToken);
+        return _client.Send<Member>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -42,14 +43,15 @@ public sealed partial class MembersClient
     /// <remarks>Create a merchant member.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Member>> CreateAsync(string merchantCode, MembersCreateRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Member>> CreateAsync(string merchantCode, MembersCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/merchants/{merchant_code}/members", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return await _client.SendAsync<Member>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Member>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -58,15 +60,16 @@ public sealed partial class MembersClient
     /// <remarks>Deletes a merchant member.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> Delete(string merchantCode, string memberId, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> Delete(string merchantCode, string memberId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/members/{member_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("member_id", memberId);
         });
-        return _client.Send<JsonDocument>(request, null, null, cancellationToken);
+        return _client.Send<JsonDocument>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -75,15 +78,16 @@ public sealed partial class MembersClient
     /// <remarks>Deletes a merchant member.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> DeleteAsync(string merchantCode, string memberId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> DeleteAsync(string merchantCode, string memberId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/members/{member_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("member_id", memberId);
         });
-        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -92,15 +96,16 @@ public sealed partial class MembersClient
     /// <remarks>Retrieve a merchant member.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Member> Get(string merchantCode, string memberId, CancellationToken cancellationToken = default)
+    public ApiResponse<Member> Get(string merchantCode, string memberId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/members/{member_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("member_id", memberId);
         });
-        return _client.Send<Member>(request, null, null, cancellationToken);
+        return _client.Send<Member>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -109,15 +114,16 @@ public sealed partial class MembersClient
     /// <remarks>Retrieve a merchant member.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Member>> GetAsync(string merchantCode, string memberId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Member>> GetAsync(string merchantCode, string memberId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/members/{member_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("member_id", memberId);
         });
-        return await _client.SendAsync<Member>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Member>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -132,8 +138,9 @@ public sealed partial class MembersClient
     /// <param name="userId">Search for a member by user id.</param>
     /// <param name="status">Filter the returned members by the membership status.</param>
     /// <param name="roles">Filter the returned members by role.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<MembersListResponse> List(string merchantCode, int? offset = null, int? limit = null, bool? scroll = null, string? email = null, Guid? userId = null, MembershipStatus? status = null, IEnumerable<string>? roles = null, CancellationToken cancellationToken = default)
+    public ApiResponse<MembersListResponse> List(string merchantCode, int? offset = null, int? limit = null, bool? scroll = null, string? email = null, Guid? userId = null, MembershipStatus? status = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/members", builder =>
         {
@@ -146,7 +153,7 @@ public sealed partial class MembersClient
             builder.AddQuery("status", status);
             builder.AddQuery("roles", roles);
         });
-        return _client.Send<MembersListResponse>(request, null, null, cancellationToken);
+        return _client.Send<MembersListResponse>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -161,8 +168,9 @@ public sealed partial class MembersClient
     /// <param name="userId">Search for a member by user id.</param>
     /// <param name="status">Filter the returned members by the membership status.</param>
     /// <param name="roles">Filter the returned members by role.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<MembersListResponse>> ListAsync(string merchantCode, int? offset = null, int? limit = null, bool? scroll = null, string? email = null, Guid? userId = null, MembershipStatus? status = null, IEnumerable<string>? roles = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<MembersListResponse>> ListAsync(string merchantCode, int? offset = null, int? limit = null, bool? scroll = null, string? email = null, Guid? userId = null, MembershipStatus? status = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/members", builder =>
         {
@@ -175,7 +183,7 @@ public sealed partial class MembersClient
             builder.AddQuery("status", status);
             builder.AddQuery("roles", roles);
         });
-        return await _client.SendAsync<MembersListResponse>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<MembersListResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -185,15 +193,16 @@ public sealed partial class MembersClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Member> Update(string merchantCode, string memberId, MembersUpdateRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<Member> Update(string merchantCode, string memberId, MembersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/merchants/{merchant_code}/members/{member_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("member_id", memberId);
         });
-        return _client.Send<Member>(request, body, "application/json", cancellationToken);
+        return _client.Send<Member>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -203,14 +212,15 @@ public sealed partial class MembersClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Member>> UpdateAsync(string merchantCode, string memberId, MembersUpdateRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Member>> UpdateAsync(string merchantCode, string memberId, MembersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/merchants/{merchant_code}/members/{member_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("member_id", memberId);
         });
-        return await _client.SendAsync<Member>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Member>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

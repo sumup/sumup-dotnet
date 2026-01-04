@@ -8,8 +8,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/sumup/sumup-dotnet/tools/codegen/internal/generator"
-	"github.com/sumup/sumup-dotnet/tools/codegen/internal/spec"
+	"github.com/sumup/sumup-dotnet/codegen/internal/generator"
+	"github.com/sumup/sumup-dotnet/codegen/internal/spec"
 )
 
 func main() {

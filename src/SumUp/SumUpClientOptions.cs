@@ -13,6 +13,7 @@ public sealed class SumUpClientOptions
 {
     private static readonly string Version =
         Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
+    private const string AccessTokenEnvironmentVariable = "SUMUP_ACCESS_TOKEN";
 
     /// <summary>
     /// Gets or sets the base address for API requests.
@@ -33,11 +34,6 @@ public sealed class SumUpClientOptions
     /// Optional asynchronous token provider invoked when <see cref="AccessToken"/> is not set.
     /// </summary>
     public Func<CancellationToken, Task<string?>>? AccessTokenProvider { get; set; }
-
-    /// <summary>
-    /// Environment variable checked for a token when no explicit credential is supplied. Defaults to <c>SUMUP_ACCESS_TOKEN</c>.
-    /// </summary>
-    public string AccessTokenEnvironmentVariable { get; set; } = "SUMUP_ACCESS_TOKEN";
 
     /// <summary>
     /// Gets or sets the user agent sent with every request.
@@ -80,11 +76,6 @@ public sealed class SumUpClientOptions
 
     private string? TryReadTokenFromEnvironment()
     {
-        if (string.IsNullOrWhiteSpace(AccessTokenEnvironmentVariable))
-        {
-            return null;
-        }
-
         return Environment.GetEnvironmentVariable(AccessTokenEnvironmentVariable);
     }
 }

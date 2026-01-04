@@ -57,7 +57,7 @@ static string GetRequiredEnv(string name)
 
 static async Task<string> ResolveReaderIdAsync(SumUpClient client, string merchantCode, CancellationToken cancellationToken)
 {
-    var readersResponse = await client.Readers.ListAsync(merchantCode, cancellationToken);
+    var readersResponse = await client.Readers.ListAsync(merchantCode, cancellationToken: cancellationToken);
     var readers = readersResponse.Data?.Items ?? throw new InvalidOperationException("Reader list response was empty.");
     foreach (var reader in readers)
     {

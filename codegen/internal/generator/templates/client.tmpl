@@ -33,8 +33,9 @@ public sealed partial class {{ .ClientName }}Client
     {{- range .Parameters }}
     /// <param name="{{ .Name }}">{{- if .Description }}{{ .Description }}{{ else }}Request parameter.{{ end }}</param>
     {{- end }}
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<{{ .ResponseType }}> {{ .MethodName }}({{ if .HasParameters }}{{- range $index, $param := .Parameters }}{{ if $index }}, {{ end }}{{ $param.Signature }}{{ end }}, {{ end }}CancellationToken cancellationToken = default)
+    public ApiResponse<{{ .ResponseType }}> {{ .MethodName }}({{ if .HasParameters }}{{- range $index, $param := .Parameters }}{{ if $index }}, {{ end }}{{ $param.Signature }}{{ end }}, {{ end }}RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         {{- if .HasBuilder }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}", builder =>
@@ -52,7 +53,7 @@ public sealed partial class {{ .ClientName }}Client
         {{- else }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}");
         {{- end }}
-        return _client.Send<{{ .ResponseType }}>(request, {{ if .HasRequestBody }}{{ .Body.ArgName }}{{ else }}null{{ end }}, {{ if .HasRequestBody }}"{{ .Body.ContentType }}"{{ else }}null{{ end }}, cancellationToken);
+        return _client.Send<{{ .ResponseType }}>(request, {{ if .HasRequestBody }}{{ .Body.ArgName }}{{ else }}null{{ end }}, {{ if .HasRequestBody }}"{{ .Body.ContentType }}"{{ else }}null{{ end }}, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -64,8 +65,9 @@ public sealed partial class {{ .ClientName }}Client
     {{- range .Parameters }}
     /// <param name="{{ .Name }}">{{- if .Description }}{{ .Description }}{{ else }}Request parameter.{{ end }}</param>
     {{- end }}
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<{{ .ResponseType }}>> {{ .MethodName }}Async({{ if .HasParameters }}{{- range $index, $param := .Parameters }}{{ if $index }}, {{ end }}{{ $param.Signature }}{{ end }}, {{ end }}CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<{{ .ResponseType }}>> {{ .MethodName }}Async({{ if .HasParameters }}{{- range $index, $param := .Parameters }}{{ if $index }}, {{ end }}{{ $param.Signature }}{{ end }}, {{ end }}RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         {{- if .HasBuilder }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}", builder =>
@@ -83,7 +85,7 @@ public sealed partial class {{ .ClientName }}Client
         {{- else }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}");
         {{- end }}
-        return await _client.SendAsync<{{ .ResponseType }}>(request, {{ if .HasRequestBody }}{{ .Body.ArgName }}{{ else }}null{{ end }}, {{ if .HasRequestBody }}"{{ .Body.ContentType }}"{{ else }}null{{ end }}, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<{{ .ResponseType }}>(request, {{ if .HasRequestBody }}{{ .Body.ArgName }}{{ else }}null{{ end }}, {{ if .HasRequestBody }}"{{ .Body.ContentType }}"{{ else }}null{{ end }}, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 {{- end }}
 }

@@ -12,14 +12,6 @@ dist/
 *.userosscache
 *.sln.docstates
 
-# OS cruft
-.DS_Store
-Thumbs.db
-
-# Python virtualenvs (examples/tests)
-.venv/
-venv/
-
 # SumUp SDK generated assets
 *.nupkg
 /.turbo/

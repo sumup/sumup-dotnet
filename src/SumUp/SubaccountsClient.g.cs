@@ -25,14 +25,15 @@ public sealed partial class SubaccountsClient
     /// </summary>
     /// <remarks>Returns specific operator.</remarks>
     /// <param name="operatorId">The unique identifier for the operator.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<OperatorValue> CompatGetOperator(int operatorId, CancellationToken cancellationToken = default)
+    public ApiResponse<OperatorValue> CompatGetOperator(int operatorId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/accounts/{operator_id}", builder =>
         {
             builder.AddPath("operator_id", operatorId);
         });
-        return _client.Send<OperatorValue>(request, null, null, cancellationToken);
+        return _client.Send<OperatorValue>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -40,14 +41,15 @@ public sealed partial class SubaccountsClient
     /// </summary>
     /// <remarks>Returns specific operator.</remarks>
     /// <param name="operatorId">The unique identifier for the operator.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<OperatorValue>> CompatGetOperatorAsync(int operatorId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<OperatorValue>> CompatGetOperatorAsync(int operatorId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/accounts/{operator_id}", builder =>
         {
             builder.AddPath("operator_id", operatorId);
         });
-        return await _client.SendAsync<OperatorValue>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<OperatorValue>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -55,11 +57,12 @@ public sealed partial class SubaccountsClient
     /// </summary>
     /// <remarks>Creates new operator for currently authorized users' merchant.</remarks>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<OperatorValue> CreateSubAccount(SubaccountsCreateSubAccountRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<OperatorValue> CreateSubAccount(SubaccountsCreateSubAccountRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/me/accounts");
-        return _client.Send<OperatorValue>(request, body, "application/json", cancellationToken);
+        return _client.Send<OperatorValue>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -67,11 +70,12 @@ public sealed partial class SubaccountsClient
     /// </summary>
     /// <remarks>Creates new operator for currently authorized users' merchant.</remarks>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<OperatorValue>> CreateSubAccountAsync(SubaccountsCreateSubAccountRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<OperatorValue>> CreateSubAccountAsync(SubaccountsCreateSubAccountRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/me/accounts");
-        return await _client.SendAsync<OperatorValue>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<OperatorValue>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -79,14 +83,15 @@ public sealed partial class SubaccountsClient
     /// </summary>
     /// <remarks>Disable the specified operator for the merchant account.</remarks>
     /// <param name="operatorId">The unique identifier for the operator.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<OperatorValue> DeactivateSubAccount(int operatorId, CancellationToken cancellationToken = default)
+    public ApiResponse<OperatorValue> DeactivateSubAccount(int operatorId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/me/accounts/{operator_id}", builder =>
         {
             builder.AddPath("operator_id", operatorId);
         });
-        return _client.Send<OperatorValue>(request, null, null, cancellationToken);
+        return _client.Send<OperatorValue>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -94,14 +99,15 @@ public sealed partial class SubaccountsClient
     /// </summary>
     /// <remarks>Disable the specified operator for the merchant account.</remarks>
     /// <param name="operatorId">The unique identifier for the operator.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<OperatorValue>> DeactivateSubAccountAsync(int operatorId, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<OperatorValue>> DeactivateSubAccountAsync(int operatorId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/me/accounts/{operator_id}", builder =>
         {
             builder.AddPath("operator_id", operatorId);
         });
-        return await _client.SendAsync<OperatorValue>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<OperatorValue>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,15 +116,16 @@ public sealed partial class SubaccountsClient
     /// <remarks>Returns list of operators for currently authorized user's merchant.</remarks>
     /// <param name="query">Search query used to filter users that match given query term. Current implementation allow querying only over the email address. All operators whos email address contains the query string are returned.</param>
     /// <param name="includePrimary">If true the list of operators will include also the primary user.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<OperatorValue>> ListSubAccounts(string? query = null, bool? includePrimary = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<OperatorValue>> ListSubAccounts(string? query = null, bool? includePrimary = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/accounts", builder =>
         {
             builder.AddQuery("query", query);
             builder.AddQuery("include_primary", includePrimary);
         });
-        return _client.Send<IEnumerable<OperatorValue>>(request, null, null, cancellationToken);
+        return _client.Send<IEnumerable<OperatorValue>>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -127,15 +134,16 @@ public sealed partial class SubaccountsClient
     /// <remarks>Returns list of operators for currently authorized user's merchant.</remarks>
     /// <param name="query">Search query used to filter users that match given query term. Current implementation allow querying only over the email address. All operators whos email address contains the query string are returned.</param>
     /// <param name="includePrimary">If true the list of operators will include also the primary user.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<OperatorValue>>> ListSubAccountsAsync(string? query = null, bool? includePrimary = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<OperatorValue>>> ListSubAccountsAsync(string? query = null, bool? includePrimary = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/accounts", builder =>
         {
             builder.AddQuery("query", query);
             builder.AddQuery("include_primary", includePrimary);
         });
-        return await _client.SendAsync<IEnumerable<OperatorValue>>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<IEnumerable<OperatorValue>>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -144,14 +152,15 @@ public sealed partial class SubaccountsClient
     /// <remarks>Updates operator. If the operator was disabled and their password is updated they will be unblocked.</remarks>
     /// <param name="operatorId">The unique identifier for the operator.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<OperatorValue> UpdateSubAccount(int operatorId, SubaccountsUpdateSubAccountRequest body, CancellationToken cancellationToken = default)
+    public ApiResponse<OperatorValue> UpdateSubAccount(int operatorId, SubaccountsUpdateSubAccountRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/me/accounts/{operator_id}", builder =>
         {
             builder.AddPath("operator_id", operatorId);
         });
-        return _client.Send<OperatorValue>(request, body, "application/json", cancellationToken);
+        return _client.Send<OperatorValue>(request, body, "application/json", cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -160,13 +169,14 @@ public sealed partial class SubaccountsClient
     /// <remarks>Updates operator. If the operator was disabled and their password is updated they will be unblocked.</remarks>
     /// <param name="operatorId">The unique identifier for the operator.</param>
     /// <param name="body">Request body payload.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<OperatorValue>> UpdateSubAccountAsync(int operatorId, SubaccountsUpdateSubAccountRequest body, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<OperatorValue>> UpdateSubAccountAsync(int operatorId, SubaccountsUpdateSubAccountRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/me/accounts/{operator_id}", builder =>
         {
             builder.AddPath("operator_id", operatorId);
         });
-        return await _client.SendAsync<OperatorValue>(request, body, "application/json", cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<OperatorValue>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

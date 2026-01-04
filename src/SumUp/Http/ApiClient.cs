@@ -44,69 +44,76 @@ internal sealed class ApiClient
         HttpRequestMessage request,
         object? body,
         string? contentType,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        RequestOptions? requestOptions = null)
     {
-        var token = await _options.GetAccessTokenAsync(cancellationToken).ConfigureAwait(false);
-        if (!string.IsNullOrWhiteSpace(token))
+        var effectiveCancellationToken = CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+
+        try
         {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
+            await ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
 
-        if (body is not null && request.Content is null)
-        {
-            request.Content = CreateContent(body, contentType);
-        }
-
-        using var response = await _httpClient.SendAsync(
-            request,
-            HttpCompletionOption.ResponseHeadersRead,
-            cancellationToken).ConfigureAwait(false);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            var responseBody = response.Content is null
-                ? null
-                : await ReadContentAsStringAsync(response.Content, cancellationToken).ConfigureAwait(false);
-
-            ApiError? error = null;
-            if (!string.IsNullOrEmpty(responseBody))
+            if (body is not null && request.Content is null)
             {
-                error = TryDeserialize<ApiError>(responseBody!);
+                request.Content = CreateContent(body, contentType);
             }
 
-            throw new ApiException(response.StatusCode, error, responseBody, response.RequestMessage?.RequestUri);
-        }
+            using var response = await _httpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
 
-        if (response.Content == null || response.Content.Headers.ContentLength == 0)
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+
+                ApiError? error = null;
+                if (!string.IsNullOrEmpty(responseBody))
+                {
+                    error = TryDeserialize<ApiError>(responseBody!);
+                }
+
+                throw new ApiException(response.StatusCode, error, responseBody, response.RequestMessage?.RequestUri);
+            }
+
+            if (response.Content == null || response.Content.Headers.ContentLength == 0)
+            {
+                return ApiResponse<T>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            }
+
+            if (typeof(T) == typeof(JsonDocument))
+            {
+                using var jsonStream = await ReadContentAsStreamAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
+                return ApiResponse<T>.From((T)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            }
+
+            if (typeof(T) == typeof(string))
+            {
+                var text = await ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                return ApiResponse<T>.From((T)(object)text, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            }
+
+            using var stream = await ReadContentAsStreamAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<T>(stream, _serializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<T>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
         {
-            return ApiResponse<T>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            timeoutScope?.Dispose();
         }
-
-        if (typeof(T) == typeof(JsonDocument))
-        {
-            using var jsonStream = await ReadContentAsStreamAsync(response.Content, cancellationToken).ConfigureAwait(false);
-            var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: cancellationToken).ConfigureAwait(false);
-            return ApiResponse<T>.From((T)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-
-        if (typeof(T) == typeof(string))
-        {
-            var text = await ReadContentAsStringAsync(response.Content, cancellationToken).ConfigureAwait(false);
-            return ApiResponse<T>.From((T)(object)text, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-
-        using var stream = await ReadContentAsStreamAsync(response.Content, cancellationToken).ConfigureAwait(false);
-        var result = await JsonSerializer.DeserializeAsync<T>(stream, _serializerOptions, cancellationToken).ConfigureAwait(false);
-        return ApiResponse<T>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
     }
 
     internal ApiResponse<T> Send<T>(
         HttpRequestMessage request,
         object? body,
         string? contentType,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        RequestOptions? requestOptions = null)
     {
-        return SendAsync<T>(request, body, contentType, cancellationToken).GetAwaiter().GetResult();
+        return SendAsync<T>(request, body, contentType, cancellationToken, requestOptions).GetAwaiter().GetResult();
     }
 
     private HttpContent CreateContent(object body, string? contentType)
@@ -174,5 +181,65 @@ internal sealed class ApiClient
 #else
         return content.ReadAsStreamAsync(cancellationToken);
 #endif
+    }
+
+    private async Task ApplyAuthorizationHeaderAsync(
+        HttpRequestMessage request,
+        CancellationToken cancellationToken,
+        RequestOptions? requestOptions)
+    {
+        if (requestOptions?.AccessToken is not null)
+        {
+            SetAuthorizationHeader(request, requestOptions.AccessToken);
+            return;
+        }
+
+        if (request.Headers.Authorization is not null)
+        {
+            return;
+        }
+
+        var token = await _options.GetAccessTokenAsync(cancellationToken).ConfigureAwait(false);
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+    }
+
+    private static void SetAuthorizationHeader(HttpRequestMessage request, string token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            request.Headers.Remove("Authorization");
+            return;
+        }
+
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
+
+    private static CancellationToken CreateCancellationToken(
+        CancellationToken cancellationToken,
+        RequestOptions? requestOptions,
+        out CancellationTokenSource? timeoutScope)
+    {
+        timeoutScope = null;
+        if (requestOptions?.Timeout is not TimeSpan timeout)
+        {
+            return cancellationToken;
+        }
+
+        if (timeout == Timeout.InfiniteTimeSpan)
+        {
+            return cancellationToken;
+        }
+
+        if (timeout <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(RequestOptions.Timeout), "Timeout must be a positive duration.");
+        }
+
+        timeoutScope = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeoutScope.CancelAfter(timeout);
+        return timeoutScope.Token;
     }
 }

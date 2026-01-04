@@ -25,15 +25,16 @@ public sealed partial class MerchantsClient
     /// <remarks>Retrieve a merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="version">The version of the resource. At the moment, the only supported value is `latest`. When provided and the requested resource's `change_status` is pending, the resource will be returned with all pending changes applied. When no changes are pending the resource is returned as is. The `change_status` in the response body will reflect the current state of the resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Merchant> Get(string merchantCode, string? version = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Merchant> Get(string merchantCode, string? version = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1/merchants/{merchant_code}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddQuery("version", version);
         });
-        return _client.Send<Merchant>(request, null, null, cancellationToken);
+        return _client.Send<Merchant>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -42,15 +43,16 @@ public sealed partial class MerchantsClient
     /// <remarks>Retrieve a merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="version">The version of the resource. At the moment, the only supported value is `latest`. When provided and the requested resource's `change_status` is pending, the resource will be returned with all pending changes applied. When no changes are pending the resource is returned as is. The `change_status` in the response body will reflect the current state of the resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Merchant>> GetAsync(string merchantCode, string? version = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Merchant>> GetAsync(string merchantCode, string? version = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1/merchants/{merchant_code}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddQuery("version", version);
         });
-        return await _client.SendAsync<Merchant>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Merchant>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -60,8 +62,9 @@ public sealed partial class MerchantsClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="personId">Person ID</param>
     /// <param name="version">The version of the resource. At the moment, the only supported value is `latest`. When provided and the requested resource's `change_status` is pending, the resource will be returned with all pending changes applied. When no changes are pending the resource is returned as is. The `change_status` in the response body will reflect the current state of the resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Person> GetPerson(string merchantCode, string personId, string? version = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Person> GetPerson(string merchantCode, string personId, string? version = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1/merchants/{merchant_code}/persons/{person_id}", builder =>
         {
@@ -69,7 +72,7 @@ public sealed partial class MerchantsClient
             builder.AddPath("person_id", personId);
             builder.AddQuery("version", version);
         });
-        return _client.Send<Person>(request, null, null, cancellationToken);
+        return _client.Send<Person>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -79,8 +82,9 @@ public sealed partial class MerchantsClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="personId">Person ID</param>
     /// <param name="version">The version of the resource. At the moment, the only supported value is `latest`. When provided and the requested resource's `change_status` is pending, the resource will be returned with all pending changes applied. When no changes are pending the resource is returned as is. The `change_status` in the response body will reflect the current state of the resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Person>> GetPersonAsync(string merchantCode, string personId, string? version = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Person>> GetPersonAsync(string merchantCode, string personId, string? version = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1/merchants/{merchant_code}/persons/{person_id}", builder =>
         {
@@ -88,7 +92,7 @@ public sealed partial class MerchantsClient
             builder.AddPath("person_id", personId);
             builder.AddQuery("version", version);
         });
-        return await _client.SendAsync<Person>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Person>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -97,15 +101,16 @@ public sealed partial class MerchantsClient
     /// <remarks>Returns a list of persons related to the merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="version">The version of the resource. At the moment, the only supported value is `latest`. When provided and the requested resource's `change_status` is pending, the resource will be returned with all pending changes applied. When no changes are pending the resource is returned as is. The `change_status` in the response body will reflect the current state of the resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<ListPersonsResponseBody> ListPersons(string merchantCode, string? version = null, CancellationToken cancellationToken = default)
+    public ApiResponse<ListPersonsResponseBody> ListPersons(string merchantCode, string? version = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1/merchants/{merchant_code}/persons", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddQuery("version", version);
         });
-        return _client.Send<ListPersonsResponseBody>(request, null, null, cancellationToken);
+        return _client.Send<ListPersonsResponseBody>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -114,14 +119,15 @@ public sealed partial class MerchantsClient
     /// <remarks>Returns a list of persons related to the merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="version">The version of the resource. At the moment, the only supported value is `latest`. When provided and the requested resource's `change_status` is pending, the resource will be returned with all pending changes applied. When no changes are pending the resource is returned as is. The `change_status` in the response body will reflect the current state of the resource.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<ListPersonsResponseBody>> ListPersonsAsync(string merchantCode, string? version = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<ListPersonsResponseBody>> ListPersonsAsync(string merchantCode, string? version = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1/merchants/{merchant_code}/persons", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddQuery("version", version);
         });
-        return await _client.SendAsync<ListPersonsResponseBody>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<ListPersonsResponseBody>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

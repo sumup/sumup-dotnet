@@ -26,8 +26,9 @@ public sealed partial class ReceiptsClient
     /// <param name="id">SumUp unique transaction ID or transaction code, e.g. TS7HDYLSKD.</param>
     /// <param name="mid">Merchant code.</param>
     /// <param name="txEventId">The ID of the transaction event (refund).</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Receipt> Get(string id, string mid, int? txEventId = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Receipt> Get(string id, string mid, int? txEventId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.1/receipts/{id}", builder =>
         {
@@ -35,7 +36,7 @@ public sealed partial class ReceiptsClient
             builder.AddQuery("mid", mid);
             builder.AddQuery("tx_event_id", txEventId);
         });
-        return _client.Send<Receipt>(request, null, null, cancellationToken);
+        return _client.Send<Receipt>(request, null, null, cancellationToken, requestOptions);
     }
 
     /// <summary>
@@ -45,8 +46,9 @@ public sealed partial class ReceiptsClient
     /// <param name="id">SumUp unique transaction ID or transaction code, e.g. TS7HDYLSKD.</param>
     /// <param name="mid">Merchant code.</param>
     /// <param name="txEventId">The ID of the transaction event (refund).</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Receipt>> GetAsync(string id, string mid, int? txEventId = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Receipt>> GetAsync(string id, string mid, int? txEventId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.1/receipts/{id}", builder =>
         {
@@ -54,6 +56,6 @@ public sealed partial class ReceiptsClient
             builder.AddQuery("mid", mid);
             builder.AddQuery("tx_event_id", txEventId);
         });
-        return await _client.SendAsync<Receipt>(request, null, null, cancellationToken).ConfigureAwait(false);
+        return await _client.SendAsync<Receipt>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
     }
 }

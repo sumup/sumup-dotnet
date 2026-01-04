@@ -9,7 +9,7 @@ help:
 
 # Generate the SumUp client from the OpenAPI specification.
 generate:
-  go -C tools/codegen run ./cmd/sumup-dotnet --spec ../../openapi.json --output ../../src/SumUp --namespace SumUp
+  go -C codegen run ./... --spec ../openapi.json --output ../src/SumUp --namespace SumUp
 
 # Format the entire solution using dotnet-format.
 fmt:
