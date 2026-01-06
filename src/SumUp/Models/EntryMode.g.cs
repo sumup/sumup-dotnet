@@ -9,56 +9,56 @@ using System.Text.Json.Serialization;
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum EntryMode
 {
-    [EnumMember(Value = "BOLETO")]
-    Boleto,
-    [EnumMember(Value = "SOFORT")]
-    Sofort,
-    [EnumMember(Value = "IDEAL")]
-    Ideal,
-    [EnumMember(Value = "BANCONTACT")]
-    Bancontact,
-    [EnumMember(Value = "EPS")]
-    Eps,
-    [EnumMember(Value = "MYBANK")]
-    Mybank,
-    [EnumMember(Value = "SATISPAY")]
-    Satispay,
-    [EnumMember(Value = "BLIK")]
-    Blik,
-    [EnumMember(Value = "P24")]
-    P24,
-    [EnumMember(Value = "GIROPAY")]
-    Giropay,
-    [EnumMember(Value = "PIX")]
-    Pix,
-    [EnumMember(Value = "QR_CODE_PIX")]
-    QrCodePix,
-    [EnumMember(Value = "APPLE_PAY")]
-    ApplePay,
-    [EnumMember(Value = "GOOGLE_PAY")]
-    GooglePay,
-    [EnumMember(Value = "PAYPAL")]
-    Paypal,
-    [EnumMember(Value = "NONE")]
+    [EnumMember(Value = "none")]
     None,
-    [EnumMember(Value = "CHIP")]
-    Chip,
-    [EnumMember(Value = "MANUAL_ENTRY")]
-    ManualEntry,
-    [EnumMember(Value = "CUSTOMER_ENTRY")]
-    CustomerEntry,
-    [EnumMember(Value = "MAGSTRIPE_FALLBACK")]
-    MagstripeFallback,
-    [EnumMember(Value = "MAGSTRIPE")]
+    [EnumMember(Value = "magstripe")]
     Magstripe,
-    [EnumMember(Value = "DIRECT_DEBIT")]
-    DirectDebit,
-    [EnumMember(Value = "CONTACTLESS")]
+    [EnumMember(Value = "chip")]
+    Chip,
+    [EnumMember(Value = "manual entry")]
+    ManualEntry,
+    [EnumMember(Value = "customer entry")]
+    CustomerEntry,
+    [EnumMember(Value = "magstripe fallback")]
+    MagstripeFallback,
+    [EnumMember(Value = "contactless")]
     Contactless,
-    [EnumMember(Value = "MOTO")]
+    [EnumMember(Value = "moto")]
     Moto,
-    [EnumMember(Value = "CONTACTLESS_MAGSTRIPE")]
+    [EnumMember(Value = "contactless magstripe")]
     ContactlessMagstripe,
-    [EnumMember(Value = "N/A")]
-    NA,
+    [EnumMember(Value = "boleto")]
+    Boleto,
+    [EnumMember(Value = "direct debit")]
+    DirectDebit,
+    [EnumMember(Value = "sofort")]
+    Sofort,
+    [EnumMember(Value = "ideal")]
+    Ideal,
+    [EnumMember(Value = "bancontact")]
+    Bancontact,
+    [EnumMember(Value = "eps")]
+    Eps,
+    [EnumMember(Value = "mybank")]
+    Mybank,
+    [EnumMember(Value = "satispay")]
+    Satispay,
+    [EnumMember(Value = "blik")]
+    Blik,
+    [EnumMember(Value = "p24")]
+    P24,
+    [EnumMember(Value = "giropay")]
+    Giropay,
+    [EnumMember(Value = "pix")]
+    Pix,
+    [EnumMember(Value = "qr code pix")]
+    QrCodePix,
+    [EnumMember(Value = "apple pay")]
+    ApplePay,
+    [EnumMember(Value = "google pay")]
+    GooglePay,
+    [EnumMember(Value = "paypal")]
+    Paypal,
+    [EnumMember(Value = "na")]
+    Na,
 }

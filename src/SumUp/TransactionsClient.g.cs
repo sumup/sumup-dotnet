@@ -123,6 +123,7 @@ public sealed partial class TransactionsClient
     /// <param name="users">Filters the returned results by user email.</param>
     /// <param name="statuses">Filters the returned results by the specified list of final statuses of the transactions.</param>
     /// <param name="paymentTypes">Filters the returned results by the specified list of payment types used for the transactions.</param>
+    /// <param name="entryModes">Filters the returned results by the specified list of entry modes.</param>
     /// <param name="types">Filters the returned results by the specified list of transaction types.</param>
     /// <param name="changesSince">Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="newestTime">Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
@@ -131,7 +132,7 @@ public sealed partial class TransactionsClient
     /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionsListResponse> List(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionsListResponse> List(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<EntryModeFilter>? entryModes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions/history", builder =>
         {
@@ -142,6 +143,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("users", users);
             builder.AddQuery("statuses", statuses);
             builder.AddQuery("payment_types", paymentTypes);
+            builder.AddQuery("entry_modes[]", entryModes);
             builder.AddQuery("types", types);
             builder.AddQuery("changes_since", changesSince);
             builder.AddQuery("newest_time", newestTime);
@@ -163,6 +165,7 @@ public sealed partial class TransactionsClient
     /// <param name="users">Filters the returned results by user email.</param>
     /// <param name="statuses">Filters the returned results by the specified list of final statuses of the transactions.</param>
     /// <param name="paymentTypes">Filters the returned results by the specified list of payment types used for the transactions.</param>
+    /// <param name="entryModes">Filters the returned results by the specified list of entry modes.</param>
     /// <param name="types">Filters the returned results by the specified list of transaction types.</param>
     /// <param name="changesSince">Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="newestTime">Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
@@ -171,7 +174,7 @@ public sealed partial class TransactionsClient
     /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionsListResponse>> ListAsync(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionsListResponse>> ListAsync(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<EntryModeFilter>? entryModes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions/history", builder =>
         {
@@ -182,6 +185,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("users", users);
             builder.AddQuery("statuses", statuses);
             builder.AddQuery("payment_types", paymentTypes);
+            builder.AddQuery("entry_modes[]", entryModes);
             builder.AddQuery("types", types);
             builder.AddQuery("changes_since", changesSince);
             builder.AddQuery("newest_time", newestTime);
