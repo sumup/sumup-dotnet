@@ -9,32 +9,52 @@ using System.Text.Json.Serialization;
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum CardType
 {
+    [EnumMember(Value = "ALELO")]
+    Alelo,
     [EnumMember(Value = "AMEX")]
     Amex,
+    [EnumMember(Value = "CONECS")]
+    Conecs,
     [EnumMember(Value = "CUP")]
     Cup,
     [EnumMember(Value = "DINERS")]
     Diners,
     [EnumMember(Value = "DISCOVER")]
     Discover,
+    [EnumMember(Value = "EFTPOS")]
+    Eftpos,
     [EnumMember(Value = "ELO")]
     Elo,
     [EnumMember(Value = "ELV")]
     Elv,
+    [EnumMember(Value = "GIROCARD")]
+    Girocard,
     [EnumMember(Value = "HIPERCARD")]
     Hipercard,
+    [EnumMember(Value = "INTERAC")]
+    Interac,
     [EnumMember(Value = "JCB")]
     Jcb,
     [EnumMember(Value = "MAESTRO")]
     Maestro,
     [EnumMember(Value = "MASTERCARD")]
     Mastercard,
+    [EnumMember(Value = "PLUXEE")]
+    Pluxee,
+    [EnumMember(Value = "SWILE")]
+    Swile,
+    [EnumMember(Value = "TICKET")]
+    Ticket,
     [EnumMember(Value = "VISA")]
     Visa,
     [EnumMember(Value = "VISA_ELECTRON")]
     VisaElectron,
     [EnumMember(Value = "VISA_VPAY")]
     VisaVpay,
+    [EnumMember(Value = "VPAY")]
+    Vpay,
+    [EnumMember(Value = "VR")]
+    Vr,
     [EnumMember(Value = "UNKNOWN")]
     Unknown,
 }
