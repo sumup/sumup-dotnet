@@ -30,9 +30,16 @@ jobs:
         with:
           go-version-file: codegen/go.mod
 
+      - uses: actions/setup-dotnet@2016bd2012dba4e32de620c46fe006a3ac9f0602 # v5.0.1
+        with:
+          dotnet-version: '10.0.x'
+
       - name: Generate SDK
         working-directory: codegen
         run: go run ./... --spec ../openapi.json --output ../src/SumUp --namespace SumUp
+
+      - name: Format code
+        run: dotnet format SumUp.sln
 
       - name: Create GitHub App token
         id: app-token
