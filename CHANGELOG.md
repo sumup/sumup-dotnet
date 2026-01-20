@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.0.4](https://github.com/sumup/sumup-dotnet/compare/v0.0.3...v0.0.4) (2026-01-20)
+
+
+### Features
+
+* **cd:** format generated code before comitting ([1e218cc](https://github.com/sumup/sumup-dotnet/commit/1e218cc8cfa9d74a949d6fc6b9e9455dc2eea2f4))
+* report runtime info ([#13](https://github.com/sumup/sumup-dotnet/issues/13)) ([f99755f](https://github.com/sumup/sumup-dotnet/commit/f99755fa584d37f0524e956435652e894f90dd65))
+
+
+### Bug Fixes
+
+* **codegen:** lint warnings ([74aaa22](https://github.com/sumup/sumup-dotnet/commit/74aaa22c56be978145fe309207803ff2c8c07398))
+
 ## [0.0.3](https://github.com/sumup/sumup-dotnet/compare/v0.0.2...v0.0.3) (2026-01-04)
 
 
