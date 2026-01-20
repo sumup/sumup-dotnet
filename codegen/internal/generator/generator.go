@@ -121,6 +121,12 @@ func (g *Generator) Run(doc *v3.Document) error {
 	if err := g.renderRoot(tmpl, rootData); err != nil {
 		return err
 	}
+	if err := g.renderApiVersion(tmpl, apiVersionTemplateData{
+		Namespace:  g.config.Namespace,
+		ApiVersion: apiVersionFromSpec(doc),
+	}); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -152,6 +158,24 @@ func (g *Generator) renderRoot(t *template.Template, data rootTemplateData) erro
 
 	if err := t.ExecuteTemplate(file, "root_client.tmpl", data); err != nil {
 		return fmt.Errorf("render root template: %w", err)
+	}
+	return nil
+}
+
+func (g *Generator) renderApiVersion(t *template.Template, data apiVersionTemplateData) error {
+	targetDir := filepath.Join(g.config.OutputDir, "Http")
+	if err := os.MkdirAll(targetDir, 0o755); err != nil {
+		return fmt.Errorf("create http directory: %w", err)
+	}
+	filePath := filepath.Join(targetDir, "ApiVersion.g.cs")
+	file, err := os.Create(filePath)
+	if err != nil {
+		return fmt.Errorf("create api version file: %w", err)
+	}
+	defer file.Close()
+
+	if err := t.ExecuteTemplate(file, "api_version.tmpl", data); err != nil {
+		return fmt.Errorf("render api version template: %w", err)
 	}
 	return nil
 }
@@ -1176,6 +1200,11 @@ type rootTemplateData struct {
 	Clients   []clientTemplateData
 }
 
+type apiVersionTemplateData struct {
+	Namespace  string
+	ApiVersion string
+}
+
 func toMethodParameters(params []parameterTemplateData) []methodParameter {
 	result := make([]methodParameter, 0, len(params))
 	for _, param := range params {
@@ -1186,6 +1215,16 @@ func toMethodParameters(params []parameterTemplateData) []methodParameter {
 		})
 	}
 	return result
+}
+
+func apiVersionFromSpec(doc *v3.Document) string {
+	if doc != nil && doc.Info != nil {
+		version := strings.TrimSpace(doc.Info.Version)
+		if version != "" {
+			return version
+		}
+	}
+	return "1.0.0"
 }
 
 func hasCollections(params []parameterTemplateData) bool {
