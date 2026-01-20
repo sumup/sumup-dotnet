@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.0.5](https://github.com/sumup/sumup-dotnet/compare/v0.0.4...v0.0.5) (2026-01-20)
+
+
+### Features
+
+* **cd:** format generated code before comitting ([1e218cc](https://github.com/sumup/sumup-dotnet/commit/1e218cc8cfa9d74a949d6fc6b9e9455dc2eea2f4))
+* init ([0a8c79e](https://github.com/sumup/sumup-dotnet/commit/0a8c79ecd90928ec3578dd349500030798d15b21))
+* init ([c9ee5f5](https://github.com/sumup/sumup-dotnet/commit/c9ee5f5597bf5e5e38b1236b58a700c8e3898192))
+* report runtime info ([#13](https://github.com/sumup/sumup-dotnet/issues/13)) ([f99755f](https://github.com/sumup/sumup-dotnet/commit/f99755fa584d37f0524e956435652e894f90dd65))
+* **sdk:** package icon ([366b067](https://github.com/sumup/sumup-dotnet/commit/366b06757d8b252cccd46504be6a4b27b802f517))
+* **tooling:** dependabot ([01e6594](https://github.com/sumup/sumup-dotnet/commit/01e65944ea8f57fa47644f10edd04daf1dfff4ea))
+
+
+### Bug Fixes
+
+* **codegen:** lint warnings ([74aaa22](https://github.com/sumup/sumup-dotnet/commit/74aaa22c56be978145fe309207803ff2c8c07398))
+* license, package readme, community files ([5d0979e](https://github.com/sumup/sumup-dotnet/commit/5d0979e836347001d48bdef06248d728f0ef592e))
+
 ## [0.0.4](https://github.com/sumup/sumup-dotnet/compare/v0.0.3...v0.0.4) (2026-01-20)
 
 
