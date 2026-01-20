@@ -36,6 +36,7 @@ internal sealed class ApiClient
         request.Headers.Accept.Clear();
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         request.Headers.UserAgent.ParseAdd(_options.UserAgent);
+        RuntimeHeaders.Apply(request.Headers);
 
         return request;
     }
