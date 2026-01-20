@@ -2,6 +2,7 @@ package generator
 
 import (
 	"embed"
+	"errors"
 	"fmt"
 	"io/fs"
 	"os"
@@ -131,7 +132,7 @@ func (g *Generator) Run(doc *v3.Document) error {
 	return nil
 }
 
-func (g *Generator) renderClient(t *template.Template, client clientTemplateData) error {
+func (g *Generator) renderClient(t *template.Template, client clientTemplateData) (err error) {
 	filePath := filepath.Join(g.config.OutputDir, fmt.Sprintf("%sClient.g.cs", client.ClientName))
 	if err := os.MkdirAll(filepath.Dir(filePath), 0o755); err != nil {
 		return fmt.Errorf("create directory: %w", err)
@@ -140,7 +141,11 @@ func (g *Generator) renderClient(t *template.Template, client clientTemplateData
 	if err != nil {
 		return fmt.Errorf("create file: %w", err)
 	}
-	defer file.Close()
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil && err == nil {
+			err = fmt.Errorf("close client file: %w", closeErr)
+		}
+	}()
 
 	if err := t.ExecuteTemplate(file, "client.tmpl", client); err != nil {
 		return fmt.Errorf("render template %s: %w", client.ClientName, err)
@@ -148,13 +153,17 @@ func (g *Generator) renderClient(t *template.Template, client clientTemplateData
 	return nil
 }
 
-func (g *Generator) renderRoot(t *template.Template, data rootTemplateData) error {
+func (g *Generator) renderRoot(t *template.Template, data rootTemplateData) (err error) {
 	filePath := filepath.Join(g.config.OutputDir, "SumUpClient.g.cs")
 	file, err := os.Create(filePath)
 	if err != nil {
 		return fmt.Errorf("create root file: %w", err)
 	}
-	defer file.Close()
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil && err == nil {
+			err = fmt.Errorf("close root file: %w", closeErr)
+		}
+	}()
 
 	if err := t.ExecuteTemplate(file, "root_client.tmpl", data); err != nil {
 		return fmt.Errorf("render root template: %w", err)
@@ -162,7 +171,7 @@ func (g *Generator) renderRoot(t *template.Template, data rootTemplateData) erro
 	return nil
 }
 
-func (g *Generator) renderApiVersion(t *template.Template, data apiVersionTemplateData) error {
+func (g *Generator) renderApiVersion(t *template.Template, data apiVersionTemplateData) (err error) {
 	targetDir := filepath.Join(g.config.OutputDir, "Http")
 	if err := os.MkdirAll(targetDir, 0o755); err != nil {
 		return fmt.Errorf("create http directory: %w", err)
@@ -172,7 +181,11 @@ func (g *Generator) renderApiVersion(t *template.Template, data apiVersionTempla
 	if err != nil {
 		return fmt.Errorf("create api version file: %w", err)
 	}
-	defer file.Close()
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil && err == nil {
+			err = fmt.Errorf("close api version file: %w", closeErr)
+		}
+	}()
 
 	if err := t.ExecuteTemplate(file, "api_version.tmpl", data); err != nil {
 		return fmt.Errorf("render api version template: %w", err)
@@ -200,10 +213,18 @@ func (g *Generator) renderModels(t *template.Template, models []modelTemplateDat
 			return fmt.Errorf("create model file: %w", err)
 		}
 		if err := t.ExecuteTemplate(file, templateName, model); err != nil {
-			file.Close()
+			closeErr := file.Close()
+			if closeErr != nil {
+				return errors.Join(
+					fmt.Errorf("render model template %s: %w", model.Name, err),
+					fmt.Errorf("close model file %s: %w", model.Name, closeErr),
+				)
+			}
 			return fmt.Errorf("render model template %s: %w", model.Name, err)
 		}
-		file.Close()
+		if err := file.Close(); err != nil {
+			return fmt.Errorf("close model file %s: %w", model.Name, err)
+		}
 	}
 	return nil
 }
