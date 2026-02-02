@@ -666,28 +666,28 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 		usesCollections = true
 	}
 	data := operationTemplateData{
-		MethodName:      methodName,
-		HttpMethod:      method,
-		HttpMethodExpr:  httpMethodExpression(method),
-		Path:            path,
-		Summary:         summary,
-		Description:     description,
-		PathParams:      pathParams,
-		QueryParams:     queryParams,
-		HeaderParams:    headerParams,
-		Parameters:      allParams,
-		HasParameters:   len(allParams) > 0,
-		HasRequestBody:  body != nil,
-		Body:            body,
-		ResponseType:    responseInfo.TypeName,
-		HasBuilder:      len(pathParams)+len(queryParams)+len(headerParams) > 0,
-		HasPathParams:   len(pathParams) > 0,
-		HasQueryParams:  len(queryParams) > 0,
-		HasHeaderParams: len(headerParams) > 0,
-		UsesCollections: usesCollections,
+		MethodName:        methodName,
+		HttpMethod:        method,
+		HttpMethodExpr:    httpMethodExpression(method),
+		Path:              path,
+		Summary:           summary,
+		Description:       description,
+		PathParams:        pathParams,
+		QueryParams:       queryParams,
+		HeaderParams:      headerParams,
+		Parameters:        allParams,
+		HasParameters:     len(allParams) > 0,
+		HasRequestBody:    body != nil,
+		Body:              body,
+		ResponseType:      responseInfo.TypeName,
+		HasBuilder:        len(pathParams)+len(queryParams)+len(headerParams) > 0,
+		HasPathParams:     len(pathParams) > 0,
+		HasQueryParams:    len(queryParams) > 0,
+		HasHeaderParams:   len(headerParams) > 0,
+		UsesCollections:   usesCollections,
 		HasErrorResponses: len(errorResponses) > 0,
-		ErrorResponses: errorResponses,
-		ResponseMode:   responseMode,
+		ErrorResponses:    errorResponses,
+		ResponseMode:      responseMode,
 	}
 	return data, nil
 }
@@ -1356,38 +1356,38 @@ type enumValueTemplateData struct {
 }
 
 type clientTemplateData struct {
-	Namespace       string
-	ClientName      string
-	PropertyName    string
-	Operations      []operationTemplateData
-	UsesCollections bool
-	UsesJson        bool
+	Namespace          string
+	ClientName         string
+	PropertyName       string
+	Operations         []operationTemplateData
+	UsesCollections    bool
+	UsesJson           bool
 	UsesErrorResponses bool
 }
 
 type operationTemplateData struct {
-	MethodName      string
-	HttpMethod      string
-	HttpMethodExpr  string
-	Path            string
-	Summary         string
-	Description     string
-	PathParams      []parameterTemplateData
-	QueryParams     []parameterTemplateData
-	HeaderParams    []parameterTemplateData
-	Parameters      []methodParameter
-	HasParameters   bool
-	HasRequestBody  bool
-	Body            *bodyTemplateData
-	ResponseType    string
-	HasBuilder      bool
-	HasPathParams   bool
-	HasQueryParams  bool
-	HasHeaderParams bool
-	UsesCollections bool
+	MethodName        string
+	HttpMethod        string
+	HttpMethodExpr    string
+	Path              string
+	Summary           string
+	Description       string
+	PathParams        []parameterTemplateData
+	QueryParams       []parameterTemplateData
+	HeaderParams      []parameterTemplateData
+	Parameters        []methodParameter
+	HasParameters     bool
+	HasRequestBody    bool
+	Body              *bodyTemplateData
+	ResponseType      string
+	HasBuilder        bool
+	HasPathParams     bool
+	HasQueryParams    bool
+	HasHeaderParams   bool
+	UsesCollections   bool
 	HasErrorResponses bool
-	ErrorResponses []errorResponseTemplateData
-	ResponseMode   string
+	ErrorResponses    []errorResponseTemplateData
+	ResponseMode      string
 }
 
 type errorResponseTemplateData struct {
