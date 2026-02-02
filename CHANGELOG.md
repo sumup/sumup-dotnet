@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.5](https://github.com/sumup/sumup-dotnet/compare/v0.0.4...v0.0.5) (2026-02-02)
+
+
+### Features
+
+* improve error handling ([#20](https://github.com/sumup/sumup-dotnet/issues/20)) ([b0d7ced](https://github.com/sumup/sumup-dotnet/commit/b0d7cedda968dee3847aaa6c50c751f5bf54e97e))
+
+
+### Bug Fixes
+
+* user-agent version string ([542339a](https://github.com/sumup/sumup-dotnet/commit/542339a714f3072954b8ce8f6274b2ee1c42e9dc))
+
 ## [0.0.4](https://github.com/sumup/sumup-dotnet/compare/v0.0.3...v0.0.4) (2026-01-20)
 
 
