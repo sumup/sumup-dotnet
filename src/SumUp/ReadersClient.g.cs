@@ -33,7 +33,54 @@ public sealed partial class ReadersClient
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return _client.Send<Reader>(request, body, "application/json", cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 409:
+                    {
+                        var errorForStatus409 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<Reader>(stream, _client.SerializerOptions);
+            return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -50,7 +97,54 @@ public sealed partial class ReadersClient
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return await _client.SendAsync<Reader>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 409:
+                    {
+                        var errorForStatus409 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<Reader>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -69,7 +163,69 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
         });
-        return _client.Send<CreateReaderCheckoutResponse>(request, body, "application/json", cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<CreateReaderCheckoutUnprocessableEntity>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 502:
+                    {
+                        var errorForStatus502 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 504:
+                    {
+                        var errorForStatus504 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<CreateReaderCheckoutResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<CreateReaderCheckoutResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -88,7 +244,69 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
         });
-        return await _client.SendAsync<CreateReaderCheckoutResponse>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<CreateReaderCheckoutUnprocessableEntity>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 502:
+                    {
+                        var errorForStatus502 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 504:
+                    {
+                        var errorForStatus504 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
+                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<CreateReaderCheckoutResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<CreateReaderCheckoutResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -106,7 +324,38 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("id", id);
         });
-        return _client.Send<JsonDocument>(request, null, null, cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            return ApiResponse<JsonDocument>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -124,7 +373,38 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("id", id);
         });
-        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            return ApiResponse<JsonDocument>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -144,7 +424,40 @@ public sealed partial class ReadersClient
             builder.AddPath("id", id);
             builder.AddHeader("If-Modified-Since", ifModifiedSince);
         });
-        return _client.Send<Reader>(request, null, null, cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<Reader>(stream, _client.SerializerOptions);
+            return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -164,7 +477,40 @@ public sealed partial class ReadersClient
             builder.AddPath("id", id);
             builder.AddHeader("If-Modified-Since", ifModifiedSince);
         });
-        return await _client.SendAsync<Reader>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<Reader>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -188,7 +534,65 @@ public sealed partial class ReadersClient
             builder.AddHeader("Content-Type", contentType);
             builder.AddHeader("Authorization", authorization);
         });
-        return _client.Send<StatusResponse>(request, null, null, cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<BadRequest>(responseBody);
+                        throw new ApiException<BadRequest>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Unauthorized>(responseBody);
+                        throw new ApiException<Unauthorized>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<NotFound>(responseBody);
+                        throw new ApiException<NotFound>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<InternalServerError>(responseBody);
+                        throw new ApiException<InternalServerError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 502:
+                    {
+                        var errorForStatus502 = _client.TryDeserialize<BadGateway>(responseBody);
+                        throw new ApiException<BadGateway>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 504:
+                    {
+                        var errorForStatus504 = _client.TryDeserialize<GatewayTimeout>(responseBody);
+                        throw new ApiException<GatewayTimeout>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<StatusResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<StatusResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -212,7 +616,65 @@ public sealed partial class ReadersClient
             builder.AddHeader("Content-Type", contentType);
             builder.AddHeader("Authorization", authorization);
         });
-        return await _client.SendAsync<StatusResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<BadRequest>(responseBody);
+                        throw new ApiException<BadRequest>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Unauthorized>(responseBody);
+                        throw new ApiException<Unauthorized>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<NotFound>(responseBody);
+                        throw new ApiException<NotFound>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<InternalServerError>(responseBody);
+                        throw new ApiException<InternalServerError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 502:
+                    {
+                        var errorForStatus502 = _client.TryDeserialize<BadGateway>(responseBody);
+                        throw new ApiException<BadGateway>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 504:
+                    {
+                        var errorForStatus504 = _client.TryDeserialize<GatewayTimeout>(responseBody);
+                        throw new ApiException<GatewayTimeout>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<StatusResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<StatusResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -228,7 +690,32 @@ public sealed partial class ReadersClient
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return _client.Send<ReadersListResponse>(request, null, null, cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var jsonStream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var document = JsonDocument.Parse(jsonStream);
+            return ApiResponse<ReadersListResponse>.From((ReadersListResponse)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -244,7 +731,32 @@ public sealed partial class ReadersClient
         {
             builder.AddPath("merchant_code", merchantCode);
         });
-        return await _client.SendAsync<ReadersListResponse>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var jsonStream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<ReadersListResponse>.From((ReadersListResponse)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -262,7 +774,65 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
         });
-        return _client.Send<JsonDocument>(request, null, null, cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<CreateReaderTerminateUnprocessableEntity>(responseBody);
+                        throw new ApiException<CreateReaderTerminateUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 502:
+                    {
+                        var errorForStatus502 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 504:
+                    {
+                        var errorForStatus504 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<JsonDocument>(stream, _client.SerializerOptions);
+            return ApiResponse<JsonDocument>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -280,7 +850,65 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
         });
-        return await _client.SendAsync<JsonDocument>(request, null, null, cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<CreateReaderTerminateUnprocessableEntity>(responseBody);
+                        throw new ApiException<CreateReaderTerminateUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 502:
+                    {
+                        var errorForStatus502 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 504:
+                    {
+                        var errorForStatus504 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
+                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<JsonDocument>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<JsonDocument>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -299,7 +927,49 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("id", id);
         });
-        return _client.Send<Reader>(request, body, "application/json", cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 403:
+                    {
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<Reader>(stream, _client.SerializerOptions);
+            return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -318,6 +988,48 @@ public sealed partial class ReadersClient
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("id", id);
         });
-        return await _client.SendAsync<Reader>(request, body, "application/json", cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 403:
+                    {
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<Reader>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 }

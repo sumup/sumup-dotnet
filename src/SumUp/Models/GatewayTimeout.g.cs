@@ -4,9 +4,55 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text;
 /// <summary>504 Gateway Timeout</summary>
 public sealed partial class GatewayTimeout
 {
     [JsonPropertyName("errors")]
     public GatewayTimeoutErrors Errors { get; set; } = default!;
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("GatewayTimeout");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+        if (Errors is not null)
+        {
+            Append("errors", Errors);
+        }
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 }

@@ -4,9 +4,55 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text;
 /// <summary>Error description</summary>
 public sealed partial class CreateReaderTerminateError
 {
     [JsonPropertyName("errors")]
     public CreateReaderTerminateErrorErrors Errors { get; set; } = default!;
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("CreateReaderTerminateError");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+        if (Errors is not null)
+        {
+            Append("errors", Errors);
+        }
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 }

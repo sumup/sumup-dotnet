@@ -21,4 +21,4 @@ build:
 
 # Execute the unit test suite.
 test:
-  DOTNET_ROLL_FORWARD=Major dotnet test SumUp.sln
+  DOTNET_ROLL_FORWARD=Major MSBUILDDISABLENODEREUSE=1 MSBUILDNOINPROCNODE=1 dotnet test SumUp.sln --disable-build-servers

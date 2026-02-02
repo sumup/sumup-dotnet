@@ -4,6 +4,8 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text;
 /// <summary>Error message structure.</summary>
 public sealed partial class Error
 {
@@ -13,4 +15,52 @@ public sealed partial class Error
     /// <summary>Short description of the error.</summary>
     [JsonPropertyName("message")]
     public string? Message { get; set; }
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("Error");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(ErrorCode))
+        {
+            Append("error_code", ErrorCode);
+        }
+        if (!string.IsNullOrWhiteSpace(Message))
+        {
+            Append("message", Message);
+        }
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 }
