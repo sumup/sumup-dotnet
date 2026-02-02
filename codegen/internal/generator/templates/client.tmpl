@@ -53,7 +53,80 @@ public sealed partial class {{ .ClientName }}Client
         {{- else }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}");
         {{- end }}
-        return _client.Send<{{ .ResponseType }}>(request, {{ if .HasRequestBody }}{{ .Body.ArgName }}{{ else }}null{{ end }}, {{ if .HasRequestBody }}"{{ .Body.ContentType }}"{{ else }}null{{ end }}, cancellationToken, requestOptions);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            {{- if .HasRequestBody }}
+            if ({{ .Body.ArgName }} is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent({{ .Body.ArgName }}, "{{ .Body.ContentType }}");
+            }
+            {{- end }}
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+
+                {{- if .HasErrorResponses }}
+                switch ((int)response.StatusCode)
+                {
+                    {{- range .ErrorResponses }}
+                    {{- if not .IsDefault }}
+                    case {{ .StatusCodeLiteral }}:
+                    {
+                        var errorForStatus{{ .StatusCodeLiteral }} = _client.TryDeserialize<{{ .ErrorType }}>(responseBody);
+                        throw new ApiException<{{ .ErrorType }}>(response.StatusCode, errorForStatus{{ .StatusCodeLiteral }}, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    {{- end }}
+                    {{- end }}
+                }
+                {{- $defaultError := "" -}}
+                {{- range .ErrorResponses }}
+                {{- if .IsDefault }}
+                {{- $defaultError = .ErrorType -}}
+                {{- end }}
+                {{- end }}
+                {{- if $defaultError }}
+                var defaultError = _client.TryDeserialize<{{ $defaultError }}>(responseBody);
+                throw new ApiException<{{ $defaultError }}>(response.StatusCode, defaultError, responseBody, response.RequestMessage?.RequestUri);
+                {{- else }}
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                {{- end }}
+                {{- else }}
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                {{- end }}
+            }
+
+            {{- if eq .ResponseMode "none" }}
+            return ApiResponse<{{ .ResponseType }}>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- else if eq .ResponseMode "string" }}
+            var text = ApiClient.ReadContentAsStringAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            return ApiResponse<{{ .ResponseType }}>.From(({{ .ResponseType }})(object)text, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- else if eq .ResponseMode "json-document" }}
+            using var jsonStream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var document = JsonDocument.Parse(jsonStream);
+            return ApiResponse<{{ .ResponseType }}>.From(({{ .ResponseType }})(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- else }}
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<{{ .ResponseType }}>(stream, _client.SerializerOptions);
+            return ApiResponse<{{ .ResponseType }}>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- end }}
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 
     /// <summary>
@@ -85,7 +158,80 @@ public sealed partial class {{ .ClientName }}Client
         {{- else }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}");
         {{- end }}
-        return await _client.SendAsync<{{ .ResponseType }}>(request, {{ if .HasRequestBody }}{{ .Body.ArgName }}{{ else }}null{{ end }}, {{ if .HasRequestBody }}"{{ .Body.ContentType }}"{{ else }}null{{ end }}, cancellationToken, requestOptions).ConfigureAwait(false);
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            {{- if .HasRequestBody }}
+            if ({{ .Body.ArgName }} is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent({{ .Body.ArgName }}, "{{ .Body.ContentType }}");
+            }
+            {{- end }}
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+
+                {{- if .HasErrorResponses }}
+                switch ((int)response.StatusCode)
+                {
+                    {{- range .ErrorResponses }}
+                    {{- if not .IsDefault }}
+                    case {{ .StatusCodeLiteral }}:
+                    {
+                        var errorForStatus{{ .StatusCodeLiteral }} = _client.TryDeserialize<{{ .ErrorType }}>(responseBody);
+                        throw new ApiException<{{ .ErrorType }}>(response.StatusCode, errorForStatus{{ .StatusCodeLiteral }}, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    {{- end }}
+                    {{- end }}
+                }
+                {{- $defaultErrorAsync := "" -}}
+                {{- range .ErrorResponses }}
+                {{- if .IsDefault }}
+                {{- $defaultErrorAsync = .ErrorType -}}
+                {{- end }}
+                {{- end }}
+                {{- if $defaultErrorAsync }}
+                var defaultError = _client.TryDeserialize<{{ $defaultErrorAsync }}>(responseBody);
+                throw new ApiException<{{ $defaultErrorAsync }}>(response.StatusCode, defaultError, responseBody, response.RequestMessage?.RequestUri);
+                {{- else }}
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                {{- end }}
+                {{- else }}
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                {{- end }}
+            }
+
+            {{- if eq .ResponseMode "none" }}
+            return ApiResponse<{{ .ResponseType }}>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- else if eq .ResponseMode "string" }}
+            var text = await ApiClient.ReadContentAsStringAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<{{ .ResponseType }}>.From(({{ .ResponseType }})(object)text, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- else if eq .ResponseMode "json-document" }}
+            using var jsonStream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<{{ .ResponseType }}>.From(({{ .ResponseType }})(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- else }}
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<{{ .ResponseType }}>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<{{ .ResponseType }}>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            {{- end }}
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
     }
 {{- end }}
 }

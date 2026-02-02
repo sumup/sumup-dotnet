@@ -5,6 +5,8 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text;
 /// <summary>Error message structure.</summary>
 public sealed partial class DetailsError
 {
@@ -19,4 +21,60 @@ public sealed partial class DetailsError
     /// <summary>Short title of the error.</summary>
     [JsonPropertyName("title")]
     public string? Title { get; set; }
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("DetailsError");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(Details))
+        {
+            Append("details", Details);
+        }
+        if (FailedConstraints is not null)
+        {
+            Append("failed_constraints", FailedConstraints);
+        }
+        if (Status is not null)
+        {
+            Append("status", Status);
+        }
+        if (!string.IsNullOrWhiteSpace(Title))
+        {
+            Append("title", Title);
+        }
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 }

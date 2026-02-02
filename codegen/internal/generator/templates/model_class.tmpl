@@ -11,6 +11,9 @@ using System.Collections.Generic;
 {{- if .UsesJson }}
 using System.Text.Json;
 {{- end }}
+{{- if .EmitToString }}
+using System.Text;
+{{- end }}
 
 {{- if .Description }}
 /// <summary>{{ .Description }}</summary>
@@ -29,6 +32,72 @@ public sealed partial class {{ .Name }}
 
     [JsonExtensionData]
     public IDictionary<string, {{ .ExtensionDataValueType }}> ExtensionData { get; set; } = new Dictionary<string, {{ .ExtensionDataValueType }}>();
+{{- end }}
+
+{{- if .EmitToString }}
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("{{ .Name }}");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+
+        {{- range .Properties }}
+        {{- if or (eq .TypeName "string") (eq .TypeName "string?") }}
+        if (!string.IsNullOrWhiteSpace({{ .PropertyName }}))
+        {
+            Append("{{ .JsonName }}", {{ .PropertyName }});
+        }
+        {{- else if .IsValueType }}
+        {{- if .IsNullable }}
+        if ({{ .PropertyName }} is not null)
+        {
+            Append("{{ .JsonName }}", {{ .PropertyName }});
+        }
+        {{- else }}
+        Append("{{ .JsonName }}", {{ .PropertyName }});
+        {{- end }}
+        {{- else }}
+        if ({{ .PropertyName }} is not null)
+        {
+            Append("{{ .JsonName }}", {{ .PropertyName }});
+        }
+        {{- end }}
+        {{- end }}
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 {{- end }}
 }
 {{- end }}

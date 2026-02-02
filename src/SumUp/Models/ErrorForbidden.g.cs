@@ -4,6 +4,8 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text;
 /// <summary>Error message for forbidden requests.</summary>
 public sealed partial class ErrorForbidden
 {
@@ -16,4 +18,56 @@ public sealed partial class ErrorForbidden
     /// <summary>HTTP status code for the error.</summary>
     [JsonPropertyName("status_code")]
     public string? StatusCode { get; set; }
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("ErrorForbidden");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(ErrorCode))
+        {
+            Append("error_code", ErrorCode);
+        }
+        if (!string.IsNullOrWhiteSpace(ErrorMessage))
+        {
+            Append("error_message", ErrorMessage);
+        }
+        if (!string.IsNullOrWhiteSpace(StatusCode))
+        {
+            Append("status_code", StatusCode);
+        }
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 }

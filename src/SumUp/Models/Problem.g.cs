@@ -6,6 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text;
 /// <summary>A RFC 9457 problem details object. Additional properties specific to the problem type may be present.</summary>
 public sealed partial class Problem
 {
@@ -27,4 +28,64 @@ public sealed partial class Problem
 
     [JsonExtensionData]
     public IDictionary<string, JsonElement> ExtensionData { get; set; } = new Dictionary<string, JsonElement>();
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("Problem");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(Detail))
+        {
+            Append("detail", Detail);
+        }
+        if (!string.IsNullOrWhiteSpace(Instance))
+        {
+            Append("instance", Instance);
+        }
+        if (Status is not null)
+        {
+            Append("status", Status);
+        }
+        if (!string.IsNullOrWhiteSpace(Title))
+        {
+            Append("title", Title);
+        }
+        if (!string.IsNullOrWhiteSpace(Type))
+        {
+            Append("type", Type);
+        }
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 }

@@ -4,9 +4,55 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Text;
 /// <summary>400 Bad Request</summary>
 public sealed partial class BadRequest
 {
     [JsonPropertyName("errors")]
     public BadRequestErrors Errors { get; set; } = default!;
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        builder.Append("BadRequest");
+        var hasValue = false;
+
+        void Append(string label, object? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+            if (!hasValue)
+            {
+                builder.Append(" (");
+                hasValue = true;
+            }
+            else
+            {
+                builder.Append(", ");
+            }
+            builder.Append(label).Append(": ").Append(value);
+        }
+
+        void Close()
+        {
+            if (hasValue)
+            {
+                builder.Append(")");
+            }
+        }
+        if (Errors is not null)
+        {
+            Append("errors", Errors);
+        }
+
+        Close();
+        if (hasValue)
+        {
+            return builder.ToString();
+        }
+        return JsonSerializer.Serialize(this);
+    }
 }

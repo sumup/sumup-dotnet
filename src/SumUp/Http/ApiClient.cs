@@ -16,6 +16,10 @@ internal sealed class ApiClient
     private readonly SumUpClientOptions _options;
     private readonly JsonSerializerOptions _serializerOptions;
 
+    internal HttpClient HttpClient => _httpClient;
+
+    internal JsonSerializerOptions SerializerOptions => _serializerOptions;
+
     internal ApiClient(HttpClient httpClient, SumUpClientOptions options)
     {
         _httpClient = httpClient;
@@ -41,83 +45,7 @@ internal sealed class ApiClient
         return request;
     }
 
-    internal async Task<ApiResponse<T>> SendAsync<T>(
-        HttpRequestMessage request,
-        object? body,
-        string? contentType,
-        CancellationToken cancellationToken,
-        RequestOptions? requestOptions = null)
-    {
-        var effectiveCancellationToken = CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
-
-        try
-        {
-            await ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
-
-            if (body is not null && request.Content is null)
-            {
-                request.Content = CreateContent(body, contentType);
-            }
-
-            using var response = await _httpClient.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
-                effectiveCancellationToken).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = response.Content is null
-                    ? null
-                    : await ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
-
-                ApiError? error = null;
-                if (!string.IsNullOrEmpty(responseBody))
-                {
-                    error = TryDeserialize<ApiError>(responseBody!);
-                }
-
-                throw new ApiException(response.StatusCode, error, responseBody, response.RequestMessage?.RequestUri);
-            }
-
-            if (response.Content == null || response.Content.Headers.ContentLength == 0)
-            {
-                return ApiResponse<T>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-            }
-
-            if (typeof(T) == typeof(JsonDocument))
-            {
-                using var jsonStream = await ReadContentAsStreamAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
-                var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
-                return ApiResponse<T>.From((T)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-            }
-
-            if (typeof(T) == typeof(string))
-            {
-                var text = await ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
-                return ApiResponse<T>.From((T)(object)text, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-            }
-
-            using var stream = await ReadContentAsStreamAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
-            var result = await JsonSerializer.DeserializeAsync<T>(stream, _serializerOptions, effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<T>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-        finally
-        {
-            timeoutScope?.Dispose();
-        }
-    }
-
-    internal ApiResponse<T> Send<T>(
-        HttpRequestMessage request,
-        object? body,
-        string? contentType,
-        CancellationToken cancellationToken,
-        RequestOptions? requestOptions = null)
-    {
-        return SendAsync<T>(request, body, contentType, cancellationToken, requestOptions).GetAwaiter().GetResult();
-    }
-
-    private HttpContent CreateContent(object body, string? contentType)
+    internal HttpContent CreateContent(object body, string? contentType)
     {
         if (body is HttpContent httpContent)
         {
@@ -152,11 +80,16 @@ internal sealed class ApiClient
         return new StringContent(json, Encoding.UTF8, contentType ?? "application/json");
     }
 
-    private TModel? TryDeserialize<TModel>(string payload)
+    internal TModel? TryDeserialize<TModel>(string? payload)
     {
+        if (string.IsNullOrEmpty(payload))
+        {
+            return default;
+        }
+
         try
         {
-            return JsonSerializer.Deserialize<TModel>(payload, _serializerOptions);
+            return JsonSerializer.Deserialize<TModel>(payload!, _serializerOptions);
         }
         catch
         {
@@ -164,7 +97,7 @@ internal sealed class ApiClient
         }
     }
 
-    private static Task<string> ReadContentAsStringAsync(HttpContent content, CancellationToken cancellationToken)
+    internal static Task<string> ReadContentAsStringAsync(HttpContent content, CancellationToken cancellationToken)
     {
 #if NETSTANDARD2_0
         cancellationToken.ThrowIfCancellationRequested();
@@ -174,7 +107,7 @@ internal sealed class ApiClient
 #endif
     }
 
-    private static Task<Stream> ReadContentAsStreamAsync(HttpContent content, CancellationToken cancellationToken)
+    internal static Task<Stream> ReadContentAsStreamAsync(HttpContent content, CancellationToken cancellationToken)
     {
 #if NETSTANDARD2_0
         cancellationToken.ThrowIfCancellationRequested();
@@ -184,7 +117,7 @@ internal sealed class ApiClient
 #endif
     }
 
-    private async Task ApplyAuthorizationHeaderAsync(
+    internal async Task ApplyAuthorizationHeaderAsync(
         HttpRequestMessage request,
         CancellationToken cancellationToken,
         RequestOptions? requestOptions)
@@ -218,7 +151,7 @@ internal sealed class ApiClient
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
     }
 
-    private static CancellationToken CreateCancellationToken(
+    internal static CancellationToken CreateCancellationToken(
         CancellationToken cancellationToken,
         RequestOptions? requestOptions,
         out CancellationTokenSource? timeoutScope)

@@ -52,6 +52,7 @@ type Generator struct {
 	schemaTypes  map[string]*schemaTypeInfo
 	inlineModels []modelTemplateData
 	modelNames   map[string]struct{}
+	errorModels  map[string]struct{}
 }
 
 // New returns a new Generator.
@@ -60,6 +61,7 @@ func New(config Config) *Generator {
 		config:      config,
 		schemaTypes: map[string]*schemaTypeInfo{},
 		modelNames:  map[string]struct{}{},
+		errorModels: map[string]struct{}{},
 	}
 }
 
@@ -71,6 +73,7 @@ func (g *Generator) Run(doc *v3.Document) error {
 
 	g.inlineModels = nil
 	g.modelNames = map[string]struct{}{}
+	g.errorModels = map[string]struct{}{}
 
 	if g.config.Namespace == "" {
 		g.config.Namespace = "SumUp"
@@ -103,6 +106,13 @@ func (g *Generator) Run(doc *v3.Document) error {
 		sort.Slice(models, func(i, j int) bool {
 			return models[i].Name < models[j].Name
 		})
+	}
+
+	for i := range models {
+		if _, ok := g.errorModels[models[i].Name]; ok {
+			models[i].EmitToString = true
+			models[i].UsesJson = true
+		}
 	}
 
 	if err := g.renderModels(tmpl, models); err != nil {
@@ -412,6 +422,8 @@ func (g *Generator) collectProperties(ownerName string, schema *base.Schema) ([]
 				Description:      desc,
 				Required:         required,
 				NeedsInitializer: required && !typeInfo.IsValueType && !strings.HasSuffix(typeInfo.TypeName, "?"),
+				IsValueType:      typeInfo.IsValueType,
+				IsNullable:       strings.HasSuffix(typeInfo.TypeName, "?"),
 			}
 			propMap[name] = prop
 			if typeInfo.IsCollection {
@@ -550,6 +562,9 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			ct.Operations = append(ct.Operations, method)
 			ct.UsesCollections = ct.UsesCollections || method.UsesCollections
 			ct.UsesJson = true // responses default to JSON
+			if method.HasErrorResponses {
+				ct.UsesErrorResponses = true
+			}
 		}
 	}
 
@@ -618,6 +633,14 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 	if err != nil {
 		return operationTemplateData{}, err
 	}
+	responseMode, err := g.resolveResponseMode(op)
+	if err != nil {
+		return operationTemplateData{}, err
+	}
+	errorResponses, err := g.resolveErrorResponses(op, clientName, methodName)
+	if err != nil {
+		return operationTemplateData{}, err
+	}
 
 	allParams := append(append([]methodParameter{}, toMethodParameters(pathParams)...), toMethodParameters(queryParams)...)
 	allParams = append(allParams, toMethodParameters(headerParams)...)
@@ -643,25 +666,28 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 		usesCollections = true
 	}
 	data := operationTemplateData{
-		MethodName:      methodName,
-		HttpMethod:      method,
-		HttpMethodExpr:  httpMethodExpression(method),
-		Path:            path,
-		Summary:         summary,
-		Description:     description,
-		PathParams:      pathParams,
-		QueryParams:     queryParams,
-		HeaderParams:    headerParams,
-		Parameters:      allParams,
-		HasParameters:   len(allParams) > 0,
-		HasRequestBody:  body != nil,
-		Body:            body,
-		ResponseType:    responseInfo.TypeName,
-		HasBuilder:      len(pathParams)+len(queryParams)+len(headerParams) > 0,
-		HasPathParams:   len(pathParams) > 0,
-		HasQueryParams:  len(queryParams) > 0,
-		HasHeaderParams: len(headerParams) > 0,
-		UsesCollections: usesCollections,
+		MethodName:        methodName,
+		HttpMethod:        method,
+		HttpMethodExpr:    httpMethodExpression(method),
+		Path:              path,
+		Summary:           summary,
+		Description:       description,
+		PathParams:        pathParams,
+		QueryParams:       queryParams,
+		HeaderParams:      headerParams,
+		Parameters:        allParams,
+		HasParameters:     len(allParams) > 0,
+		HasRequestBody:    body != nil,
+		Body:              body,
+		ResponseType:      responseInfo.TypeName,
+		HasBuilder:        len(pathParams)+len(queryParams)+len(headerParams) > 0,
+		HasPathParams:     len(pathParams) > 0,
+		HasQueryParams:    len(queryParams) > 0,
+		HasHeaderParams:   len(headerParams) > 0,
+		UsesCollections:   usesCollections,
+		HasErrorResponses: len(errorResponses) > 0,
+		ErrorResponses:    errorResponses,
+		ResponseMode:      responseMode,
 	}
 	return data, nil
 }
@@ -842,6 +868,122 @@ func (g *Generator) resolveResponseType(op *v3.Operation, clientName, methodName
 	return g.nullableType("JsonDocument", false, true), nil
 }
 
+func (g *Generator) resolveErrorResponses(op *v3.Operation, clientName, methodName string) ([]errorResponseTemplateData, error) {
+	if op == nil || op.Responses == nil || op.Responses.Codes == nil || op.Responses.Codes.Len() == 0 {
+		if op != nil && op.Responses != nil && op.Responses.Default != nil {
+			return g.resolveDefaultErrorResponse(op.Responses.Default, clientName, methodName)
+		}
+		return nil, nil
+	}
+
+	codes := make([]string, 0, op.Responses.Codes.Len())
+	for code := range op.Responses.Codes.KeysFromOldest() {
+		codes = append(codes, code)
+	}
+	sort.Strings(codes)
+
+	var responses []errorResponseTemplateData
+	for _, code := range codes {
+		if strings.HasPrefix(code, "2") {
+			continue
+		}
+		resp := op.Responses.Codes.GetOrZero(code)
+		parsed, err := g.errorResponseForCode(resp, code, clientName, methodName)
+		if err != nil {
+			return nil, err
+		}
+		if parsed != nil {
+			responses = append(responses, *parsed)
+		}
+	}
+
+	if op.Responses.Default != nil {
+		defaultResponses, err := g.resolveDefaultErrorResponse(op.Responses.Default, clientName, methodName)
+		if err != nil {
+			return nil, err
+		}
+		responses = append(responses, defaultResponses...)
+	}
+
+	return responses, nil
+}
+
+func (g *Generator) resolveDefaultErrorResponse(resp *v3.Response, clientName, methodName string) ([]errorResponseTemplateData, error) {
+	parsed, err := g.errorResponseForCode(resp, "default", clientName, methodName)
+	if err != nil {
+		return nil, err
+	}
+	if parsed == nil {
+		return nil, nil
+	}
+	return []errorResponseTemplateData{*parsed}, nil
+}
+
+func (g *Generator) errorResponseForCode(resp *v3.Response, code, clientName, methodName string) (*errorResponseTemplateData, error) {
+	if resp == nil {
+		return nil, nil
+	}
+	statusSuffix := statusCodeSuffix(code)
+	inlineBase := fmt.Sprintf("%s%sError%s", clientName, methodName, statusSuffix)
+	info, err := g.responseTypeForResponse(resp, inlineBase)
+	if err != nil {
+		return nil, err
+	}
+	if info.TypeName == "" {
+		return nil, nil
+	}
+	errorType := strings.TrimSuffix(info.TypeName, "?")
+	if errorType != "" {
+		g.errorModels[errorType] = struct{}{}
+	}
+	isDefault := strings.EqualFold(code, "default")
+	statusLiteral := statusCodeLiteral(code)
+	if !isDefault && statusLiteral == "" {
+		return nil, nil
+	}
+	return &errorResponseTemplateData{
+		StatusCodeLiteral: statusLiteral,
+		ErrorType:         errorType,
+		IsDefault:         isDefault,
+	}, nil
+}
+
+func statusCodeLiteral(code string) string {
+	if strings.EqualFold(code, "default") {
+		return ""
+	}
+	if isNumericStatusCode(code) {
+		return code
+	}
+	return ""
+}
+
+func statusCodeSuffix(code string) string {
+	if strings.EqualFold(code, "default") {
+		return "Default"
+	}
+	if isNumericStatusCode(code) {
+		return code
+	}
+	parsed := naming.PascalIdentifier(code)
+	if parsed == "" {
+		return "Unknown"
+	}
+	return parsed
+}
+
+func isNumericStatusCode(code string) bool {
+	if len(code) != 3 {
+		return false
+	}
+	for _, r := range code {
+		if r < '0' || r > '9' {
+			return false
+		}
+	}
+	return true
+}
+
 func (g *Generator) responseTypeForResponse(resp *v3.Response, inlineBase string) (typeInfo, error) {
 	if resp == nil || resp.Content == nil || resp.Content.Len() == 0 {
 		return typeInfo{}, nil
@@ -851,6 +993,58 @@ func (g *Generator) responseTypeForResponse(resp *v3.Response, inlineBase string
 		return typeInfo{}, nil
 	}
 	return g.resolveInlineSchemaType(schemaRef, true, inlineBase)
+}
+
+func (g *Generator) resolveResponseMode(op *v3.Operation) (string, error) {
+	if op == nil || op.Responses == nil || op.Responses.Codes == nil || op.Responses.Codes.Len() == 0 {
+		return "none", nil
+	}
+	codes := make([]string, 0, op.Responses.Codes.Len())
+	for code := range op.Responses.Codes.KeysFromOldest() {
+		codes = append(codes, code)
+	}
+	sort.Strings(codes)
+	for _, code := range codes {
+		if !strings.HasPrefix(code, "2") {
+			continue
+		}
+		resp := op.Responses.Codes.GetOrZero(code)
+		return g.responseModeForResponse(resp)
+	}
+	if resp := op.Responses.Default; resp != nil {
+		return g.responseModeForResponse(resp)
+	}
+	return "none", nil
+}
+
+func (g *Generator) responseModeForResponse(resp *v3.Response) (string, error) {
+	if resp == nil || resp.Content == nil || resp.Content.Len() == 0 {
+		return "none", nil
+	}
+	contentType := firstContentType(resp.Content)
+	schemaRef := preferredSchema(resp.Content)
+	if schemaRef == nil {
+		if strings.Contains(strings.ToLower(contentType), "text/") {
+			return "string", nil
+		}
+		return "json", nil
+	}
+
+	typeInfo, err := g.resolveInlineSchemaType(schemaRef, true, "")
+	if err != nil {
+		return "", err
+	}
+	typeName := strings.TrimSuffix(typeInfo.TypeName, "?")
+	if typeName == "string" {
+		return "string", nil
+	}
+	if typeName == "JsonDocument" {
+		if strings.Contains(strings.ToLower(contentType), "text/") {
+			return "string", nil
+		}
+		return "json-document", nil
+	}
+	return "json", nil
 }
 
 func (g *Generator) operationBaseName(method, path string, op *v3.Operation) string {
@@ -1142,6 +1336,7 @@ type modelTemplateData struct {
 	UsesJson               bool
 	HasExtensionData       bool
 	ExtensionDataValueType string
+	EmitToString           bool
 }
 
 type modelPropertyTemplateData struct {
@@ -1151,6 +1346,8 @@ type modelPropertyTemplateData struct {
 	Description      string
 	Required         bool
 	NeedsInitializer bool
+	IsValueType      bool
+	IsNullable       bool
 }
 
 type enumValueTemplateData struct {
@@ -1159,34 +1356,44 @@ type enumValueTemplateData struct {
 }
 
 type clientTemplateData struct {
-	Namespace       string
-	ClientName      string
-	PropertyName    string
-	Operations      []operationTemplateData
-	UsesCollections bool
-	UsesJson        bool
+	Namespace          string
+	ClientName         string
+	PropertyName       string
+	Operations         []operationTemplateData
+	UsesCollections    bool
+	UsesJson           bool
+	UsesErrorResponses bool
 }
 
 type operationTemplateData struct {
-	MethodName      string
-	HttpMethod      string
-	HttpMethodExpr  string
-	Path            string
-	Summary         string
-	Description     string
-	PathParams      []parameterTemplateData
-	QueryParams     []parameterTemplateData
-	HeaderParams    []parameterTemplateData
-	Parameters      []methodParameter
-	HasParameters   bool
-	HasRequestBody  bool
-	Body            *bodyTemplateData
-	ResponseType    string
-	HasBuilder      bool
-	HasPathParams   bool
-	HasQueryParams  bool
-	HasHeaderParams bool
-	UsesCollections bool
+	MethodName        string
+	HttpMethod        string
+	HttpMethodExpr    string
+	Path              string
+	Summary           string
+	Description       string
+	PathParams        []parameterTemplateData
+	QueryParams       []parameterTemplateData
+	HeaderParams      []parameterTemplateData
+	Parameters        []methodParameter
+	HasParameters     bool
+	HasRequestBody    bool
+	Body              *bodyTemplateData
+	ResponseType      string
+	HasBuilder        bool
+	HasPathParams     bool
+	HasQueryParams    bool
+	HasHeaderParams   bool
+	UsesCollections   bool
+	HasErrorResponses bool
+	ErrorResponses    []errorResponseTemplateData
+	ResponseMode      string
+}
+
+type errorResponseTemplateData struct {
+	StatusCodeLiteral string
+	ErrorType         string
+	IsDefault         bool
 }
 
 type parameterTemplateData struct {

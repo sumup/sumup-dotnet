@@ -6,22 +6,25 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text;
-public sealed partial class ErrorExtended
+public sealed partial class MerchantsGetPersonError404
 {
-    /// <summary>Platform code for the error.</summary>
-    [JsonPropertyName("error_code")]
-    public string? ErrorCode { get; set; }
-    /// <summary>Short description of the error.</summary>
+    /// <summary>The category of the error.</summary>
+    [JsonPropertyName("category")]
+    public ErrorCategoryClient? Category { get; set; }
+    /// <summary>An error code specifying the exact error that occurred.</summary>
+    [JsonPropertyName("code")]
+    public ErrorCodeNotFound? Code { get; set; }
+    /// <summary>A unique identifier for the error instance. This can be used to trace the error back to the server logs.</summary>
+    [JsonPropertyName("instance")]
+    public string? Instance { get; set; }
+    /// <summary>A human-readable message describing the error that occurred.</summary>
     [JsonPropertyName("message")]
     public string? Message { get; set; }
-    /// <summary>Parameter name (with relative location) to which the error applies. Parameters from embedded resources are displayed using dot notation. For example, `card.name` refers to the `name` parameter embedded in the `card` object.</summary>
-    [JsonPropertyName("param")]
-    public string? Param { get; set; }
 
     public override string ToString()
     {
         var builder = new StringBuilder();
-        builder.Append("ErrorExtended");
+        builder.Append("MerchantsGetPersonError404");
         var hasValue = false;
 
         void Append(string label, object? value)
@@ -49,17 +52,21 @@ public sealed partial class ErrorExtended
                 builder.Append(")");
             }
         }
-        if (!string.IsNullOrWhiteSpace(ErrorCode))
+        if (Category is not null)
         {
-            Append("error_code", ErrorCode);
+            Append("category", Category);
+        }
+        if (Code is not null)
+        {
+            Append("code", Code);
+        }
+        if (!string.IsNullOrWhiteSpace(Instance))
+        {
+            Append("instance", Instance);
         }
         if (!string.IsNullOrWhiteSpace(Message))
         {
             Append("message", Message);
-        }
-        if (!string.IsNullOrWhiteSpace(Param))
-        {
-            Append("param", Param);
         }
 
         Close();
