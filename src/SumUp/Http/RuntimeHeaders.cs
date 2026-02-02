@@ -1,6 +1,5 @@
 using System;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace SumUp.Http;
@@ -10,8 +9,7 @@ internal static class RuntimeHeaders
     private const string Language = "dotnet";
     private const string Runtime = "dotnet";
 
-    private static readonly string PackageVersion =
-        Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
+    private static readonly string PackageVersion = PackageInfo.Version;
 
     private static readonly string OsName = GetOsName();
     private static readonly string RuntimeArch = GetArchitecture();

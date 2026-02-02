@@ -1,6 +1,5 @@
 using System;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,8 +10,6 @@ namespace SumUp;
 /// </summary>
 public sealed class SumUpClientOptions
 {
-    private static readonly string Version =
-        Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
     private const string AccessTokenEnvironmentVariable = "SUMUP_ACCESS_TOKEN";
 
     /// <summary>
@@ -38,7 +35,7 @@ public sealed class SumUpClientOptions
     /// <summary>
     /// Gets or sets the user agent sent with every request.
     /// </summary>
-    public string UserAgent { get; set; } = $"sumup-dotnet/{Version}";
+    public string UserAgent { get; set; } = PackageInfo.UserAgent;
 
     /// <summary>
     /// Supply a custom <see cref="HttpClient"/> instance when you need to control its lifecycle (for DI scenarios).
