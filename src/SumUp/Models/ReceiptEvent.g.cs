@@ -8,7 +8,7 @@ public sealed partial class ReceiptEvent
 {
     /// <summary>Amount of the event.</summary>
     [JsonPropertyName("amount")]
-    public float? Amount { get; set; }
+    public string? Amount { get; set; }
     /// <summary>Unique ID of the transaction event.</summary>
     [JsonPropertyName("id")]
     public long? Id { get; set; }
