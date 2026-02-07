@@ -18,7 +18,7 @@ public sealed partial class Card
     public string ExpiryYear { get; set; } = default!;
     /// <summary>Last 4 digits of the payment card number.</summary>
     [JsonPropertyName("last_4_digits")]
-    public string Last4Digits { get; set; } = default!;
+    public string Last4Digits { get; } = default!;
     /// <summary>Name of the cardholder as it appears on the payment card.</summary>
     [JsonPropertyName("name")]
     public string Name { get; set; } = default!;

@@ -27,7 +27,7 @@ public sealed partial class CheckoutSuccess
     public string? Description { get; set; }
     /// <summary>Unique ID of the checkout resource.</summary>
     [JsonPropertyName("id")]
-    public string? Id { get; set; }
+    public string? Id { get; }
     /// <summary>Created mandate</summary>
     [JsonPropertyName("mandate")]
     public MandateResponse? Mandate { get; set; }
@@ -51,10 +51,10 @@ public sealed partial class CheckoutSuccess
     public string? Status { get; set; }
     /// <summary>Transaction code of the successful transaction with which the payment for the checkout is completed.</summary>
     [JsonPropertyName("transaction_code")]
-    public string? TransactionCode { get; set; }
+    public string? TransactionCode { get; }
     /// <summary>Transaction ID of the successful transaction with which the payment for the checkout is completed.</summary>
     [JsonPropertyName("transaction_id")]
-    public string? TransactionId { get; set; }
+    public string? TransactionId { get; }
     /// <summary>List of transactions related to the payment.</summary>
     [JsonPropertyName("transactions")]
     public IEnumerable<CheckoutSuccessTransactionsItem>? Transactions { get; set; }

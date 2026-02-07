@@ -421,6 +421,7 @@ func (g *Generator) collectProperties(ownerName string, schema *base.Schema) ([]
 				TypeName:         typeInfo.TypeName,
 				Description:      desc,
 				Required:         required,
+				IsReadOnly:       schemaIsReadOnly(g.schemaFromProxy(propRef)),
 				NeedsInitializer: required && !typeInfo.IsValueType && !strings.HasSuffix(typeInfo.TypeName, "?"),
 				IsValueType:      typeInfo.IsValueType,
 				IsNullable:       strings.HasSuffix(typeInfo.TypeName, "?"),
@@ -1310,6 +1311,10 @@ func schemaHasType(schema *base.Schema, target string) bool {
 	return false
 }
 
+func schemaIsReadOnly(schema *base.Schema) bool {
+	return schema != nil && schema.ReadOnly != nil && *schema.ReadOnly
+}
+
 func canonicalMethodName(method string) string {
 	if method == "" {
 		return ""
@@ -1345,6 +1350,7 @@ type modelPropertyTemplateData struct {
 	TypeName         string
 	Description      string
 	Required         bool
+	IsReadOnly       bool
 	NeedsInitializer bool
 	IsValueType      bool
 	IsNullable       bool

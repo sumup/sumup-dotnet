@@ -20,7 +20,7 @@ public sealed partial class Merchant
     public string? BusinessType { get; set; }
     /// <summary>Reflects the status of changes submitted through the `PATCH` endpoints for the merchant or persons. If some changes have not been applied yet, the status will be `pending`. If all changes have been applied, the status `done`. The status is only returned after write operations or on read endpoints when the `version` query parameter is provided.</summary>
     [JsonPropertyName("change_status")]
-    public string? ChangeStatus { get; set; }
+    public string? ChangeStatus { get; }
     [JsonPropertyName("classic")]
     public ClassicMerchantIdentifiers? Classic { get; set; }
     /// <summary>Information about the company or business. This is legal information that is used for verification.</summary>
@@ -31,16 +31,16 @@ public sealed partial class Merchant
     public string Country { get; set; } = default!;
     /// <summary>The date and time when the resource was created. This is a string as defined in [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6).</summary>
     [JsonPropertyName("created_at")]
-    public DateTimeOffset CreatedAt { get; set; } = default!;
+    public DateTimeOffset CreatedAt { get; } = default!;
     /// <summary>Three-letter [ISO currency code](https://en.wikipedia.org/wiki/ISO_4217) representing the default currency for the account.</summary>
     [JsonPropertyName("default_currency")]
-    public string DefaultCurrency { get; set; } = default!;
+    public string DefaultCurrency { get; } = default!;
     /// <summary>Merchant's default locale, represented as a BCP47 [RFC5646](https://datatracker.ietf.org/doc/html/rfc5646) language tag. This is typically an ISO 639-1 Alpha-2 [ISO639‑1](https://www.iso.org/iso-639-language-code) language code in lowercase and an ISO 3166-1 Alpha-2 [ISO3166‑1](https://www.iso.org/iso-3166-country-codes.html) country code in uppercase, separated by a dash. For example, en-US or fr-CA. In multilingual countries this is the merchant's preferred locale out of those, that are officially spoken in the country. In a countries with a single official language this will match the official language.</summary>
     [JsonPropertyName("default_locale")]
     public string DefaultLocale { get; set; } = default!;
     /// <summary>Short unique identifier for the merchant.</summary>
     [JsonPropertyName("merchant_code")]
-    public string MerchantCode { get; set; } = default!;
+    public string MerchantCode { get; } = default!;
     /// <summary>A set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. **Warning**: Updating Meta will overwrite the existing data. Make sure to always include the complete JSON object.</summary>
     [JsonPropertyName("meta")]
     public Meta? Meta { get; set; }
@@ -52,7 +52,7 @@ public sealed partial class Merchant
     public bool? Sandbox { get; set; }
     /// <summary>The date and time when the resource was last updated. This is a string as defined in [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6).</summary>
     [JsonPropertyName("updated_at")]
-    public DateTimeOffset UpdatedAt { get; set; } = default!;
+    public DateTimeOffset UpdatedAt { get; } = default!;
     /// <summary>The version of the resource. The version reflects a specific change submitted to the API via one of the `PATCH` endpoints.</summary>
     [JsonPropertyName("version")]
     public string? Version { get; set; }
