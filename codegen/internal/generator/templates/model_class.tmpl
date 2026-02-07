@@ -26,7 +26,7 @@ public sealed partial class {{ .Name }}
     /// <summary>{{ .Description }}</summary>
 {{- end }}
     [JsonPropertyName("{{ .JsonName }}")]
-    public {{ .TypeName }} {{ .PropertyName }} { get; set; }{{ if .NeedsInitializer }} = default!;{{ end }}
+    public {{ .TypeName }} {{ .PropertyName }} { get;{{- if not .IsReadOnly }} set;{{- end }} }{{ if .NeedsInitializer }} = default!;{{ end }}
 {{- end }}
 {{- if .HasExtensionData }}
 

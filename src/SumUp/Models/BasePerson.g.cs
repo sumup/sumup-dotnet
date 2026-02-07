@@ -16,7 +16,7 @@ public sealed partial class BasePerson
     public DateTime? Birthdate { get; set; }
     /// <summary>Reflects the status of changes submitted through the `PATCH` endpoints for the merchant or persons. If some changes have not been applied yet, the status will be `pending`. If all changes have been applied, the status `done`. The status is only returned after write operations or on read endpoints when the `version` query parameter is provided.</summary>
     [JsonPropertyName("change_status")]
-    public string? ChangeStatus { get; set; }
+    public string? ChangeStatus { get; }
     /// <summary>An [ISO3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code. This definition users `oneOf` with a two-character string type to allow for support of future countries in client code.</summary>
     [JsonPropertyName("citizenship")]
     public string? Citizenship { get; set; }
@@ -31,7 +31,7 @@ public sealed partial class BasePerson
     public string? GivenName { get; set; }
     /// <summary>The unique identifier for the person. This is a [typeid](https://github.com/sumup/typeid).</summary>
     [JsonPropertyName("id")]
-    public string Id { get; set; } = default!;
+    public string Id { get; } = default!;
     /// <summary>A list of country-specific personal identifiers.</summary>
     [JsonPropertyName("identifiers")]
     public IEnumerable<PersonalIdentifier>? Identifiers { get; set; }

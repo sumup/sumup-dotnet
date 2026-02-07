@@ -9,7 +9,7 @@ public sealed partial class CardResponse
 {
     /// <summary>Last 4 digits of the payment card number.</summary>
     [JsonPropertyName("last_4_digits")]
-    public string? Last4Digits { get; set; }
+    public string? Last4Digits { get; }
     /// <summary>Issuing card network of the payment card used for the transaction.</summary>
     [JsonPropertyName("type")]
     public CardType? Type { get; set; }

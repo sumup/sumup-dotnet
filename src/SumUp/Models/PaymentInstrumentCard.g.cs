@@ -9,13 +9,13 @@ public sealed partial class PaymentInstrumentCard
 {
     /// <summary>Indicates whether the payment instrument is active and can be used for payments. To deactivate it, send a `DELETE` request to the resource endpoint.</summary>
     [JsonPropertyName("active")]
-    public bool Active { get; set; }
+    public bool Active { get; }
     /// <summary>__Required when payment type is `card`.__ Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public Card Card { get; set; } = default!;
     /// <summary>Unique token identifying the saved payment card for a customer.</summary>
     [JsonPropertyName("token")]
-    public string Token { get; set; } = default!;
+    public string Token { get; } = default!;
     /// <summary>Type of the payment instrument.</summary>
     [JsonPropertyName("type")]
     public string Type { get; set; } = default!;
