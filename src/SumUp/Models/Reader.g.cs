@@ -22,6 +22,9 @@ public sealed partial class Reader
     /// <summary>Custom human-readable, user-defined name for easier identification of the reader.</summary>
     [JsonPropertyName("name")]
     public string Name { get; set; } = default!;
+    /// <summary>Identifier of the system-managed service account associated with this reader. Present only for readers that are already paired. This field is currently in beta and may change.</summary>
+    [JsonPropertyName("service_account_id")]
+    public Guid? ServiceAccountId { get; set; }
     /// <summary>The status of the reader object gives information about the current state of the reader. Possible values: - `unknown` - The reader status is unknown. - `processing` - The reader is created and waits for the physical device to confirm the pairing. - `paired` - The reader is paired with a merchant account and can be used with SumUp APIs. - `expired` - The pairing is expired and no longer usable with the account. The resource needs to get recreated.</summary>
     [JsonPropertyName("status")]
     public ReaderStatus Status { get; set; }
