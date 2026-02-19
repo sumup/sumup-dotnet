@@ -704,22 +704,55 @@ func (g *Generator) convertParameter(param *v3.Parameter) (parameterTemplateData
 	}
 	required := param.Required != nil && *param.Required
 	typeInfo := g.resolveType(param.Schema, required)
-	defaultValue := ""
-	if !required {
-		defaultValue = " = null"
-	}
-
 	argName := naming.Identifier(param.Name)
+	declaration := ""
+	if shouldUseOptionalQueryParameter(param, required, typeInfo) {
+		baseType := strings.TrimSuffix(typeInfo.TypeName, "?")
+		declaration = fmt.Sprintf("OptionalQuery<%s> %s = default", baseType, argName)
+	} else {
+		defaultValue := ""
+		if !required {
+			defaultValue = " = null"
+		}
+		declaration = fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue)
+	}
 	return parameterTemplateData{
 		Location:     param.In,
 		Name:         param.Name,
 		ArgName:      argName,
-		Declaration:  fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue),
+		Declaration:  declaration,
 		Description:  sanitizeText(param.Description),
 		Required:     required,
 		BuilderCall:  builderCall(param.In, param.Name, argName),
 		IsCollection: typeInfo.IsCollection,
 	}, nil
+}
+
+func shouldUseOptionalQueryParameter(param *v3.Parameter, required bool, typeInfo typeInfo) bool {
+	if param == nil || required || param.In != "query" {
+		return false
+	}
+	if typeInfo.IsValueType || typeInfo.IsCollection {
+		return false
+	}
+	return schemaAllowsNull(param.Schema)
+}
+
+func schemaAllowsNull(schemaRef *base.SchemaProxy) bool {
+	if schemaRef == nil {
+		return false
+	}
+	schema := schemaRef.Schema()
+	if schema == nil {
+		return false
+	}
+	if schema.Nullable != nil && *schema.Nullable {
+		return true
+	}
+	if len(schema.AllOf) == 1 {
+		return schemaAllowsNull(schema.AllOf[0])
+	}
+	return false
 }
 
 func (g *Generator) buildRequestBody(clientName, methodName string, body *v3.RequestBody) (*bodyTemplateData, error) {
