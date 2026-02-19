@@ -36,7 +36,7 @@ public sealed partial class {{ .Name }}
 {{- if .HasExtensionData }}
 
     [JsonExtensionData]
-    public IDictionary<string, {{ .ExtensionDataValueType }}> ExtensionData { get; set; } = new Dictionary<string, {{ .ExtensionDataValueType }}>();
+    public IDictionary<string, {{ .ExtensionDataValueType }}> AdditionalProperties { get; set; } = new Dictionary<string, {{ .ExtensionDataValueType }}>();
 {{- end }}
 
 {{- if .EmitToString }}
