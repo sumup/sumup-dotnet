@@ -53,8 +53,8 @@ public sealed partial class MerchantsClient
                 {
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<MerchantsGetError404>(responseBody);
-                        throw new ApiException<MerchantsGetError404>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -104,8 +104,8 @@ public sealed partial class MerchantsClient
                 {
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<MerchantsGetError404>(responseBody);
-                        throw new ApiException<MerchantsGetError404>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -157,13 +157,13 @@ public sealed partial class MerchantsClient
                 {
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<MerchantsGetPersonError404>(responseBody);
-                        throw new ApiException<MerchantsGetPersonError404>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 500:
                     {
-                        var errorForStatus500 = _client.TryDeserialize<MerchantsGetPersonError500>(responseBody);
-                        throw new ApiException<MerchantsGetPersonError500>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -215,13 +215,13 @@ public sealed partial class MerchantsClient
                 {
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<MerchantsGetPersonError404>(responseBody);
-                        throw new ApiException<MerchantsGetPersonError404>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 500:
                     {
-                        var errorForStatus500 = _client.TryDeserialize<MerchantsGetPersonError500>(responseBody);
-                        throw new ApiException<MerchantsGetPersonError500>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -271,13 +271,13 @@ public sealed partial class MerchantsClient
                 {
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<MerchantsListPersonsError404>(responseBody);
-                        throw new ApiException<MerchantsListPersonsError404>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 500:
                     {
-                        var errorForStatus500 = _client.TryDeserialize<MerchantsListPersonsError500>(responseBody);
-                        throw new ApiException<MerchantsListPersonsError500>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -327,13 +327,13 @@ public sealed partial class MerchantsClient
                 {
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<MerchantsListPersonsError404>(responseBody);
-                        throw new ApiException<MerchantsListPersonsError404>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 500:
                     {
-                        var errorForStatus500 = _client.TryDeserialize<MerchantsListPersonsError500>(responseBody);
-                        throw new ApiException<MerchantsListPersonsError500>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
