@@ -276,7 +276,12 @@ func (g *Generator) buildModels(doc *v3.Document) ([]modelTemplateData, error) {
 		if schema == nil {
 			continue
 		}
-		typeInfo := g.resolveType(base.CreateSchemaProxy(schema), true)
+		// For alias components (for example arrays/maps), resolve with an inline base so
+		// nested inline object items can still become generated models instead of JsonDocument.
+		typeInfo, err := g.resolveInlineSchemaType(base.CreateSchemaProxy(schema), true, info.TypeName)
+		if err != nil {
+			return nil, err
+		}
 		info.AliasType = strings.TrimSuffix(typeInfo.TypeName, "?")
 		info.AliasIsValueType = typeInfo.IsValueType
 	}
@@ -1162,6 +1167,9 @@ func (g *Generator) resolveType(schemaRef *base.SchemaProxy, required bool) type
 	}
 	if schema.Nullable != nil && *schema.Nullable {
 		required = false
+	}
+	if len(schema.AllOf) == 1 {
+		return g.resolveType(schema.AllOf[0], required)
 	}
 
 	switch {

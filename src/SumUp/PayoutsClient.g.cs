@@ -32,7 +32,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<JsonDocument>> List(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<FinancialPayoutsItem>> List(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
@@ -70,8 +70,8 @@ public sealed partial class PayoutsClient
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
             using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var result = JsonSerializer.Deserialize<IEnumerable<JsonDocument>>(stream, _client.SerializerOptions);
-            return ApiResponse<IEnumerable<JsonDocument>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            var result = JsonSerializer.Deserialize<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions);
+            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
@@ -91,7 +91,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<JsonDocument>>> ListAsync(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListAsync(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
@@ -129,8 +129,8 @@ public sealed partial class PayoutsClient
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var result = await JsonSerializer.DeserializeAsync<IEnumerable<JsonDocument>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<IEnumerable<JsonDocument>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            var result = await JsonSerializer.DeserializeAsync<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
@@ -149,7 +149,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<JsonDocument>> ListDeprecated(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<FinancialPayoutsItem>> ListDeprecated(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {
@@ -186,8 +186,8 @@ public sealed partial class PayoutsClient
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
             using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var result = JsonSerializer.Deserialize<IEnumerable<JsonDocument>>(stream, _client.SerializerOptions);
-            return ApiResponse<IEnumerable<JsonDocument>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            var result = JsonSerializer.Deserialize<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions);
+            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
@@ -206,7 +206,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<JsonDocument>>> ListDeprecatedAsync(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListDeprecatedAsync(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {
@@ -243,8 +243,8 @@ public sealed partial class PayoutsClient
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var result = await JsonSerializer.DeserializeAsync<IEnumerable<JsonDocument>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<IEnumerable<JsonDocument>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            var result = await JsonSerializer.DeserializeAsync<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
