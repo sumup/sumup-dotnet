@@ -64,6 +64,22 @@ internal sealed class RequestBuilder
         _query.Add(new KeyValuePair<string, string>(name, ConvertToString(value)));
     }
 
+    internal void AddQuery<T>(string name, OptionalQuery<T> value)
+    {
+        if (!value.IsSet)
+        {
+            return;
+        }
+
+        if (value.IsNull)
+        {
+            _query.Add(new KeyValuePair<string, string>(name, "null"));
+            return;
+        }
+
+        AddQuery(name, value.RawValue);
+    }
+
     internal void AddHeader(string name, object? value)
     {
         if (value is null)

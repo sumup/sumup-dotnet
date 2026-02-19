@@ -276,8 +276,8 @@ func (g *Generator) buildModels(doc *v3.Document) ([]modelTemplateData, error) {
 		if schema == nil {
 			continue
 		}
-		// For alias components (for example arrays/maps), resolve with an inline base so
-		// nested inline object items can still become generated models instead of JsonDocument.
+		// Resolve aliases with inline context so arrays/maps with inline object
+		// values generate concrete models instead of falling back to JsonDocument.
 		typeInfo, err := g.resolveInlineSchemaType(base.CreateSchemaProxy(schema), true, info.TypeName)
 		if err != nil {
 			return nil, err
@@ -704,22 +704,55 @@ func (g *Generator) convertParameter(param *v3.Parameter) (parameterTemplateData
 	}
 	required := param.Required != nil && *param.Required
 	typeInfo := g.resolveType(param.Schema, required)
-	defaultValue := ""
-	if !required {
-		defaultValue = " = null"
-	}
-
 	argName := naming.Identifier(param.Name)
+	declaration := ""
+	if shouldUseOptionalQueryParameter(param, required, typeInfo) {
+		baseType := strings.TrimSuffix(typeInfo.TypeName, "?")
+		declaration = fmt.Sprintf("OptionalQuery<%s> %s = default", baseType, argName)
+	} else {
+		defaultValue := ""
+		if !required {
+			defaultValue = " = null"
+		}
+		declaration = fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue)
+	}
 	return parameterTemplateData{
 		Location:     param.In,
 		Name:         param.Name,
 		ArgName:      argName,
-		Declaration:  fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue),
+		Declaration:  declaration,
 		Description:  sanitizeText(param.Description),
 		Required:     required,
 		BuilderCall:  builderCall(param.In, param.Name, argName),
 		IsCollection: typeInfo.IsCollection,
 	}, nil
+}
+
+func shouldUseOptionalQueryParameter(param *v3.Parameter, required bool, typeInfo typeInfo) bool {
+	if param == nil || required || param.In != "query" {
+		return false
+	}
+	if typeInfo.IsValueType || typeInfo.IsCollection {
+		return false
+	}
+	return schemaAllowsNull(param.Schema)
+}
+
+func schemaAllowsNull(schemaRef *base.SchemaProxy) bool {
+	if schemaRef == nil {
+		return false
+	}
+	schema := schemaRef.Schema()
+	if schema == nil {
+		return false
+	}
+	if schema.Nullable != nil && *schema.Nullable {
+		return true
+	}
+	if len(schema.AllOf) == 1 {
+		return schemaAllowsNull(schema.AllOf[0])
+	}
+	return false
 }
 
 func (g *Generator) buildRequestBody(clientName, methodName string, body *v3.RequestBody) (*bodyTemplateData, error) {

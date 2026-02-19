@@ -36,7 +36,7 @@ public sealed partial class MembershipsClient
     /// <param name="roles">Filter the returned memberships by role.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<MembershipsListResponse> List(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, string? resourceParentId = null, string? resourceParentType = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<MembershipsListResponse> List(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, OptionalQuery<string> resourceParentId = default, OptionalQuery<string> resourceParentType = default, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/memberships", builder =>
         {
@@ -95,7 +95,7 @@ public sealed partial class MembershipsClient
     /// <param name="roles">Filter the returned memberships by role.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<MembershipsListResponse>> ListAsync(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, string? resourceParentId = null, string? resourceParentType = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<MembershipsListResponse>> ListAsync(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, OptionalQuery<string> resourceParentId = default, OptionalQuery<string> resourceParentType = default, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/memberships", builder =>
         {
