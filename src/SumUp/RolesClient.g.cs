@@ -386,9 +386,9 @@ public sealed partial class RolesClient
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
-            using var jsonStream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var document = JsonDocument.Parse(jsonStream);
-            return ApiResponse<RolesListResponse>.From((RolesListResponse)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<RolesListResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<RolesListResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
@@ -435,9 +435,9 @@ public sealed partial class RolesClient
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
-            using var jsonStream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<RolesListResponse>.From((RolesListResponse)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<RolesListResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<RolesListResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {

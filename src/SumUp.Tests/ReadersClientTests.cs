@@ -25,6 +25,57 @@ public class ReadersClientTests
     }
     """;
 
+    private const string ReadersListResponseBody = """
+    {
+      "items": [
+        {
+          "id": "rdr_123",
+          "name": "READER01",
+          "status": "paired",
+          "device": {
+            "identifier": "device-123",
+            "model": "solo"
+          },
+          "created_at": "2026-02-18T16:16:38.097244Z",
+          "updated_at": "2026-02-18T16:16:38.097244Z"
+        }
+      ]
+    }
+    """;
+
+    [Fact]
+    public async Task ListAsync_ParsesItemsResponse()
+    {
+        using var accessTokenScope = new EnvironmentVariableScope("SUMUP_ACCESS_TOKEN", null);
+        var handler = new RecordingHttpMessageHandler(_ =>
+        {
+            return new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(ReadersListResponseBody, Encoding.UTF8, "application/json")
+            };
+        });
+
+        using var httpClient = new HttpClient(handler)
+        {
+            BaseAddress = new Uri("https://mocked.sumup.test/")
+        };
+
+        using var client = new SumUpClient(new SumUpClientOptions
+        {
+            HttpClient = httpClient,
+            AccessToken = "test-token"
+        });
+
+        var apiResponse = await client.Readers.ListAsync("merchant-123", cancellationToken: CancellationToken.None);
+
+        Assert.Equal(HttpStatusCode.OK, apiResponse.StatusCode);
+        var data = Assert.IsType<ReadersListResponse>(apiResponse.Data);
+        var reader = Assert.Single(data.Items);
+        Assert.Equal("rdr_123", reader.Id);
+        Assert.Equal("READER01", reader.Name);
+        Assert.Equal(ReaderStatus.Paired, reader.Status);
+    }
+
     [Fact]
     public async Task GetStatusAsync_SendsProperRequestAndParsesResponse()
     {
