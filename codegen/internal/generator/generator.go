@@ -634,7 +634,7 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 	if err != nil {
 		return operationTemplateData{}, err
 	}
-	responseMode, err := g.resolveResponseMode(op)
+	responseMode, err := g.resolveResponseMode(op, responseInfo)
 	if err != nil {
 		return operationTemplateData{}, err
 	}
@@ -996,7 +996,7 @@ func (g *Generator) responseTypeForResponse(resp *v3.Response, inlineBase string
 	return g.resolveInlineSchemaType(schemaRef, true, inlineBase)
 }
 
-func (g *Generator) resolveResponseMode(op *v3.Operation) (string, error) {
+func (g *Generator) resolveResponseMode(op *v3.Operation, responseInfo typeInfo) (string, error) {
 	if op == nil || op.Responses == nil || op.Responses.Codes == nil || op.Responses.Codes.Len() == 0 {
 		return "none", nil
 	}
@@ -1010,15 +1010,15 @@ func (g *Generator) resolveResponseMode(op *v3.Operation) (string, error) {
 			continue
 		}
 		resp := op.Responses.Codes.GetOrZero(code)
-		return g.responseModeForResponse(resp)
+		return g.responseModeForResponse(resp, responseInfo)
 	}
 	if resp := op.Responses.Default; resp != nil {
-		return g.responseModeForResponse(resp)
+		return g.responseModeForResponse(resp, responseInfo)
 	}
 	return "none", nil
 }
 
-func (g *Generator) responseModeForResponse(resp *v3.Response) (string, error) {
+func (g *Generator) responseModeForResponse(resp *v3.Response, responseInfo typeInfo) (string, error) {
 	if resp == nil || resp.Content == nil || resp.Content.Len() == 0 {
 		return "none", nil
 	}
@@ -1031,18 +1031,15 @@ func (g *Generator) responseModeForResponse(resp *v3.Response) (string, error) {
 		return "json", nil
 	}
 
-	typeInfo, err := g.resolveInlineSchemaType(schemaRef, true, "")
-	if err != nil {
-		return "", err
+	if strings.Contains(strings.ToLower(contentType), "text/") {
+		return "string", nil
 	}
-	typeName := strings.TrimSuffix(typeInfo.TypeName, "?")
+
+	typeName := strings.TrimSuffix(responseInfo.TypeName, "?")
 	if typeName == "string" {
 		return "string", nil
 	}
 	if typeName == "JsonDocument" {
-		if strings.Contains(strings.ToLower(contentType), "text/") {
-			return "string", nil
-		}
 		return "json-document", nil
 	}
 	return "json", nil

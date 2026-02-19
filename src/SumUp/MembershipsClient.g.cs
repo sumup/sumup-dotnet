@@ -69,9 +69,9 @@ public sealed partial class MembershipsClient
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
-            using var jsonStream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var document = JsonDocument.Parse(jsonStream);
-            return ApiResponse<MembershipsListResponse>.From((MembershipsListResponse)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<MembershipsListResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<MembershipsListResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
@@ -128,9 +128,9 @@ public sealed partial class MembershipsClient
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
-            using var jsonStream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<MembershipsListResponse>.From((MembershipsListResponse)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<MembershipsListResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<MembershipsListResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
