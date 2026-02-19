@@ -276,8 +276,8 @@ func (g *Generator) buildModels(doc *v3.Document) ([]modelTemplateData, error) {
 		if schema == nil {
 			continue
 		}
-		// For alias components (for example arrays/maps), resolve with an inline base so
-		// nested inline object items can still become generated models instead of JsonDocument.
+		// Resolve aliases with inline context so arrays/maps with inline object
+		// values generate concrete models instead of falling back to JsonDocument.
 		typeInfo, err := g.resolveInlineSchemaType(base.CreateSchemaProxy(schema), true, info.TypeName)
 		if err != nil {
 			return nil, err
