@@ -27,7 +27,7 @@ public sealed partial class Problem
     public string Type { get; set; } = default!;
 
     [JsonExtensionData]
-    public IDictionary<string, JsonElement> ExtensionData { get; set; } = new Dictionary<string, JsonElement>();
+    public IDictionary<string, JsonElement> AdditionalProperties { get; set; } = new Dictionary<string, JsonElement>();
 
     public override string ToString()
     {
