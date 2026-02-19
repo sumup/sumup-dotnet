@@ -5,7 +5,6 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-using System.Text.Json;
 /// <summary>Account's merchant profile</summary>
 public sealed partial class MerchantProfilePayload
 {
@@ -14,7 +13,7 @@ public sealed partial class MerchantProfilePayload
     public AddressPayloadLegacy Address { get; set; } = default!;
     /// <summary>Business owners information.</summary>
     [JsonPropertyName("business_owners")]
-    public IEnumerable<JsonDocument>? BusinessOwners { get; set; }
+    public IEnumerable<BusinessOwnersItem>? BusinessOwners { get; set; }
     /// <summary>Company name</summary>
     [JsonPropertyName("company_name")]
     public string CompanyName { get; set; } = default!;
