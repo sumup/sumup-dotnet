@@ -369,6 +369,7 @@ func (g *Generator) buildClassModel(typeName string, schema *base.Schema) (model
 			usesJson = true
 		}
 	}
+	isDictionaryModel := len(props) == 0 && extensionType != ""
 	return modelTemplateData{
 		Namespace:              g.config.Namespace,
 		Name:                   typeName,
@@ -378,8 +379,10 @@ func (g *Generator) buildClassModel(typeName string, schema *base.Schema) (model
 		HasProperties:          len(props) > 0,
 		UsesCollections:        usesCollections,
 		UsesJson:               usesJson,
-		HasExtensionData:       extensionType != "",
+		HasExtensionData:       extensionType != "" && !isDictionaryModel,
 		ExtensionDataValueType: extensionType,
+		IsDictionaryModel:      isDictionaryModel,
+		DictionaryValueType:    extensionType,
 	}, nil
 }
 
@@ -1379,6 +1382,8 @@ type modelTemplateData struct {
 	UsesJson               bool
 	HasExtensionData       bool
 	ExtensionDataValueType string
+	IsDictionaryModel      bool
+	DictionaryValueType    string
 	EmitToString           bool
 }
 

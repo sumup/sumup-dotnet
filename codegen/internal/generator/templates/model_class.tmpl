@@ -18,6 +18,11 @@ using System.Text;
 {{- if .Description }}
 /// <summary>{{ .Description }}</summary>
 {{- end }}
+{{- if .IsDictionaryModel }}
+public sealed partial class {{ .Name }} : Dictionary<string, {{ .DictionaryValueType }}>
+{
+}
+{{- else }}
 public sealed partial class {{ .Name }}
 {
 {{- range .Properties }}
@@ -100,4 +105,5 @@ public sealed partial class {{ .Name }}
     }
 {{- end }}
 }
+{{- end }}
 {{- end }}
