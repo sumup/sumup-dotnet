@@ -519,20 +519,14 @@ public sealed partial class ReadersClient
     /// <remarks>Provides the last known status for a Reader. This endpoint allows you to retrieve updates from the connected card reader, including the current screen being displayed during the payment process and the device status (battery level, connectivity, and update state). Supported States * `IDLE` – Reader ready for next transaction * `SELECTING_TIP` – Waiting for tip input * `WAITING_FOR_CARD` – Awaiting card insert/tap * `WAITING_FOR_PIN` – Waiting for PIN entry * `WAITING_FOR_SIGNATURE` – Waiting for customer signature * `UPDATING_FIRMWARE` – Firmware update in progress Device Status * `ONLINE` – Device connected and operational * `OFFLINE` – Device disconnected (last state persisted) **Note**: If the target device is a Solo, it must be in version 3.3.39.0 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
-    /// <param name="accept">Request parameter.</param>
-    /// <param name="contentType">Request parameter.</param>
-    /// <param name="authorization">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<StatusResponse> GetStatus(string merchantCode, string readerId, string accept, string contentType, string authorization, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<StatusResponse> GetStatus(string merchantCode, string readerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}/status", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
-            builder.AddHeader("Accept", accept);
-            builder.AddHeader("Content-Type", contentType);
-            builder.AddHeader("Authorization", authorization);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -601,20 +595,14 @@ public sealed partial class ReadersClient
     /// <remarks>Provides the last known status for a Reader. This endpoint allows you to retrieve updates from the connected card reader, including the current screen being displayed during the payment process and the device status (battery level, connectivity, and update state). Supported States * `IDLE` – Reader ready for next transaction * `SELECTING_TIP` – Waiting for tip input * `WAITING_FOR_CARD` – Awaiting card insert/tap * `WAITING_FOR_PIN` – Waiting for PIN entry * `WAITING_FOR_SIGNATURE` – Waiting for customer signature * `UPDATING_FIRMWARE` – Firmware update in progress Device Status * `ONLINE` – Device connected and operational * `OFFLINE` – Device disconnected (last state persisted) **Note**: If the target device is a Solo, it must be in version 3.3.39.0 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
-    /// <param name="accept">Request parameter.</param>
-    /// <param name="contentType">Request parameter.</param>
-    /// <param name="authorization">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<StatusResponse>> GetStatusAsync(string merchantCode, string readerId, string accept, string contentType, string authorization, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<StatusResponse>> GetStatusAsync(string merchantCode, string readerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}/status", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
-            builder.AddHeader("Accept", accept);
-            builder.AddHeader("Content-Type", contentType);
-            builder.AddHeader("Authorization", authorization);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

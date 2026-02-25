@@ -9,7 +9,7 @@ public sealed partial class TransactionEvent
 {
     /// <summary>Amount of the event.</summary>
     [JsonPropertyName("amount")]
-    public float? Amount { get; set; }
+    public decimal? Amount { get; set; }
     /// <summary>Date when the transaction event occurred.</summary>
     [JsonPropertyName("date")]
     public DateTime? Date { get; set; }

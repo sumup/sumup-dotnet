@@ -9,4 +9,7 @@ public sealed partial class CreateReaderCheckoutErrorErrors
     /// <summary>Error message</summary>
     [JsonPropertyName("detail")]
     public string? Detail { get; set; }
+    /// <summary>Error code</summary>
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = default!;
 }
