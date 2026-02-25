@@ -13,7 +13,6 @@ public partial class SumUpClient
         Customers = new CustomersClient(apiClient);
         Members = new MembersClient(apiClient);
         Memberships = new MembershipsClient(apiClient);
-        Merchant = new MerchantClient(apiClient);
         Merchants = new MerchantsClient(apiClient);
         Payouts = new PayoutsClient(apiClient);
         Readers = new ReadersClient(apiClient);
@@ -30,8 +29,6 @@ public partial class SumUpClient
     public MembersClient Members { get; private set; } = default!;
 
     public MembershipsClient Memberships { get; private set; } = default!;
-
-    public MerchantClient Merchant { get; private set; } = default!;
 
     public MerchantsClient Merchants { get; private set; } = default!;
 

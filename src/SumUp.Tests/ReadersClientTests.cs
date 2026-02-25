@@ -115,9 +115,10 @@ public class ReadersClientTests
         var apiResponse = await client.Readers.GetStatusAsync(
             merchantCode: "merchant-123",
             readerId: "reader-456",
-            accept: "application/vnd.sumup.status+json",
-            contentType: "application/vnd.sumup.status+json",
-            authorization: "Bearer test-token",
+            requestOptions: new RequestOptions
+            {
+                AccessToken = "test-token"
+            },
             cancellationToken: CancellationToken.None);
 
         Assert.Equal(1, handler.SendCount);
@@ -173,9 +174,10 @@ public class ReadersClientTests
         await client.Readers.GetStatusAsync(
             merchantCode: "merchant-123",
             readerId: "reader-456",
-            accept: "application/json",
-            contentType: "application/json",
-            authorization: "Bearer test-token",
+            requestOptions: new RequestOptions
+            {
+                AccessToken = "test-token"
+            },
             cancellationToken: CancellationToken.None);
 
         Assert.Equal(1, handler.SendCount);
@@ -213,9 +215,10 @@ public class ReadersClientTests
         await client.Readers.GetStatusAsync(
             merchantCode: "merchant-123",
             readerId: "reader-456",
-            accept: "application/json",
-            contentType: "application/json",
-            authorization: "Bearer test-token",
+            requestOptions: new RequestOptions
+            {
+                AccessToken = "test-token"
+            },
             cancellationToken: CancellationToken.None);
 
         Assert.Equal(1, handler.SendCount);
@@ -302,7 +305,7 @@ public class ReadersClientTests
     }
 
     [Fact]
-    public async Task Requests_PreserveExistingAuthorizationHeaders()
+    public async Task Requests_OverrideDefaultAccessTokenPerRequest()
     {
         const string responseBody = """{"data":{"status":"ONLINE"}}""";
         using var accessTokenScope = new EnvironmentVariableScope("SUMUP_ACCESS_TOKEN", null);
@@ -330,9 +333,10 @@ public class ReadersClientTests
         await client.Readers.GetStatusAsync(
             merchantCode: "merchant-123",
             readerId: "reader-456",
-            accept: "application/json",
-            contentType: "application/json",
-            authorization: "Bearer provided-token",
+            requestOptions: new RequestOptions
+            {
+                AccessToken = "provided-token"
+            },
             cancellationToken: CancellationToken.None);
 
         Assert.Equal(1, handler.SendCount);

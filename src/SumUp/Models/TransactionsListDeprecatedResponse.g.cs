@@ -10,5 +10,5 @@ public sealed partial class TransactionsListDeprecatedResponse
     [JsonPropertyName("items")]
     public IEnumerable<TransactionHistory>? Items { get; set; }
     [JsonPropertyName("links")]
-    public IEnumerable<Link>? Links { get; set; }
+    public IEnumerable<TransactionsHistoryLink>? Links { get; set; }
 }

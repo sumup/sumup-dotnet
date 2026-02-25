@@ -17,6 +17,8 @@ public enum Currency
     Chf,
     [EnumMember(Value = "CLP")]
     Clp,
+    [EnumMember(Value = "COP")]
+    Cop,
     [EnumMember(Value = "CZK")]
     Czk,
     [EnumMember(Value = "DKK")]

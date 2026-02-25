@@ -5,7 +5,6 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-using System.Text.Json;
 public sealed partial class TransactionFull
 {
     /// <summary>Total amount of the transaction.</summary>
@@ -17,15 +16,28 @@ public sealed partial class TransactionFull
     /// <summary>Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public CardResponse? Card { get; set; }
+    /// <summary>Client transaction id.</summary>
+    [JsonPropertyName("client_transaction_id")]
+    public string? ClientTransactionId { get; set; }
     /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
+    [JsonPropertyName("device_info")]
+    public Device? DeviceInfo { get; set; }
+    [JsonPropertyName("elv_account")]
+    public ElvCardAccount? ElvAccount { get; set; }
     /// <summary>Entry mode of the payment details.</summary>
     [JsonPropertyName("entry_mode")]
     public EntryMode? EntryMode { get; set; }
     /// <summary>List of events related to the transaction.</summary>
     [JsonPropertyName("events")]
     public IEnumerable<EventValue>? Events { get; set; }
+    /// <summary>Transaction SumUp total fee amount.</summary>
+    [JsonPropertyName("fee_amount")]
+    public decimal? FeeAmount { get; set; }
+    /// <summary>External/foreign transaction id (passed by clients).</summary>
+    [JsonPropertyName("foreign_transaction_id")]
+    public string? ForeignTransactionId { get; set; }
     /// <summary>Indication of the precision of the geographical position received from the payment terminal.</summary>
     [JsonPropertyName("horizontal_accuracy")]
     public float? HorizontalAccuracy { get; set; }
@@ -43,7 +55,7 @@ public sealed partial class TransactionFull
     public float? Lat { get; set; }
     /// <summary>List of hyperlinks for accessing related resources.</summary>
     [JsonPropertyName("links")]
-    public IEnumerable<JsonDocument>? Links { get; set; }
+    public IEnumerable<Link>? Links { get; set; }
     /// <summary>Local date and time of the creation of the transaction.</summary>
     [JsonPropertyName("local_time")]
     public DateTimeOffset? LocalTime { get; set; }
@@ -56,9 +68,15 @@ public sealed partial class TransactionFull
     /// <summary>Unique code of the registered merchant to whom the payment is made.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
+    /// <summary>SumUp merchant internal Id.</summary>
+    [JsonPropertyName("merchant_id")]
+    public long? MerchantId { get; set; }
     /// <summary>Payment type used for the transaction.</summary>
     [JsonPropertyName("payment_type")]
     public PaymentType? PaymentType { get; set; }
+    /// <summary>The date of the payout.</summary>
+    [JsonPropertyName("payout_date")]
+    public DateTime? PayoutDate { get; set; }
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
     public string? PayoutPlan { get; set; }
@@ -71,6 +89,9 @@ public sealed partial class TransactionFull
     /// <summary>Total number of payouts to the registered user specified in the `user` property.</summary>
     [JsonPropertyName("payouts_total")]
     public int? PayoutsTotal { get; set; }
+    /// <summary>Debit/Credit.</summary>
+    [JsonPropertyName("process_as")]
+    public string? ProcessAs { get; set; }
     /// <summary>Short description of the payment. The value is taken from the `description` property of the related checkout resource.</summary>
     [JsonPropertyName("product_summary")]
     public string? ProductSummary { get; set; }
@@ -109,7 +130,7 @@ public sealed partial class TransactionFull
     public float? VatAmount { get; set; }
     /// <summary>List of VAT rates applicable to the transaction.</summary>
     [JsonPropertyName("vat_rates")]
-    public IEnumerable<JsonDocument>? VatRates { get; set; }
+    public IEnumerable<TransactionFullVatRatesItem>? VatRates { get; set; }
     /// <summary>Verification method used for the transaction.</summary>
     [JsonPropertyName("verification_method")]
     public string? VerificationMethod { get; set; }

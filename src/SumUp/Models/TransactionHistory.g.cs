@@ -27,9 +27,15 @@ public sealed partial class TransactionHistory
     /// <summary>Payment type used for the transaction.</summary>
     [JsonPropertyName("payment_type")]
     public PaymentType? PaymentType { get; set; }
+    /// <summary>Payout date (if paid out at once).</summary>
+    [JsonPropertyName("payout_date")]
+    public DateTime? PayoutDate { get; set; }
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
     public string? PayoutPlan { get; set; }
+    /// <summary>Payout type.</summary>
+    [JsonPropertyName("payout_type")]
+    public string? PayoutType { get; set; }
     /// <summary>Number of payouts that are made to the registered user specified in the `user` property.</summary>
     [JsonPropertyName("payouts_received")]
     public int? PayoutsReceived { get; set; }
@@ -39,6 +45,9 @@ public sealed partial class TransactionHistory
     /// <summary>Short description of the payment. The value is taken from the `description` property of the related checkout resource.</summary>
     [JsonPropertyName("product_summary")]
     public string? ProductSummary { get; set; }
+    /// <summary>Total refunded amount.</summary>
+    [JsonPropertyName("refunded_amount")]
+    public decimal? RefundedAmount { get; set; }
     /// <summary>Current status of the transaction.</summary>
     [JsonPropertyName("status")]
     public string? Status { get; set; }
