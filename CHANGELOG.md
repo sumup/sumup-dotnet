@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.8](https://github.com/sumup/sumup-dotnet/compare/v0.0.7...v0.0.8) (2026-02-26)
+
+
+### Features
+
+* simpler types for flexible schemas ([ebc9db6](https://github.com/sumup/sumup-dotnet/commit/ebc9db6e79ebaa7112e546b6f66491b18ddb2262))
+* update to latest openapi specs ([7133de9](https://github.com/sumup/sumup-dotnet/commit/7133de9f970e2d399e6464ca6afff0caf73072a9))
+
 ## [0.0.7](https://github.com/sumup/sumup-dotnet/compare/v0.0.6...v0.0.7) (2026-02-19)
 
 
