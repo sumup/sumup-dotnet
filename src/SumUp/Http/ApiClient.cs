@@ -38,6 +38,7 @@ internal sealed class ApiClient
         var request = builder.Build();
 
         request.Headers.Accept.Clear();
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/problem+json"));
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         request.Headers.UserAgent.ParseAdd(_options.UserAgent);
         RuntimeHeaders.Apply(request.Headers);
