@@ -1295,13 +1295,11 @@ func preferredSchema(content *orderedmap.Map[string, *v3.MediaType]) *base.Schem
 	if content == nil {
 		return nil
 	}
-	if media := content.GetOrZero("application/json"); media != nil && media.Schema != nil {
+	if media := content.GetOrZero("application/problem+json"); media != nil && media.Schema != nil {
 		return media.Schema
 	}
-	for _, media := range content.FromOldest() {
-		if media != nil && media.Schema != nil {
-			return media.Schema
-		}
+	if media := content.GetOrZero("application/json"); media != nil && media.Schema != nil {
+		return media.Schema
 	}
 	return nil
 }
