@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -126,7 +127,8 @@ public class ReadersClientTests
         var request = handler.LastRequest!;
         Assert.Equal(HttpMethod.Get, request.Method);
         Assert.Equal("/v0.1/merchants/merchant-123/readers/reader-456/status", request.RequestUri!.AbsolutePath);
-        Assert.Equal("application/json", Assert.Single(request.Headers.Accept).MediaType);
+        var acceptHeaders = request.Headers.Accept.Select(value => value.MediaType).ToArray();
+        Assert.Equal(new[] { "application/problem+json", "application/json" }, acceptHeaders);
         Assert.Null(request.Content);
         Assert.True(request.Headers.TryGetValues("Authorization", out var authorizationHeaders));
         Assert.Contains("Bearer test-token", authorizationHeaders);
