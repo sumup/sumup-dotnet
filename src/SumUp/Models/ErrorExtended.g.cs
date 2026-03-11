@@ -6,6 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text;
+/// <summary>Error payload with the invalid parameter reference.</summary>
 public sealed partial class ErrorExtended
 {
     /// <summary>Platform code for the error.</summary>

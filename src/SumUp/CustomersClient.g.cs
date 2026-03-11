@@ -51,10 +51,15 @@ public sealed partial class CustomersClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -111,10 +116,15 @@ public sealed partial class CustomersClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -172,10 +182,15 @@ public sealed partial class CustomersClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -231,10 +246,15 @@ public sealed partial class CustomersClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -290,8 +310,8 @@ public sealed partial class CustomersClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -349,8 +369,8 @@ public sealed partial class CustomersClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -408,8 +428,8 @@ public sealed partial class CustomersClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -467,8 +487,8 @@ public sealed partial class CustomersClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -499,7 +519,7 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
-    /// <param name="body">Request body payload.</param>
+    /// <param name="body">Customer fields to update.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<Customer> Update(string customerId, CustomersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -531,8 +551,8 @@ public sealed partial class CustomersClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -563,7 +583,7 @@ public sealed partial class CustomersClient
     /// </summary>
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
-    /// <param name="body">Request body payload.</param>
+    /// <param name="body">Customer fields to update.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<Customer>> UpdateAsync(string customerId, CustomersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -595,8 +615,8 @@ public sealed partial class CustomersClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {

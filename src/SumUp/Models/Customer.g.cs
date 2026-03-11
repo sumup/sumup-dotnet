@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Saved customer details.</summary>
 public sealed partial class Customer
 {
     /// <summary>Unique ID of the customer.</summary>

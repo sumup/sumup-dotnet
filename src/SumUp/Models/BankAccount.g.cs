@@ -4,11 +4,13 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Bank account details used for merchant payouts.</summary>
 public sealed partial class BankAccount
 {
     /// <summary>Account category - business or personal</summary>
     [JsonPropertyName("account_category")]
     public string? AccountCategory { get; set; }
+    /// <summary>Name of the bank account holder.</summary>
     [JsonPropertyName("account_holder_name")]
     public string? AccountHolderName { get; set; }
     /// <summary>Account number</summary>

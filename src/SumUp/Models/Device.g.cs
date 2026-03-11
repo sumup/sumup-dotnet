@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Details of the device used to create the transaction.</summary>
 public sealed partial class Device
 {
     /// <summary>Device model.</summary>

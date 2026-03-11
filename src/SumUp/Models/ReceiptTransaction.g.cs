@@ -11,6 +11,7 @@ public sealed partial class ReceiptTransaction
     /// <summary>Transaction amount.</summary>
     [JsonPropertyName("amount")]
     public string? Amount { get; set; }
+    /// <summary>Payment card details displayed on the receipt.</summary>
     [JsonPropertyName("card")]
     public ReceiptCard? Card { get; set; }
     /// <summary>Transaction currency.</summary>

@@ -20,6 +20,7 @@ public sealed partial class MerchantProfilePayload
     /// <summary>Company registration number</summary>
     [JsonPropertyName("company_registration_number")]
     public string CompanyRegistrationNumber { get; set; } = default!;
+    /// <summary>Doing-business-as details associated with the merchant profile.</summary>
     [JsonPropertyName("doing_business_as")]
     public MerchantProfilePayloadDoingBusinessAs? DoingBusinessAs { get; set; }
     /// <summary>Defines if the profile nature is for testing</summary>

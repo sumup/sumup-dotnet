@@ -186,33 +186,23 @@ public sealed partial class ReadersClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 422:
                     {
-                        var errorForStatus422 = _client.TryDeserialize<CreateReaderCheckoutUnprocessableEntity>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 502:
-                    {
-                        var errorForStatus502 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 504:
-                    {
-                        var errorForStatus504 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -267,33 +257,23 @@ public sealed partial class ReadersClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 422:
                     {
-                        var errorForStatus422 = _client.TryDeserialize<CreateReaderCheckoutUnprocessableEntity>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 502:
-                    {
-                        var errorForStatus502 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 504:
-                    {
-                        var errorForStatus504 = _client.TryDeserialize<CreateReaderCheckoutError>(responseBody);
-                        throw new ApiException<CreateReaderCheckoutError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -547,33 +527,18 @@ public sealed partial class ReadersClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<BadRequest>(responseBody);
-                        throw new ApiException<BadRequest>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Unauthorized>(responseBody);
-                        throw new ApiException<Unauthorized>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<NotFound>(responseBody);
-                        throw new ApiException<NotFound>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<InternalServerError>(responseBody);
-                        throw new ApiException<InternalServerError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 502:
-                    {
-                        var errorForStatus502 = _client.TryDeserialize<BadGateway>(responseBody);
-                        throw new ApiException<BadGateway>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 504:
-                    {
-                        var errorForStatus504 = _client.TryDeserialize<GatewayTimeout>(responseBody);
-                        throw new ApiException<GatewayTimeout>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -623,33 +588,18 @@ public sealed partial class ReadersClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<BadRequest>(responseBody);
-                        throw new ApiException<BadRequest>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Unauthorized>(responseBody);
-                        throw new ApiException<Unauthorized>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<NotFound>(responseBody);
-                        throw new ApiException<NotFound>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<InternalServerError>(responseBody);
-                        throw new ApiException<InternalServerError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 502:
-                    {
-                        var errorForStatus502 = _client.TryDeserialize<BadGateway>(responseBody);
-                        throw new ApiException<BadGateway>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 504:
-                    {
-                        var errorForStatus504 = _client.TryDeserialize<GatewayTimeout>(responseBody);
-                        throw new ApiException<GatewayTimeout>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -781,33 +731,23 @@ public sealed partial class ReadersClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 422:
                     {
-                        var errorForStatus422 = _client.TryDeserialize<CreateReaderTerminateUnprocessableEntity>(responseBody);
-                        throw new ApiException<CreateReaderTerminateUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 502:
-                    {
-                        var errorForStatus502 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 504:
-                    {
-                        var errorForStatus504 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -857,33 +797,23 @@ public sealed partial class ReadersClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 422:
                     {
-                        var errorForStatus422 = _client.TryDeserialize<CreateReaderTerminateUnprocessableEntity>(responseBody);
-                        throw new ApiException<CreateReaderTerminateUnprocessableEntity>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 502:
-                    {
-                        var errorForStatus502 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus502, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 504:
-                    {
-                        var errorForStatus504 = _client.TryDeserialize<CreateReaderTerminateError>(responseBody);
-                        throw new ApiException<CreateReaderTerminateError>(response.StatusCode, errorForStatus504, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);

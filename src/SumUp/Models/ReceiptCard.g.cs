@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Payment card details displayed on the receipt.</summary>
 public sealed partial class ReceiptCard
 {
     /// <summary>Card last 4 digits.</summary>

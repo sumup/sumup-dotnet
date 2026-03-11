@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Acquirer-specific metadata related to the card authorization.</summary>
 public sealed partial class ReceiptAcquirerData
 {
     [JsonPropertyName("authorization_code")]

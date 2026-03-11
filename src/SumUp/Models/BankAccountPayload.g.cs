@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Bank account details used when creating or updating a payout account.</summary>
 public sealed partial class BankAccountPayload
 {
     /// <summary>Determines if this bank account is business or personal.</summary>

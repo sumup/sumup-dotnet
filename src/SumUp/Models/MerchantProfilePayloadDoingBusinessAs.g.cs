@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Doing-business-as details associated with the merchant profile.</summary>
 public sealed partial class MerchantProfilePayloadDoingBusinessAs
 {
     /// <summary>Personal address</summary>

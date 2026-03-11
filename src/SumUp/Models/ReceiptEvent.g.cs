@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Transaction event details as rendered on the receipt.</summary>
 public sealed partial class ReceiptEvent
 {
     /// <summary>Amount of the event.</summary>
@@ -12,6 +13,7 @@ public sealed partial class ReceiptEvent
     /// <summary>Unique ID of the transaction event.</summary>
     [JsonPropertyName("id")]
     public long? Id { get; set; }
+    /// <summary>Receipt number associated with the event.</summary>
     [JsonPropertyName("receipt_no")]
     public string? ReceiptNo { get; set; }
     /// <summary>Status of the transaction event.</summary>

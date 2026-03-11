@@ -5,6 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+/// <summary>Full transaction resource with checkout, payout, and event details.</summary>
 public sealed partial class TransactionFull
 {
     /// <summary>Total amount of the transaction.</summary>
@@ -22,8 +23,10 @@ public sealed partial class TransactionFull
     /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
+    /// <summary>Details of the device used to create the transaction.</summary>
     [JsonPropertyName("device_info")]
     public Device? DeviceInfo { get; set; }
+    /// <summary>Details of the ELV card account associated with the transaction.</summary>
     [JsonPropertyName("elv_account")]
     public ElvCardAccount? ElvAccount { get; set; }
     /// <summary>Entry mode of the payment details.</summary>

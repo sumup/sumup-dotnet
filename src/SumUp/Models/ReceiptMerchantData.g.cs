@@ -7,8 +7,10 @@ using System.Text.Json.Serialization;
 /// <summary>Receipt merchant data</summary>
 public sealed partial class ReceiptMerchantData
 {
+    /// <summary>Locale used for rendering localized receipt fields.</summary>
     [JsonPropertyName("locale")]
     public string? Locale { get; set; }
+    /// <summary>Merchant profile details displayed on the receipt.</summary>
     [JsonPropertyName("merchant_profile")]
     public ReceiptMerchantDataMerchantProfile? MerchantProfile { get; set; }
 }

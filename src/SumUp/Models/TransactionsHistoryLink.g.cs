@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Hypermedia link used for transaction history pagination.</summary>
 public sealed partial class TransactionsHistoryLink
 {
     /// <summary>Location.</summary>

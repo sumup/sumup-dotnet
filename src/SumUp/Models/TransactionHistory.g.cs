@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Transaction entry returned in history listing responses.</summary>
 public sealed partial class TransactionHistory
 {
     /// <summary>Total amount of the transaction.</summary>
