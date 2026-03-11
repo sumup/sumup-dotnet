@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Additional transaction fields used by history and detailed views.</summary>
 public sealed partial class TransactionMixinHistory
 {
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>

@@ -5,10 +5,13 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Text.Json;
+/// <summary>Receipt details for a transaction.</summary>
 public sealed partial class Receipt
 {
+    /// <summary>Acquirer-specific metadata related to the card authorization.</summary>
     [JsonPropertyName("acquirer_data")]
     public ReceiptAcquirerData? AcquirerData { get; set; }
+    /// <summary>EMV-specific metadata returned for card-present payments.</summary>
     [JsonPropertyName("emv_data")]
     public JsonDocument? EmvData { get; set; }
     /// <summary>Receipt merchant data</summary>

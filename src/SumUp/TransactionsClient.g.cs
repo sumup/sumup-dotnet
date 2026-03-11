@@ -62,8 +62,8 @@ public sealed partial class TransactionsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -126,8 +126,8 @@ public sealed partial class TransactionsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -184,8 +184,8 @@ public sealed partial class TransactionsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -242,8 +242,8 @@ public sealed partial class TransactionsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -293,7 +293,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("order", order);
             builder.AddQuery("limit", limit);
             builder.AddQuery("users", users);
-            builder.AddQuery("statuses", statuses);
+            builder.AddQuery("statuses[]", statuses);
             builder.AddQuery("payment_types", paymentTypes);
             builder.AddQuery("entry_modes[]", entryModes);
             builder.AddQuery("types", types);
@@ -320,10 +320,15 @@ public sealed partial class TransactionsClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -368,7 +373,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("order", order);
             builder.AddQuery("limit", limit);
             builder.AddQuery("users", users);
-            builder.AddQuery("statuses", statuses);
+            builder.AddQuery("statuses[]", statuses);
             builder.AddQuery("payment_types", paymentTypes);
             builder.AddQuery("entry_modes[]", entryModes);
             builder.AddQuery("types", types);
@@ -395,10 +400,15 @@ public sealed partial class TransactionsClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -440,7 +450,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("order", order);
             builder.AddQuery("limit", limit);
             builder.AddQuery("users", users);
-            builder.AddQuery("statuses", statuses);
+            builder.AddQuery("statuses[]", statuses);
             builder.AddQuery("payment_types", paymentTypes);
             builder.AddQuery("types", types);
             builder.AddQuery("changes_since", changesSince);
@@ -466,10 +476,15 @@ public sealed partial class TransactionsClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -511,7 +526,7 @@ public sealed partial class TransactionsClient
             builder.AddQuery("order", order);
             builder.AddQuery("limit", limit);
             builder.AddQuery("users", users);
-            builder.AddQuery("statuses", statuses);
+            builder.AddQuery("statuses[]", statuses);
             builder.AddQuery("payment_types", paymentTypes);
             builder.AddQuery("types", types);
             builder.AddQuery("changes_since", changesSince);
@@ -537,10 +552,15 @@ public sealed partial class TransactionsClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -561,7 +581,7 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
     /// <param name="txnId">Unique ID of the transaction.</param>
-    /// <param name="body">Request body payload.</param>
+    /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<JsonDocument> Refund(string txnId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -618,7 +638,7 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
     /// <param name="txnId">Unique ID of the transaction.</param>
-    /// <param name="body">Request body payload.</param>
+    /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<JsonDocument>> RefundAsync(string txnId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)

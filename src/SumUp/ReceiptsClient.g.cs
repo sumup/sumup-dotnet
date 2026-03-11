@@ -60,8 +60,13 @@ public sealed partial class ReceiptsClient
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -118,8 +123,13 @@ public sealed partial class ReceiptsClient
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);

@@ -5,6 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+/// <summary>Checkout response returned after a successful processing attempt.</summary>
 public sealed partial class CheckoutSuccess
 {
     /// <summary>Amount of the payment.</summary>

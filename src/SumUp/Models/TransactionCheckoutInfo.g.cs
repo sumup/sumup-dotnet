@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Checkout-specific fields associated with a transaction.</summary>
 public sealed partial class TransactionCheckoutInfo
 {
     /// <summary>Authorization code for the transaction sent by the payment card issuer or bank. Applicable only to card payments.</summary>

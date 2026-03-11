@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Details of the ELV card account associated with the transaction.</summary>
 public sealed partial class ElvCardAccount
 {
     /// <summary>ELV IBAN.</summary>

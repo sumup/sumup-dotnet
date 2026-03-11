@@ -13,6 +13,7 @@ public sealed partial class DetailsError
     /// <summary>Details of the error.</summary>
     [JsonPropertyName("details")]
     public string? Details { get; set; }
+    /// <summary>List of violated validation constraints.</summary>
     [JsonPropertyName("failed_constraints")]
     public IEnumerable<DetailsErrorFailedConstraintsItem>? FailedConstraints { get; set; }
     /// <summary>The status code.</summary>

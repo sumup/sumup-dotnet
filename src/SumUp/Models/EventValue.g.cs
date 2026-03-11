@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Transaction event details.</summary>
 public sealed partial class EventValue
 {
     /// <summary>Amount of the event.</summary>

@@ -10,6 +10,7 @@ public sealed partial class PersonalProfileLegacy
     /// <summary>Details of the registered address.</summary>
     [JsonPropertyName("address")]
     public AddressWithDetails? Address { get; set; }
+    /// <summary>Indicates whether the profile data is complete.</summary>
     [JsonPropertyName("complete")]
     public bool? Complete { get; set; }
     /// <summary>Date of birth</summary>

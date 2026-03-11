@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Merchant profile details displayed on the receipt.</summary>
 public sealed partial class ReceiptMerchantDataMerchantProfile
 {
     [JsonPropertyName("address")]

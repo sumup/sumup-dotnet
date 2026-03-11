@@ -4,6 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Merchant payout and settlement configuration.</summary>
 public sealed partial class MerchantSettingsPayload
 {
     /// <summary>Expected maximum amount of a single purchase</summary>

@@ -60,10 +60,15 @@ public sealed partial class PayoutsClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<IEnumerable<ErrorExtended>>(responseBody);
+                        throw new ApiException<IEnumerable<ErrorExtended>>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -119,10 +124,15 @@ public sealed partial class PayoutsClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<IEnumerable<ErrorExtended>>(responseBody);
+                        throw new ApiException<IEnumerable<ErrorExtended>>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -176,10 +186,15 @@ public sealed partial class PayoutsClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<IEnumerable<ErrorExtended>>(responseBody);
+                        throw new ApiException<IEnumerable<ErrorExtended>>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -233,10 +248,15 @@ public sealed partial class PayoutsClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<IEnumerable<ErrorExtended>>(responseBody);
+                        throw new ApiException<IEnumerable<ErrorExtended>>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);

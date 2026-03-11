@@ -24,7 +24,7 @@ public sealed partial class CheckoutsClient
     /// Create a checkout
     /// </summary>
     /// <remarks>Creates a new payment checkout resource. The unique `checkout_reference` created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the `redirect_url` parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
-    /// <param name="body">Request body payload.</param>
+    /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<Checkout> Create(CheckoutCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -58,8 +58,8 @@ public sealed partial class CheckoutsClient
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -89,7 +89,7 @@ public sealed partial class CheckoutsClient
     /// Create a checkout
     /// </summary>
     /// <remarks>Creates a new payment checkout resource. The unique `checkout_reference` created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the `redirect_url` parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
-    /// <param name="body">Request body payload.</param>
+    /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<Checkout>> CreateAsync(CheckoutCreateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -123,8 +123,8 @@ public sealed partial class CheckoutsClient
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 403:
                     {
@@ -182,8 +182,8 @@ public sealed partial class CheckoutsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -241,8 +241,8 @@ public sealed partial class CheckoutsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -300,8 +300,8 @@ public sealed partial class CheckoutsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -354,8 +354,8 @@ public sealed partial class CheckoutsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -408,8 +408,8 @@ public sealed partial class CheckoutsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -457,8 +457,8 @@ public sealed partial class CheckoutsClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -479,7 +479,7 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Get payment methods available for the given merchant to use with a checkout.</remarks>
     /// <param name="merchantCode">The SumUp merchant code.</param>
-    /// <param name="amount">The amount for which the payment methods should be eligible, in major units. Note that currency must also be provided when filtering by amount.</param>
+    /// <param name="amount">The amount for which the payment methods should be eligible, in major units.</param>
     /// <param name="currency">The currency for which the payment methods should be eligible.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -513,11 +513,6 @@ public sealed partial class CheckoutsClient
                         var errorForStatus400 = _client.TryDeserialize<DetailsError>(responseBody);
                         throw new ApiException<DetailsError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
                     }
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
-                    }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
@@ -537,7 +532,7 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Get payment methods available for the given merchant to use with a checkout.</remarks>
     /// <param name="merchantCode">The SumUp merchant code.</param>
-    /// <param name="amount">The amount for which the payment methods should be eligible, in major units. Note that currency must also be provided when filtering by amount.</param>
+    /// <param name="amount">The amount for which the payment methods should be eligible, in major units.</param>
     /// <param name="currency">The currency for which the payment methods should be eligible.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -570,11 +565,6 @@ public sealed partial class CheckoutsClient
                     {
                         var errorForStatus400 = _client.TryDeserialize<DetailsError>(responseBody);
                         throw new ApiException<DetailsError>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -632,8 +622,8 @@ public sealed partial class CheckoutsClient
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
@@ -701,8 +691,8 @@ public sealed partial class CheckoutsClient
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 404:
                     {
