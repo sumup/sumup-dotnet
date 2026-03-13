@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.9](https://github.com/sumup/sumup-dotnet/compare/v0.0.8...v0.0.9) (2026-03-13)
+
+
+### Chores
+
+* align release automation config ([#55](https://github.com/sumup/sumup-dotnet/issues/55)) ([83265e4](https://github.com/sumup/sumup-dotnet/commit/83265e4c8e7eaaf7804cfb0e27c7f1dc90a5cc7d))
+* synced file(s) with sumup/apis ([#54](https://github.com/sumup/sumup-dotnet/issues/54)) ([7d025bd](https://github.com/sumup/sumup-dotnet/commit/7d025bdb39987bf5d36bb6c59c8d9e2275b698d6))
+
 ## [0.0.8](https://github.com/sumup/sumup-dotnet/compare/v0.0.7...v0.0.8) (2026-03-13)
 
 
