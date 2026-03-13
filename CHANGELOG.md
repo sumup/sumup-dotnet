@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.8](https://github.com/sumup/sumup-dotnet/compare/v0.0.7...v0.0.8) (2026-03-13)
+
+
+### Features
+
+* simpler types for flexible schemas ([ebc9db6](https://github.com/sumup/sumup-dotnet/commit/ebc9db6e79ebaa7112e546b6f66491b18ddb2262))
+* update to latest openapi specs ([7133de9](https://github.com/sumup/sumup-dotnet/commit/7133de9f970e2d399e6464ca6afff0caf73072a9))
+
+
+### Bug Fixes
+
+* **client:** send problem+json accept header ([#50](https://github.com/sumup/sumup-dotnet/issues/50)) ([778b58f](https://github.com/sumup/sumup-dotnet/commit/778b58f594fb7db0105e49c4acbce9511cf8da3e))
+* **codegen:** prefer problem+json for response schemas ([#51](https://github.com/sumup/sumup-dotnet/issues/51)) ([92283f4](https://github.com/sumup/sumup-dotnet/commit/92283f48e9f02701379a3055ea8b840c3825fe9c))
+
 ## [0.0.7](https://github.com/sumup/sumup-dotnet/compare/v0.0.6...v0.0.7) (2026-02-19)
 
 
