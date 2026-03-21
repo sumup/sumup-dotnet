@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.9](https://github.com/sumup/sumup-dotnet/compare/v0.0.8...v0.0.9) (2026-03-21)
+
+
+### Bug Fixes
+
+* **sdk:** enum serialization ([0a7ab17](https://github.com/sumup/sumup-dotnet/commit/0a7ab177e29184c6c04d8b29ffc28e49ef0df8a7)), closes [#57](https://github.com/sumup/sumup-dotnet/issues/57)
+
+
+### Chores
+
+* align release automation config ([#55](https://github.com/sumup/sumup-dotnet/issues/55)) ([83265e4](https://github.com/sumup/sumup-dotnet/commit/83265e4c8e7eaaf7804cfb0e27c7f1dc90a5cc7d))
+* **deps:** bump github.com/buger/jsonparser from 1.1.1 to 1.1.2 in /codegen in the go_modules group across 1 directory ([#56](https://github.com/sumup/sumup-dotnet/issues/56)) ([198031c](https://github.com/sumup/sumup-dotnet/commit/198031c5867fcd758bc627ac0a2086907070bc2e))
+* synced file(s) with sumup/apis ([#54](https://github.com/sumup/sumup-dotnet/issues/54)) ([7d025bd](https://github.com/sumup/sumup-dotnet/commit/7d025bdb39987bf5d36bb6c59c8d9e2275b698d6))
+
 ## [0.0.8](https://github.com/sumup/sumup-dotnet/compare/v0.0.7...v0.0.8) (2026-03-13)
 
 
