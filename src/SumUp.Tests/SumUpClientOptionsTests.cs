@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -50,5 +51,13 @@ public class SumUpClientOptionsTests
         {
             Environment.SetEnvironmentVariable(variable, originalValue);
         }
+    }
+
+    [Fact]
+    public void JsonSerializer_UsesEnumMemberValueForStandaloneEnums()
+    {
+        var json = JsonSerializer.Serialize(Currency.Eur);
+
+        Assert.Equal("\"EUR\"", json);
     }
 }

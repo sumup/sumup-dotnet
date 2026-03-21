@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
+[JsonConverter(typeof(EnumMemberJsonConverterFactory))]
 public enum EventStatus
 {
     [EnumMember(Value = "PENDING")]

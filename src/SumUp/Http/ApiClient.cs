@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +27,7 @@ internal sealed class ApiClient
         {
             PropertyNameCaseInsensitive = true
         };
-        _serializerOptions.Converters.Add(new JsonStringEnumConverter());
+        _serializerOptions.Converters.Add(new EnumMemberJsonConverterFactory());
     }
 
     internal HttpRequestMessage CreateRequest(HttpMethod method, string pathTemplate, Action<RequestBuilder>? configure = null)
