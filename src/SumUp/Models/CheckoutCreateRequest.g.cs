@@ -4,7 +4,6 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
 /// <summary>Details of the payment checkout.</summary>
 public sealed partial class CheckoutCreateRequest
 {
@@ -20,17 +19,9 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>Unique identification of a customer. If specified, the checkout session and payment instrument are associated with the referenced customer.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
-    /// <summary>Date and time of the creation of the payment checkout. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
-    [JsonPropertyName("date")]
-    [JsonInclude]
-    public DateTimeOffset? Date { get; private set; }
     /// <summary>Short description of the checkout visible in the SumUp dashboard. The description can contribute to reporting, allowing easier identification of a checkout.</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-    /// <summary>Unique ID of the checkout resource.</summary>
-    [JsonPropertyName("id")]
-    [JsonInclude]
-    public string? Id { get; private set; }
     /// <summary>Unique identifying code of the merchant profile.</summary>
     [JsonPropertyName("merchant_code")]
     public string MerchantCode { get; set; } = default!;
@@ -43,14 +34,6 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>URL to which the SumUp platform sends the processing status of the payment checkout.</summary>
     [JsonPropertyName("return_url")]
     public string? ReturnUrl { get; set; }
-    /// <summary>Current status of the checkout.</summary>
-    [JsonPropertyName("status")]
-    [JsonInclude]
-    public string? Status { get; private set; }
-    /// <summary>List of transactions related to the payment.</summary>
-    [JsonPropertyName("transactions")]
-    [JsonInclude]
-    public IEnumerable<CheckoutCreateRequestTransactionsItem>? Transactions { get; private set; }
     /// <summary>Date and time of the checkout expiration before which the client application needs to send a processing request. If no value is present, the checkout does not have an expiration time.</summary>
     [JsonPropertyName("valid_until")]
     public DateTimeOffset? ValidUntil { get; set; }
