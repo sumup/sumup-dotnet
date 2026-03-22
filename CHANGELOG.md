@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.10](https://github.com/sumup/sumup-dotnet/compare/v0.0.9...v0.0.10) (2026-03-22)
+
+
+### Bug Fixes
+
+* deserialize readOnly model properties ([#61](https://github.com/sumup/sumup-dotnet/issues/61)) ([3fa7d3a](https://github.com/sumup/sumup-dotnet/commit/3fa7d3af7eb336d8b186817cb4790af2647aadc8))
+
 ## [0.0.9](https://github.com/sumup/sumup-dotnet/compare/v0.0.8...v0.0.9) (2026-03-21)
 
 
