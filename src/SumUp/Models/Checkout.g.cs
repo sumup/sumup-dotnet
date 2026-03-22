@@ -28,7 +28,8 @@ public sealed partial class Checkout
     public string? Description { get; set; }
     /// <summary>Unique ID of the checkout resource.</summary>
     [JsonPropertyName("id")]
-    public string? Id { get; }
+    [JsonInclude]
+    public string? Id { get; private set; }
     /// <summary>Created mandate</summary>
     [JsonPropertyName("mandate")]
     public MandateResponse? Mandate { get; set; }
