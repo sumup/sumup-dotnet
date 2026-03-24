@@ -39,6 +39,8 @@ public enum EntryModeFilter
     GooglePay,
     [EnumMember(Value = "PAYPAL")]
     Paypal,
+    [EnumMember(Value = "TWINT")]
+    Twint,
     [EnumMember(Value = "NONE")]
     None,
     [EnumMember(Value = "CHIP")]
