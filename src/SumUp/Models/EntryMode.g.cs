@@ -59,6 +59,8 @@ public enum EntryMode
     GooglePay,
     [EnumMember(Value = "paypal")]
     Paypal,
+    [EnumMember(Value = "twint")]
+    Twint,
     [EnumMember(Value = "na")]
     Na,
 }
