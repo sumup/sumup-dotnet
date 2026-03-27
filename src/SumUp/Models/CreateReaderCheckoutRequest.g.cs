@@ -13,7 +13,7 @@ public sealed partial class CreateReaderCheckoutRequest
     public CreateReaderCheckoutRequestAffiliate? Affiliate { get; set; }
     /// <summary>The card type of the card used for the transaction. Is is required only for some countries (e.g: Brazil).</summary>
     [JsonPropertyName("card_type")]
-    public string? CardType { get; set; }
+    public CreateReaderCheckoutRequestCardType? CardType { get; set; }
     /// <summary>Description of the checkout to be shown in the Merchant Sales</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }

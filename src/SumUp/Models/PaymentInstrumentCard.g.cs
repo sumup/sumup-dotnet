@@ -12,5 +12,5 @@ public sealed partial class PaymentInstrumentCard
     public Card Card { get; set; } = default!;
     /// <summary>Type of the payment instrument.</summary>
     [JsonPropertyName("type")]
-    public string Type { get; set; } = default!;
+    public PaymentInstrumentCardType Type { get; set; }
 }

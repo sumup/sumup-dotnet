@@ -12,5 +12,5 @@ public sealed partial class ReaderDevice
     public string Identifier { get; set; } = default!;
     /// <summary>Identifier of the model of the device.</summary>
     [JsonPropertyName("model")]
-    public string Model { get; set; } = default!;
+    public ReaderDeviceModel Model { get; set; }
 }

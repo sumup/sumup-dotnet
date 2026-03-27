@@ -33,10 +33,10 @@ public sealed partial class TransactionHistory
     public DateTime? PayoutDate { get; set; }
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
-    public string? PayoutPlan { get; set; }
+    public TransactionHistoryPayoutPlan? PayoutPlan { get; set; }
     /// <summary>Payout type.</summary>
     [JsonPropertyName("payout_type")]
-    public string? PayoutType { get; set; }
+    public TransactionHistoryPayoutType? PayoutType { get; set; }
     /// <summary>Number of payouts that are made to the registered user specified in the `user` property.</summary>
     [JsonPropertyName("payouts_received")]
     public int? PayoutsReceived { get; set; }
@@ -51,7 +51,7 @@ public sealed partial class TransactionHistory
     public decimal? RefundedAmount { get; set; }
     /// <summary>Current status of the transaction.</summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public TransactionHistoryStatus? Status { get; set; }
     /// <summary>Date and time of the creation of the transaction. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
@@ -63,7 +63,7 @@ public sealed partial class TransactionHistory
     public string? TransactionId { get; set; }
     /// <summary>Type of the transaction for the registered user specified in the `user` property.</summary>
     [JsonPropertyName("type")]
-    public string? Type { get; set; }
+    public TransactionHistoryType? Type { get; set; }
     /// <summary>Email address of the registered user (merchant) to whom the payment is made.</summary>
     [JsonPropertyName("user")]
     public string? User { get; set; }

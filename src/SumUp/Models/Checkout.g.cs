@@ -41,7 +41,7 @@ public sealed partial class Checkout
     public string? ReturnUrl { get; set; }
     /// <summary>Current status of the checkout.</summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public CheckoutStatus? Status { get; set; }
     /// <summary>List of transactions related to the payment.</summary>
     [JsonPropertyName("transactions")]
     public IEnumerable<CheckoutTransactionsItem>? Transactions { get; set; }

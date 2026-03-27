@@ -82,10 +82,10 @@ public sealed partial class TransactionFull
     public DateTime? PayoutDate { get; set; }
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
-    public string? PayoutPlan { get; set; }
+    public TransactionFullPayoutPlan? PayoutPlan { get; set; }
     /// <summary>Payout type for the transaction.</summary>
     [JsonPropertyName("payout_type")]
-    public string? PayoutType { get; set; }
+    public TransactionFullPayoutType? PayoutType { get; set; }
     /// <summary>Number of payouts that are made to the registered user specified in the `user` property.</summary>
     [JsonPropertyName("payouts_received")]
     public int? PayoutsReceived { get; set; }
@@ -94,7 +94,7 @@ public sealed partial class TransactionFull
     public int? PayoutsTotal { get; set; }
     /// <summary>Debit/Credit.</summary>
     [JsonPropertyName("process_as")]
-    public string? ProcessAs { get; set; }
+    public TransactionFullProcessAs? ProcessAs { get; set; }
     /// <summary>Short description of the payment. The value is taken from the `description` property of the related checkout resource.</summary>
     [JsonPropertyName("product_summary")]
     public string? ProductSummary { get; set; }
@@ -103,13 +103,13 @@ public sealed partial class TransactionFull
     public IEnumerable<Product>? Products { get; set; }
     /// <summary>Simple name of the payment type.</summary>
     [JsonPropertyName("simple_payment_type")]
-    public string? SimplePaymentType { get; set; }
+    public TransactionFullSimplePaymentType? SimplePaymentType { get; set; }
     /// <summary>Status generated from the processing status and the latest transaction state.</summary>
     [JsonPropertyName("simple_status")]
-    public string? SimpleStatus { get; set; }
+    public TransactionFullSimpleStatus? SimpleStatus { get; set; }
     /// <summary>Current status of the transaction.</summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public TransactionFullStatus? Status { get; set; }
     /// <summary>Indicates whether tax deduction is enabled for the transaction.</summary>
     [JsonPropertyName("tax_enabled")]
     public bool? TaxEnabled { get; set; }
@@ -136,5 +136,5 @@ public sealed partial class TransactionFull
     public IEnumerable<TransactionFullVatRatesItem>? VatRates { get; set; }
     /// <summary>Verification method used for the transaction.</summary>
     [JsonPropertyName("verification_method")]
-    public string? VerificationMethod { get; set; }
+    public TransactionFullVerificationMethod? VerificationMethod { get; set; }
 }

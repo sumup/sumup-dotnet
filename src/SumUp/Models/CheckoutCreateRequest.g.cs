@@ -27,7 +27,7 @@ public sealed partial class CheckoutCreateRequest
     public string MerchantCode { get; set; } = default!;
     /// <summary>Purpose of the checkout.</summary>
     [JsonPropertyName("purpose")]
-    public string? Purpose { get; set; }
+    public CheckoutCreateRequestPurpose? Purpose { get; set; }
     /// <summary>__Required__ for [APMs](https://developer.sumup.com/online-payments/apm/introduction) and __recommended__ for card payments. Refers to a url where the end user is redirected once the payment processing completes. If not specified, the [Payment Widget](https://developer.sumup.com/online-payments/tools/card-widget) renders [3DS challenge](https://developer.sumup.com/online-payments/features/3ds) within an iframe instead of performing a full-page redirect.</summary>
     [JsonPropertyName("redirect_url")]
     public string? RedirectUrl { get; set; }

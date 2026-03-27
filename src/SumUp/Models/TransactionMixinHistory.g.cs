@@ -9,7 +9,7 @@ public sealed partial class TransactionMixinHistory
 {
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
-    public string? PayoutPlan { get; set; }
+    public TransactionMixinHistoryPayoutPlan? PayoutPlan { get; set; }
     /// <summary>Number of payouts that are made to the registered user specified in the `user` property.</summary>
     [JsonPropertyName("payouts_received")]
     public int? PayoutsReceived { get; set; }

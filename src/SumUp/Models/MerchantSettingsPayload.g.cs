@@ -21,10 +21,10 @@ public sealed partial class MerchantSettingsPayload
     public string? PayoutOnDemandAvailable { get; set; }
     /// <summary>Payout period.</summary>
     [JsonPropertyName("payout_period")]
-    public string? PayoutPeriod { get; set; }
+    public MerchantSettingsPayloadPayoutPeriod? PayoutPeriod { get; set; }
     /// <summary>Payout type.</summary>
     [JsonPropertyName("payout_type")]
-    public string? PayoutType { get; set; }
+    public MerchantSettingsPayloadPayoutType? PayoutType { get; set; }
     /// <summary>Printers enabled.</summary>
     [JsonPropertyName("printers_enabled")]
     public bool? PrintersEnabled { get; set; }

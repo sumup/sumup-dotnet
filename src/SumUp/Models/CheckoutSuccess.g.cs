@@ -50,7 +50,7 @@ public sealed partial class CheckoutSuccess
     public string? ReturnUrl { get; set; }
     /// <summary>Current status of the checkout.</summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public CheckoutSuccessStatus? Status { get; set; }
     /// <summary>Transaction code of the successful transaction with which the payment for the checkout is completed.</summary>
     [JsonPropertyName("transaction_code")]
     [JsonInclude]

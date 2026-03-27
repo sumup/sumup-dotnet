@@ -21,7 +21,7 @@ public sealed partial class ProcessCheckout
     public MandatePayload? Mandate { get; set; }
     /// <summary>Describes the payment method used to attempt processing</summary>
     [JsonPropertyName("payment_type")]
-    public string PaymentType { get; set; } = default!;
+    public ProcessCheckoutPaymentType PaymentType { get; set; }
     /// <summary>Personal details for the customer.</summary>
     [JsonPropertyName("personal_details")]
     public PersonalDetails? PersonalDetails { get; set; }

@@ -9,7 +9,7 @@ public sealed partial class MandatePayload
 {
     /// <summary>Indicates the mandate type</summary>
     [JsonPropertyName("type")]
-    public string Type { get; set; } = default!;
+    public MandatePayloadType Type { get; set; }
     /// <summary>Operating system and web client used by the end-user</summary>
     [JsonPropertyName("user_agent")]
     public string UserAgent { get; set; } = default!;
