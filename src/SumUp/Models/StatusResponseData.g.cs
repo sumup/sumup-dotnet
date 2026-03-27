@@ -14,7 +14,7 @@ public sealed partial class StatusResponseData
     public int? BatteryTemperature { get; set; }
     /// <summary>Type of connection used by the device</summary>
     [JsonPropertyName("connection_type")]
-    public string? ConnectionType { get; set; }
+    public StatusResponseDataConnectionType? ConnectionType { get; set; }
     /// <summary>Firmware version of the device</summary>
     [JsonPropertyName("firmware_version")]
     public string? FirmwareVersion { get; set; }
@@ -23,8 +23,8 @@ public sealed partial class StatusResponseData
     public DateTimeOffset? LastActivity { get; set; }
     /// <summary>Latest state of the device</summary>
     [JsonPropertyName("state")]
-    public string? State { get; set; }
+    public StatusResponseDataState? State { get; set; }
     /// <summary>Status of a device</summary>
     [JsonPropertyName("status")]
-    public string Status { get; set; } = default!;
+    public StatusResponseDataStatus Status { get; set; }
 }

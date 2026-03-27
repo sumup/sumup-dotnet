@@ -11,5 +11,5 @@ public sealed partial class BadRequestErrors
     public string? Detail { get; set; }
     /// <summary>Key indicating type of error</summary>
     [JsonPropertyName("type")]
-    public string Type { get; set; } = default!;
+    public BadRequestErrorsType Type { get; set; }
 }

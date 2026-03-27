@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 public sealed partial class OperatorValue
 {
     [JsonPropertyName("account_type")]
-    public string AccountType { get; set; } = default!;
+    public OperatorValueAccountType AccountType { get; set; }
     /// <summary>The timestamp of when the operator was created.</summary>
     [JsonPropertyName("created_at")]
     public DateTimeOffset CreatedAt { get; set; } = default!;

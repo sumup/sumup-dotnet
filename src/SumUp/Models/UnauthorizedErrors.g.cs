@@ -11,5 +11,5 @@ public sealed partial class UnauthorizedErrors
     public string Detail { get; set; } = default!;
     /// <summary>Key indicating type of error. Present only for typed 401 responses (e.g. invalid token, invalid password). Absent for generic unauthorized responses.</summary>
     [JsonPropertyName("type")]
-    public string? Type { get; set; }
+    public UnauthorizedErrorsType? Type { get; set; }
 }

@@ -10,7 +10,7 @@ public sealed partial class CheckoutAcceptedNextStep
 {
     /// <summary>Indicates allowed mechanisms for redirecting an end user. If both values are provided to ensure a redirect takes place in either.</summary>
     [JsonPropertyName("mechanism")]
-    public IEnumerable<string>? Mechanism { get; set; }
+    public IEnumerable<CheckoutAcceptedNextStepMechanismItem>? Mechanism { get; set; }
     /// <summary>Method used to complete the redirect.</summary>
     [JsonPropertyName("method")]
     public string? Method { get; set; }

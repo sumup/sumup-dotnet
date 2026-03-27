@@ -9,7 +9,7 @@ public sealed partial class BankAccountPayload
 {
     /// <summary>Determines if this bank account is business or personal.</summary>
     [JsonPropertyName("account_category")]
-    public string? AccountCategory { get; set; }
+    public BankAccountPayloadAccountCategory? AccountCategory { get; set; }
     /// <summary>Account holder name</summary>
     [JsonPropertyName("account_holder_name")]
     public string AccountHolderName { get; set; } = default!;
@@ -18,7 +18,7 @@ public sealed partial class BankAccountPayload
     public string? AccountNumber { get; set; }
     /// <summary>Type of the account.</summary>
     [JsonPropertyName("account_type")]
-    public string? AccountType { get; set; }
+    public BankAccountPayloadAccountType? AccountType { get; set; }
     /// <summary>Bank code</summary>
     [JsonPropertyName("bank_code")]
     public string? BankCode { get; set; }
@@ -36,7 +36,7 @@ public sealed partial class BankAccountPayload
     public bool? Primary { get; set; }
     /// <summary>Determines the bank account status.</summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public BankAccountPayloadStatus? Status { get; set; }
     /// <summary>SWIFT code</summary>
     [JsonPropertyName("swift")]
     public string Swift { get; set; } = default!;

@@ -19,9 +19,9 @@ public sealed partial class FinancialPayoutsItem
     [JsonPropertyName("reference")]
     public string? Reference { get; set; }
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public FinancialPayoutsItemStatus? Status { get; set; }
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
     [JsonPropertyName("type")]
-    public string? Type { get; set; }
+    public FinancialPayoutsItemType? Type { get; set; }
 }

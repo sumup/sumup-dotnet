@@ -24,7 +24,7 @@ public sealed partial class TransactionBase
     public PaymentType? PaymentType { get; set; }
     /// <summary>Current status of the transaction.</summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public TransactionBaseStatus? Status { get; set; }
     /// <summary>Date and time of the creation of the transaction. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }

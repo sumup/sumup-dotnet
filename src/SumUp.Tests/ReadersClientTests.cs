@@ -140,12 +140,12 @@ public class ReadersClientTests
         var statusData = statusResponse.Data!;
         Assert.Equal(82.5f, statusData.BatteryLevel);
         Assert.Equal(29, statusData.BatteryTemperature);
-        Assert.Equal("wifi", statusData.ConnectionType);
+        Assert.Equal(StatusResponseDataConnectionType.WiFi, statusData.ConnectionType);
         Assert.Equal("3.3.40", statusData.FirmwareVersion);
         var expectedLastActivity = DateTimeOffset.Parse("2024-05-23T13:45:00+00:00", CultureInfo.InvariantCulture);
         Assert.Equal(expectedLastActivity, statusData.LastActivity);
-        Assert.Equal("WAITING_FOR_CARD", statusData.State);
-        Assert.Equal("ONLINE", statusData.Status);
+        Assert.Equal(StatusResponseDataState.WaitingForCard, statusData.State);
+        Assert.Equal(StatusResponseDataStatus.Online, statusData.Status);
     }
 
     [Fact]

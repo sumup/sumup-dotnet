@@ -26,5 +26,5 @@ public sealed partial class PaymentInstrumentResponse
     public string? Token { get; private set; }
     /// <summary>Type of the payment instrument.</summary>
     [JsonPropertyName("type")]
-    public string? Type { get; set; }
+    public PaymentInstrumentResponseType? Type { get; set; }
 }

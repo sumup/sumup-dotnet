@@ -812,6 +812,10 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, require
 		if schema == nil {
 			return g.nullableType("JsonDocument", false, required), nil
 		}
+		if len(schema.Enum) > 0 {
+			typeName := g.createInlineEnum(inlineBase, schema)
+			return g.nullableType(typeName, true, required), nil
+		}
 		if schemaDefinesStructuredObject(schema) {
 			typeName, err := g.createInlineModel(inlineBase, schema)
 			if err != nil {
@@ -862,6 +866,19 @@ func (g *Generator) createInlineModel(baseName string, schema *base.Schema) (str
 	}
 	g.inlineModels = append(g.inlineModels, model)
 	return typeName, nil
+}
+
+func (g *Generator) createInlineEnum(baseName string, schema *base.Schema) string {
+	typeName := g.reserveModelName(baseName)
+	g.inlineModels = append(g.inlineModels, modelTemplateData{
+		Namespace:       g.config.Namespace,
+		Name:            typeName,
+		Description:     sanitizeText(schema.Description),
+		Kind:            schemaKindEnum,
+		EnumValues:      g.buildEnumValues(schema),
+		UsesCollections: false,
+	})
+	return typeName
 }
 
 func (g *Generator) reserveModelName(base string) string {

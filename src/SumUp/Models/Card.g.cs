@@ -12,7 +12,7 @@ public sealed partial class Card
     public string Cvv { get; set; } = default!;
     /// <summary>Month from the expiration time of the payment card. Accepted format is `MM`.</summary>
     [JsonPropertyName("expiry_month")]
-    public string ExpiryMonth { get; set; } = default!;
+    public CardExpiryMonth ExpiryMonth { get; set; }
     /// <summary>Year from the expiration time of the payment card. Accepted formats are `YY` and `YYYY`.</summary>
     [JsonPropertyName("expiry_year")]
     public string ExpiryYear { get; set; } = default!;
