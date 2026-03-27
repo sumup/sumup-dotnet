@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.0.11](https://github.com/sumup/sumup-dotnet/compare/v0.0.10...v0.0.11) (2026-03-27)
+
+
+### Features
+
+* **sdk:** improve typing ([#68](https://github.com/sumup/sumup-dotnet/issues/68)) ([2cd24ab](https://github.com/sumup/sumup-dotnet/commit/2cd24ab8f524c67bff60cfa2e56f851bd208a5b8))
+
+
+### Chores
+
+* **deps:** bump actions/create-github-app-token from 2.2.1 to 3.0.0 ([#65](https://github.com/sumup/sumup-dotnet/issues/65)) ([166e231](https://github.com/sumup/sumup-dotnet/commit/166e231c55b3accd64226763e49c76f4f81642f7))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#64](https://github.com/sumup/sumup-dotnet/issues/64)) ([080e7ab](https://github.com/sumup/sumup-dotnet/commit/080e7ab7a1e04d08155029a69d012ff389088974))
+* synced file(s) with sumup/apis ([#63](https://github.com/sumup/sumup-dotnet/issues/63)) ([23ac0ea](https://github.com/sumup/sumup-dotnet/commit/23ac0eaeff4b539332ed495b23ef7b19860001bb))
+* synced file(s) with sumup/apis ([#66](https://github.com/sumup/sumup-dotnet/issues/66)) ([da0e0a9](https://github.com/sumup/sumup-dotnet/commit/da0e0a94ebb8d3945c31a7aeaa442518b88d3121))
+* synced file(s) with sumup/apis ([#67](https://github.com/sumup/sumup-dotnet/issues/67)) ([ac28213](https://github.com/sumup/sumup-dotnet/commit/ac282136cf789e4fb72e04c485f468e33333d570))
+
 ## [0.0.10](https://github.com/sumup/sumup-dotnet/compare/v0.0.9...v0.0.10) (2026-03-22)
 
 
