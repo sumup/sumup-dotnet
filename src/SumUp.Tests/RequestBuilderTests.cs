@@ -31,6 +31,26 @@ public class RequestBuilderTests
     }
 
     [Fact]
+    public void Build_SerializesEnumQueryUsingEnumMemberValue()
+    {
+        var builder = new RequestBuilder(HttpMethod.Get, "/v0.1/items", new Uri("https://api.sumup.com"));
+        builder.AddQuery("status", MembershipStatus.Accepted);
+        var request = builder.Build();
+
+        Assert.Equal("https://api.sumup.com/v0.1/items?status=accepted", request.RequestUri!.AbsoluteUri);
+    }
+
+    [Fact]
+    public void Build_SerializesRepeatedEnumQueryUsingEnumMemberValues()
+    {
+        var builder = new RequestBuilder(HttpMethod.Get, "/v0.1/items", new Uri("https://api.sumup.com"));
+        builder.AddQuery("status", new[] { MembershipStatus.Accepted, MembershipStatus.Pending });
+        var request = builder.Build();
+
+        Assert.Equal("https://api.sumup.com/v0.1/items?status=accepted&status=pending", request.RequestUri!.AbsoluteUri);
+    }
+
+    [Fact]
     public void Build_OmitsUnsetOptionalQuery()
     {
         var builder = new RequestBuilder(HttpMethod.Get, "/v0.1/items", new Uri("https://api.sumup.com"));
