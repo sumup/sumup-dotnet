@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Globalization;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Net.Http;
 using System.Text;
 
@@ -9,6 +12,7 @@ namespace SumUp.Http;
 
 internal sealed class RequestBuilder
 {
+    private static readonly ConcurrentDictionary<Type, IReadOnlyDictionary<object, string>> EnumValueMappings = new();
     private readonly HttpMethod _method;
     private readonly string _pathTemplate;
     private readonly Uri _baseAddress;
@@ -143,6 +147,42 @@ internal sealed class RequestBuilder
         return request;
     }
 
-    private static string ConvertToString(object value) =>
-        Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+    private static string ConvertToString(object value)
+    {
+        var type = value.GetType();
+        if (type.IsEnum)
+        {
+            return ConvertEnumToString(type, value);
+        }
+
+        return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+    }
+
+    private static string ConvertEnumToString(Type enumType, object value)
+    {
+        var mappings = EnumValueMappings.GetOrAdd(enumType, static type =>
+        {
+            var values = new Dictionary<object, string>();
+            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Static))
+            {
+                var enumValue = field.GetValue(null);
+                if (enumValue is null)
+                {
+                    continue;
+                }
+
+                var enumMember = field.GetCustomAttribute<EnumMemberAttribute>();
+                values[enumValue] = enumMember?.Value ?? field.Name;
+            }
+
+            return values;
+        });
+
+        if (mappings.TryGetValue(value, out var mapped))
+        {
+            return mapped;
+        }
+
+        return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+    }
 }
