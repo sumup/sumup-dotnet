@@ -34,9 +34,6 @@ public sealed partial class AddressPayloadLegacy
     /// <summary>Postal code</summary>
     [JsonPropertyName("post_code")]
     public string PostCode { get; set; } = default!;
-    /// <summary>Country region id</summary>
-    [JsonPropertyName("region_id")]
-    public decimal? RegionId { get; set; }
     /// <summary>Country region name</summary>
     [JsonPropertyName("region_name")]
     public string? RegionName { get; set; }

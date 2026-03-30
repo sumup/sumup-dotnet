@@ -8,6 +8,8 @@ public sealed partial class ReceiptMerchantDataMerchantProfileAddress
 {
     [JsonPropertyName("address_line1")]
     public string? AddressLine1 { get; set; }
+    [JsonPropertyName("address_line2")]
+    public string? AddressLine2 { get; set; }
     [JsonPropertyName("city")]
     public string? City { get; set; }
     [JsonPropertyName("country")]
@@ -20,4 +22,6 @@ public sealed partial class ReceiptMerchantDataMerchantProfileAddress
     public string? Landline { get; set; }
     [JsonPropertyName("post_code")]
     public string? PostCode { get; set; }
+    [JsonPropertyName("region_name")]
+    public string? RegionName { get; set; }
 }

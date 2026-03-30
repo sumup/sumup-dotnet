@@ -6,6 +6,9 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class ReceiptTransactionProductsItem
 {
+    /// <summary>Product description</summary>
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
     /// <summary>Product name</summary>
     [JsonPropertyName("name")]
     public string? Name { get; set; }

@@ -40,9 +40,6 @@ public sealed partial class AddressWithDetails
     /// <summary>Region code</summary>
     [JsonPropertyName("region_code")]
     public string? RegionCode { get; set; }
-    /// <summary>Country region id</summary>
-    [JsonPropertyName("region_id")]
-    public decimal? RegionId { get; set; }
     /// <summary>Region name</summary>
     [JsonPropertyName("region_name")]
     public string? RegionName { get; set; }
