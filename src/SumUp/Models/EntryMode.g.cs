@@ -9,58 +9,58 @@ using System.Text.Json.Serialization;
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
 public enum EntryMode
 {
-    [EnumMember(Value = "none")]
-    None,
-    [EnumMember(Value = "magstripe")]
-    Magstripe,
-    [EnumMember(Value = "chip")]
-    Chip,
-    [EnumMember(Value = "manual entry")]
-    ManualEntry,
-    [EnumMember(Value = "customer entry")]
-    CustomerEntry,
-    [EnumMember(Value = "magstripe fallback")]
-    MagstripeFallback,
-    [EnumMember(Value = "contactless")]
-    Contactless,
-    [EnumMember(Value = "moto")]
-    Moto,
-    [EnumMember(Value = "contactless magstripe")]
-    ContactlessMagstripe,
-    [EnumMember(Value = "boleto")]
+    [EnumMember(Value = "BOLETO")]
     Boleto,
-    [EnumMember(Value = "direct debit")]
-    DirectDebit,
-    [EnumMember(Value = "sofort")]
+    [EnumMember(Value = "SOFORT")]
     Sofort,
-    [EnumMember(Value = "ideal")]
+    [EnumMember(Value = "IDEAL")]
     Ideal,
-    [EnumMember(Value = "bancontact")]
+    [EnumMember(Value = "BANCONTACT")]
     Bancontact,
-    [EnumMember(Value = "eps")]
+    [EnumMember(Value = "EPS")]
     Eps,
-    [EnumMember(Value = "mybank")]
+    [EnumMember(Value = "MYBANK")]
     Mybank,
-    [EnumMember(Value = "satispay")]
+    [EnumMember(Value = "SATISPAY")]
     Satispay,
-    [EnumMember(Value = "blik")]
+    [EnumMember(Value = "BLIK")]
     Blik,
-    [EnumMember(Value = "p24")]
+    [EnumMember(Value = "P24")]
     P24,
-    [EnumMember(Value = "giropay")]
+    [EnumMember(Value = "GIROPAY")]
     Giropay,
-    [EnumMember(Value = "pix")]
+    [EnumMember(Value = "PIX")]
     Pix,
-    [EnumMember(Value = "qr code pix")]
+    [EnumMember(Value = "QR_CODE_PIX")]
     QrCodePix,
-    [EnumMember(Value = "apple pay")]
+    [EnumMember(Value = "APPLE_PAY")]
     ApplePay,
-    [EnumMember(Value = "google pay")]
+    [EnumMember(Value = "GOOGLE_PAY")]
     GooglePay,
-    [EnumMember(Value = "paypal")]
+    [EnumMember(Value = "PAYPAL")]
     Paypal,
-    [EnumMember(Value = "twint")]
+    [EnumMember(Value = "TWINT")]
     Twint,
-    [EnumMember(Value = "na")]
-    Na,
+    [EnumMember(Value = "NONE")]
+    None,
+    [EnumMember(Value = "CHIP")]
+    Chip,
+    [EnumMember(Value = "MANUAL_ENTRY")]
+    ManualEntry,
+    [EnumMember(Value = "CUSTOMER_ENTRY")]
+    CustomerEntry,
+    [EnumMember(Value = "MAGSTRIPE_FALLBACK")]
+    MagstripeFallback,
+    [EnumMember(Value = "MAGSTRIPE")]
+    Magstripe,
+    [EnumMember(Value = "DIRECT_DEBIT")]
+    DirectDebit,
+    [EnumMember(Value = "CONTACTLESS")]
+    Contactless,
+    [EnumMember(Value = "MOTO")]
+    Moto,
+    [EnumMember(Value = "CONTACTLESS_MAGSTRIPE")]
+    ContactlessMagstripe,
+    [EnumMember(Value = "N/A")]
+    NA,
 }

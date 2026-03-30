@@ -11,8 +11,16 @@ public sealed partial class ReceiptMerchantDataMerchantProfile
     public ReceiptMerchantDataMerchantProfileAddress? Address { get; set; }
     [JsonPropertyName("business_name")]
     public string? BusinessName { get; set; }
+    [JsonPropertyName("company_registration_number")]
+    public string? CompanyRegistrationNumber { get; set; }
     [JsonPropertyName("email")]
     public string? Email { get; set; }
+    [JsonPropertyName("language")]
+    public string? Language { get; set; }
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
+    [JsonPropertyName("vat_id")]
+    public string? VatId { get; set; }
+    [JsonPropertyName("website")]
+    public string? Website { get; set; }
 }

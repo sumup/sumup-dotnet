@@ -14,6 +14,9 @@ public sealed partial class ReceiptTransaction
     /// <summary>Payment card details displayed on the receipt.</summary>
     [JsonPropertyName("card")]
     public ReceiptCard? Card { get; set; }
+    /// <summary>Card reader details displayed on the receipt.</summary>
+    [JsonPropertyName("card_reader")]
+    public ReceiptReader? CardReader { get; set; }
     /// <summary>Transaction currency.</summary>
     [JsonPropertyName("currency")]
     public string? Currency { get; set; }
@@ -26,9 +29,15 @@ public sealed partial class ReceiptTransaction
     /// <summary>Number of installments.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
+    /// <summary>Merchant code.</summary>
+    [JsonPropertyName("merchant_code")]
+    public string? MerchantCode { get; set; }
     /// <summary>Transaction type.</summary>
     [JsonPropertyName("payment_type")]
     public string? PaymentType { get; set; }
+    /// <summary>Debit/Credit.</summary>
+    [JsonPropertyName("process_as")]
+    public ReceiptTransactionProcessAs? ProcessAs { get; set; }
     /// <summary>Products</summary>
     [JsonPropertyName("products")]
     public IEnumerable<ReceiptTransactionProductsItem>? Products { get; set; }
@@ -47,6 +56,9 @@ public sealed partial class ReceiptTransaction
     /// <summary>Transaction code.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
+    /// <summary>Unique ID of the transaction.</summary>
+    [JsonPropertyName("transaction_id")]
+    public string? TransactionId { get; set; }
     /// <summary>Transaction VAT amount.</summary>
     [JsonPropertyName("vat_amount")]
     public string? VatAmount { get; set; }
