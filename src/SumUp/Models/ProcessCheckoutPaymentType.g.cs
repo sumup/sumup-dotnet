@@ -19,4 +19,8 @@ public enum ProcessCheckoutPaymentType
     Blik,
     [EnumMember(Value = "bancontact")]
     Bancontact,
+    [EnumMember(Value = "google_pay")]
+    GooglePay,
+    [EnumMember(Value = "apple_pay")]
+    ApplePay,
 }
