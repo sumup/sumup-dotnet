@@ -4,15 +4,22 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+using System.Text.Json;
 /// <summary>Details of the payment instrument for processing the checkout.</summary>
 public sealed partial class ProcessCheckout
 {
+    /// <summary>Raw payment token object received from Apple Pay. Send the Apple Pay response payload as-is.</summary>
+    [JsonPropertyName("apple_pay")]
+    public JsonDocument? ApplePay { get; set; }
     /// <summary>__Required when payment type is `card`.__ Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public Card? Card { get; set; }
     /// <summary>__Required when `token` is provided.__ Unique ID of the customer.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
+    /// <summary>Raw `PaymentData` object received from Google Pay. Send the Google Pay response payload as-is.</summary>
+    [JsonPropertyName("google_pay")]
+    public JsonDocument? GooglePay { get; set; }
     /// <summary>Number of installments for deferred payments. Available only to merchant users in Brazil.</summary>
     [JsonPropertyName("installments")]
     public int? Installments { get; set; }
