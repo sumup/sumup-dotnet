@@ -22,7 +22,7 @@ public sealed partial class PersonalProfilePayloadLegacy
     /// <summary>Mobile phone number</summary>
     [JsonPropertyName("mobile_phone")]
     public string? MobilePhone { get; set; }
-    /// <summary>National identification id. Country specific. Ex CPF &#40;Brazil&#41;, DNI (Spain), PESEL (Poland)</summary>
+    /// <summary>National identification id. Country specific. Ex CPF &amp;#40;Brazil&amp;#41;, DNI (Spain), PESEL (Poland)</summary>
     [JsonPropertyName("national_id")]
     public string? NationalId { get; set; }
 }

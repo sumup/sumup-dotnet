@@ -543,9 +543,10 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			ct, ok := clientMap[clientName]
 			if !ok {
 				ct = &clientTemplateData{
-					Namespace:    g.config.Namespace,
-					ClientName:   clientName,
-					PropertyName: clientName,
+					Namespace:      g.config.Namespace,
+					ClientName:     clientName,
+					PropertyName:   clientName,
+					TagDescription: findTagDescription(doc, tag),
 				}
 				clientMap[clientName] = ct
 			}
@@ -1338,7 +1339,11 @@ func sanitizeText(value string) string {
 	value = strings.ReplaceAll(value, "\r\n", " ")
 	value = strings.ReplaceAll(value, "\n", " ")
 	value = strings.Join(strings.Fields(value), " ")
-	return value
+	return strings.NewReplacer(
+		"&", "&amp;",
+		"<", "&lt;",
+		">", "&gt;",
+	).Replace(value)
 }
 
 func yamlNodeToString(node *yaml.Node) string {
@@ -1423,6 +1428,7 @@ type clientTemplateData struct {
 	Namespace          string
 	ClientName         string
 	PropertyName       string
+	TagDescription     string
 	Operations         []operationTemplateData
 	UsesCollections    bool
 	UsesJson           bool
@@ -1490,6 +1496,21 @@ type bodyTemplateData struct {
 type rootTemplateData struct {
 	Namespace string
 	Clients   []clientTemplateData
+}
+
+func findTagDescription(doc *v3.Document, tagName string) string {
+	if doc == nil || doc.Tags == nil {
+		return ""
+	}
+	for _, tag := range doc.Tags {
+		if tag == nil {
+			continue
+		}
+		if strings.EqualFold(strings.TrimSpace(tag.Name), strings.TrimSpace(tagName)) {
+			return sanitizeText(tag.Description)
+		}
+	}
+	return ""
 }
 
 type apiVersionTemplateData struct {

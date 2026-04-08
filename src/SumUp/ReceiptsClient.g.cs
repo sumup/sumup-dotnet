@@ -14,6 +14,10 @@ public sealed partial class ReceiptsClient
 {
     private readonly ApiClient _client;
 
+    /// <summary>
+    /// Client for the Receipts API endpoints.
+    /// </summary>
+    /// <remarks>The Receipts model obtains receipt-like details for specific transactions.</remarks>
     internal ReceiptsClient(ApiClient client)
     {
         _client = client;

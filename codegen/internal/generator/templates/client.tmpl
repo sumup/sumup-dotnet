@@ -18,6 +18,12 @@ public sealed partial class {{ .ClientName }}Client
 {
     private readonly ApiClient _client;
 
+    /// <summary>
+    /// Client for the {{ .ClientName }} API endpoints.
+    /// </summary>
+    {{- if .TagDescription }}
+    /// <remarks>{{ .TagDescription }}</remarks>
+    {{- end }}
     internal {{ .ClientName }}Client(ApiClient client)
     {
         _client = client;
