@@ -9,16 +9,18 @@ using System.Text.Json.Serialization;
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
 public enum EventStatus
 {
-    [EnumMember(Value = "PENDING")]
-    Pending,
-    [EnumMember(Value = "SCHEDULED")]
-    Scheduled,
     [EnumMember(Value = "FAILED")]
     Failed,
-    [EnumMember(Value = "REFUNDED")]
-    Refunded,
-    [EnumMember(Value = "SUCCESSFUL")]
-    Successful,
     [EnumMember(Value = "PAID_OUT")]
     PaidOut,
+    [EnumMember(Value = "PENDING")]
+    Pending,
+    [EnumMember(Value = "RECONCILED")]
+    Reconciled,
+    [EnumMember(Value = "REFUNDED")]
+    Refunded,
+    [EnumMember(Value = "SCHEDULED")]
+    Scheduled,
+    [EnumMember(Value = "SUCCESSFUL")]
+    Successful,
 }

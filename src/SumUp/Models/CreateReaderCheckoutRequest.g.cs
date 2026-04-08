@@ -8,6 +8,9 @@ using System.Collections.Generic;
 /// <summary>Reader Checkout</summary>
 public sealed partial class CreateReaderCheckoutRequest
 {
+    /// <summary>Optional object containing data for transactions from ERP integrators in Greece that comply with the AADE 1155 protocol. When such regulatory/business requirements apply, this object must be provided and contains the data needed to validate the transaction with the AADE signature provider.</summary>
+    [JsonPropertyName("aade")]
+    public CreateReaderCheckoutRequestAade? Aade { get; set; }
     /// <summary>Affiliate metadata for the transaction. It is a field that allow for integrators to track the source of the transaction.</summary>
     [JsonPropertyName("affiliate")]
     public CreateReaderCheckoutRequestAffiliate? Affiliate { get; set; }
