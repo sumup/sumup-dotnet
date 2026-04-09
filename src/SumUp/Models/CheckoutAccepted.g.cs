@@ -4,10 +4,10 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>3DS Response</summary>
+/// <summary>Response returned when checkout processing requires an additional payer action, such as a 3DS challenge or a redirect to an external payment method page.</summary>
 public sealed partial class CheckoutAccepted
 {
-    /// <summary>Required action processing 3D Secure payments.</summary>
+    /// <summary>Instructions for the next action the payer or client must take.</summary>
     [JsonPropertyName("next_step")]
     public CheckoutAcceptedNextStep? NextStep { get; set; }
 }

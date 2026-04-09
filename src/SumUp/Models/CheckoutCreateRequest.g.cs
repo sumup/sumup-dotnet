@@ -4,37 +4,37 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Details of the payment checkout.</summary>
+/// <summary>Request body for creating a checkout before processing payment. Define the payment amount, currency, merchant, and optional customer or redirect behavior here.</summary>
 public sealed partial class CheckoutCreateRequest
 {
-    /// <summary>Amount of the payment.</summary>
+    /// <summary>Amount to be charged to the payer, expressed in major units.</summary>
     [JsonPropertyName("amount")]
     public float Amount { get; set; }
-    /// <summary>Unique ID of the payment checkout specified by the client application when creating the checkout resource.</summary>
+    /// <summary>Merchant-defined reference for the new checkout. It should be unique enough for you to identify the payment attempt in your own systems.</summary>
     [JsonPropertyName("checkout_reference")]
     public string CheckoutReference { get; set; } = default!;
     /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency Currency { get; set; }
-    /// <summary>Unique identification of a customer. If specified, the checkout session and payment instrument are associated with the referenced customer.</summary>
+    /// <summary>Merchant-scoped customer identifier. Required when setting up recurring payments and useful when the checkout should be linked to a returning payer.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
-    /// <summary>Short description of the checkout visible in the SumUp dashboard. The description can contribute to reporting, allowing easier identification of a checkout.</summary>
+    /// <summary>Short merchant-defined description shown in SumUp tools and reporting for easier identification of the checkout.</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-    /// <summary>Unique identifying code of the merchant profile.</summary>
+    /// <summary>Merchant account that should receive the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string MerchantCode { get; set; } = default!;
-    /// <summary>Purpose of the checkout.</summary>
+    /// <summary>Business purpose of the checkout. Use `CHECKOUT` for a standard payment and `SETUP_RECURRING_PAYMENT` when collecting consent and payment details for future recurring charges.</summary>
     [JsonPropertyName("purpose")]
     public CheckoutCreateRequestPurpose? Purpose { get; set; }
-    /// <summary>__Required__ for [APMs](https://developer.sumup.com/online-payments/apm/introduction) and __recommended__ for card payments. Refers to a url where the end user is redirected once the payment processing completes. If not specified, the [Payment Widget](https://developer.sumup.com/online-payments/tools/card-widget) renders [3DS challenge](https://developer.sumup.com/online-payments/features/3ds) within an iframe instead of performing a full-page redirect.</summary>
+    /// <summary>URL where the payer should be sent after a redirect-based payment or SCA flow completes. This is required for [APMs](https://developer.sumup.com/online-payments/apm/introduction) and recommended for card checkouts that may require [3DS](https://developer.sumup.com/online-payments/features/3ds). If it is omitted, the [Payment Widget](https://developer.sumup.com/online-payments/checkouts) can render the challenge in an iframe instead of using a full-page redirect.</summary>
     [JsonPropertyName("redirect_url")]
     public string? RedirectUrl { get; set; }
-    /// <summary>URL to which the SumUp platform sends the processing status of the payment checkout.</summary>
+    /// <summary>Optional backend callback URL used by SumUp to notify your platform about processing updates for the checkout.</summary>
     [JsonPropertyName("return_url")]
     public string? ReturnUrl { get; set; }
-    /// <summary>Date and time of the checkout expiration before which the client application needs to send a processing request. If no value is present, the checkout does not have an expiration time.</summary>
+    /// <summary>Optional expiration timestamp. The checkout must be processed before this moment, otherwise it becomes unusable. If omitted, the checkout does not have an explicit expiry time.</summary>
     [JsonPropertyName("valid_until")]
     public DateTimeOffset? ValidUntil { get; set; }
 }

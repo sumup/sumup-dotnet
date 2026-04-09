@@ -17,7 +17,7 @@ public sealed partial class PaymentInstrumentResponse
     /// <summary>Creation date of payment instrument. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
     [JsonPropertyName("created_at")]
     public DateTimeOffset? CreatedAt { get; set; }
-    /// <summary>Created mandate</summary>
+    /// <summary>Details of the mandate linked to the saved payment instrument.</summary>
     [JsonPropertyName("mandate")]
     public MandateResponse? Mandate { get; set; }
     /// <summary>Unique token identifying the saved payment card for a customer.</summary>

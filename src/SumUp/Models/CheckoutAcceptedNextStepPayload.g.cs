@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Text.Json;
-/// <summary>Contains parameters essential for form redirection. Number of object keys and their content can vary.</summary>
+/// <summary>Parameters required to complete the next step. The exact keys depend on the payment provider and flow type.</summary>
 public sealed partial class CheckoutAcceptedNextStepPayload
 {
     [JsonPropertyName("MD")]

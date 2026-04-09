@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Text.Json;
-/// <summary>Details of the payment instrument for processing the checkout.</summary>
+/// <summary>Request body for attempting payment on an existing checkout. The required companion fields depend on the selected `payment_type`, for example card details, saved-card data, or payer information required by a specific payment method.</summary>
 public sealed partial class ProcessCheckout
 {
     /// <summary>Raw payment token object received from Apple Pay. Send the Apple Pay response payload as-is.</summary>
@@ -14,7 +14,7 @@ public sealed partial class ProcessCheckout
     /// <summary>__Required when payment type is `card`.__ Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public Card? Card { get; set; }
-    /// <summary>__Required when `token` is provided.__ Unique ID of the customer.</summary>
+    /// <summary>Customer identifier associated with the saved payment instrument. Required when `token` is provided.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
     /// <summary>Raw `PaymentData` object received from Google Pay. Send the Google Pay response payload as-is.</summary>
@@ -23,16 +23,16 @@ public sealed partial class ProcessCheckout
     /// <summary>Number of installments for deferred payments. Available only to merchant users in Brazil.</summary>
     [JsonPropertyName("installments")]
     public int? Installments { get; set; }
-    /// <summary>Mandate is passed when a card is to be tokenized</summary>
+    /// <summary>Mandate details used when a checkout should create a reusable card token for future recurring or merchant-initiated payments.</summary>
     [JsonPropertyName("mandate")]
     public MandatePayload? Mandate { get; set; }
-    /// <summary>Describes the payment method used to attempt processing</summary>
+    /// <summary>Payment method used for this processing attempt. It determines which additional request fields are required.</summary>
     [JsonPropertyName("payment_type")]
     public ProcessCheckoutPaymentType PaymentType { get; set; }
     /// <summary>Personal details for the customer.</summary>
     [JsonPropertyName("personal_details")]
     public PersonalDetails? PersonalDetails { get; set; }
-    /// <summary>__Required when using a tokenized card to process a checkout.__ Unique token identifying the saved payment card for a customer.</summary>
+    /// <summary>Saved-card token to use instead of raw card details when processing with a previously stored payment instrument.</summary>
     [JsonPropertyName("token")]
     public string? Token { get; set; }
 }

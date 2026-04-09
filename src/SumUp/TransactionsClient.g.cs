@@ -23,7 +23,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: * `id` * `internal_id` * `transaction_code` * `foreign_transaction_id` * `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="merchantCode">Request parameter.</param>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
     /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
@@ -87,7 +87,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: * `id` * `internal_id` * `transaction_code` * `foreign_transaction_id` * `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="merchantCode">Request parameter.</param>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
     /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
@@ -151,7 +151,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: * `id` * `internal_id` * `transaction_code` * `foreign_transaction_id` * `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
     /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
@@ -209,7 +209,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: * `id` * `internal_id` * `transaction_code` * `foreign_transaction_id` * `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
     /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>

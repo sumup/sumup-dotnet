@@ -4,16 +4,16 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Mandate is passed when a card is to be tokenized</summary>
+/// <summary>Mandate details used when a checkout should create a reusable card token for future recurring or merchant-initiated payments.</summary>
 public sealed partial class MandatePayload
 {
-    /// <summary>Indicates the mandate type</summary>
+    /// <summary>Type of mandate to create for the saved payment instrument.</summary>
     [JsonPropertyName("type")]
     public MandatePayloadType Type { get; set; }
-    /// <summary>Operating system and web client used by the end-user</summary>
+    /// <summary>Browser or client user agent observed when consent was collected.</summary>
     [JsonPropertyName("user_agent")]
     public string UserAgent { get; set; } = default!;
-    /// <summary>IP address of the end user. Supports IPv4 and IPv6</summary>
+    /// <summary>IP address of the payer when the mandate was accepted.</summary>
     [JsonPropertyName("user_ip")]
     public string? UserIp { get; set; }
 }
