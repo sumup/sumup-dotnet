@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.0.11](https://github.com/sumup/sumup-dotnet/compare/v0.0.10...v0.0.11) (2026-04-09)
+
+
+### Features
+
+* resource docs ([#83](https://github.com/sumup/sumup-dotnet/issues/83)) ([e92bfe8](https://github.com/sumup/sumup-dotnet/commit/e92bfe853b7fe19f7096ec0cb46bb01138b50e8b))
+* **sdk:** improve typing ([#68](https://github.com/sumup/sumup-dotnet/issues/68)) ([2cd24ab](https://github.com/sumup/sumup-dotnet/commit/2cd24ab8f524c67bff60cfa2e56f851bd208a5b8))
+
+
+### Bug Fixes
+
+* **sdk:** handling of enums in query params ([#73](https://github.com/sumup/sumup-dotnet/issues/73)) ([b797176](https://github.com/sumup/sumup-dotnet/commit/b797176ed411518e71d86e3afeea5143f86c416a))
+
+
+### Chores
+
+* **deps:** bump actions/create-github-app-token from 2.2.1 to 3.0.0 ([#65](https://github.com/sumup/sumup-dotnet/issues/65)) ([166e231](https://github.com/sumup/sumup-dotnet/commit/166e231c55b3accd64226763e49c76f4f81642f7))
+* **deps:** bump actions/setup-go from 6.3.0 to 6.4.0 ([#80](https://github.com/sumup/sumup-dotnet/issues/80)) ([95ff156](https://github.com/sumup/sumup-dotnet/commit/95ff156000d2eda84fe5d8ddab936d241a1d7bba))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#64](https://github.com/sumup/sumup-dotnet/issues/64)) ([080e7ab](https://github.com/sumup/sumup-dotnet/commit/080e7ab7a1e04d08155029a69d012ff389088974))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#79](https://github.com/sumup/sumup-dotnet/issues/79)) ([bad9370](https://github.com/sumup/sumup-dotnet/commit/bad9370380d102c4ba711fd85cf9132a0fb3d4b6))
+* **deps:** coverlet.collector from 8.0.0 to 8.0.1 ([#74](https://github.com/sumup/sumup-dotnet/issues/74)) ([86c9199](https://github.com/sumup/sumup-dotnet/commit/86c91990927f7ab8019c6a628e4f6eca2c6d0a8b))
+* **deps:** System.Text.Json from 10.0.3 to 10.0.5 ([#75](https://github.com/sumup/sumup-dotnet/issues/75)) ([46fcd36](https://github.com/sumup/sumup-dotnet/commit/46fcd36f4f44f3b64047dbe3cbd4d26edf0deb82))
+* synced file(s) with sumup/apis ([#63](https://github.com/sumup/sumup-dotnet/issues/63)) ([23ac0ea](https://github.com/sumup/sumup-dotnet/commit/23ac0eaeff4b539332ed495b23ef7b19860001bb))
+* synced file(s) with sumup/apis ([#66](https://github.com/sumup/sumup-dotnet/issues/66)) ([da0e0a9](https://github.com/sumup/sumup-dotnet/commit/da0e0a94ebb8d3945c31a7aeaa442518b88d3121))
+* synced file(s) with sumup/apis ([#67](https://github.com/sumup/sumup-dotnet/issues/67)) ([ac28213](https://github.com/sumup/sumup-dotnet/commit/ac282136cf789e4fb72e04c485f468e33333d570))
+* synced file(s) with sumup/apis ([#76](https://github.com/sumup/sumup-dotnet/issues/76)) ([5f1c957](https://github.com/sumup/sumup-dotnet/commit/5f1c95773c51052b4bde1a8a185d30b10079ccb6))
+* synced file(s) with sumup/apis ([#77](https://github.com/sumup/sumup-dotnet/issues/77)) ([3cb3ab0](https://github.com/sumup/sumup-dotnet/commit/3cb3ab0623ebc0218f634cd9db6f972612f0796c))
+* synced file(s) with sumup/apis ([#78](https://github.com/sumup/sumup-dotnet/issues/78)) ([ed12d2c](https://github.com/sumup/sumup-dotnet/commit/ed12d2c686cd655a48a2772faaf200e97a1b40e9))
+* synced file(s) with sumup/apis ([#81](https://github.com/sumup/sumup-dotnet/issues/81)) ([b9c1fda](https://github.com/sumup/sumup-dotnet/commit/b9c1fdad80a27a9bc4f7b7fb22323cac0ce4960d))
+* synced file(s) with sumup/apis ([#82](https://github.com/sumup/sumup-dotnet/issues/82)) ([6ad82a8](https://github.com/sumup/sumup-dotnet/commit/6ad82a88d8969878aef4d2b0b3ef8822bb07c803))
+
 ## [0.0.10](https://github.com/sumup/sumup-dotnet/compare/v0.0.9...v0.0.10) (2026-03-22)
 
 
