@@ -5,50 +5,50 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>Checkout response returned after a successful processing attempt.</summary>
+/// <summary>Checkout resource returned after a synchronous processing attempt. In addition to the base checkout fields, it can include the resulting transaction identifiers and any newly created payment instrument token.</summary>
 public sealed partial class CheckoutSuccess
 {
-    /// <summary>Amount of the payment.</summary>
+    /// <summary>Amount to be charged to the payer, expressed in major units.</summary>
     [JsonPropertyName("amount")]
     public float? Amount { get; set; }
-    /// <summary>Unique ID of the payment checkout specified by the client application when creating the checkout resource.</summary>
+    /// <summary>Merchant-defined reference for the checkout. Use it to correlate the SumUp checkout with your own order, cart, subscription, or payment attempt in your systems.</summary>
     [JsonPropertyName("checkout_reference")]
     public string? CheckoutReference { get; set; }
     /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
-    /// <summary>Unique identification of a customer. If specified, the checkout session and payment instrument are associated with the referenced customer.</summary>
+    /// <summary>Merchant-scoped identifier of the customer associated with the checkout. Use it when storing payment instruments or reusing saved customer context for recurring and returning-payer flows.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
     /// <summary>Date and time of the creation of the payment checkout. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
     [JsonPropertyName("date")]
     public DateTimeOffset? Date { get; set; }
-    /// <summary>Short description of the checkout visible in the SumUp dashboard. The description can contribute to reporting, allowing easier identification of a checkout.</summary>
+    /// <summary>Short merchant-defined description shown in SumUp tools and reporting. Use it to make the checkout easier to recognize in dashboards, support workflows, and reconciliation.</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-    /// <summary>Unique ID of the checkout resource.</summary>
+    /// <summary>Unique SumUp identifier of the checkout resource.</summary>
     [JsonPropertyName("id")]
     [JsonInclude]
     public string? Id { get; private set; }
-    /// <summary>Created mandate</summary>
+    /// <summary>Details of the mandate linked to the saved payment instrument.</summary>
     [JsonPropertyName("mandate")]
     public MandateResponse? Mandate { get; set; }
-    /// <summary>Unique identifying code of the merchant profile.</summary>
+    /// <summary>Merchant account that receives the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
     /// <summary>Name of the merchant</summary>
     [JsonPropertyName("merchant_name")]
     public string? MerchantName { get; set; }
-    /// <summary>Object containing token information for the specified payment instrument</summary>
+    /// <summary>Details of the saved payment instrument created or reused during checkout processing.</summary>
     [JsonPropertyName("payment_instrument")]
     public CheckoutSuccessPaymentInstrument? PaymentInstrument { get; set; }
-    /// <summary>Refers to a url where the end user is redirected once the payment processing completes.</summary>
+    /// <summary>URL where the payer is redirected after a redirect-based payment or SCA flow completes.</summary>
     [JsonPropertyName("redirect_url")]
     public string? RedirectUrl { get; set; }
-    /// <summary>URL to which the SumUp platform sends the processing status of the payment checkout.</summary>
+    /// <summary>Optional backend callback URL used by SumUp to notify your platform about processing updates for the checkout.</summary>
     [JsonPropertyName("return_url")]
     public string? ReturnUrl { get; set; }
-    /// <summary>Current status of the checkout.</summary>
+    /// <summary>Current high-level state of the checkout. `PENDING` means the checkout exists but is not yet completed, `PAID` means a payment succeeded, `FAILED` means the latest processing attempt failed, and `EXPIRED` means the checkout can no longer be processed.</summary>
     [JsonPropertyName("status")]
     public CheckoutSuccessStatus? Status { get; set; }
     /// <summary>Transaction code of the successful transaction with which the payment for the checkout is completed.</summary>
@@ -59,10 +59,10 @@ public sealed partial class CheckoutSuccess
     [JsonPropertyName("transaction_id")]
     [JsonInclude]
     public string? TransactionId { get; private set; }
-    /// <summary>List of transactions related to the payment.</summary>
+    /// <summary>Payment attempts and resulting transaction records linked to this checkout. Use the Transactions endpoints when you need the authoritative payment result and event history.</summary>
     [JsonPropertyName("transactions")]
     public IEnumerable<CheckoutSuccessTransactionsItem>? Transactions { get; set; }
-    /// <summary>Date and time of the checkout expiration before which the client application needs to send a processing request. If no value is present, the checkout does not have an expiration time.</summary>
+    /// <summary>Optional expiration timestamp. The checkout must be processed before this moment, otherwise it becomes unusable. If omitted, the checkout does not have an explicit expiry time.</summary>
     [JsonPropertyName("valid_until")]
     public DateTimeOffset? ValidUntil { get; set; }
 }

@@ -23,7 +23,7 @@ public sealed partial class PayoutsClient
     /// <summary>
     /// List payouts
     /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant profile.</remarks>
+    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="merchantCode">Request parameter.</param>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
@@ -87,7 +87,7 @@ public sealed partial class PayoutsClient
     /// <summary>
     /// List payouts
     /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant profile.</remarks>
+    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="merchantCode">Request parameter.</param>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
@@ -151,7 +151,7 @@ public sealed partial class PayoutsClient
     /// <summary>
     /// List payouts
     /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant profile.</remarks>
+    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="format">Request parameter.</param>
@@ -213,7 +213,7 @@ public sealed partial class PayoutsClient
     /// <summary>
     /// List payouts
     /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant profile.</remarks>
+    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="format">Request parameter.</param>

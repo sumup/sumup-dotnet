@@ -4,16 +4,16 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Created mandate</summary>
+/// <summary>Details of the mandate linked to the saved payment instrument.</summary>
 public sealed partial class MandateResponse
 {
-    /// <summary>Merchant code which has the mandate</summary>
+    /// <summary>Merchant account for which the mandate is valid.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
-    /// <summary>Mandate status</summary>
+    /// <summary>Current lifecycle status of the mandate.</summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
-    /// <summary>Indicates the mandate type</summary>
+    public MandateResponseStatus? Status { get; set; }
+    /// <summary>Type of mandate stored for the checkout or payment instrument.</summary>
     [JsonPropertyName("type")]
     public string? Type { get; set; }
 }

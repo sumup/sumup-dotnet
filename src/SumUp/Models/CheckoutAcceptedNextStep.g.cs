@@ -5,22 +5,22 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>Required action processing 3D Secure payments.</summary>
+/// <summary>Instructions for the next action the payer or client must take.</summary>
 public sealed partial class CheckoutAcceptedNextStep
 {
-    /// <summary>Indicates allowed mechanisms for redirecting an end user. If both values are provided to ensure a redirect takes place in either.</summary>
+    /// <summary>Allowed presentation mechanisms for the next step. `iframe` means the flow can be embedded, while `browser` means it can be completed through a full-page redirect.</summary>
     [JsonPropertyName("mechanism")]
     public IEnumerable<CheckoutAcceptedNextStepMechanismItem>? Mechanism { get; set; }
-    /// <summary>Method used to complete the redirect.</summary>
+    /// <summary>HTTP method to use when following the next step.</summary>
     [JsonPropertyName("method")]
     public string? Method { get; set; }
-    /// <summary>Contains parameters essential for form redirection. Number of object keys and their content can vary.</summary>
+    /// <summary>Parameters required to complete the next step. The exact keys depend on the payment provider and flow type.</summary>
     [JsonPropertyName("payload")]
     public CheckoutAcceptedNextStepPayload? Payload { get; set; }
-    /// <summary>Refers to a url where the end user is redirected once the payment processing completes.</summary>
+    /// <summary>Merchant URL where the payer returns after the external flow finishes.</summary>
     [JsonPropertyName("redirect_url")]
     public string? RedirectUrl { get; set; }
-    /// <summary>Where the end user is redirected.</summary>
+    /// <summary>URL to open or submit in order to continue processing.</summary>
     [JsonPropertyName("url")]
     public string? Url { get; set; }
 }

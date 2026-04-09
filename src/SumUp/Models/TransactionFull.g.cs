@@ -32,7 +32,7 @@ public sealed partial class TransactionFull
     /// <summary>Entry mode of the payment details.</summary>
     [JsonPropertyName("entry_mode")]
     public EntryMode? EntryMode { get; set; }
-    /// <summary>List of events related to the transaction.</summary>
+    /// <summary>Compact list of events related to the transaction.</summary>
     [JsonPropertyName("events")]
     public IEnumerable<EventValue>? Events { get; set; }
     /// <summary>Transaction SumUp total fee amount.</summary>
@@ -104,7 +104,7 @@ public sealed partial class TransactionFull
     /// <summary>Simple name of the payment type.</summary>
     [JsonPropertyName("simple_payment_type")]
     public TransactionFullSimplePaymentType? SimplePaymentType { get; set; }
-    /// <summary>Status generated from the processing status and the latest transaction state.</summary>
+    /// <summary>High-level status of the transaction from the merchant's perspective. - `PENDING`: The payment has been initiated and is still being processed. A final outcome is not available yet. - `SUCCESSFUL`: The payment was completed successfully. - `PAID_OUT`: The payment was completed successfully and the funds have already been included in a payout to the merchant. - `FAILED`: The payment did not complete successfully. - `CANCELLED`: The payment was cancelled or reversed and is no longer payable or payable to the merchant. - `CANCEL_FAILED`: An attempt to cancel or reverse the payment was not completed successfully. - `REFUNDED`: The payment was refunded in full or in part. - `REFUND_FAILED`: An attempt to refund the payment was not completed successfully. - `CHARGEBACK`: The payment was subject to a chargeback. - `NON_COLLECTION`: The amount could not be collected from the merchant after a chargeback or related adjustment.</summary>
     [JsonPropertyName("simple_status")]
     public TransactionFullSimpleStatus? SimpleStatus { get; set; }
     /// <summary>Current status of the transaction.</summary>
@@ -122,7 +122,7 @@ public sealed partial class TransactionFull
     /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
-    /// <summary>List of transaction events related to the transaction.</summary>
+    /// <summary>Detailed list of events related to the transaction.</summary>
     [JsonPropertyName("transaction_events")]
     public IEnumerable<TransactionEvent>? TransactionEvents { get; set; }
     /// <summary>Email address of the registered user (merchant) to whom the payment is made.</summary>
