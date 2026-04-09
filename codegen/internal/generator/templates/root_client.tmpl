@@ -16,6 +16,9 @@ public partial class SumUpClient
     }
 {{- range .Clients }}
 
+    /// <summary>
+    /// Access the {{ .ClientName }} API endpoints.
+    /// </summary>
     public {{ .ClientName }}Client {{ .PropertyName }} { get; private set; } = default!;
 {{- end }}
 }

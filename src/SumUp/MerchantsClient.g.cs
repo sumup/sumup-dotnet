@@ -14,6 +14,10 @@ public sealed partial class MerchantsClient
 {
     private readonly ApiClient _client;
 
+    /// <summary>
+    /// Client for the Merchants API endpoints.
+    /// </summary>
+    /// <remarks>Merchant account represents a single business entity at SumUp.</remarks>
     internal MerchantsClient(ApiClient client)
     {
         _client = client;

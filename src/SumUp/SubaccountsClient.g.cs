@@ -15,6 +15,10 @@ public sealed partial class SubaccountsClient
 {
     private readonly ApiClient _client;
 
+    /// <summary>
+    /// Client for the Subaccounts API endpoints.
+    /// </summary>
+    /// <remarks>Endpoints for managing merchant sub-accounts (operators).</remarks>
     internal SubaccountsClient(ApiClient client)
     {
         _client = client;

@@ -14,6 +14,10 @@ public sealed partial class RolesClient
 {
     private readonly ApiClient _client;
 
+    /// <summary>
+    /// Client for the Roles API endpoints.
+    /// </summary>
+    /// <remarks>Endpoints to manage custom roles. Custom roles allow you to tailor roles from individual permissions to match your needs. Once created, you can assign your custom roles to your merchant account members using the memberships.</remarks>
     internal RolesClient(ApiClient client)
     {
         _client = client;

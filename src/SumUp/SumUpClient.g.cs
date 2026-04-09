@@ -22,25 +22,58 @@ public partial class SumUpClient
         Transactions = new TransactionsClient(apiClient);
     }
 
+    /// <summary>
+    /// Access the Checkouts API endpoints.
+    /// </summary>
     public CheckoutsClient Checkouts { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Customers API endpoints.
+    /// </summary>
     public CustomersClient Customers { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Members API endpoints.
+    /// </summary>
     public MembersClient Members { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Memberships API endpoints.
+    /// </summary>
     public MembershipsClient Memberships { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Merchants API endpoints.
+    /// </summary>
     public MerchantsClient Merchants { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Payouts API endpoints.
+    /// </summary>
     public PayoutsClient Payouts { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Readers API endpoints.
+    /// </summary>
     public ReadersClient Readers { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Receipts API endpoints.
+    /// </summary>
     public ReceiptsClient Receipts { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Roles API endpoints.
+    /// </summary>
     public RolesClient Roles { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Subaccounts API endpoints.
+    /// </summary>
     public SubaccountsClient Subaccounts { get; private set; } = default!;
 
+    /// <summary>
+    /// Access the Transactions API endpoints.
+    /// </summary>
     public TransactionsClient Transactions { get; private set; } = default!;
 }

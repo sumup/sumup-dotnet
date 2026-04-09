@@ -15,6 +15,10 @@ public sealed partial class MembershipsClient
 {
     private readonly ApiClient _client;
 
+    /// <summary>
+    /// Client for the Memberships API endpoints.
+    /// </summary>
+    /// <remarks>Endpoints to manage user's memberships. Memberships are used to connect the user to merchant accounts and to grant them access to the merchant's resources via roles.</remarks>
     internal MembershipsClient(ApiClient client)
     {
         _client = client;
