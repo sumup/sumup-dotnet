@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.0.12](https://github.com/sumup/sumup-dotnet/compare/v0.0.11...v0.0.12) (2026-04-10)
+
+
+### Bug Fixes
+
+* **sdk:** date-only and time-only types ([#87](https://github.com/sumup/sumup-dotnet/issues/87)) ([1b52671](https://github.com/sumup/sumup-dotnet/commit/1b52671b48add7f915866f18b946c0c80ad27bd1))
+
+
+### Chores
+
+* **sdk:** simplify enum handling ([#88](https://github.com/sumup/sumup-dotnet/issues/88)) ([2170def](https://github.com/sumup/sumup-dotnet/commit/2170def78922abae0cce028d7ad6d739c16a589f))
+* synced file(s) with sumup/apis ([#85](https://github.com/sumup/sumup-dotnet/issues/85)) ([5136466](https://github.com/sumup/sumup-dotnet/commit/513646696e9f8924c1c93238e30c7ac8b352487d))
+
+
+### Refactors
+
+* **sdk:** narrow deserialization error handling ([#89](https://github.com/sumup/sumup-dotnet/issues/89)) ([80ce5b0](https://github.com/sumup/sumup-dotnet/commit/80ce5b052d2709a53627b57527c05a1a95cc5038))
+
 ## [0.0.11](https://github.com/sumup/sumup-dotnet/compare/v0.0.10...v0.0.11) (2026-04-09)
 
 
