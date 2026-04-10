@@ -79,7 +79,7 @@ public sealed partial class TransactionFull
     public PaymentType? PaymentType { get; set; }
     /// <summary>The date of the payout.</summary>
     [JsonPropertyName("payout_date")]
-    public DateTime? PayoutDate { get; set; }
+    public DateOnly? PayoutDate { get; set; }
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
     public TransactionFullPayoutPlan? PayoutPlan { get; set; }

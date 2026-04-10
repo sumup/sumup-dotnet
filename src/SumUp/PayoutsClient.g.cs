@@ -36,7 +36,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<FinancialPayoutsItem>> List(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<FinancialPayoutsItem>> List(string merchantCode, DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
@@ -100,7 +100,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListAsync(string merchantCode, DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListAsync(string merchantCode, DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
@@ -163,7 +163,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<FinancialPayoutsItem>> ListDeprecated(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<FinancialPayoutsItem>> ListDeprecated(DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {
@@ -225,7 +225,7 @@ public sealed partial class PayoutsClient
     /// <param name="order">Request parameter.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListDeprecatedAsync(DateTime startDate, DateTime endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListDeprecatedAsync(DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {

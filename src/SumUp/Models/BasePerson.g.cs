@@ -13,7 +13,7 @@ public sealed partial class BasePerson
     public Address? Address { get; set; }
     /// <summary>The date of birth of the individual, represented as an ISO 8601:2004 [ISO8601‑2004] YYYY-MM-DD format.</summary>
     [JsonPropertyName("birthdate")]
-    public DateTime? Birthdate { get; set; }
+    public DateOnly? Birthdate { get; set; }
     /// <summary>Reflects the status of changes submitted through the `PATCH` endpoints for the merchant or persons. If some changes have not been applied yet, the status will be `pending`. If all changes have been applied, the status `done`. The status is only returned after write operations or on read endpoints when the `version` query parameter is provided.</summary>
     [JsonPropertyName("change_status")]
     [JsonInclude]

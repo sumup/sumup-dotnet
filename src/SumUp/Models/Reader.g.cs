@@ -9,7 +9,7 @@ public sealed partial class Reader
 {
     /// <summary>The timestamp of when the reader was created.</summary>
     [JsonPropertyName("created_at")]
-    public DateTimeOffset CreatedAt { get; set; } = default!;
+    public DateTimeOffset CreatedAt { get; set; }
     /// <summary>Information about the underlying physical device.</summary>
     [JsonPropertyName("device")]
     public ReaderDevice Device { get; set; } = default!;
@@ -30,5 +30,5 @@ public sealed partial class Reader
     public ReaderStatus Status { get; set; }
     /// <summary>The timestamp of when the reader was last updated.</summary>
     [JsonPropertyName("updated_at")]
-    public DateTimeOffset UpdatedAt { get; set; } = default!;
+    public DateTimeOffset UpdatedAt { get; set; }
 }

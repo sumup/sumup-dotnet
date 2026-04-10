@@ -12,11 +12,11 @@ public sealed partial class ReaderCheckoutStatusChange
     public string EventType { get; set; } = default!;
     /// <summary>Unique identifier for the event.</summary>
     [JsonPropertyName("id")]
-    public Guid Id { get; set; } = default!;
+    public Guid Id { get; set; }
     /// <summary>The event payload.</summary>
     [JsonPropertyName("payload")]
     public ReaderCheckoutStatusChangePayload Payload { get; set; } = default!;
     /// <summary>Timestamp of the event.</summary>
     [JsonPropertyName("timestamp")]
-    public DateTimeOffset Timestamp { get; set; } = default!;
+    public DateTimeOffset Timestamp { get; set; }
 }

@@ -30,7 +30,7 @@ public sealed partial class TransactionHistory
     public PaymentType? PaymentType { get; set; }
     /// <summary>Payout date (if paid out at once).</summary>
     [JsonPropertyName("payout_date")]
-    public DateTime? PayoutDate { get; set; }
+    public DateOnly? PayoutDate { get; set; }
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
     public TransactionHistoryPayoutPlan? PayoutPlan { get; set; }

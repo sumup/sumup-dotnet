@@ -11,5 +11,5 @@ public sealed partial class Invite
     [JsonPropertyName("email")]
     public string Email { get; set; } = default!;
     [JsonPropertyName("expires_at")]
-    public DateTimeOffset ExpiresAt { get; set; } = default!;
+    public DateTimeOffset ExpiresAt { get; set; }
 }

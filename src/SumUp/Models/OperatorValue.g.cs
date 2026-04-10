@@ -11,7 +11,7 @@ public sealed partial class OperatorValue
     public OperatorValueAccountType AccountType { get; set; }
     /// <summary>The timestamp of when the operator was created.</summary>
     [JsonPropertyName("created_at")]
-    public DateTimeOffset CreatedAt { get; set; } = default!;
+    public DateTimeOffset CreatedAt { get; set; }
     [JsonPropertyName("disabled")]
     public bool Disabled { get; set; }
     [JsonPropertyName("id")]
@@ -23,7 +23,7 @@ public sealed partial class OperatorValue
     public Permissions Permissions { get; set; } = default!;
     /// <summary>The timestamp of when the operator was last updated.</summary>
     [JsonPropertyName("updated_at")]
-    public DateTimeOffset UpdatedAt { get; set; } = default!;
+    public DateTimeOffset UpdatedAt { get; set; }
     [JsonPropertyName("username")]
     public string Username { get; set; } = default!;
 }

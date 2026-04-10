@@ -9,7 +9,7 @@ public sealed partial class ReaderCheckoutStatusChangePayload
 {
     /// <summary>The unique client transaction id. It is the same returned by the Checkout.</summary>
     [JsonPropertyName("client_transaction_id")]
-    public Guid ClientTransactionId { get; set; } = default!;
+    public Guid ClientTransactionId { get; set; }
     /// <summary>The merchant code associated with the transaction.</summary>
     [JsonPropertyName("merchant_code")]
     public string MerchantCode { get; set; } = default!;
