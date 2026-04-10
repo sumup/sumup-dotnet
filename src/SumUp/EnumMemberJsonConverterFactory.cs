@@ -11,7 +11,7 @@ namespace SumUp;
 
 /// <summary>
 /// Serializes enums using <see cref="EnumMemberAttribute.Value"/> when present.
-/// Replace this with built-in enum member name support once the SDK can target a newer .NET runtime across all TFMs.
+/// Replace this with built-in enum member name support once the SDK targets a runtime that supports it directly.
 /// </summary>
 public sealed class EnumMemberJsonConverterFactory : JsonConverterFactory
 {
