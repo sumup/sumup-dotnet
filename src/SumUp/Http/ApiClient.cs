@@ -90,7 +90,7 @@ internal sealed class ApiClient
         {
             return JsonSerializer.Deserialize<TModel>(payload!, _serializerOptions);
         }
-        catch
+        catch (JsonException)
         {
             return default;
         }
