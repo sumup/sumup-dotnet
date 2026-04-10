@@ -11,7 +11,7 @@ public sealed partial class FinancialPayoutsItem
     [JsonPropertyName("currency")]
     public string? Currency { get; set; }
     [JsonPropertyName("date")]
-    public DateTime? Date { get; set; }
+    public DateOnly? Date { get; set; }
     [JsonPropertyName("fee")]
     public float? Fee { get; set; }
     [JsonPropertyName("id")]

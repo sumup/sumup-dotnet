@@ -71,6 +71,16 @@ public class RequestBuilderTests
     }
 
     [Fact]
+    public void Build_SerializesDateOnlyQueryUsingIsoFormat()
+    {
+        var builder = new RequestBuilder(HttpMethod.Get, "/v0.1/items", new Uri("https://api.sumup.com"));
+        builder.AddQuery("birthdate", new DateOnly(1980, 1, 12));
+        var request = builder.Build();
+
+        Assert.Equal("https://api.sumup.com/v0.1/items?birthdate=1980-01-12", request.RequestUri!.AbsoluteUri);
+    }
+
+    [Fact]
     public void CreateContent_SerializesEnumMemberValues()
     {
         using var httpClient = new HttpClient { BaseAddress = new Uri("https://api.sumup.com") };
@@ -90,5 +100,23 @@ public class RequestBuilderTests
         var body = reader.ReadToEnd();
 
         Assert.Contains("\"currency\":\"EUR\"", body);
+    }
+
+    [Fact]
+    public void CreateContent_SerializesDateOnlyValues()
+    {
+        using var httpClient = new HttpClient { BaseAddress = new Uri("https://api.sumup.com") };
+        var apiClient = new ApiClient(httpClient, new SumUpClientOptions());
+        var request = new PersonalDetails
+        {
+            BirthDate = new DateOnly(1980, 1, 12)
+        };
+
+        using var content = apiClient.CreateContent(request, "application/json");
+        using var stream = content.ReadAsStream();
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        var body = reader.ReadToEnd();
+
+        Assert.Contains("\"birth_date\":\"1980-01-12\"", body);
     }
 }

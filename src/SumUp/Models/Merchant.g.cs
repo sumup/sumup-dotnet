@@ -33,7 +33,7 @@ public sealed partial class Merchant
     /// <summary>The date and time when the resource was created. This is a string as defined in [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6).</summary>
     [JsonPropertyName("created_at")]
     [JsonInclude]
-    public DateTimeOffset CreatedAt { get; private set; } = default!;
+    public DateTimeOffset CreatedAt { get; private set; }
     /// <summary>Three-letter [ISO currency code](https://en.wikipedia.org/wiki/ISO_4217) representing the default currency for the account.</summary>
     [JsonPropertyName("default_currency")]
     [JsonInclude]
@@ -57,7 +57,7 @@ public sealed partial class Merchant
     /// <summary>The date and time when the resource was last updated. This is a string as defined in [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6).</summary>
     [JsonPropertyName("updated_at")]
     [JsonInclude]
-    public DateTimeOffset UpdatedAt { get; private set; } = default!;
+    public DateTimeOffset UpdatedAt { get; private set; }
     /// <summary>The version of the resource. The version reflects a specific change submitted to the API via one of the `PATCH` endpoints.</summary>
     [JsonPropertyName("version")]
     public string? Version { get; set; }

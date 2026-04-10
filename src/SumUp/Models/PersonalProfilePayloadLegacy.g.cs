@@ -12,7 +12,7 @@ public sealed partial class PersonalProfilePayloadLegacy
     public AddressPayloadLegacy Address { get; set; } = default!;
     /// <summary>Date of birth</summary>
     [JsonPropertyName("date_of_birth")]
-    public DateTime DateOfBirth { get; set; } = default!;
+    public DateOnly DateOfBirth { get; set; }
     /// <summary>First name of the user</summary>
     [JsonPropertyName("first_name")]
     public string FirstName { get; set; } = default!;

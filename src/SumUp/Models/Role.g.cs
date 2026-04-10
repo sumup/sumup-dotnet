@@ -10,7 +10,7 @@ public sealed partial class Role
 {
     /// <summary>The timestamp of when the role was created.</summary>
     [JsonPropertyName("created_at")]
-    public DateTimeOffset CreatedAt { get; set; } = default!;
+    public DateTimeOffset CreatedAt { get; set; }
     /// <summary>User-defined description of the role.</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
@@ -31,5 +31,5 @@ public sealed partial class Role
     public IEnumerable<string> Permissions { get; set; } = default!;
     /// <summary>The timestamp of when the role was last updated.</summary>
     [JsonPropertyName("updated_at")]
-    public DateTimeOffset UpdatedAt { get; set; } = default!;
+    public DateTimeOffset UpdatedAt { get; set; }
 }

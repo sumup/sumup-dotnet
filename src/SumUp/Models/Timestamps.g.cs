@@ -9,9 +9,9 @@ public sealed partial class Timestamps
     /// <summary>The date and time when the resource was created. This is a string as defined in [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6).</summary>
     [JsonPropertyName("created_at")]
     [JsonInclude]
-    public DateTimeOffset CreatedAt { get; private set; } = default!;
+    public DateTimeOffset CreatedAt { get; private set; }
     /// <summary>The date and time when the resource was last updated. This is a string as defined in [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6).</summary>
     [JsonPropertyName("updated_at")]
     [JsonInclude]
-    public DateTimeOffset UpdatedAt { get; private set; } = default!;
+    public DateTimeOffset UpdatedAt { get; private set; }
 }

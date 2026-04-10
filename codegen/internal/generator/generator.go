@@ -1229,17 +1229,24 @@ func (g *Generator) resolveType(schemaRef *base.SchemaProxy, required bool) type
 	switch {
 	case schemaHasType(schema, "string"):
 		typeName := "string"
+		isValueType := false
 		switch schema.Format {
 		case "date-time":
 			typeName = "DateTimeOffset"
+			isValueType = true
 		case "date":
-			typeName = "DateTime"
+			typeName = "DateOnly"
+			isValueType = true
+		case "time", "partial-time":
+			typeName = "TimeOnly"
+			isValueType = true
 		case "uuid":
 			typeName = "Guid"
+			isValueType = true
 		case "byte", "binary":
 			typeName = "byte[]"
 		}
-		return g.nullableType(typeName, false, required)
+		return g.nullableType(typeName, isValueType, required)
 	case schemaHasType(schema, "integer"):
 		typeName := "int"
 		if schema.Format == "int64" {

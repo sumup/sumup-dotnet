@@ -12,7 +12,7 @@ public sealed partial class PersonalDetails
     public AddressLegacy? Address { get; set; }
     /// <summary>Date of birth of the customer.</summary>
     [JsonPropertyName("birth_date")]
-    public DateTime? BirthDate { get; set; }
+    public DateOnly? BirthDate { get; set; }
     /// <summary>Email address of the customer.</summary>
     [JsonPropertyName("email")]
     public string? Email { get; set; }

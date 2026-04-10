@@ -13,7 +13,7 @@ public sealed partial class Member
     public Attributes? Attributes { get; set; }
     /// <summary>The timestamp of when the member was created.</summary>
     [JsonPropertyName("created_at")]
-    public DateTimeOffset CreatedAt { get; set; } = default!;
+    public DateTimeOffset CreatedAt { get; set; }
     /// <summary>ID of the member.</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
@@ -34,7 +34,7 @@ public sealed partial class Member
     public MembershipStatus Status { get; set; }
     /// <summary>The timestamp of when the member was last updated.</summary>
     [JsonPropertyName("updated_at")]
-    public DateTimeOffset UpdatedAt { get; set; } = default!;
+    public DateTimeOffset UpdatedAt { get; set; }
     /// <summary>Information about the user associated with the membership.</summary>
     [JsonPropertyName("user")]
     public MembershipUser? User { get; set; }

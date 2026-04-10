@@ -149,6 +149,26 @@ internal sealed class RequestBuilder
 
     private static string ConvertToString(object value)
     {
+        if (value is DateOnly dateOnly)
+        {
+            return dateOnly.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        }
+
+        if (value is TimeOnly timeOnly)
+        {
+            return timeOnly.ToString(@"HH\:mm\:ss\.FFFFFFF", CultureInfo.InvariantCulture).TrimEnd('0').TrimEnd('.');
+        }
+
+        if (value is DateTimeOffset dateTimeOffset)
+        {
+            return dateTimeOffset.ToString("O", CultureInfo.InvariantCulture);
+        }
+
+        if (value is DateTime dateTime)
+        {
+            return dateTime.ToString("O", CultureInfo.InvariantCulture);
+        }
+
         var type = value.GetType();
         if (type.IsEnum)
         {

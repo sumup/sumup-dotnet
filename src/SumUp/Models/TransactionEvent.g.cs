@@ -12,10 +12,10 @@ public sealed partial class TransactionEvent
     public decimal? Amount { get; set; }
     /// <summary>Date when the transaction event occurred.</summary>
     [JsonPropertyName("date")]
-    public DateTime? Date { get; set; }
+    public DateOnly? Date { get; set; }
     /// <summary>Date when the transaction event is due to occur.</summary>
     [JsonPropertyName("due_date")]
-    public DateTime? DueDate { get; set; }
+    public DateOnly? DueDate { get; set; }
     /// <summary>Type of the transaction event.</summary>
     [JsonPropertyName("event_type")]
     public EventType? EventType { get; set; }

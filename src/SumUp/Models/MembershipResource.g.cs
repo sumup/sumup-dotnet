@@ -12,7 +12,7 @@ public sealed partial class MembershipResource
     public Attributes? Attributes { get; set; }
     /// <summary>The timestamp of when the membership resource was created.</summary>
     [JsonPropertyName("created_at")]
-    public DateTimeOffset CreatedAt { get; set; } = default!;
+    public DateTimeOffset CreatedAt { get; set; }
     /// <summary>ID of the resource the membership is in.</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
@@ -27,5 +27,5 @@ public sealed partial class MembershipResource
     public string Type { get; set; } = default!;
     /// <summary>The timestamp of when the membership resource was last updated.</summary>
     [JsonPropertyName("updated_at")]
-    public DateTimeOffset UpdatedAt { get; set; } = default!;
+    public DateTimeOffset UpdatedAt { get; set; }
 }
