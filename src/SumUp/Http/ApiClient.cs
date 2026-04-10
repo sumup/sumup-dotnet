@@ -27,7 +27,6 @@ internal sealed class ApiClient
         {
             PropertyNameCaseInsensitive = true
         };
-        _serializerOptions.Converters.Add(new EnumMemberJsonConverterFactory());
     }
 
     internal HttpRequestMessage CreateRequest(HttpMethod method, string pathTemplate, Action<RequestBuilder>? configure = null)
