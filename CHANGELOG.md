@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.13](https://github.com/sumup/sumup-dotnet/compare/v0.0.12...v0.0.13) (2026-04-10)
+
+
+### Features
+
+* **examples:** oauth2 ([#90](https://github.com/sumup/sumup-dotnet/issues/90)) ([97de6d5](https://github.com/sumup/sumup-dotnet/commit/97de6d53ff9dd1923e1d094dbeae78c13f0105ba))
+
 ## [0.0.12](https://github.com/sumup/sumup-dotnet/compare/v0.0.11...v0.0.12) (2026-04-10)
 
 
