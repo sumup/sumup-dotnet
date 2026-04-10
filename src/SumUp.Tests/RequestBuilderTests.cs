@@ -119,4 +119,24 @@ public class RequestBuilderTests
 
         Assert.Contains("\"birth_date\":\"1980-01-12\"", body);
     }
+
+    [Fact]
+    public void TryDeserialize_ReturnsDefaultForMalformedJson()
+    {
+        using var httpClient = new HttpClient { BaseAddress = new Uri("https://api.sumup.com") };
+        var apiClient = new ApiClient(httpClient, new SumUpClientOptions());
+
+        var result = apiClient.TryDeserialize<Checkout>("{");
+
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void TryDeserialize_PropagatesNonJsonExceptions()
+    {
+        using var httpClient = new HttpClient { BaseAddress = new Uri("https://api.sumup.com") };
+        var apiClient = new ApiClient(httpClient, new SumUpClientOptions());
+
+        Assert.Throws<NotSupportedException>(() => apiClient.TryDeserialize<Type>("\"System.String\""));
+    }
 }
