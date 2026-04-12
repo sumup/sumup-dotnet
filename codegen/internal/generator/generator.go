@@ -156,7 +156,7 @@ func (g *Generator) Run(doc *v3.Document) error {
 		return err
 	}
 
-	return nil
+	return g.renderEvents(tmpl, doc)
 }
 
 func (g *Generator) renderClient(t *template.Template, client clientTemplateData) (err error) {

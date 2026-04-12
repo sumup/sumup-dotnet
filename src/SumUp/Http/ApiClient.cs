@@ -96,6 +96,41 @@ internal sealed class ApiClient
         }
     }
 
+    internal async Task<TModel?> GetAbsoluteAsync<TModel>(
+        string absoluteUrl,
+        RequestOptions? requestOptions = null,
+        CancellationToken cancellationToken = default)
+        where TModel : class
+    {
+        using var request = CreateRequest(HttpMethod.Get, absoluteUrl);
+        var effectiveCancellationToken = CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _httpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                var fallbackError = TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+
+            using var stream = await ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            return await JsonSerializer.DeserializeAsync<TModel>(stream, _serializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
     internal static Task<string> ReadContentAsStringAsync(HttpContent content, CancellationToken cancellationToken)
     {
 #if NETSTANDARD2_0
