@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.13](https://github.com/sumup/sumup-dotnet/compare/v0.0.12...v0.0.13) (2026-04-13)
+
+
+### Features
+
+* **examples:** oauth2 ([#90](https://github.com/sumup/sumup-dotnet/issues/90)) ([97de6d5](https://github.com/sumup/sumup-dotnet/commit/97de6d53ff9dd1923e1d094dbeae78c13f0105ba))
+
+
+### Chores
+
+* **deps:** bump github.com/pb33f/libopenapi from 0.34.4 to 0.35.1 in /codegen ([#94](https://github.com/sumup/sumup-dotnet/issues/94)) ([a22099c](https://github.com/sumup/sumup-dotnet/commit/a22099c6413fc5a4a822924194dd7e4c7982752e))
+* **deps:** bump reviewdog/action-actionlint from 1.71.0 to 1.72.0 ([#93](https://github.com/sumup/sumup-dotnet/issues/93)) ([297e44e](https://github.com/sumup/sumup-dotnet/commit/297e44ed6b5020db581966b391ad26a9955dd63e))
+* synced file(s) with sumup/apis ([#95](https://github.com/sumup/sumup-dotnet/issues/95)) ([7516525](https://github.com/sumup/sumup-dotnet/commit/7516525ea0ea2d937c64e7b2fbec10925bdb5c8f))
+
 ## [0.0.12](https://github.com/sumup/sumup-dotnet/compare/v0.0.11...v0.0.12) (2026-04-10)
 
 
