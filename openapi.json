@@ -1091,6 +1091,7 @@
     },
     "/v0.2/checkouts/{id}/apple-pay-session": {
       "put": {
+        "operationId": "CreateApplePaySession",
         "summary": "Create an apple pay session.",
         "description": "Creates an Apple Pay merchant session for the specified checkout.\n\nUse this endpoint after the customer selects Apple Pay and before calling\n`ApplePaySession.completeMerchantValidation(...)` in the browser.\nSumUp validates the merchant session request and returns the Apple Pay\nsession object that your frontend should pass to Apple's JavaScript API.\n",
         "parameters": [
@@ -1208,6 +1209,9 @@
         "tags": [
           "Checkouts"
         ],
+        "x-codegen": {
+          "method_name": "create_apple_pay_session"
+        },
         "x-scopes": []
       }
     },
