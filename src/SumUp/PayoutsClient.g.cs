@@ -28,12 +28,12 @@ public sealed partial class PayoutsClient
     /// List payouts
     /// </summary>
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
-    /// <param name="merchantCode">Request parameter.</param>
+    /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Request parameter.</param>
-    /// <param name="limit">Request parameter.</param>
-    /// <param name="order">Request parameter.</param>
+    /// <param name="format">Response format for the payout list.</param>
+    /// <param name="limit">Maximum number of payout records to return.</param>
+    /// <param name="order">Sort direction for the returned payouts.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<IEnumerable<FinancialPayoutsItem>> List(string merchantCode, DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -92,12 +92,12 @@ public sealed partial class PayoutsClient
     /// List payouts
     /// </summary>
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
-    /// <param name="merchantCode">Request parameter.</param>
+    /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Request parameter.</param>
-    /// <param name="limit">Request parameter.</param>
-    /// <param name="order">Request parameter.</param>
+    /// <param name="format">Response format for the payout list.</param>
+    /// <param name="limit">Maximum number of payout records to return.</param>
+    /// <param name="order">Sort direction for the returned payouts.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListAsync(string merchantCode, DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -158,9 +158,9 @@ public sealed partial class PayoutsClient
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Request parameter.</param>
-    /// <param name="limit">Request parameter.</param>
-    /// <param name="order">Request parameter.</param>
+    /// <param name="format">Response format for the payout list.</param>
+    /// <param name="limit">Maximum number of payout records to return.</param>
+    /// <param name="order">Sort direction for the returned payouts.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<IEnumerable<FinancialPayoutsItem>> ListDeprecated(DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -220,9 +220,9 @@ public sealed partial class PayoutsClient
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
     /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Request parameter.</param>
-    /// <param name="limit">Request parameter.</param>
-    /// <param name="order">Request parameter.</param>
+    /// <param name="format">Response format for the payout list.</param>
+    /// <param name="limit">Maximum number of payout records to return.</param>
+    /// <param name="order">Sort direction for the returned payouts.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListDeprecatedAsync(DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)

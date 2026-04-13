@@ -16,7 +16,7 @@ public sealed partial class CheckoutAcceptedNextStep
     public string? Method { get; set; }
     /// <summary>Parameters required to complete the next step. The exact keys depend on the payment provider and flow type.</summary>
     [JsonPropertyName("payload")]
-    public CheckoutAcceptedNextStepPayload? Payload { get; set; }
+    public IDictionary<string, string>? Payload { get; set; }
     /// <summary>Merchant URL where the payer returns after the external flow finishes.</summary>
     [JsonPropertyName("redirect_url")]
     public string? RedirectUrl { get; set; }

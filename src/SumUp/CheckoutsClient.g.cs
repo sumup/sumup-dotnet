@@ -155,7 +155,7 @@ public sealed partial class CheckoutsClient
     }
 
     /// <summary>
-    /// Create an apple pay session.
+    /// Create an Apple Pay session
     /// </summary>
     /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling `ApplePaySession.completeMerchantValidation(...)` in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
@@ -214,7 +214,7 @@ public sealed partial class CheckoutsClient
     }
 
     /// <summary>
-    /// Create an apple pay session.
+    /// Create an Apple Pay session
     /// </summary>
     /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling `ApplePaySession.completeMerchantValidation(...)` in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
