@@ -4,7 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-public sealed partial class CheckoutsPutV02CheckoutsIdApplePaySessionRequest
+public sealed partial class CheckoutsCreateApplePaySessionRequest
 {
     /// <summary>the context to create this apple pay session.</summary>
     [JsonPropertyName("context")]
