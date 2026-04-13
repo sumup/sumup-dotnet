@@ -721,4 +721,122 @@ public sealed partial class CheckoutsClient
             timeoutScope?.Dispose();
         }
     }
+
+    /// <summary>
+    /// Create an apple pay session.
+    /// </summary>
+    /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling `ApplePaySession.completeMerchantValidation(...)` in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
+    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public ApiResponse<JsonDocument> PutV02CheckoutsIdApplePaySession(string id, CheckoutsPutV02CheckoutsIdApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.2/checkouts/{id}/apple-pay-session", builder =>
+        {
+            builder.AddPath("id", id);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var jsonStream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var document = JsonDocument.Parse(jsonStream);
+            return ApiResponse<JsonDocument>.From((JsonDocument)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Create an apple pay session.
+    /// </summary>
+    /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling `ApplePaySession.completeMerchantValidation(...)` in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
+    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public async Task<ApiResponse<JsonDocument>> PutV02CheckoutsIdApplePaySessionAsync(string id, CheckoutsPutV02CheckoutsIdApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.2/checkouts/{id}/apple-pay-session", builder =>
+        {
+            builder.AddPath("id", id);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var jsonStream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<JsonDocument>.From((JsonDocument)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
 }
