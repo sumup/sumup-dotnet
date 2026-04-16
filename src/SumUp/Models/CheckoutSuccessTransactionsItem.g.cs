@@ -24,9 +24,6 @@ public sealed partial class CheckoutSuccessTransactionsItem
     /// <summary>Current number of the installment for deferred payments.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
-    /// <summary>Internal unique ID of the transaction on the SumUp platform.</summary>
-    [JsonPropertyName("internal_id")]
-    public long? InternalId { get; set; }
     /// <summary>Unique code of the registered merchant to whom the payment is made.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }

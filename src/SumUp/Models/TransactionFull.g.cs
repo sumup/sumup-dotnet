@@ -50,9 +50,6 @@ public sealed partial class TransactionFull
     /// <summary>Current number of the installment for deferred payments.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
-    /// <summary>Internal unique ID of the transaction on the SumUp platform.</summary>
-    [JsonPropertyName("internal_id")]
-    public long? InternalId { get; set; }
     /// <summary>Latitude value from the coordinates of the payment location (as received from the payment terminal reader).</summary>
     [JsonPropertyName("lat")]
     public float? Lat { get; set; }

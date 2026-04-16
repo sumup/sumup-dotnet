@@ -27,22 +27,20 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="merchantCode">Merchant code of the account whose transaction should be retrieved.</param>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
     /// <param name="foreignTransactionId">External/foreign transaction id (passed by clients).</param>
     /// <param name="clientTransactionId">Client transaction id.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionFull> Get(string merchantCode, string? id = null, string? internalId = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionFull> Get(string merchantCode, string? id = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddQuery("id", id);
-            builder.AddQuery("internal_id", internalId);
             builder.AddQuery("transaction_code", transactionCode);
             builder.AddQuery("foreign_transaction_id", foreignTransactionId);
             builder.AddQuery("client_transaction_id", clientTransactionId);
@@ -91,22 +89,20 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="merchantCode">Merchant code of the account whose transaction should be retrieved.</param>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
     /// <param name="foreignTransactionId">External/foreign transaction id (passed by clients).</param>
     /// <param name="clientTransactionId">Client transaction id.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionFull>> GetAsync(string merchantCode, string? id = null, string? internalId = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionFull>> GetAsync(string merchantCode, string? id = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddQuery("id", id);
-            builder.AddQuery("internal_id", internalId);
             builder.AddQuery("transaction_code", transactionCode);
             builder.AddQuery("foreign_transaction_id", foreignTransactionId);
             builder.AddQuery("client_transaction_id", clientTransactionId);
@@ -155,18 +151,16 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionFull> GetDeprecated(string? id = null, string? internalId = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionFull> GetDeprecated(string? id = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
         {
             builder.AddQuery("id", id);
-            builder.AddQuery("internal_id", internalId);
             builder.AddQuery("transaction_code", transactionCode);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
@@ -213,18 +207,16 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Retrieve a transaction
     /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `internal_id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
+    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="internalId">Retrieves the transaction resource with the specified internal transaction ID (the `internal_id` parameter in the transaction resource).</param>
     /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionFull>> GetDeprecatedAsync(string? id = null, string? internalId = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionFull>> GetDeprecatedAsync(string? id = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
         {
             builder.AddQuery("id", id);
-            builder.AddQuery("internal_id", internalId);
             builder.AddQuery("transaction_code", transactionCode);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
