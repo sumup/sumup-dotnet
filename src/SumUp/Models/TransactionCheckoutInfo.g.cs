@@ -13,9 +13,6 @@ public sealed partial class TransactionCheckoutInfo
     /// <summary>Entry mode of the payment details.</summary>
     [JsonPropertyName("entry_mode")]
     public EntryMode? EntryMode { get; set; }
-    /// <summary>Internal unique ID of the transaction on the SumUp platform.</summary>
-    [JsonPropertyName("internal_id")]
-    public long? InternalId { get; set; }
     /// <summary>Unique code of the registered merchant to whom the payment is made.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
