@@ -3,7 +3,7 @@ module github.com/sumup/sumup-dotnet/codegen
 go 1.25.0
 
 require (
-	github.com/pb33f/libopenapi v0.35.1
+	github.com/pb33f/libopenapi v0.36.0
 	go.yaml.in/yaml/v4 v4.0.0-rc.4
 )
 
