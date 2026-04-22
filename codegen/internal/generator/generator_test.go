@@ -80,6 +80,117 @@ func TestBuildModels_GeneratesInlineEnumForLinksRelation(t *testing.T) {
 	}
 }
 
+func TestBuildModels_UsesJsonObjectForFreeFormObjects(t *testing.T) {
+	const spec = `{
+	  "openapi": "3.0.3",
+	  "info": {
+	    "title": "test",
+	    "version": "1.0.0"
+	  },
+	  "paths": {},
+	  "components": {
+	    "schemas": {
+	      "Metadata": {
+	        "type": "object",
+	        "additionalProperties": true
+	      },
+	      "PaymentPayload": {
+	        "type": "object",
+	        "properties": {
+	          "metadata": {
+	            "type": "object",
+	            "additionalProperties": true
+	          },
+	          "apple_pay": {
+	            "type": "object"
+	          }
+	        }
+	      }
+	    }
+	  }
+	}`
+
+	doc := mustBuildV3Document(t, spec)
+
+	g := New(Config{Namespace: "SumUp"})
+	models, err := g.buildModels(doc)
+	if err != nil {
+		t.Fatalf("buildModels() error = %v", err)
+	}
+
+	metadata := findModel(t, models, "Metadata")
+	if !metadata.IsDictionaryModel {
+		t.Fatalf("Metadata should be a dictionary-backed model")
+	}
+	if metadata.DictionaryBaseType != "JsonObject" {
+		t.Fatalf("Metadata dictionary base type = %q, want %q", metadata.DictionaryBaseType, "JsonObject")
+	}
+
+	payload := findModel(t, models, "PaymentPayload")
+	if got := propertyType(payload.Properties, "Metadata"); got != "JsonObject?" {
+		t.Fatalf("Metadata property type = %q, want %q", got, "JsonObject?")
+	}
+	if got := propertyType(payload.Properties, "ApplePay"); got != "JsonObject?" {
+		t.Fatalf("ApplePay property type = %q, want %q", got, "JsonObject?")
+	}
+}
+
+func TestBuildClients_UsesJsonDocumentForOpaqueObjectResponses(t *testing.T) {
+	const spec = `{
+	  "openapi": "3.0.3",
+	  "info": {
+	    "title": "test",
+	    "version": "1.0.0"
+	  },
+	  "paths": {
+	    "/v0.2/checkouts/{id}/apple-pay-session": {
+	      "put": {
+	        "tags": ["Checkouts"],
+	        "operationId": "CreateApplePaySession",
+	        "parameters": [
+	          {
+	            "name": "id",
+	            "in": "path",
+	            "required": true,
+	            "schema": { "type": "string" }
+	          }
+	        ],
+	        "responses": {
+	          "200": {
+	            "description": "ok",
+	            "content": {
+	              "application/json": {
+	                "schema": { "type": "object" }
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	}`
+
+	doc := mustBuildV3Document(t, spec)
+
+	g := New(Config{Namespace: "SumUp"})
+	clients, err := g.buildClients(doc)
+	if err != nil {
+		t.Fatalf("buildClients() error = %v", err)
+	}
+
+	if len(clients) != 1 || len(clients[0].Operations) != 1 {
+		t.Fatalf("unexpected client/operation count")
+	}
+
+	operation := clients[0].Operations[0]
+	if operation.ResponseType != "JsonDocument" {
+		t.Fatalf("response type = %q, want %q", operation.ResponseType, "JsonDocument")
+	}
+	if operation.ResponseMode != "json-document" {
+		t.Fatalf("response mode = %q, want %q", operation.ResponseMode, "json-document")
+	}
+}
+
 func mustBuildV3Document(t *testing.T, raw string) *v3.Document {
 	t.Helper()
 

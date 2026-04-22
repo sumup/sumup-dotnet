@@ -355,6 +355,7 @@ func (g *Generator) buildClassModel(typeName string, schema *base.Schema) (model
 		return modelTemplateData{}, err
 	}
 	extensionType := ""
+	dictionaryBaseType := ""
 	if schema.AdditionalProperties != nil {
 		if schema.AdditionalProperties.IsA() && schema.AdditionalProperties.A != nil {
 			val := g.resolveType(schema.AdditionalProperties.A, true)
@@ -364,9 +365,9 @@ func (g *Generator) buildClassModel(typeName string, schema *base.Schema) (model
 				usesJson = true
 			}
 		} else if schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
-			extensionType = "JsonElement"
+			extensionType = "object?"
+			dictionaryBaseType = "JsonObject"
 			usesCollections = true
-			usesJson = true
 		}
 	}
 	isDictionaryModel := len(props) == 0 && extensionType != ""
@@ -382,6 +383,7 @@ func (g *Generator) buildClassModel(typeName string, schema *base.Schema) (model
 		HasExtensionData:       extensionType != "" && !isDictionaryModel,
 		ExtensionDataValueType: extensionType,
 		IsDictionaryModel:      isDictionaryModel,
+		DictionaryBaseType:     dictionaryBaseType,
 		DictionaryValueType:    extensionType,
 	}, nil
 }
@@ -834,7 +836,7 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, require
 			return g.nullableType(typeName, false, required, true), nil
 		}
 		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
-			return g.nullableType("IDictionary<string, JsonElement>", false, required, true), nil
+			return g.nullableType("JsonObject", false, required), nil
 		}
 		if schema.Items != nil && schema.Items.IsA() {
 			itemInfo, err := g.resolveInlineSchemaType(schema.Items.A, true, inlineBase+"Item")
@@ -1052,7 +1054,29 @@ func (g *Generator) responseTypeForResponse(resp *v3.Response, inlineBase string
 	if schemaRef == nil {
 		return typeInfo{}, nil
 	}
+	if schema := g.schemaFromProxy(schemaRef); schema != nil && isOpaqueObjectSchema(schema) {
+		return g.nullableType("JsonDocument", false, true), nil
+	}
 	return g.resolveInlineSchemaType(schemaRef, true, inlineBase)
+}
+
+func isOpaqueObjectSchema(schema *base.Schema) bool {
+	if schema == nil {
+		return false
+	}
+	if !schemaHasType(schema, "object") {
+		return false
+	}
+	if schema.Properties != nil && schema.Properties.Len() > 0 {
+		return false
+	}
+	if len(schema.AllOf) > 0 {
+		return false
+	}
+	if schema.AdditionalProperties != nil {
+		return false
+	}
+	return true
 }
 
 func (g *Generator) resolveResponseMode(op *v3.Operation, responseInfo typeInfo) (string, error) {
@@ -1280,10 +1304,10 @@ func (g *Generator) resolveType(schemaRef *base.SchemaProxy, required bool) type
 			return g.nullableType(typeName, false, required, true)
 		}
 		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
-			return g.nullableType("IDictionary<string, JsonElement>", false, required, true)
+			return g.nullableType("JsonObject", false, required)
 		}
 		if (schema.Properties == nil || schema.Properties.Len() == 0) && len(schema.AllOf) == 0 {
-			return g.nullableType("JsonDocument", false, required)
+			return g.nullableType("JsonObject", false, required)
 		}
 		return g.nullableType("JsonDocument", false, required)
 	default:
@@ -1410,6 +1434,7 @@ type modelTemplateData struct {
 	HasExtensionData       bool
 	ExtensionDataValueType string
 	IsDictionaryModel      bool
+	DictionaryBaseType     string
 	DictionaryValueType    string
 	EmitToString           bool
 }

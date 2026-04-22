@@ -5,8 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-using System.Text.Json;
 /// <summary>Set of user-defined key-value pairs attached to the object. Partial updates are not supported. When updating, always submit whole metadata. Maximum of 64 parameters are allowed in the object.</summary>
-public sealed partial class Metadata : Dictionary<string, JsonElement>
+public sealed partial class Metadata : JsonObject
 {
 }

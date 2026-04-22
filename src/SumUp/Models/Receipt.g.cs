@@ -4,7 +4,6 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-using System.Text.Json;
 /// <summary>Receipt details for a transaction.</summary>
 public sealed partial class Receipt
 {
@@ -13,7 +12,7 @@ public sealed partial class Receipt
     public ReceiptAcquirerData? AcquirerData { get; set; }
     /// <summary>EMV-specific metadata returned for card-present payments.</summary>
     [JsonPropertyName("emv_data")]
-    public JsonDocument? EmvData { get; set; }
+    public JsonObject? EmvData { get; set; }
     /// <summary>Receipt merchant data</summary>
     [JsonPropertyName("merchant_data")]
     public ReceiptMerchantData? MerchantData { get; set; }

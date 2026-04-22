@@ -4,11 +4,9 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
-using System.Text.Json;
 /// <summary>Unprocessable entity</summary>
 public sealed partial class CreateReaderTerminateUnprocessableEntity
 {
     [JsonPropertyName("errors")]
-    public IDictionary<string, JsonElement> Errors { get; set; } = default!;
+    public JsonObject Errors { get; set; } = default!;
 }
