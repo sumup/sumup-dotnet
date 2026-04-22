@@ -190,7 +190,6 @@ func TestBuildClients_UsesJsonDocumentForOpaqueObjectResponses(t *testing.T) {
 		t.Fatalf("response mode = %q, want %q", operation.ResponseMode, "json-document")
 	}
 }
-
 func mustBuildV3Document(t *testing.T, raw string) *v3.Document {
 	t.Helper()
 
