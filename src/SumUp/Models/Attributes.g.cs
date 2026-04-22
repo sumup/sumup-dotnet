@@ -5,8 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-using System.Text.Json;
 /// <summary>Object attributes that are modifiable only by SumUp applications.</summary>
-public sealed partial class Attributes : Dictionary<string, JsonElement>
+public sealed partial class Attributes : JsonObject
 {
 }
