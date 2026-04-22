@@ -191,6 +191,95 @@ func TestBuildClients_UsesJsonDocumentForOpaqueObjectResponses(t *testing.T) {
 	}
 }
 
+func TestBuildClients_UsesOperationOptionsForQueryParameters(t *testing.T) {
+	const spec = `{
+	  "openapi": "3.0.3",
+	  "info": {
+	    "title": "test",
+	    "version": "1.0.0"
+	  },
+	  "paths": {
+	    "/v0.1/merchants/{merchant_code}/transactions/history": {
+	      "get": {
+	        "tags": ["Transactions"],
+	        "operationId": "ListHistory",
+	        "parameters": [
+	          {
+	            "name": "merchant_code",
+	            "in": "path",
+	            "required": true,
+	            "schema": { "type": "string" }
+	          },
+	          {
+	            "name": "order",
+	            "in": "query",
+	            "schema": { "type": "string" }
+	          },
+	          {
+	            "name": "limit",
+	            "in": "query",
+	            "schema": { "type": "integer" }
+	          }
+	        ],
+	        "responses": {
+	          "200": {
+	            "description": "ok",
+	            "content": {
+	              "application/json": {
+	                "schema": {
+	                  "type": "object"
+	                }
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	}`
+
+	doc := mustBuildV3Document(t, spec)
+
+	g := New(Config{Namespace: "SumUp"})
+	clients, err := g.buildClients(doc)
+	if err != nil {
+		t.Fatalf("buildClients() error = %v", err)
+	}
+
+	if len(clients) != 1 {
+		t.Fatalf("buildClients() returned %d clients, want 1", len(clients))
+	}
+
+	operation := clients[0].Operations[0]
+	if !operation.HasOperationOptions {
+		t.Fatalf("operation should use an options model")
+	}
+	if operation.OperationOptions == nil {
+		t.Fatalf("operation options should not be nil")
+	}
+	if operation.OperationOptions.Name != "TransactionsListHistoryOptions" {
+		t.Fatalf("options model name = %q, want %q", operation.OperationOptions.Name, "TransactionsListHistoryOptions")
+	}
+	if len(operation.Parameters) != 2 {
+		t.Fatalf("method parameter count = %d, want 2", len(operation.Parameters))
+	}
+	if operation.Parameters[0].Name != "merchantCode" {
+		t.Fatalf("first parameter name = %q, want %q", operation.Parameters[0].Name, "merchantCode")
+	}
+	if operation.Parameters[1].Name != "options" {
+		t.Fatalf("second parameter name = %q, want %q", operation.Parameters[1].Name, "options")
+	}
+	if operation.Parameters[1].Signature != "TransactionsListHistoryOptions? options = null" {
+		t.Fatalf("options signature = %q, want %q", operation.Parameters[1].Signature, "TransactionsListHistoryOptions? options = null")
+	}
+	if operation.QueryParams[0].OptionsBuilderCall != "builder.AddQuery(\"order\", operationOptions.Order);" {
+		t.Fatalf("order builder call = %q", operation.QueryParams[0].OptionsBuilderCall)
+	}
+	if operation.QueryParams[1].OptionsBuilderCall != "builder.AddQuery(\"limit\", operationOptions.Limit);" {
+		t.Fatalf("limit builder call = %q", operation.QueryParams[1].OptionsBuilderCall)
+	}
+}
+
 func mustBuildV3Document(t *testing.T, raw string) *v3.Document {
 	t.Helper()
 

@@ -53,6 +53,7 @@ type Generator struct {
 	inlineModels []modelTemplateData
 	modelNames   map[string]struct{}
 	errorModels  map[string]struct{}
+	optionNames  map[string]struct{}
 }
 
 // New returns a new Generator.
@@ -62,6 +63,7 @@ func New(config Config) *Generator {
 		schemaTypes: map[string]*schemaTypeInfo{},
 		modelNames:  map[string]struct{}{},
 		errorModels: map[string]struct{}{},
+		optionNames: map[string]struct{}{},
 	}
 }
 
@@ -74,6 +76,7 @@ func (g *Generator) Run(doc *v3.Document) error {
 	g.inlineModels = nil
 	g.modelNames = map[string]struct{}{}
 	g.errorModels = map[string]struct{}{}
+	g.optionNames = map[string]struct{}{}
 
 	if g.config.Namespace == "" {
 		g.config.Namespace = "SumUp"
@@ -101,6 +104,8 @@ func (g *Generator) Run(doc *v3.Document) error {
 		return err
 	}
 
+	options := g.collectOperationOptions(clients)
+
 	if len(g.inlineModels) > 0 {
 		models = append(models, g.inlineModels...)
 		sort.Slice(models, func(i, j int) bool {
@@ -116,6 +121,9 @@ func (g *Generator) Run(doc *v3.Document) error {
 	}
 
 	if err := g.renderModels(tmpl, models); err != nil {
+		return err
+	}
+	if err := g.renderOptions(tmpl, options); err != nil {
 		return err
 	}
 
@@ -234,6 +242,34 @@ func (g *Generator) renderModels(t *template.Template, models []modelTemplateDat
 		}
 		if err := file.Close(); err != nil {
 			return fmt.Errorf("close model file %s: %w", model.Name, err)
+		}
+	}
+	return nil
+}
+
+func (g *Generator) renderOptions(t *template.Template, options []optionsTemplateData) error {
+	for _, option := range options {
+		targetDir := filepath.Join(g.config.OutputDir, "Options")
+		if err := os.MkdirAll(targetDir, 0o755); err != nil {
+			return fmt.Errorf("create options directory: %w", err)
+		}
+		filePath := filepath.Join(targetDir, fmt.Sprintf("%s.g.cs", option.Name))
+		file, err := os.Create(filePath)
+		if err != nil {
+			return fmt.Errorf("create option file: %w", err)
+		}
+		if err := t.ExecuteTemplate(file, "operation_options.tmpl", option); err != nil {
+			closeErr := file.Close()
+			if closeErr != nil {
+				return errors.Join(
+					fmt.Errorf("render option template %s: %w", option.Name, err),
+					fmt.Errorf("close option file %s: %w", option.Name, closeErr),
+				)
+			}
+			return fmt.Errorf("render option template %s: %w", option.Name, err)
+		}
+		if err := file.Close(); err != nil {
+			return fmt.Errorf("close option file %s: %w", option.Name, err)
 		}
 	}
 	return nil
@@ -621,6 +657,7 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 				pathParams = append(pathParams, parameter)
 			}
 		case "query":
+			parameter.OptionsBuilderCall = builderCall(parameter.Location, parameter.Name, "operationOptions."+parameter.PropertyName)
 			if idx, ok := queryIndex[parameter.Name]; ok {
 				queryParams[idx] = parameter
 			} else {
@@ -628,6 +665,7 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 				queryParams = append(queryParams, parameter)
 			}
 		case "header":
+			parameter.OptionsBuilderCall = builderCall(parameter.Location, parameter.Name, "operationOptions."+parameter.PropertyName)
 			if idx, ok := headerIndex[parameter.Name]; ok {
 				headerParams[idx] = parameter
 			} else {
@@ -654,8 +692,7 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 		return operationTemplateData{}, err
 	}
 
-	allParams := append(append([]methodParameter{}, toMethodParameters(pathParams)...), toMethodParameters(queryParams)...)
-	allParams = append(allParams, toMethodParameters(headerParams)...)
+	allParams := append([]methodParameter{}, toMethodParameters(pathParams)...)
 	if body != nil {
 		descriptionText := body.Description
 		if descriptionText == "" {
@@ -665,6 +702,14 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 			Name:        body.ArgName,
 			Signature:   body.Signature,
 			Description: descriptionText,
+		})
+	}
+	optionsModel := g.buildOperationOptions(clientName, methodName, summaryForOptions(op, method, path), queryParams, headerParams)
+	if optionsModel != nil {
+		allParams = append(allParams, methodParameter{
+			Name:        "options",
+			Signature:   optionsModel.Signature,
+			Description: optionsModel.Description,
 		})
 	}
 
@@ -678,28 +723,30 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 		usesCollections = true
 	}
 	data := operationTemplateData{
-		MethodName:        methodName,
-		HttpMethod:        method,
-		HttpMethodExpr:    httpMethodExpression(method),
-		Path:              path,
-		Summary:           summary,
-		Description:       description,
-		PathParams:        pathParams,
-		QueryParams:       queryParams,
-		HeaderParams:      headerParams,
-		Parameters:        allParams,
-		HasParameters:     len(allParams) > 0,
-		HasRequestBody:    body != nil,
-		Body:              body,
-		ResponseType:      responseInfo.TypeName,
-		HasBuilder:        len(pathParams)+len(queryParams)+len(headerParams) > 0,
-		HasPathParams:     len(pathParams) > 0,
-		HasQueryParams:    len(queryParams) > 0,
-		HasHeaderParams:   len(headerParams) > 0,
-		UsesCollections:   usesCollections,
-		HasErrorResponses: len(errorResponses) > 0,
-		ErrorResponses:    errorResponses,
-		ResponseMode:      responseMode,
+		MethodName:          methodName,
+		HttpMethod:          method,
+		HttpMethodExpr:      httpMethodExpression(method),
+		Path:                path,
+		Summary:             summary,
+		Description:         description,
+		PathParams:          pathParams,
+		QueryParams:         queryParams,
+		HeaderParams:        headerParams,
+		Parameters:          allParams,
+		HasParameters:       len(allParams) > 0,
+		HasOperationOptions: optionsModel != nil,
+		OperationOptions:    optionsModel,
+		HasRequestBody:      body != nil,
+		Body:                body,
+		ResponseType:        responseInfo.TypeName,
+		HasBuilder:          len(pathParams)+len(queryParams)+len(headerParams) > 0,
+		HasPathParams:       len(pathParams) > 0,
+		HasQueryParams:      len(queryParams) > 0,
+		HasHeaderParams:     len(headerParams) > 0,
+		UsesCollections:     usesCollections,
+		HasErrorResponses:   len(errorResponses) > 0,
+		ErrorResponses:      errorResponses,
+		ResponseMode:        responseMode,
 	}
 	return data, nil
 }
@@ -723,15 +770,70 @@ func (g *Generator) convertParameter(param *v3.Parameter) (parameterTemplateData
 		declaration = fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue)
 	}
 	return parameterTemplateData{
-		Location:     param.In,
-		Name:         param.Name,
-		ArgName:      argName,
-		Declaration:  declaration,
-		Description:  sanitizeText(param.Description),
-		Required:     required,
-		BuilderCall:  builderCall(param.In, param.Name, argName),
-		IsCollection: typeInfo.IsCollection,
+		Location:         param.In,
+		Name:             param.Name,
+		ArgName:          argName,
+		PropertyName:     naming.PascalIdentifier(param.Name),
+		TypeName:         strings.TrimSpace(strings.SplitN(declaration, " ", 2)[0]),
+		Declaration:      declaration,
+		Description:      sanitizeText(param.Description),
+		Required:         required,
+		BuilderCall:      builderCall(param.In, param.Name, argName),
+		IsCollection:     typeInfo.IsCollection,
+		NeedsInitializer: required && !typeInfo.IsValueType && !strings.HasSuffix(typeInfo.TypeName, "?"),
 	}, nil
+}
+
+func summaryForOptions(op *v3.Operation, method, path string) string {
+	return sanitizeText(firstNonEmpty(op.Summary, fmt.Sprintf("%s %s", method, path)))
+}
+
+func (g *Generator) buildOperationOptions(clientName, methodName, summary string, queryParams, headerParams []parameterTemplateData) *optionsTemplateData {
+	if len(queryParams) == 0 && len(headerParams) == 0 {
+		return nil
+	}
+
+	name := fmt.Sprintf("%s%sOptions", clientName, methodName)
+	if _, exists := g.optionNames[name]; !exists {
+		g.optionNames[name] = struct{}{}
+	}
+
+	properties := make([]optionsPropertyTemplateData, 0, len(queryParams)+len(headerParams))
+	usesCollections := false
+	hasRequired := false
+
+	appendProps := func(params []parameterTemplateData) {
+		for _, param := range params {
+			properties = append(properties, optionsPropertyTemplateData{
+				PropertyName:     param.PropertyName,
+				TypeName:         param.TypeName,
+				Description:      param.Description,
+				Required:         param.Required,
+				NeedsInitializer: param.NeedsInitializer,
+			})
+			usesCollections = usesCollections || param.IsCollection
+			hasRequired = hasRequired || param.Required
+		}
+	}
+
+	appendProps(queryParams)
+	appendProps(headerParams)
+
+	signature := fmt.Sprintf("%s options", name)
+	if !hasRequired {
+		signature = fmt.Sprintf("%s? options = null", name)
+	}
+
+	return &optionsTemplateData{
+		Namespace:       g.config.Namespace,
+		Name:            name,
+		Summary:         summary,
+		Description:     "Query and header parameters for the request.",
+		Properties:      properties,
+		UsesCollections: usesCollections,
+		Required:        hasRequired,
+		Signature:       signature,
+	}
 }
 
 func shouldUseOptionalQueryParameter(param *v3.Parameter, required bool, typeInfo typeInfo) bool {
@@ -1468,28 +1570,30 @@ type clientTemplateData struct {
 }
 
 type operationTemplateData struct {
-	MethodName        string
-	HttpMethod        string
-	HttpMethodExpr    string
-	Path              string
-	Summary           string
-	Description       string
-	PathParams        []parameterTemplateData
-	QueryParams       []parameterTemplateData
-	HeaderParams      []parameterTemplateData
-	Parameters        []methodParameter
-	HasParameters     bool
-	HasRequestBody    bool
-	Body              *bodyTemplateData
-	ResponseType      string
-	HasBuilder        bool
-	HasPathParams     bool
-	HasQueryParams    bool
-	HasHeaderParams   bool
-	UsesCollections   bool
-	HasErrorResponses bool
-	ErrorResponses    []errorResponseTemplateData
-	ResponseMode      string
+	MethodName          string
+	HttpMethod          string
+	HttpMethodExpr      string
+	Path                string
+	Summary             string
+	Description         string
+	PathParams          []parameterTemplateData
+	QueryParams         []parameterTemplateData
+	HeaderParams        []parameterTemplateData
+	Parameters          []methodParameter
+	HasParameters       bool
+	HasOperationOptions bool
+	OperationOptions    *optionsTemplateData
+	HasRequestBody      bool
+	Body                *bodyTemplateData
+	ResponseType        string
+	HasBuilder          bool
+	HasPathParams       bool
+	HasQueryParams      bool
+	HasHeaderParams     bool
+	UsesCollections     bool
+	HasErrorResponses   bool
+	ErrorResponses      []errorResponseTemplateData
+	ResponseMode        string
 }
 
 type errorResponseTemplateData struct {
@@ -1499,14 +1603,18 @@ type errorResponseTemplateData struct {
 }
 
 type parameterTemplateData struct {
-	Location     string
-	Name         string
-	ArgName      string
-	Declaration  string
-	Description  string
-	Required     bool
-	BuilderCall  string
-	IsCollection bool
+	Location           string
+	Name               string
+	ArgName            string
+	PropertyName       string
+	TypeName           string
+	Declaration        string
+	Description        string
+	Required           bool
+	BuilderCall        string
+	OptionsBuilderCall string
+	IsCollection       bool
+	NeedsInitializer   bool
 }
 
 type methodParameter struct {
@@ -1528,6 +1636,25 @@ type bodyTemplateData struct {
 type rootTemplateData struct {
 	Namespace string
 	Clients   []clientTemplateData
+}
+
+type optionsTemplateData struct {
+	Namespace       string
+	Name            string
+	Summary         string
+	Description     string
+	Properties      []optionsPropertyTemplateData
+	UsesCollections bool
+	Required        bool
+	Signature       string
+}
+
+type optionsPropertyTemplateData struct {
+	PropertyName     string
+	TypeName         string
+	Description      string
+	Required         bool
+	NeedsInitializer bool
 }
 
 func findTagDescription(doc *v3.Document, tagName string) string {
@@ -1560,6 +1687,21 @@ func toMethodParameters(params []parameterTemplateData) []methodParameter {
 		})
 	}
 	return result
+}
+
+func (g *Generator) collectOperationOptions(clients []clientTemplateData) []optionsTemplateData {
+	var options []optionsTemplateData
+	for _, client := range clients {
+		for _, operation := range client.Operations {
+			if operation.OperationOptions != nil {
+				options = append(options, *operation.OperationOptions)
+			}
+		}
+	}
+	sort.Slice(options, func(i, j int) bool {
+		return options[i].Name < options[j].Name
+	})
+	return options
 }
 
 func apiVersionFromSpec(doc *v3.Document) string {

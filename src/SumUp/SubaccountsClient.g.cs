@@ -226,16 +226,16 @@ public sealed partial class SubaccountsClient
     /// List operators
     /// </summary>
     /// <remarks>Returns list of operators for currently authorized user's merchant.</remarks>
-    /// <param name="query">Search query used to filter users that match given query term. Current implementation allow querying only over the email address. All operators whos email address contains the query string are returned.</param>
-    /// <param name="includePrimary">If true the list of operators will include also the primary user.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<OperatorValue>> ListSubAccounts(string? query = null, bool? includePrimary = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<OperatorValue>> ListSubAccounts(SubaccountsListSubAccountsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new SubaccountsListSubAccountsOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/accounts", builder =>
         {
-            builder.AddQuery("query", query);
-            builder.AddQuery("include_primary", includePrimary);
+            builder.AddQuery("query", operationOptions.Query);
+            builder.AddQuery("include_primary", operationOptions.IncludePrimary);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -277,16 +277,16 @@ public sealed partial class SubaccountsClient
     /// List operators
     /// </summary>
     /// <remarks>Returns list of operators for currently authorized user's merchant.</remarks>
-    /// <param name="query">Search query used to filter users that match given query term. Current implementation allow querying only over the email address. All operators whos email address contains the query string are returned.</param>
-    /// <param name="includePrimary">If true the list of operators will include also the primary user.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<OperatorValue>>> ListSubAccountsAsync(string? query = null, bool? includePrimary = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<OperatorValue>>> ListSubAccountsAsync(SubaccountsListSubAccountsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new SubaccountsListSubAccountsOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/accounts", builder =>
         {
-            builder.AddQuery("query", query);
-            builder.AddQuery("include_primary", includePrimary);
+            builder.AddQuery("query", operationOptions.Query);
+            builder.AddQuery("include_primary", operationOptions.IncludePrimary);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

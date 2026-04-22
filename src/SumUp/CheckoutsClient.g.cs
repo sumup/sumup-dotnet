@@ -502,14 +502,15 @@ public sealed partial class CheckoutsClient
     /// List checkouts
     /// </summary>
     /// <remarks>Lists created checkout resources according to the applied `checkout_reference`.</remarks>
-    /// <param name="checkoutReference">Filters the list of checkout resources by the unique ID of the checkout.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<CheckoutSuccess>> List(string? checkoutReference = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<CheckoutSuccess>> List(CheckoutsListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new CheckoutsListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts", builder =>
         {
-            builder.AddQuery("checkout_reference", checkoutReference);
+            builder.AddQuery("checkout_reference", operationOptions.CheckoutReference);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -551,14 +552,15 @@ public sealed partial class CheckoutsClient
     /// List checkouts
     /// </summary>
     /// <remarks>Lists created checkout resources according to the applied `checkout_reference`.</remarks>
-    /// <param name="checkoutReference">Filters the list of checkout resources by the unique ID of the checkout.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<CheckoutSuccess>>> ListAsync(string? checkoutReference = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<CheckoutSuccess>>> ListAsync(CheckoutsListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new CheckoutsListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts", builder =>
         {
-            builder.AddQuery("checkout_reference", checkoutReference);
+            builder.AddQuery("checkout_reference", operationOptions.CheckoutReference);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -601,17 +603,17 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Get payment methods available for the given merchant to use with a checkout.</remarks>
     /// <param name="merchantCode">The SumUp merchant code.</param>
-    /// <param name="amount">The amount for which the payment methods should be eligible, in major units.</param>
-    /// <param name="currency">The currency for which the payment methods should be eligible.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<CheckoutsListAvailablePaymentMethodsResponse> ListAvailablePaymentMethods(string merchantCode, decimal? amount = null, string? currency = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<CheckoutsListAvailablePaymentMethodsResponse> ListAvailablePaymentMethods(string merchantCode, CheckoutsListAvailablePaymentMethodsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new CheckoutsListAvailablePaymentMethodsOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/payment-methods", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("amount", amount);
-            builder.AddQuery("currency", currency);
+            builder.AddQuery("amount", operationOptions.Amount);
+            builder.AddQuery("currency", operationOptions.Currency);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -654,17 +656,17 @@ public sealed partial class CheckoutsClient
     /// </summary>
     /// <remarks>Get payment methods available for the given merchant to use with a checkout.</remarks>
     /// <param name="merchantCode">The SumUp merchant code.</param>
-    /// <param name="amount">The amount for which the payment methods should be eligible, in major units.</param>
-    /// <param name="currency">The currency for which the payment methods should be eligible.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<CheckoutsListAvailablePaymentMethodsResponse>> ListAvailablePaymentMethodsAsync(string merchantCode, decimal? amount = null, string? currency = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<CheckoutsListAvailablePaymentMethodsResponse>> ListAvailablePaymentMethodsAsync(string merchantCode, CheckoutsListAvailablePaymentMethodsOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new CheckoutsListAvailablePaymentMethodsOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/payment-methods", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("amount", amount);
-            builder.AddQuery("currency", currency);
+            builder.AddQuery("amount", operationOptions.Amount);
+            builder.AddQuery("currency", operationOptions.Currency);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

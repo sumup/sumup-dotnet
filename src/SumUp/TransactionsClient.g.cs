@@ -29,21 +29,19 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="merchantCode">Merchant code of the account whose transaction should be retrieved.</param>
-    /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
-    /// <param name="foreignTransactionId">External/foreign transaction id (passed by clients).</param>
-    /// <param name="clientTransactionId">Client transaction id.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionFull> Get(string merchantCode, string? id = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionFull> Get(string merchantCode, TransactionsGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsGetOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("id", id);
-            builder.AddQuery("transaction_code", transactionCode);
-            builder.AddQuery("foreign_transaction_id", foreignTransactionId);
-            builder.AddQuery("client_transaction_id", clientTransactionId);
+            builder.AddQuery("id", operationOptions.Id);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
+            builder.AddQuery("foreign_transaction_id", operationOptions.ForeignTransactionId);
+            builder.AddQuery("client_transaction_id", operationOptions.ClientTransactionId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -91,21 +89,19 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
     /// <param name="merchantCode">Merchant code of the account whose transaction should be retrieved.</param>
-    /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
-    /// <param name="foreignTransactionId">External/foreign transaction id (passed by clients).</param>
-    /// <param name="clientTransactionId">Client transaction id.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionFull>> GetAsync(string merchantCode, string? id = null, string? transactionCode = null, string? foreignTransactionId = null, string? clientTransactionId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionFull>> GetAsync(string merchantCode, TransactionsGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsGetOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("id", id);
-            builder.AddQuery("transaction_code", transactionCode);
-            builder.AddQuery("foreign_transaction_id", foreignTransactionId);
-            builder.AddQuery("client_transaction_id", clientTransactionId);
+            builder.AddQuery("id", operationOptions.Id);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
+            builder.AddQuery("foreign_transaction_id", operationOptions.ForeignTransactionId);
+            builder.AddQuery("client_transaction_id", operationOptions.ClientTransactionId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -152,16 +148,16 @@ public sealed partial class TransactionsClient
     /// Retrieve a transaction
     /// </summary>
     /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
-    /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionFull> GetDeprecated(string? id = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionFull> GetDeprecated(TransactionsGetDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsGetDeprecatedOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
         {
-            builder.AddQuery("id", id);
-            builder.AddQuery("transaction_code", transactionCode);
+            builder.AddQuery("id", operationOptions.Id);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -208,16 +204,16 @@ public sealed partial class TransactionsClient
     /// Retrieve a transaction
     /// </summary>
     /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - `id` - `transaction_code` - `foreign_transaction_id` - `client_transaction_id`</remarks>
-    /// <param name="id">Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</param>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionFull>> GetDeprecatedAsync(string? id = null, string? transactionCode = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionFull>> GetDeprecatedAsync(TransactionsGetDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsGetDeprecatedOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
         {
-            builder.AddQuery("id", id);
-            builder.AddQuery("transaction_code", transactionCode);
+            builder.AddQuery("id", operationOptions.Id);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -265,39 +261,28 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
     /// <param name="merchantCode">Merchant code of the account whose transaction history should be listed.</param>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
-    /// <param name="order">Specifies the order in which the returned results are displayed.</param>
-    /// <param name="limit">Specifies the maximum number of results per page. Value must be a positive integer and if not specified, will return 10 results.</param>
-    /// <param name="users">Filters the returned results by user email.</param>
-    /// <param name="statuses">Filters the returned results by the specified list of final statuses of the transactions.</param>
-    /// <param name="paymentTypes">Filters the returned results by the specified list of payment types used for the transactions.</param>
-    /// <param name="entryModes">Filters the returned results by the specified list of entry modes.</param>
-    /// <param name="types">Filters the returned results by the specified list of transaction types.</param>
-    /// <param name="changesSince">Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestTime">Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
-    /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionsListResponse> List(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<EntryMode>? entryModes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionsListResponse> List(string merchantCode, TransactionsListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions/history", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("transaction_code", transactionCode);
-            builder.AddQuery("order", order);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("users", users);
-            builder.AddQuery("statuses[]", statuses);
-            builder.AddQuery("payment_types", paymentTypes);
-            builder.AddQuery("entry_modes[]", entryModes);
-            builder.AddQuery("types", types);
-            builder.AddQuery("changes_since", changesSince);
-            builder.AddQuery("newest_time", newestTime);
-            builder.AddQuery("newest_ref", newestRef);
-            builder.AddQuery("oldest_time", oldestTime);
-            builder.AddQuery("oldest_ref", oldestRef);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
+            builder.AddQuery("order", operationOptions.Order);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("users", operationOptions.Users);
+            builder.AddQuery("statuses[]", operationOptions.Statuses);
+            builder.AddQuery("payment_types", operationOptions.PaymentTypes);
+            builder.AddQuery("entry_modes[]", operationOptions.EntryModes);
+            builder.AddQuery("types", operationOptions.Types);
+            builder.AddQuery("changes_since", operationOptions.ChangesSince);
+            builder.AddQuery("newest_time", operationOptions.NewestTime);
+            builder.AddQuery("newest_ref", operationOptions.NewestRef);
+            builder.AddQuery("oldest_time", operationOptions.OldestTime);
+            builder.AddQuery("oldest_ref", operationOptions.OldestRef);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -345,39 +330,28 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
     /// <param name="merchantCode">Merchant code of the account whose transaction history should be listed.</param>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
-    /// <param name="order">Specifies the order in which the returned results are displayed.</param>
-    /// <param name="limit">Specifies the maximum number of results per page. Value must be a positive integer and if not specified, will return 10 results.</param>
-    /// <param name="users">Filters the returned results by user email.</param>
-    /// <param name="statuses">Filters the returned results by the specified list of final statuses of the transactions.</param>
-    /// <param name="paymentTypes">Filters the returned results by the specified list of payment types used for the transactions.</param>
-    /// <param name="entryModes">Filters the returned results by the specified list of entry modes.</param>
-    /// <param name="types">Filters the returned results by the specified list of transaction types.</param>
-    /// <param name="changesSince">Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestTime">Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
-    /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionsListResponse>> ListAsync(string merchantCode, string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<EntryMode>? entryModes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionsListResponse>> ListAsync(string merchantCode, TransactionsListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v2.1/merchants/{merchant_code}/transactions/history", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("transaction_code", transactionCode);
-            builder.AddQuery("order", order);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("users", users);
-            builder.AddQuery("statuses[]", statuses);
-            builder.AddQuery("payment_types", paymentTypes);
-            builder.AddQuery("entry_modes[]", entryModes);
-            builder.AddQuery("types", types);
-            builder.AddQuery("changes_since", changesSince);
-            builder.AddQuery("newest_time", newestTime);
-            builder.AddQuery("newest_ref", newestRef);
-            builder.AddQuery("oldest_time", oldestTime);
-            builder.AddQuery("oldest_ref", oldestRef);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
+            builder.AddQuery("order", operationOptions.Order);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("users", operationOptions.Users);
+            builder.AddQuery("statuses[]", operationOptions.Statuses);
+            builder.AddQuery("payment_types", operationOptions.PaymentTypes);
+            builder.AddQuery("entry_modes[]", operationOptions.EntryModes);
+            builder.AddQuery("types", operationOptions.Types);
+            builder.AddQuery("changes_since", operationOptions.ChangesSince);
+            builder.AddQuery("newest_time", operationOptions.NewestTime);
+            builder.AddQuery("newest_ref", operationOptions.NewestRef);
+            builder.AddQuery("oldest_time", operationOptions.OldestTime);
+            builder.AddQuery("oldest_ref", operationOptions.OldestRef);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -424,36 +398,26 @@ public sealed partial class TransactionsClient
     /// List transactions
     /// </summary>
     /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
-    /// <param name="order">Specifies the order in which the returned results are displayed.</param>
-    /// <param name="limit">Specifies the maximum number of results per page. Value must be a positive integer and if not specified, will return 10 results.</param>
-    /// <param name="users">Filters the returned results by user email.</param>
-    /// <param name="statuses">Filters the returned results by the specified list of final statuses of the transactions.</param>
-    /// <param name="paymentTypes">Filters the returned results by the specified list of payment types used for the transactions.</param>
-    /// <param name="types">Filters the returned results by the specified list of transaction types.</param>
-    /// <param name="changesSince">Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestTime">Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
-    /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionsListDeprecatedResponse> ListDeprecated(string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<TransactionsListDeprecatedResponse> ListDeprecated(TransactionsListDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsListDeprecatedOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions/history", builder =>
         {
-            builder.AddQuery("transaction_code", transactionCode);
-            builder.AddQuery("order", order);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("users", users);
-            builder.AddQuery("statuses[]", statuses);
-            builder.AddQuery("payment_types", paymentTypes);
-            builder.AddQuery("types", types);
-            builder.AddQuery("changes_since", changesSince);
-            builder.AddQuery("newest_time", newestTime);
-            builder.AddQuery("newest_ref", newestRef);
-            builder.AddQuery("oldest_time", oldestTime);
-            builder.AddQuery("oldest_ref", oldestRef);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
+            builder.AddQuery("order", operationOptions.Order);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("users", operationOptions.Users);
+            builder.AddQuery("statuses[]", operationOptions.Statuses);
+            builder.AddQuery("payment_types", operationOptions.PaymentTypes);
+            builder.AddQuery("types", operationOptions.Types);
+            builder.AddQuery("changes_since", operationOptions.ChangesSince);
+            builder.AddQuery("newest_time", operationOptions.NewestTime);
+            builder.AddQuery("newest_ref", operationOptions.NewestRef);
+            builder.AddQuery("oldest_time", operationOptions.OldestTime);
+            builder.AddQuery("oldest_ref", operationOptions.OldestRef);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -500,36 +464,26 @@ public sealed partial class TransactionsClient
     /// List transactions
     /// </summary>
     /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
-    /// <param name="transactionCode">Retrieves the transaction resource with the specified transaction code.</param>
-    /// <param name="order">Specifies the order in which the returned results are displayed.</param>
-    /// <param name="limit">Specifies the maximum number of results per page. Value must be a positive integer and if not specified, will return 10 results.</param>
-    /// <param name="users">Filters the returned results by user email.</param>
-    /// <param name="statuses">Filters the returned results by the specified list of final statuses of the transactions.</param>
-    /// <param name="paymentTypes">Filters the returned results by the specified list of payment types used for the transactions.</param>
-    /// <param name="types">Filters the returned results by the specified list of transaction types.</param>
-    /// <param name="changesSince">Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestTime">Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="newestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</param>
-    /// <param name="oldestTime">Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="oldestRef">Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionsListDeprecatedResponse>> ListDeprecatedAsync(string? transactionCode = null, string? order = null, int? limit = null, IEnumerable<string>? users = null, IEnumerable<string>? statuses = null, IEnumerable<PaymentType>? paymentTypes = null, IEnumerable<string>? types = null, DateTimeOffset? changesSince = null, DateTimeOffset? newestTime = null, string? newestRef = null, DateTimeOffset? oldestTime = null, string? oldestRef = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<TransactionsListDeprecatedResponse>> ListDeprecatedAsync(TransactionsListDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new TransactionsListDeprecatedOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions/history", builder =>
         {
-            builder.AddQuery("transaction_code", transactionCode);
-            builder.AddQuery("order", order);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("users", users);
-            builder.AddQuery("statuses[]", statuses);
-            builder.AddQuery("payment_types", paymentTypes);
-            builder.AddQuery("types", types);
-            builder.AddQuery("changes_since", changesSince);
-            builder.AddQuery("newest_time", newestTime);
-            builder.AddQuery("newest_ref", newestRef);
-            builder.AddQuery("oldest_time", oldestTime);
-            builder.AddQuery("oldest_ref", oldestRef);
+            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
+            builder.AddQuery("order", operationOptions.Order);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("users", operationOptions.Users);
+            builder.AddQuery("statuses[]", operationOptions.Statuses);
+            builder.AddQuery("payment_types", operationOptions.PaymentTypes);
+            builder.AddQuery("types", operationOptions.Types);
+            builder.AddQuery("changes_since", operationOptions.ChangesSince);
+            builder.AddQuery("newest_time", operationOptions.NewestTime);
+            builder.AddQuery("newest_ref", operationOptions.NewestRef);
+            builder.AddQuery("oldest_time", operationOptions.OldestTime);
+            builder.AddQuery("oldest_ref", operationOptions.OldestRef);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

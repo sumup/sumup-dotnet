@@ -357,27 +357,22 @@ public sealed partial class MembersClient
     /// </summary>
     /// <remarks>Lists merchant members.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="offset">Offset of the first member to return.</param>
-    /// <param name="limit">Maximum number of members to return.</param>
-    /// <param name="scroll">Indicates to skip count query.</param>
-    /// <param name="email">Filter the returned members by email address prefix.</param>
-    /// <param name="userId">Search for a member by user id.</param>
-    /// <param name="status">Filter the returned members by the membership status.</param>
-    /// <param name="roles">Filter the returned members by role.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<MembersListResponse> List(string merchantCode, int? offset = null, int? limit = null, bool? scroll = null, string? email = null, Guid? userId = null, MembershipStatus? status = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<MembersListResponse> List(string merchantCode, MembersListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new MembersListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/members", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("offset", offset);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("scroll", scroll);
-            builder.AddQuery("email", email);
-            builder.AddQuery("user.id", userId);
-            builder.AddQuery("status", status);
-            builder.AddQuery("roles", roles);
+            builder.AddQuery("offset", operationOptions.Offset);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("scroll", operationOptions.Scroll);
+            builder.AddQuery("email", operationOptions.Email);
+            builder.AddQuery("user.id", operationOptions.UserId);
+            builder.AddQuery("status", operationOptions.Status);
+            builder.AddQuery("roles", operationOptions.Roles);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -420,27 +415,22 @@ public sealed partial class MembersClient
     /// </summary>
     /// <remarks>Lists merchant members.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="offset">Offset of the first member to return.</param>
-    /// <param name="limit">Maximum number of members to return.</param>
-    /// <param name="scroll">Indicates to skip count query.</param>
-    /// <param name="email">Filter the returned members by email address prefix.</param>
-    /// <param name="userId">Search for a member by user id.</param>
-    /// <param name="status">Filter the returned members by the membership status.</param>
-    /// <param name="roles">Filter the returned members by role.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<MembersListResponse>> ListAsync(string merchantCode, int? offset = null, int? limit = null, bool? scroll = null, string? email = null, Guid? userId = null, MembershipStatus? status = null, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<MembersListResponse>> ListAsync(string merchantCode, MembersListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new MembersListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/members", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("offset", offset);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("scroll", scroll);
-            builder.AddQuery("email", email);
-            builder.AddQuery("user.id", userId);
-            builder.AddQuery("status", status);
-            builder.AddQuery("roles", roles);
+            builder.AddQuery("offset", operationOptions.Offset);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("scroll", operationOptions.Scroll);
+            builder.AddQuery("email", operationOptions.Email);
+            builder.AddQuery("user.id", operationOptions.UserId);
+            builder.AddQuery("status", operationOptions.Status);
+            builder.AddQuery("roles", operationOptions.Roles);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
