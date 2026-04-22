@@ -30,6 +30,14 @@ const (
 	schemaKindEnum
 )
 
+type schemaUsage int
+
+const (
+	schemaUsageModel schemaUsage = iota
+	schemaUsageRequest
+	schemaUsageResponse
+)
+
 type schemaTypeInfo struct {
 	Name             string
 	TypeName         string
@@ -900,15 +908,19 @@ func (g *Generator) buildRequestBody(clientName, methodName string, body *v3.Req
 }
 
 func (g *Generator) resolveRequestBodyType(schemaRef *base.SchemaProxy, required bool, clientName, methodName string) (typeInfo, error) {
-	return g.resolveInlineSchemaType(schemaRef, required, fmt.Sprintf("%s%sRequest", clientName, methodName))
+	return g.resolveInlineSchemaTypeForUsage(schemaRef, required, fmt.Sprintf("%s%sRequest", clientName, methodName), schemaUsageRequest)
 }
 
 func (g *Generator) resolvePropertyType(ownerName, propertyName string, schemaRef *base.SchemaProxy, required bool) (typeInfo, error) {
 	inlineBase := fmt.Sprintf("%s%s", ownerName, naming.PascalIdentifier(propertyName))
-	return g.resolveInlineSchemaType(schemaRef, required, inlineBase)
+	return g.resolveInlineSchemaTypeForUsage(schemaRef, required, inlineBase, schemaUsageModel)
 }
 
 func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, required bool, inlineBase string) (typeInfo, error) {
+	return g.resolveInlineSchemaTypeForUsage(schemaRef, required, inlineBase, schemaUsageModel)
+}
+
+func (g *Generator) resolveInlineSchemaTypeForUsage(schemaRef *base.SchemaProxy, required bool, inlineBase string, usage schemaUsage) (typeInfo, error) {
 	if schemaRef == nil {
 		return g.nullableType("JsonDocument", false, required), nil
 	}
@@ -929,7 +941,7 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, require
 			return g.nullableType(typeName, false, required), nil
 		}
 		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsA() && schema.AdditionalProperties.A != nil {
-			valueInfo, err := g.resolveInlineSchemaType(schema.AdditionalProperties.A, true, inlineBase+"Value")
+			valueInfo, err := g.resolveInlineSchemaTypeForUsage(schema.AdditionalProperties.A, true, inlineBase+"Value", usage)
 			if err != nil {
 				return typeInfo{}, err
 			}
@@ -938,10 +950,10 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, require
 			return g.nullableType(typeName, false, required, true), nil
 		}
 		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
-			return g.nullableType("JsonObject", false, required), nil
+			return g.opaqueObjectType(required, usage), nil
 		}
 		if schema.Items != nil && schema.Items.IsA() {
-			itemInfo, err := g.resolveInlineSchemaType(schema.Items.A, true, inlineBase+"Item")
+			itemInfo, err := g.resolveInlineSchemaTypeForUsage(schema.Items.A, true, inlineBase+"Item", usage)
 			if err != nil {
 				return typeInfo{}, err
 			}
@@ -949,8 +961,30 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, require
 			typeName := fmt.Sprintf("IEnumerable<%s>", itemName)
 			return g.nullableType(typeName, false, required, true), nil
 		}
+		if isOpaqueObjectSchema(schema) {
+			return g.opaqueObjectType(required, usage), nil
+		}
 	}
 	return g.resolveType(schemaRef, required), nil
+}
+
+func isOpaqueObjectSchema(schema *base.Schema) bool {
+	if schema == nil {
+		return false
+	}
+	if !schemaHasType(schema, "object") {
+		return false
+	}
+	if schema.Properties != nil && schema.Properties.Len() > 0 {
+		return false
+	}
+	if len(schema.AllOf) > 0 {
+		return false
+	}
+	if schema.AdditionalProperties != nil {
+		return false
+	}
+	return true
 }
 
 func schemaDefinesStructuredObject(schema *base.Schema) bool {
@@ -1156,29 +1190,7 @@ func (g *Generator) responseTypeForResponse(resp *v3.Response, inlineBase string
 	if schemaRef == nil {
 		return typeInfo{}, nil
 	}
-	if schema := g.schemaFromProxy(schemaRef); schema != nil && isOpaqueObjectSchema(schema) {
-		return g.nullableType("JsonDocument", false, true), nil
-	}
-	return g.resolveInlineSchemaType(schemaRef, true, inlineBase)
-}
-
-func isOpaqueObjectSchema(schema *base.Schema) bool {
-	if schema == nil {
-		return false
-	}
-	if !schemaHasType(schema, "object") {
-		return false
-	}
-	if schema.Properties != nil && schema.Properties.Len() > 0 {
-		return false
-	}
-	if len(schema.AllOf) > 0 {
-		return false
-	}
-	if schema.AdditionalProperties != nil {
-		return false
-	}
-	return true
+	return g.resolveInlineSchemaTypeForUsage(schemaRef, true, inlineBase, schemaUsageResponse)
 }
 
 func (g *Generator) resolveResponseMode(op *v3.Operation, responseInfo typeInfo) (string, error) {
@@ -1406,14 +1418,23 @@ func (g *Generator) resolveType(schemaRef *base.SchemaProxy, required bool) type
 			return g.nullableType(typeName, false, required, true)
 		}
 		if schema.AdditionalProperties != nil && schema.AdditionalProperties.IsB() && schema.AdditionalProperties.B {
-			return g.nullableType("JsonObject", false, required)
+			return g.opaqueObjectType(required, schemaUsageModel)
 		}
 		if (schema.Properties == nil || schema.Properties.Len() == 0) && len(schema.AllOf) == 0 {
-			return g.nullableType("JsonObject", false, required)
+			return g.opaqueObjectType(required, schemaUsageModel)
 		}
 		return g.nullableType("JsonDocument", false, required)
 	default:
 		return g.nullableType("JsonDocument", false, required)
+	}
+}
+
+func (g *Generator) opaqueObjectType(required bool, usage schemaUsage) typeInfo {
+	switch usage {
+	case schemaUsageResponse:
+		return g.nullableType("JsonDocument", false, required)
+	default:
+		return g.nullableType("JsonObject", false, required)
 	}
 }
 
