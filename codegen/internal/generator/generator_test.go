@@ -135,6 +135,57 @@ func TestBuildModels_UsesJsonObjectForFreeFormObjects(t *testing.T) {
 	}
 }
 
+func TestBuildRequestBody_UsesJsonObjectForOpaqueObjectRequests(t *testing.T) {
+	const spec = `{
+	  "openapi": "3.0.3",
+	  "info": {
+	    "title": "test",
+	    "version": "1.0.0"
+	  },
+	  "paths": {
+	    "/v0.2/checkouts/{id}/apple-pay-session": {
+	      "put": {
+	        "tags": ["Checkouts"],
+	        "operationId": "CreateApplePaySession",
+	        "requestBody": {
+	          "content": {
+	            "application/json": {
+	              "schema": { "type": "object" }
+	            }
+	          }
+	        },
+	        "responses": {
+	          "200": {
+	            "description": "ok",
+	            "content": {
+	              "application/json": {
+	                "schema": { "type": "string" }
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	}`
+
+	doc := mustBuildV3Document(t, spec)
+
+	g := New(Config{Namespace: "SumUp"})
+	clients, err := g.buildClients(doc)
+	if err != nil {
+		t.Fatalf("buildClients() error = %v", err)
+	}
+
+	operation := clients[0].Operations[0]
+	if operation.Body == nil {
+		t.Fatalf("request body should not be nil")
+	}
+	if operation.Body.TypeName != "JsonObject?" {
+		t.Fatalf("request body type = %q, want %q", operation.Body.TypeName, "JsonObject?")
+	}
+}
+
 func TestBuildClients_UsesJsonDocumentForOpaqueObjectResponses(t *testing.T) {
 	const spec = `{
 	  "openapi": "3.0.3",
@@ -188,6 +239,66 @@ func TestBuildClients_UsesJsonDocumentForOpaqueObjectResponses(t *testing.T) {
 	}
 	if operation.ResponseMode != "json-document" {
 		t.Fatalf("response mode = %q, want %q", operation.ResponseMode, "json-document")
+	}
+}
+
+func TestBuildClients_UsesJsonDocumentForOpaqueObjectErrors(t *testing.T) {
+	const spec = `{
+	  "openapi": "3.0.3",
+	  "info": {
+	    "title": "test",
+	    "version": "1.0.0"
+	  },
+	  "paths": {
+	    "/v0.2/checkouts/{id}/apple-pay-session": {
+	      "put": {
+	        "tags": ["Checkouts"],
+	        "operationId": "CreateApplePaySession",
+	        "parameters": [
+	          {
+	            "name": "id",
+	            "in": "path",
+	            "required": true,
+	            "schema": { "type": "string" }
+	          }
+	        ],
+	        "responses": {
+	          "200": {
+	            "description": "ok",
+	            "content": {
+	              "application/json": {
+	                "schema": { "type": "string" }
+	              }
+	            }
+	          },
+	          "400": {
+	            "description": "bad request",
+	            "content": {
+	              "application/json": {
+	                "schema": { "type": "object" }
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }
+	}`
+
+	doc := mustBuildV3Document(t, spec)
+
+	g := New(Config{Namespace: "SumUp"})
+	clients, err := g.buildClients(doc)
+	if err != nil {
+		t.Fatalf("buildClients() error = %v", err)
+	}
+
+	operation := clients[0].Operations[0]
+	if len(operation.ErrorResponses) != 1 {
+		t.Fatalf("error response count = %d, want 1", len(operation.ErrorResponses))
+	}
+	if operation.ErrorResponses[0].ErrorType != "JsonDocument" {
+		t.Fatalf("error type = %q, want %q", operation.ErrorResponses[0].ErrorType, "JsonDocument")
 	}
 }
 
