@@ -43,6 +43,13 @@ public sealed partial class {{ .ClientName }}Client
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<{{ .ResponseType }}> {{ .MethodName }}({{ if .HasParameters }}{{- range $index, $param := .Parameters }}{{ if $index }}, {{ end }}{{ $param.Signature }}{{ end }}, {{ end }}RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        {{- if .HasOperationOptions }}
+        {{- if .OperationOptions.Required }}
+        var operationOptions = options;
+        {{- else }}
+        var operationOptions = options ?? new {{ .OperationOptions.Name }}();
+        {{- end }}
+        {{- end }}
         {{- if .HasBuilder }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}", builder =>
         {
@@ -50,10 +57,10 @@ public sealed partial class {{ .ClientName }}Client
             {{ .BuilderCall }}
             {{- end }}
             {{- range .QueryParams }}
-            {{ .BuilderCall }}
+            {{ .OptionsBuilderCall }}
             {{- end }}
             {{- range .HeaderParams }}
-            {{ .BuilderCall }}
+            {{ .OptionsBuilderCall }}
             {{- end }}
         });
         {{- else }}
@@ -148,6 +155,13 @@ public sealed partial class {{ .ClientName }}Client
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<{{ .ResponseType }}>> {{ .MethodName }}Async({{ if .HasParameters }}{{- range $index, $param := .Parameters }}{{ if $index }}, {{ end }}{{ $param.Signature }}{{ end }}, {{ end }}RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        {{- if .HasOperationOptions }}
+        {{- if .OperationOptions.Required }}
+        var operationOptions = options;
+        {{- else }}
+        var operationOptions = options ?? new {{ .OperationOptions.Name }}();
+        {{- end }}
+        {{- end }}
         {{- if .HasBuilder }}
         var request = _client.CreateRequest({{ .HttpMethodExpr }}, "{{ .Path }}", builder =>
         {
@@ -155,10 +169,10 @@ public sealed partial class {{ .ClientName }}Client
             {{ .BuilderCall }}
             {{- end }}
             {{- range .QueryParams }}
-            {{ .BuilderCall }}
+            {{ .OptionsBuilderCall }}
             {{- end }}
             {{- range .HeaderParams }}
-            {{ .BuilderCall }}
+            {{ .OptionsBuilderCall }}
             {{- end }}
         });
         {{- else }}

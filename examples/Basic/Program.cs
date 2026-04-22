@@ -27,10 +27,12 @@ try
     Console.WriteLine();
     Console.WriteLine("Fetching memberships filtered by status, resource type, and roles...");
 
-    var membershipResponse = await client.Memberships.ListAsync(
-        status: MembershipStatus.Accepted,
-        resourceType: "merchant",
-        limit: 5);
+    var membershipResponse = await client.Memberships.ListAsync(new MembershipsListOptions
+    {
+        Status = MembershipStatus.Accepted,
+        ResourceType = "merchant",
+        Limit = 5,
+    });
 
     var memberships = membershipResponse.Data?.Items ?? Array.Empty<Membership>();
     if (!memberships.Any())

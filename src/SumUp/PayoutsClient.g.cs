@@ -29,23 +29,20 @@ public sealed partial class PayoutsClient
     /// </summary>
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
-    /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Response format for the payout list.</param>
-    /// <param name="limit">Maximum number of payout records to return.</param>
-    /// <param name="order">Sort direction for the returned payouts.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<FinancialPayoutsItem>> List(string merchantCode, DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<FinancialPayoutsItem>> List(string merchantCode, PayoutsListOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("start_date", startDate);
-            builder.AddQuery("end_date", endDate);
-            builder.AddQuery("format", format);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("order", order);
+            builder.AddQuery("start_date", operationOptions.StartDate);
+            builder.AddQuery("end_date", operationOptions.EndDate);
+            builder.AddQuery("format", operationOptions.Format);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("order", operationOptions.Order);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -93,23 +90,20 @@ public sealed partial class PayoutsClient
     /// </summary>
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
     /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
-    /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Response format for the payout list.</param>
-    /// <param name="limit">Maximum number of payout records to return.</param>
-    /// <param name="order">Sort direction for the returned payouts.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListAsync(string merchantCode, DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListAsync(string merchantCode, PayoutsListOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddQuery("start_date", startDate);
-            builder.AddQuery("end_date", endDate);
-            builder.AddQuery("format", format);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("order", order);
+            builder.AddQuery("start_date", operationOptions.StartDate);
+            builder.AddQuery("end_date", operationOptions.EndDate);
+            builder.AddQuery("format", operationOptions.Format);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("order", operationOptions.Order);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -156,22 +150,19 @@ public sealed partial class PayoutsClient
     /// List payouts
     /// </summary>
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
-    /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Response format for the payout list.</param>
-    /// <param name="limit">Maximum number of payout records to return.</param>
-    /// <param name="order">Sort direction for the returned payouts.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<FinancialPayoutsItem>> ListDeprecated(DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<FinancialPayoutsItem>> ListDeprecated(PayoutsListDeprecatedOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {
-            builder.AddQuery("start_date", startDate);
-            builder.AddQuery("end_date", endDate);
-            builder.AddQuery("format", format);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("order", order);
+            builder.AddQuery("start_date", operationOptions.StartDate);
+            builder.AddQuery("end_date", operationOptions.EndDate);
+            builder.AddQuery("format", operationOptions.Format);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("order", operationOptions.Order);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -218,22 +209,19 @@ public sealed partial class PayoutsClient
     /// List payouts
     /// </summary>
     /// <remarks>Lists ordered payouts for the merchant account.</remarks>
-    /// <param name="startDate">Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="endDate">End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</param>
-    /// <param name="format">Response format for the payout list.</param>
-    /// <param name="limit">Maximum number of payout records to return.</param>
-    /// <param name="order">Sort direction for the returned payouts.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListDeprecatedAsync(DateOnly startDate, DateOnly endDate, string? format = null, int? limit = null, string? order = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListDeprecatedAsync(PayoutsListDeprecatedOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
         {
-            builder.AddQuery("start_date", startDate);
-            builder.AddQuery("end_date", endDate);
-            builder.AddQuery("format", format);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("order", order);
+            builder.AddQuery("start_date", operationOptions.StartDate);
+            builder.AddQuery("end_date", operationOptions.EndDate);
+            builder.AddQuery("format", operationOptions.Format);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("order", operationOptions.Order);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

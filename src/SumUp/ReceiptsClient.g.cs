@@ -28,17 +28,17 @@ public sealed partial class ReceiptsClient
     /// </summary>
     /// <remarks>Retrieves receipt specific data for a transaction.</remarks>
     /// <param name="id">SumUp unique transaction ID or transaction code, e.g. TS7HDYLSKD.</param>
-    /// <param name="mid">Merchant code.</param>
-    /// <param name="txEventId">The ID of the transaction event (refund).</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Receipt> Get(string id, string mid, int? txEventId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Receipt> Get(string id, ReceiptsGetOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.1/receipts/{id}", builder =>
         {
             builder.AddPath("id", id);
-            builder.AddQuery("mid", mid);
-            builder.AddQuery("tx_event_id", txEventId);
+            builder.AddQuery("mid", operationOptions.Mid);
+            builder.AddQuery("tx_event_id", operationOptions.TxEventId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -91,17 +91,17 @@ public sealed partial class ReceiptsClient
     /// </summary>
     /// <remarks>Retrieves receipt specific data for a transaction.</remarks>
     /// <param name="id">SumUp unique transaction ID or transaction code, e.g. TS7HDYLSKD.</param>
-    /// <param name="mid">Merchant code.</param>
-    /// <param name="txEventId">The ID of the transaction event (refund).</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Receipt>> GetAsync(string id, string mid, int? txEventId = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Receipt>> GetAsync(string id, ReceiptsGetOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.1/receipts/{id}", builder =>
         {
             builder.AddPath("id", id);
-            builder.AddQuery("mid", mid);
-            builder.AddQuery("tx_event_id", txEventId);
+            builder.AddQuery("mid", operationOptions.Mid);
+            builder.AddQuery("tx_event_id", operationOptions.TxEventId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

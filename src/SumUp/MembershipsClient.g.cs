@@ -28,32 +28,24 @@ public sealed partial class MembershipsClient
     /// List memberships
     /// </summary>
     /// <remarks>List memberships of the current user.</remarks>
-    /// <param name="offset">Offset of the first member to return.</param>
-    /// <param name="limit">Maximum number of members to return.</param>
-    /// <param name="kind">Filter memberships by resource kind.</param>
-    /// <param name="status">Filter the returned memberships by the membership status.</param>
-    /// <param name="resourceType">Filter memberships by resource kind.</param>
-    /// <param name="resourceAttributesSandbox">Filter memberships by the sandbox status of the resource the membership is in.</param>
-    /// <param name="resourceName">Filter memberships by the name of the resource the membership is in.</param>
-    /// <param name="resourceParentId">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
-    /// <param name="resourceParentType">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
-    /// <param name="roles">Filter the returned memberships by role.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<MembershipsListResponse> List(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, OptionalQuery<string> resourceParentId = default, OptionalQuery<string> resourceParentType = default, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<MembershipsListResponse> List(MembershipsListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new MembershipsListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/memberships", builder =>
         {
-            builder.AddQuery("offset", offset);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("kind", kind);
-            builder.AddQuery("status", status);
-            builder.AddQuery("resource.type", resourceType);
-            builder.AddQuery("resource.attributes.sandbox", resourceAttributesSandbox);
-            builder.AddQuery("resource.name", resourceName);
-            builder.AddQuery("resource.parent.id", resourceParentId);
-            builder.AddQuery("resource.parent.type", resourceParentType);
-            builder.AddQuery("roles", roles);
+            builder.AddQuery("offset", operationOptions.Offset);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("kind", operationOptions.Kind);
+            builder.AddQuery("status", operationOptions.Status);
+            builder.AddQuery("resource.type", operationOptions.ResourceType);
+            builder.AddQuery("resource.attributes.sandbox", operationOptions.ResourceAttributesSandbox);
+            builder.AddQuery("resource.name", operationOptions.ResourceName);
+            builder.AddQuery("resource.parent.id", operationOptions.ResourceParentId);
+            builder.AddQuery("resource.parent.type", operationOptions.ResourceParentType);
+            builder.AddQuery("roles", operationOptions.Roles);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -100,32 +92,24 @@ public sealed partial class MembershipsClient
     /// List memberships
     /// </summary>
     /// <remarks>List memberships of the current user.</remarks>
-    /// <param name="offset">Offset of the first member to return.</param>
-    /// <param name="limit">Maximum number of members to return.</param>
-    /// <param name="kind">Filter memberships by resource kind.</param>
-    /// <param name="status">Filter the returned memberships by the membership status.</param>
-    /// <param name="resourceType">Filter memberships by resource kind.</param>
-    /// <param name="resourceAttributesSandbox">Filter memberships by the sandbox status of the resource the membership is in.</param>
-    /// <param name="resourceName">Filter memberships by the name of the resource the membership is in.</param>
-    /// <param name="resourceParentId">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
-    /// <param name="resourceParentType">Filter memberships by the parent of the resource the membership is in. When filtering by parent both `resource.parent.id` and `resource.parent.type` must be present. Pass explicit null to filter for resources without a parent.</param>
-    /// <param name="roles">Filter the returned memberships by role.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<MembershipsListResponse>> ListAsync(int? offset = null, int? limit = null, string? kind = null, MembershipStatus? status = null, string? resourceType = null, bool? resourceAttributesSandbox = null, string? resourceName = null, OptionalQuery<string> resourceParentId = default, OptionalQuery<string> resourceParentType = default, IEnumerable<string>? roles = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<MembershipsListResponse>> ListAsync(MembershipsListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new MembershipsListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/memberships", builder =>
         {
-            builder.AddQuery("offset", offset);
-            builder.AddQuery("limit", limit);
-            builder.AddQuery("kind", kind);
-            builder.AddQuery("status", status);
-            builder.AddQuery("resource.type", resourceType);
-            builder.AddQuery("resource.attributes.sandbox", resourceAttributesSandbox);
-            builder.AddQuery("resource.name", resourceName);
-            builder.AddQuery("resource.parent.id", resourceParentId);
-            builder.AddQuery("resource.parent.type", resourceParentType);
-            builder.AddQuery("roles", roles);
+            builder.AddQuery("offset", operationOptions.Offset);
+            builder.AddQuery("limit", operationOptions.Limit);
+            builder.AddQuery("kind", operationOptions.Kind);
+            builder.AddQuery("status", operationOptions.Status);
+            builder.AddQuery("resource.type", operationOptions.ResourceType);
+            builder.AddQuery("resource.attributes.sandbox", operationOptions.ResourceAttributesSandbox);
+            builder.AddQuery("resource.name", operationOptions.ResourceName);
+            builder.AddQuery("resource.parent.id", operationOptions.ResourceParentId);
+            builder.AddQuery("resource.parent.type", operationOptions.ResourceParentType);
+            builder.AddQuery("roles", operationOptions.Roles);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

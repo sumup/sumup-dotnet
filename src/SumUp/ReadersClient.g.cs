@@ -397,16 +397,17 @@ public sealed partial class ReadersClient
     /// <remarks>Retrieve a Reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="id">The unique identifier of the reader.</param>
-    /// <param name="ifModifiedSince">Return the reader only if it has been modified after the specified timestamp given in the headers. Timestamps are accepted in the following formats: - HTTP Standard: [IMF format (RFC 5322)](https://www.rfc-editor.org/rfc/rfc5322#section-3.3), sometimes also referred to as [RFC 7231](https://www.rfc-editor.org/rfc/rfc7231#section-7.1.1.1). - RFC 3339: Used for timestamps in JSON payloads on this API.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Reader> Get(string merchantCode, string id, string? ifModifiedSince = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Reader> Get(string merchantCode, string id, ReadersGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new ReadersGetOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("id", id);
-            builder.AddHeader("If-Modified-Since", ifModifiedSince);
+            builder.AddHeader("If-Modified-Since", operationOptions.IfModifiedSince);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -450,16 +451,17 @@ public sealed partial class ReadersClient
     /// <remarks>Retrieve a Reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="id">The unique identifier of the reader.</param>
-    /// <param name="ifModifiedSince">Return the reader only if it has been modified after the specified timestamp given in the headers. Timestamps are accepted in the following formats: - HTTP Standard: [IMF format (RFC 5322)](https://www.rfc-editor.org/rfc/rfc5322#section-3.3), sometimes also referred to as [RFC 7231](https://www.rfc-editor.org/rfc/rfc7231#section-7.1.1.1). - RFC 3339: Used for timestamps in JSON payloads on this API.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Reader>> GetAsync(string merchantCode, string id, string? ifModifiedSince = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Reader>> GetAsync(string merchantCode, string id, ReadersGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
+        var operationOptions = options ?? new ReadersGetOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("id", id);
-            builder.AddHeader("If-Modified-Since", ifModifiedSince);
+            builder.AddHeader("If-Modified-Since", operationOptions.IfModifiedSince);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
