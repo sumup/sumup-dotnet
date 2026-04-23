@@ -16,7 +16,7 @@ public sealed partial class TransactionHistory
     /// <summary>Client-specific ID of the transaction.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string? ClientTransactionId { get; set; }
-    /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Unique ID of the transaction.</summary>
@@ -37,13 +37,13 @@ public sealed partial class TransactionHistory
     /// <summary>Payout type.</summary>
     [JsonPropertyName("payout_type")]
     public TransactionHistoryPayoutType? PayoutType { get; set; }
-    /// <summary>Number of payouts that are made to the registered user specified in the `user` property.</summary>
+    /// <summary>Number of payouts that are made to the registered user specified in the user property.</summary>
     [JsonPropertyName("payouts_received")]
     public int? PayoutsReceived { get; set; }
-    /// <summary>Total number of payouts to the registered user specified in the `user` property.</summary>
+    /// <summary>Total number of payouts to the registered user specified in the user property.</summary>
     [JsonPropertyName("payouts_total")]
     public int? PayoutsTotal { get; set; }
-    /// <summary>Short description of the payment. The value is taken from the `description` property of the related checkout resource.</summary>
+    /// <summary>Short description of the payment. The value is taken from the description property of the related checkout resource.</summary>
     [JsonPropertyName("product_summary")]
     public string? ProductSummary { get; set; }
     /// <summary>Total refunded amount.</summary>
@@ -52,7 +52,7 @@ public sealed partial class TransactionHistory
     /// <summary>Current status of the transaction.</summary>
     [JsonPropertyName("status")]
     public TransactionHistoryStatus? Status { get; set; }
-    /// <summary>Date and time of the creation of the transaction. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
+    /// <summary>Date and time of the creation of the transaction. Response format expressed according to ISO8601 code.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
     /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>
@@ -61,7 +61,7 @@ public sealed partial class TransactionHistory
     /// <summary>Unique ID of the transaction.</summary>
     [JsonPropertyName("transaction_id")]
     public string? TransactionId { get; set; }
-    /// <summary>Type of the transaction for the registered user specified in the `user` property.</summary>
+    /// <summary>Type of the transaction for the registered user specified in the user property.</summary>
     [JsonPropertyName("type")]
     public TransactionHistoryType? Type { get; set; }
     /// <summary>Email address of the registered user (merchant) to whom the payment is made.</summary>

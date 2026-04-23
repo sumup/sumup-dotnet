@@ -4,19 +4,19 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Request body for attempting payment on an existing checkout. The required companion fields depend on the selected `payment_type`, for example card details, saved-card data, or payer information required by a specific payment method.</summary>
+/// <summary>Request body for attempting payment on an existing checkout. The required companion fields depend on the selected payment_type, for example card details, saved-card data, or payer information required by a specific payment method.</summary>
 public sealed partial class ProcessCheckout
 {
     /// <summary>Raw payment token object received from Apple Pay. Send the Apple Pay response payload as-is.</summary>
     [JsonPropertyName("apple_pay")]
     public JsonObject? ApplePay { get; set; }
-    /// <summary>__Required when payment type is `card`.__ Details of the payment card.</summary>
+    /// <summary>Required when payment type is card. Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public Card? Card { get; set; }
-    /// <summary>Customer identifier associated with the saved payment instrument. Required when `token` is provided.</summary>
+    /// <summary>Customer identifier associated with the saved payment instrument. Required when token is provided.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
-    /// <summary>Raw `PaymentData` object received from Google Pay. Send the Google Pay response payload as-is.</summary>
+    /// <summary>Raw PaymentData object received from Google Pay. Send the Google Pay response payload as-is.</summary>
     [JsonPropertyName("google_pay")]
     public JsonObject? GooglePay { get; set; }
     /// <summary>Number of installments for deferred payments. Available only to merchant users in Brazil.</summary>

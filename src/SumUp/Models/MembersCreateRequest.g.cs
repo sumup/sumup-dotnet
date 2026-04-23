@@ -19,10 +19,10 @@ public sealed partial class MembersCreateRequest
     /// <summary>Set of user-defined key-value pairs attached to the object. Partial updates are not supported. When updating, always submit whole metadata. Maximum of 64 parameters are allowed in the object.</summary>
     [JsonPropertyName("metadata")]
     public Metadata? Metadata { get; set; }
-    /// <summary>Nickname of the member to add. Only used if `is_managed_user` is true. Used for display purposes only.</summary>
+    /// <summary>Nickname of the member to add. Only used if is_managed_user is true. Used for display purposes only.</summary>
     [JsonPropertyName("nickname")]
     public string? Nickname { get; set; }
-    /// <summary>Password of the member to add. Only used if `is_managed_user` is true. In the case of service accounts, the password is not used and can not be defined by the caller.</summary>
+    /// <summary>Password of the member to add. Only used if is_managed_user is true. In the case of service accounts, the password is not used and can not be defined by the caller.</summary>
     [JsonPropertyName("password")]
     public string? Password { get; set; }
     /// <summary>List of roles to assign to the new member.</summary>

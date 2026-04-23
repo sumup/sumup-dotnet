@@ -10,7 +10,7 @@ public sealed partial class MembershipUser
     /// <summary>Classic identifiers of the user.</summary>
     [JsonPropertyName("classic")]
     public MembershipUserClassic? Classic { get; set; }
-    /// <summary>Time when the user has been disabled. Applies only to virtual users (`virtual_user: true`).</summary>
+    /// <summary>Time when the user has been disabled. Applies only to virtual users (virtual_user: true).</summary>
     [JsonPropertyName("disabled_at")]
     public DateTimeOffset? DisabledAt { get; set; }
     /// <summary>End-User's preferred e-mail address. Its value MUST conform to the RFC 5322 [RFC5322] addr-spec syntax. The RP MUST NOT rely upon this value being unique, for unique identification use ID instead.</summary>

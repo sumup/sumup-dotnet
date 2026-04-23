@@ -18,7 +18,7 @@ public sealed partial class PayoutsClient
     /// <summary>
     /// Client for the Payouts API endpoints.
     /// </summary>
-    /// <remarks>The Payouts model will allow you to track funds you’ve received from SumUp. You can receive a detailed payouts list with information like dates, fees, references and statuses, using the `List payouts` endpoint.</remarks>
+    /// <remarks>The Payouts model will allow you to track funds you’ve received from SumUp. You can receive a detailed payouts list with information like dates, fees, references and statuses, using the List payouts endpoint.</remarks>
     internal PayoutsClient(ApiClient client)
     {
         _client = client;

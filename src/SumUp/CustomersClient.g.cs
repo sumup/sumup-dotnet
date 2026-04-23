@@ -285,7 +285,7 @@ public sealed partial class CustomersClient
     /// <summary>
     /// Retrieve a customer
     /// </summary>
-    /// <remarks>Retrieves an identified saved customer resource through the unique `customer_id` parameter, generated upon customer creation.</remarks>
+    /// <remarks>Retrieves an identified saved customer resource through the unique customer_id parameter, generated upon customer creation.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -344,7 +344,7 @@ public sealed partial class CustomersClient
     /// <summary>
     /// Retrieve a customer
     /// </summary>
-    /// <remarks>Retrieves an identified saved customer resource through the unique `customer_id` parameter, generated upon customer creation.</remarks>
+    /// <remarks>Retrieves an identified saved customer resource through the unique customer_id parameter, generated upon customer creation.</remarks>
     /// <param name="customerId">Unique ID of the saved customer resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>

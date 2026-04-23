@@ -23,14 +23,14 @@ public sealed partial class TransactionsListDeprecatedOptions
     public IEnumerable<PaymentType>? PaymentTypes { get; set; }
     /// <summary>Filters the returned results by the specified list of transaction types.</summary>
     public IEnumerable<string>? Types { get; set; }
-    /// <summary>Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</summary>
+    /// <summary>Filters the results by the latest modification time of resources and returns only transactions that are modified *at or after* the specified timestamp (in ISO8601 format).</summary>
     public DateTimeOffset? ChangesSince { get; set; }
-    /// <summary>Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</summary>
+    /// <summary>Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in ISO8601 format).</summary>
     public DateTimeOffset? NewestTime { get; set; }
-    /// <summary>Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the `newest_time` parameter (if both are provided in the request).</summary>
+    /// <summary>Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the newest_time parameter (if both are provided in the request).</summary>
     public string? NewestRef { get; set; }
-    /// <summary>Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</summary>
+    /// <summary>Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in ISO8601 format).</summary>
     public DateTimeOffset? OldestTime { get; set; }
-    /// <summary>Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the `oldest_time` parameter (if both are provided in the request).</summary>
+    /// <summary>Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the oldest_time parameter (if both are provided in the request).</summary>
     public string? OldestRef { get; set; }
 }

@@ -12,7 +12,7 @@ public sealed partial class CheckoutSuccessTransactionsItem
     /// <summary>Authorization code for the transaction sent by the payment card issuer or bank. Applicable only to card payments.</summary>
     [JsonPropertyName("auth_code")]
     public string? AuthCode { get; set; }
-    /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Entry mode of the payment details.</summary>
@@ -33,7 +33,7 @@ public sealed partial class CheckoutSuccessTransactionsItem
     /// <summary>Current status of the transaction.</summary>
     [JsonPropertyName("status")]
     public CheckoutSuccessTransactionsItemStatus? Status { get; set; }
-    /// <summary>Date and time of the creation of the transaction. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
+    /// <summary>Date and time of the creation of the transaction. Response format expressed according to ISO8601 code.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
     /// <summary>Amount of the tip (out of the total transaction amount).</summary>

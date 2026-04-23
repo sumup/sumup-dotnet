@@ -7,14 +7,14 @@ using System.Text.Json.Serialization;
 /// <summary>Payment Instrument Response</summary>
 public sealed partial class PaymentInstrumentResponse
 {
-    /// <summary>Indicates whether the payment instrument is active and can be used for payments. To deactivate it, send a `DELETE` request to the resource endpoint.</summary>
+    /// <summary>Indicates whether the payment instrument is active and can be used for payments. To deactivate it, send a DELETE request to the resource endpoint.</summary>
     [JsonPropertyName("active")]
     [JsonInclude]
     public bool? Active { get; private set; }
     /// <summary>Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public PaymentInstrumentResponseCard? Card { get; set; }
-    /// <summary>Creation date of payment instrument. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
+    /// <summary>Creation date of payment instrument. Response format expressed according to ISO8601 code.</summary>
     [JsonPropertyName("created_at")]
     public DateTimeOffset? CreatedAt { get; set; }
     /// <summary>Details of the mandate linked to the saved payment instrument.</summary>

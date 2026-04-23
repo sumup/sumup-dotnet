@@ -16,7 +16,7 @@ public sealed partial class ReaderCheckoutStatusChangePayload
     /// <summary>The current status of the transaction.</summary>
     [JsonPropertyName("status")]
     public ReaderCheckoutStatusChangePayloadStatus Status { get; set; }
-    /// <summary>The transaction id. Deprecated: use `client_transaction_id` instead.</summary>
+    /// <summary>The transaction id. Deprecated: use client_transaction_id instead.</summary>
     [JsonPropertyName("transaction_id")]
     public Guid? TransactionId { get; set; }
 }

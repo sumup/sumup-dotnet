@@ -8,9 +8,9 @@ namespace SumUp;
 /// </summary>
 public sealed partial class PayoutsListOptions
 {
-    /// <summary>Start date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</summary>
+    /// <summary>Start date (in ISO8601 format).</summary>
     public DateOnly StartDate { get; set; }
-    /// <summary>End date (in [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) format).</summary>
+    /// <summary>End date (in ISO8601 format).</summary>
     public DateOnly EndDate { get; set; }
     /// <summary>Response format for the payout list.</summary>
     public string? Format { get; set; }

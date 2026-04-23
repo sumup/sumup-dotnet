@@ -15,7 +15,7 @@ public sealed partial class ErrorExtended
     /// <summary>Short description of the error.</summary>
     [JsonPropertyName("message")]
     public string? Message { get; set; }
-    /// <summary>Parameter name (with relative location) to which the error applies. Parameters from embedded resources are displayed using dot notation. For example, `card.name` refers to the `name` parameter embedded in the `card` object.</summary>
+    /// <summary>Parameter name (with relative location) to which the error applies. Parameters from embedded resources are displayed using dot notation. For example, card.name refers to the name parameter embedded in the card object.</summary>
     [JsonPropertyName("param")]
     public string? Param { get; set; }
 

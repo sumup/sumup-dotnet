@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 	"text/template"
@@ -1485,11 +1486,17 @@ func firstNonEmpty(values ...string) string {
 	return ""
 }
 
+var (
+	markdownLinkPattern = regexp.MustCompile(`\[(.*?)\]\((.*?)\)`)
+	codeSpanPattern     = regexp.MustCompile("`([^`]+)`")
+)
+
 func sanitizeText(value string) string {
 	value = strings.TrimSpace(value)
 	if value == "" {
 		return ""
 	}
+	value = normalizeDocText(value)
 	value = strings.ReplaceAll(value, "\r\n", " ")
 	value = strings.ReplaceAll(value, "\n", " ")
 	value = strings.Join(strings.Fields(value), " ")
@@ -1498,6 +1505,16 @@ func sanitizeText(value string) string {
 		"<", "&lt;",
 		">", "&gt;",
 	).Replace(value)
+}
+
+func normalizeDocText(value string) string {
+	value = markdownLinkPattern.ReplaceAllString(value, "$1")
+	value = codeSpanPattern.ReplaceAllString(value, "$1")
+	value = strings.NewReplacer(
+		"**", "",
+		"__", "",
+	).Replace(value)
+	return value
 }
 
 func yamlNodeToString(node *yaml.Node) string {

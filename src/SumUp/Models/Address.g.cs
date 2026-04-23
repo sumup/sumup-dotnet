@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, `city` is `post_town`. In the United States, the top-level administrative unit used in addresses is `state`, whereas in Chile it's `region`. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
+/// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, city is post_town. In the United States, the top-level administrative unit used in addresses is state, whereas in Chile it's region. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
 public sealed partial class Address
 {
     /// <summary>In Spain, an autonomous community is the first sub-national level of political and administrative division.</summary>
@@ -17,7 +17,7 @@ public sealed partial class Address
     /// <summary>In many countries, terms cognate with "commune" are used, referring to the community living in the area and the common interest. Used in countries such as Chile.</summary>
     [JsonPropertyName("commune")]
     public string? Commune { get; set; }
-    /// <summary>An [ISO3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code. This definition users `oneOf` with a two-character string type to allow for support of future countries in client code.</summary>
+    /// <summary>An ISO3166-1 alpha-2 country code. This definition users oneOf with a two-character string type to allow for support of future countries in client code.</summary>
     [JsonPropertyName("country")]
     public string Country { get; set; } = default!;
     /// <summary>A county is a geographic region of a country used for administrative or other purposes in some nations. Used in countries such as Ireland, Romania, etc.</summary>
