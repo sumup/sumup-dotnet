@@ -13,7 +13,7 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>Merchant-defined reference for the new checkout. It should be unique enough for you to identify the payment attempt in your own systems.</summary>
     [JsonPropertyName("checkout_reference")]
     public string CheckoutReference { get; set; } = default!;
-    /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency Currency { get; set; }
     /// <summary>Merchant-scoped customer identifier. Required when setting up recurring payments and useful when the checkout should be linked to a returning payer.</summary>
@@ -25,10 +25,10 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>Merchant account that should receive the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string MerchantCode { get; set; } = default!;
-    /// <summary>Business purpose of the checkout. Use `CHECKOUT` for a standard payment and `SETUP_RECURRING_PAYMENT` when collecting consent and payment details for future recurring charges.</summary>
+    /// <summary>Business purpose of the checkout. Use CHECKOUT for a standard payment and SETUP_RECURRING_PAYMENT when collecting consent and payment details for future recurring charges.</summary>
     [JsonPropertyName("purpose")]
     public CheckoutCreateRequestPurpose? Purpose { get; set; }
-    /// <summary>URL where the payer should be sent after a redirect-based payment or SCA flow completes. This is required for [APMs](https://developer.sumup.com/online-payments/apm/introduction) and recommended for card checkouts that may require [3DS](https://developer.sumup.com/online-payments/features/3ds). If it is omitted, the [Payment Widget](https://developer.sumup.com/online-payments/checkouts) can render the challenge in an iframe instead of using a full-page redirect.</summary>
+    /// <summary>URL where the payer should be sent after a redirect-based payment or SCA flow completes. This is required for APMs and recommended for card checkouts that may require 3DS. If it is omitted, the Payment Widget can render the challenge in an iframe instead of using a full-page redirect.</summary>
     [JsonPropertyName("redirect_url")]
     public string? RedirectUrl { get; set; }
     /// <summary>Optional backend callback URL used by SumUp to notify your platform about processing updates for the checkout.</summary>

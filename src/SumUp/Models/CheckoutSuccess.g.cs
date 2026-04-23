@@ -14,13 +14,13 @@ public sealed partial class CheckoutSuccess
     /// <summary>Merchant-defined reference for the checkout. Use it to correlate the SumUp checkout with your own order, cart, subscription, or payment attempt in your systems.</summary>
     [JsonPropertyName("checkout_reference")]
     public string? CheckoutReference { get; set; }
-    /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Merchant-scoped identifier of the customer associated with the checkout. Use it when storing payment instruments or reusing saved customer context for recurring and returning-payer flows.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
-    /// <summary>Date and time of the creation of the payment checkout. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
+    /// <summary>Date and time of the creation of the payment checkout. Response format expressed according to ISO8601 code.</summary>
     [JsonPropertyName("date")]
     public DateTimeOffset? Date { get; set; }
     /// <summary>Short merchant-defined description shown in SumUp tools and reporting. Use it to make the checkout easier to recognize in dashboards, support workflows, and reconciliation.</summary>
@@ -48,7 +48,7 @@ public sealed partial class CheckoutSuccess
     /// <summary>Optional backend callback URL used by SumUp to notify your platform about processing updates for the checkout.</summary>
     [JsonPropertyName("return_url")]
     public string? ReturnUrl { get; set; }
-    /// <summary>Current high-level state of the checkout. `PENDING` means the checkout exists but is not yet completed, `PAID` means a payment succeeded, `FAILED` means the latest processing attempt failed, and `EXPIRED` means the checkout can no longer be processed.</summary>
+    /// <summary>Current high-level state of the checkout. PENDING means the checkout exists but is not yet completed, PAID means a payment succeeded, FAILED means the latest processing attempt failed, and EXPIRED means the checkout can no longer be processed.</summary>
     [JsonPropertyName("status")]
     public CheckoutSuccessStatus? Status { get; set; }
     /// <summary>Transaction code of the successful transaction with which the payment for the checkout is completed.</summary>

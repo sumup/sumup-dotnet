@@ -20,7 +20,7 @@ public sealed partial class TransactionFull
     /// <summary>Client transaction id.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string? ClientTransactionId { get; set; }
-    /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Details of the device used to create the transaction.</summary>
@@ -83,16 +83,16 @@ public sealed partial class TransactionFull
     /// <summary>Payout type for the transaction.</summary>
     [JsonPropertyName("payout_type")]
     public TransactionFullPayoutType? PayoutType { get; set; }
-    /// <summary>Number of payouts that are made to the registered user specified in the `user` property.</summary>
+    /// <summary>Number of payouts that are made to the registered user specified in the user property.</summary>
     [JsonPropertyName("payouts_received")]
     public int? PayoutsReceived { get; set; }
-    /// <summary>Total number of payouts to the registered user specified in the `user` property.</summary>
+    /// <summary>Total number of payouts to the registered user specified in the user property.</summary>
     [JsonPropertyName("payouts_total")]
     public int? PayoutsTotal { get; set; }
     /// <summary>Debit/Credit.</summary>
     [JsonPropertyName("process_as")]
     public TransactionFullProcessAs? ProcessAs { get; set; }
-    /// <summary>Short description of the payment. The value is taken from the `description` property of the related checkout resource.</summary>
+    /// <summary>Short description of the payment. The value is taken from the description property of the related checkout resource.</summary>
     [JsonPropertyName("product_summary")]
     public string? ProductSummary { get; set; }
     /// <summary>List of products from the merchant's catalogue for which the transaction serves as a payment.</summary>
@@ -101,7 +101,7 @@ public sealed partial class TransactionFull
     /// <summary>Simple name of the payment type.</summary>
     [JsonPropertyName("simple_payment_type")]
     public TransactionFullSimplePaymentType? SimplePaymentType { get; set; }
-    /// <summary>High-level status of the transaction from the merchant's perspective. - `PENDING`: The payment has been initiated and is still being processed. A final outcome is not available yet. - `SUCCESSFUL`: The payment was completed successfully. - `PAID_OUT`: The payment was completed successfully and the funds have already been included in a payout to the merchant. - `FAILED`: The payment did not complete successfully. - `CANCELLED`: The payment was cancelled or reversed and is no longer payable or payable to the merchant. - `CANCEL_FAILED`: An attempt to cancel or reverse the payment was not completed successfully. - `REFUNDED`: The payment was refunded in full or in part. - `REFUND_FAILED`: An attempt to refund the payment was not completed successfully. - `CHARGEBACK`: The payment was subject to a chargeback. - `NON_COLLECTION`: The amount could not be collected from the merchant after a chargeback or related adjustment.</summary>
+    /// <summary>High-level status of the transaction from the merchant's perspective. - PENDING: The payment has been initiated and is still being processed. A final outcome is not available yet. - SUCCESSFUL: The payment was completed successfully. - PAID_OUT: The payment was completed successfully and the funds have already been included in a payout to the merchant. - FAILED: The payment did not complete successfully. - CANCELLED: The payment was cancelled or reversed and is no longer payable or payable to the merchant. - CANCEL_FAILED: An attempt to cancel or reverse the payment was not completed successfully. - REFUNDED: The payment was refunded in full or in part. - REFUND_FAILED: An attempt to refund the payment was not completed successfully. - CHARGEBACK: The payment was subject to a chargeback. - NON_COLLECTION: The amount could not be collected from the merchant after a chargeback or related adjustment.</summary>
     [JsonPropertyName("simple_status")]
     public TransactionFullSimpleStatus? SimpleStatus { get; set; }
     /// <summary>Current status of the transaction.</summary>
@@ -110,7 +110,7 @@ public sealed partial class TransactionFull
     /// <summary>Indicates whether tax deduction is enabled for the transaction.</summary>
     [JsonPropertyName("tax_enabled")]
     public bool? TaxEnabled { get; set; }
-    /// <summary>Date and time of the creation of the transaction. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
+    /// <summary>Date and time of the creation of the transaction. Response format expressed according to ISO8601 code.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
     /// <summary>Amount of the tip (out of the total transaction amount).</summary>

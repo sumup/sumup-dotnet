@@ -10,7 +10,7 @@ public sealed partial class AddressLegacy
     /// <summary>City name from the address.</summary>
     [JsonPropertyName("city")]
     public string? City { get; set; }
-    /// <summary>Two letter country code formatted according to [ISO3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).</summary>
+    /// <summary>Two letter country code formatted according to ISO3166-1 alpha-2.</summary>
     [JsonPropertyName("country")]
     public string? Country { get; set; }
     /// <summary>First line of the address with details of the street name and number.</summary>

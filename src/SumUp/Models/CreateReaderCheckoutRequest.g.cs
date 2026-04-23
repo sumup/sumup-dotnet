@@ -29,7 +29,7 @@ public sealed partial class CreateReaderCheckoutRequest
     /// <summary>List of tipping rates to be displayed to the cardholder. The rates are in percentage and should be between 0.01 and 0.99. The list should be sorted in ascending order.</summary>
     [JsonPropertyName("tip_rates")]
     public IEnumerable<float>? TipRates { get; set; }
-    /// <summary>Time in seconds the cardholder has to select a tip rate. If not provided, the default value is 30 seconds. It can only be set if `tip_rates` is provided. **Note**: If the target device is a Solo, it must be in version 3.3.38.0 or higher.</summary>
+    /// <summary>Time in seconds the cardholder has to select a tip rate. If not provided, the default value is 30 seconds. It can only be set if tip_rates is provided. Note: If the target device is a Solo, it must be in version 3.3.38.0 or higher.</summary>
     [JsonPropertyName("tip_timeout")]
     public int? TipTimeout { get; set; }
     /// <summary>Amount structure. The amount is represented as an integer value altogether with the currency and the minor unit. For example, EUR 1.00 is represented as value 100 with minor unit of 2.</summary>

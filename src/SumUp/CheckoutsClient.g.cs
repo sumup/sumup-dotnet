@@ -18,7 +18,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Client for the Checkouts API endpoints.
     /// </summary>
-    /// <remarks>Checkouts represent online payment sessions that you create before attempting to charge a payer. A checkout captures the payment intent, such as the amount, currency, merchant, and optional customer or redirect settings, and then moves through its lifecycle as you process it. Use this tag to: - create a checkout before collecting or confirming payment details - process the checkout with a card, saved card, wallet, or supported alternative payment method - retrieve or list checkouts to inspect their current state and associated payment attempts - deactivate a checkout that should no longer be used Typical workflow: - create a checkout with the order amount, currency, and merchant information - process the checkout through SumUp client tools such as the [Payment Widget and Swift Checkout SDK](https://developer.sumup.com/online-payments/checkouts) - retrieve the checkout or use the Transactions endpoints to inspect the resulting payment record Checkouts are used to initiate and orchestrate online payments. Transactions remain the authoritative record of the resulting payment outcome.</remarks>
+    /// <remarks>Checkouts represent online payment sessions that you create before attempting to charge a payer. A checkout captures the payment intent, such as the amount, currency, merchant, and optional customer or redirect settings, and then moves through its lifecycle as you process it. Use this tag to: - create a checkout before collecting or confirming payment details - process the checkout with a card, saved card, wallet, or supported alternative payment method - retrieve or list checkouts to inspect their current state and associated payment attempts - deactivate a checkout that should no longer be used Typical workflow: - create a checkout with the order amount, currency, and merchant information - process the checkout through SumUp client tools such as the Payment Widget and Swift Checkout SDK - retrieve the checkout or use the Transactions endpoints to inspect the resulting payment record Checkouts are used to initiate and orchestrate online payments. Transactions remain the authoritative record of the resulting payment outcome.</remarks>
     internal CheckoutsClient(ApiClient client)
     {
         _client = client;
@@ -27,7 +27,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create a checkout
     /// </summary>
-    /// <remarks>Creates a new payment checkout resource. The unique `checkout_reference` created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the `redirect_url` parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
+    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
     /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -92,7 +92,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create a checkout
     /// </summary>
-    /// <remarks>Creates a new payment checkout resource. The unique `checkout_reference` created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the `redirect_url` parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
+    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
     /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -157,7 +157,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create an Apple Pay session
     /// </summary>
-    /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling `ApplePaySession.completeMerchantValidation(...)` in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
+    /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling ApplePaySession.completeMerchantValidation(...) in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
     /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -216,7 +216,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create an Apple Pay session
     /// </summary>
-    /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling `ApplePaySession.completeMerchantValidation(...)` in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
+    /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling ApplePaySession.completeMerchantValidation(...) in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
     /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -501,7 +501,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// List checkouts
     /// </summary>
-    /// <remarks>Lists created checkout resources according to the applied `checkout_reference`.</remarks>
+    /// <remarks>Lists created checkout resources according to the applied checkout_reference.</remarks>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -551,7 +551,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// List checkouts
     /// </summary>
-    /// <remarks>Lists created checkout resources according to the applied `checkout_reference`.</remarks>
+    /// <remarks>Lists created checkout resources according to the applied checkout_reference.</remarks>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -707,7 +707,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Process a checkout
     /// </summary>
-    /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the `Create a checkout` endpoint. Follow this request with `Retrieve a checkout` to confirm its status.</remarks>
+    /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -776,7 +776,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Process a checkout
     /// </summary>
-    /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the `Create a checkout` endpoint. Follow this request with `Retrieve a checkout` to confirm its status.</remarks>
+    /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
     /// <param name="id">Unique ID of the checkout resource.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>

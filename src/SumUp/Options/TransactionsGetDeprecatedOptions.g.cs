@@ -8,7 +8,7 @@ namespace SumUp;
 /// </summary>
 public sealed partial class TransactionsGetDeprecatedOptions
 {
-    /// <summary>Retrieves the transaction resource with the specified transaction ID (the `id` parameter in the transaction resource).</summary>
+    /// <summary>Retrieves the transaction resource with the specified transaction ID (the id parameter in the transaction resource).</summary>
     public string? Id { get; set; }
     /// <summary>Retrieves the transaction resource with the specified transaction code.</summary>
     public string? TransactionCode { get; set; }

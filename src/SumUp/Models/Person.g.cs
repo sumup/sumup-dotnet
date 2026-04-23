@@ -7,20 +7,20 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 public sealed partial class Person
 {
-    /// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, `city` is `post_town`. In the United States, the top-level administrative unit used in addresses is `state`, whereas in Chile it's `region`. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
+    /// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, city is post_town. In the United States, the top-level administrative unit used in addresses is state, whereas in Chile it's region. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
     [JsonPropertyName("address")]
     public Address? Address { get; set; }
     /// <summary>The date of birth of the individual, represented as an ISO 8601:2004 [ISO8601‑2004] YYYY-MM-DD format.</summary>
     [JsonPropertyName("birthdate")]
     public DateOnly? Birthdate { get; set; }
-    /// <summary>Reflects the status of changes submitted through the `PATCH` endpoints for the merchant or persons. If some changes have not been applied yet, the status will be `pending`. If all changes have been applied, the status `done`. The status is only returned after write operations or on read endpoints when the `version` query parameter is provided.</summary>
+    /// <summary>Reflects the status of changes submitted through the PATCH endpoints for the merchant or persons. If some changes have not been applied yet, the status will be pending. If all changes have been applied, the status done. The status is only returned after write operations or on read endpoints when the version query parameter is provided.</summary>
     [JsonPropertyName("change_status")]
     [JsonInclude]
     public string? ChangeStatus { get; private set; }
-    /// <summary>An [ISO3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code. This definition users `oneOf` with a two-character string type to allow for support of future countries in client code.</summary>
+    /// <summary>An ISO3166-1 alpha-2 country code. This definition users oneOf with a two-character string type to allow for support of future countries in client code.</summary>
     [JsonPropertyName("citizenship")]
     public string? Citizenship { get; set; }
-    /// <summary>An [ISO3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code representing the country where the person resides.</summary>
+    /// <summary>An ISO3166-1 alpha-2 country code representing the country where the person resides.</summary>
     [JsonPropertyName("country_of_residence")]
     public string? CountryOfResidence { get; set; }
     /// <summary>The last name(s) of the individual.</summary>
@@ -29,7 +29,7 @@ public sealed partial class Person
     /// <summary>The first name(s) of the individual.</summary>
     [JsonPropertyName("given_name")]
     public string? GivenName { get; set; }
-    /// <summary>The unique identifier for the person. This is a [typeid](https://github.com/sumup/typeid).</summary>
+    /// <summary>The unique identifier for the person. This is a typeid.</summary>
     [JsonPropertyName("id")]
     [JsonInclude]
     public string Id { get; private set; } = default!;
@@ -39,21 +39,21 @@ public sealed partial class Person
     /// <summary>Middle name(s) of the End-User. Note that in some cultures, people can have multiple middle names; all can be present, with the names being separated by space characters. Also note that in some cultures, middle names are not used.</summary>
     [JsonPropertyName("middle_name")]
     public string? MiddleName { get; set; }
-    /// <summary>The persons nationality. May be an [ISO3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code, but legacy data may not conform to this standard.</summary>
+    /// <summary>The persons nationality. May be an ISO3166-1 alpha-2 country code, but legacy data may not conform to this standard.</summary>
     [JsonPropertyName("nationality")]
     public string? Nationality { get; set; }
     [JsonPropertyName("ownership")]
     public Ownership? Ownership { get; set; }
-    /// <summary>A publicly available phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format.</summary>
+    /// <summary>A publicly available phone number in E.164 format.</summary>
     [JsonPropertyName("phone_number")]
     public string? PhoneNumber { get; set; }
-    /// <summary>A list of roles the person has in the merchant or towards SumUp. A merchant must have at least one person with the relationship `representative`.</summary>
+    /// <summary>A list of roles the person has in the merchant or towards SumUp. A merchant must have at least one person with the relationship representative.</summary>
     [JsonPropertyName("relationships")]
     public IEnumerable<string>? Relationships { get; set; }
     /// <summary>A corresponding identity user ID for the person, if they have a user account.</summary>
     [JsonPropertyName("user_id")]
     public string? UserId { get; set; }
-    /// <summary>The version of the resource. The version reflects a specific change submitted to the API via one of the `PATCH` endpoints.</summary>
+    /// <summary>The version of the resource. The version reflects a specific change submitted to the API via one of the PATCH endpoints.</summary>
     [JsonPropertyName("version")]
     public string? Version { get; set; }
 }

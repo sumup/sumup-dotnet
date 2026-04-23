@@ -22,7 +22,7 @@ public sealed partial class MembershipResource
     /// <summary>Display name of the resource.</summary>
     [JsonPropertyName("name")]
     public string Name { get; set; } = default!;
-    /// <summary>The type of the membership resource. Possible values are: * `merchant` - merchant account(s) * `organization` - organization(s)</summary>
+    /// <summary>The type of the membership resource. Possible values are: * merchant - merchant account(s) * organization - organization(s)</summary>
     [JsonPropertyName("type")]
     public string Type { get; set; } = default!;
     /// <summary>The timestamp of when the membership resource was last updated.</summary>

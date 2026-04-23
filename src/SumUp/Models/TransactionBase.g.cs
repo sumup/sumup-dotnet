@@ -10,7 +10,7 @@ public sealed partial class TransactionBase
     /// <summary>Total amount of the transaction.</summary>
     [JsonPropertyName("amount")]
     public float? Amount { get; set; }
-    /// <summary>Three-letter [ISO4217](https://en.wikipedia.org/wiki/ISO_4217) code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Unique ID of the transaction.</summary>
@@ -25,7 +25,7 @@ public sealed partial class TransactionBase
     /// <summary>Current status of the transaction.</summary>
     [JsonPropertyName("status")]
     public TransactionBaseStatus? Status { get; set; }
-    /// <summary>Date and time of the creation of the transaction. Response format expressed according to [ISO8601](https://en.wikipedia.org/wiki/ISO_8601) code.</summary>
+    /// <summary>Date and time of the creation of the transaction. Response format expressed according to ISO8601 code.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
     /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>

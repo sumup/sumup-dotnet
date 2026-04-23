@@ -13,7 +13,7 @@ public sealed partial class Reader
     /// <summary>Information about the underlying physical device.</summary>
     [JsonPropertyName("device")]
     public ReaderDevice Device { get; set; } = default!;
-    /// <summary>Unique identifier of the object. Note that this identifies the instance of the physical devices pairing with your SumUp account. If you [delete](https://developer.sumup.com/api/readers/delete-reader) a reader, and pair the device again, the ID will be different. Do not use this ID to refer to a physical device.</summary>
+    /// <summary>Unique identifier of the object. Note that this identifies the instance of the physical devices pairing with your SumUp account. If you delete a reader, and pair the device again, the ID will be different. Do not use this ID to refer to a physical device.</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
     /// <summary>Set of user-defined key-value pairs attached to the object. Partial updates are not supported. When updating, always submit whole metadata. Maximum of 64 parameters are allowed in the object.</summary>
@@ -25,7 +25,7 @@ public sealed partial class Reader
     /// <summary>Identifier of the system-managed service account associated with this reader. Present only for readers that are already paired. This field is currently in beta and may change.</summary>
     [JsonPropertyName("service_account_id")]
     public Guid? ServiceAccountId { get; set; }
-    /// <summary>The status of the reader object gives information about the current state of the reader. Possible values: - `unknown` - The reader status is unknown. - `processing` - The reader is created and waits for the physical device to confirm the pairing. - `paired` - The reader is paired with a merchant account and can be used with SumUp APIs. - `expired` - The pairing is expired and no longer usable with the account. The resource needs to get recreated.</summary>
+    /// <summary>The status of the reader object gives information about the current state of the reader. Possible values: - unknown - The reader status is unknown. - processing - The reader is created and waits for the physical device to confirm the pairing. - paired - The reader is paired with a merchant account and can be used with SumUp APIs. - expired - The pairing is expired and no longer usable with the account. The resource needs to get recreated.</summary>
     [JsonPropertyName("status")]
     public ReaderStatus Status { get; set; }
     /// <summary>The timestamp of when the reader was last updated.</summary>

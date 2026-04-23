@@ -38,7 +38,7 @@ public sealed partial class Membership
     /// <summary>The status of the membership.</summary>
     [JsonPropertyName("status")]
     public MembershipStatus Status { get; set; }
-    /// <summary>The type of the membership resource. Possible values are: * `merchant` - merchant account(s) * `organization` - organization(s)</summary>
+    /// <summary>The type of the membership resource. Possible values are: * merchant - merchant account(s) * organization - organization(s)</summary>
     [JsonPropertyName("type")]
     public string Type { get; set; } = default!;
     /// <summary>The timestamp of when the membership was last updated.</summary>

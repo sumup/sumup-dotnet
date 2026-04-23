@@ -154,7 +154,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Create a Reader Checkout
     /// </summary>
-    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. **Note**: If the target device is a Solo, it must be in version 3.3.24.3 or higher.</remarks>
+    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. Note: If the target device is a Solo, it must be in version 3.3.24.3 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="body">A checkout initial attributes</param>
@@ -225,7 +225,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Create a Reader Checkout
     /// </summary>
-    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. **Note**: If the target device is a Solo, it must be in version 3.3.24.3 or higher.</remarks>
+    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. Note: If the target device is a Solo, it must be in version 3.3.24.3 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="body">A checkout initial attributes</param>
@@ -502,7 +502,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Get a Reader Status
     /// </summary>
-    /// <remarks>Provides the last known status for a Reader. This endpoint allows you to retrieve updates from the connected card reader, including the current screen being displayed during the payment process and the device status (battery level, connectivity, and update state). Supported States * `IDLE` – Reader ready for next transaction * `SELECTING_TIP` – Waiting for tip input * `WAITING_FOR_CARD` – Awaiting card insert/tap * `WAITING_FOR_PIN` – Waiting for PIN entry * `WAITING_FOR_SIGNATURE` – Waiting for customer signature * `UPDATING_FIRMWARE` – Firmware update in progress Device Status * `ONLINE` – Device connected and operational * `OFFLINE` – Device disconnected (last state persisted) **Note**: If the target device is a Solo, it must be in version 3.3.39.0 or higher.</remarks>
+    /// <remarks>Provides the last known status for a Reader. This endpoint allows you to retrieve updates from the connected card reader, including the current screen being displayed during the payment process and the device status (battery level, connectivity, and update state). Supported States * IDLE – Reader ready for next transaction * SELECTING_TIP – Waiting for tip input * WAITING_FOR_CARD – Awaiting card insert/tap * WAITING_FOR_PIN – Waiting for PIN entry * WAITING_FOR_SIGNATURE – Waiting for customer signature * UPDATING_FIRMWARE – Firmware update in progress Device Status * ONLINE – Device connected and operational * OFFLINE – Device disconnected (last state persisted) Note: If the target device is a Solo, it must be in version 3.3.39.0 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -563,7 +563,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Get a Reader Status
     /// </summary>
-    /// <remarks>Provides the last known status for a Reader. This endpoint allows you to retrieve updates from the connected card reader, including the current screen being displayed during the payment process and the device status (battery level, connectivity, and update state). Supported States * `IDLE` – Reader ready for next transaction * `SELECTING_TIP` – Waiting for tip input * `WAITING_FOR_CARD` – Awaiting card insert/tap * `WAITING_FOR_PIN` – Waiting for PIN entry * `WAITING_FOR_SIGNATURE` – Waiting for customer signature * `UPDATING_FIRMWARE` – Firmware update in progress Device Status * `ONLINE` – Device connected and operational * `OFFLINE` – Device disconnected (last state persisted) **Note**: If the target device is a Solo, it must be in version 3.3.39.0 or higher.</remarks>
+    /// <remarks>Provides the last known status for a Reader. This endpoint allows you to retrieve updates from the connected card reader, including the current screen being displayed during the payment process and the device status (battery level, connectivity, and update state). Supported States * IDLE – Reader ready for next transaction * SELECTING_TIP – Waiting for tip input * WAITING_FOR_CARD – Awaiting card insert/tap * WAITING_FOR_PIN – Waiting for PIN entry * WAITING_FOR_SIGNATURE – Waiting for customer signature * UPDATING_FIRMWARE – Firmware update in progress Device Status * ONLINE – Device connected and operational * OFFLINE – Device disconnected (last state persisted) Note: If the target device is a Solo, it must be in version 3.3.39.0 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -722,7 +722,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Terminate a Reader Checkout
     /// </summary>
-    /// <remarks>Terminate a Reader Checkout stops the current transaction on the target device. This process is asynchronous and the actual termination may take some time to be performed on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise terminate won't be accepted * The action will succeed only if the device is waiting for cardholder action: e.g: waiting for card, waiting for PIN, etc. * There is no confirmation of the termination. If a transaction is successfully terminated and `return_url` was provided on Checkout, the transaction status will be sent as `failed` to the provided URL. **Note**: If the target device is a Solo, it must be in version 3.3.28.0 or higher.</remarks>
+    /// <remarks>Terminate a Reader Checkout stops the current transaction on the target device. This process is asynchronous and the actual termination may take some time to be performed on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise terminate won't be accepted * The action will succeed only if the device is waiting for cardholder action: e.g: waiting for card, waiting for PIN, etc. * There is no confirmation of the termination. If a transaction is successfully terminated and return_url was provided on Checkout, the transaction status will be sent as failed to the provided URL. Note: If the target device is a Solo, it must be in version 3.3.28.0 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -788,7 +788,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Terminate a Reader Checkout
     /// </summary>
-    /// <remarks>Terminate a Reader Checkout stops the current transaction on the target device. This process is asynchronous and the actual termination may take some time to be performed on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise terminate won't be accepted * The action will succeed only if the device is waiting for cardholder action: e.g: waiting for card, waiting for PIN, etc. * There is no confirmation of the termination. If a transaction is successfully terminated and `return_url` was provided on Checkout, the transaction status will be sent as `failed` to the provided URL. **Note**: If the target device is a Solo, it must be in version 3.3.28.0 or higher.</remarks>
+    /// <remarks>Terminate a Reader Checkout stops the current transaction on the target device. This process is asynchronous and the actual termination may take some time to be performed on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise terminate won't be accepted * The action will succeed only if the device is waiting for cardholder action: e.g: waiting for card, waiting for PIN, etc. * There is no confirmation of the termination. If a transaction is successfully terminated and return_url was provided on Checkout, the transaction status will be sent as failed to the provided URL. Note: If the target device is a Solo, it must be in version 3.3.28.0 or higher.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>

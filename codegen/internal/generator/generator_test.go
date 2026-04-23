@@ -391,6 +391,24 @@ func TestBuildClients_UsesOperationOptionsForQueryParameters(t *testing.T) {
 	}
 }
 
+func TestSanitizeText_NormalizesMarkdownForXmlDocs(t *testing.T) {
+	input := "Use [ISO8601](https://example.com) format with `redirect_url`. **Note**: this is required."
+	got := sanitizeText(input)
+	want := "Use ISO8601 format with redirect_url. Note: this is required."
+	if got != want {
+		t.Fatalf("sanitizeText() = %q, want %q", got, want)
+	}
+}
+
+func TestSanitizeText_EscapesXmlAfterNormalization(t *testing.T) {
+	input := "Use [link](https://example.com) with `<tag>` and `x < y`."
+	got := sanitizeText(input)
+	want := "Use link with &lt;tag&gt; and x &lt; y."
+	if got != want {
+		t.Fatalf("sanitizeText() = %q, want %q", got, want)
+	}
+}
+
 func mustBuildV3Document(t *testing.T, raw string) *v3.Document {
 	t.Helper()
 

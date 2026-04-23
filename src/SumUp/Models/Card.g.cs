@@ -4,16 +4,16 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>__Required when payment type is `card`.__ Details of the payment card.</summary>
+/// <summary>Required when payment type is card. Details of the payment card.</summary>
 public sealed partial class Card
 {
     /// <summary>Three or four-digit card verification value (security code) of the payment card.</summary>
     [JsonPropertyName("cvv")]
     public string Cvv { get; set; } = default!;
-    /// <summary>Month from the expiration time of the payment card. Accepted format is `MM`.</summary>
+    /// <summary>Month from the expiration time of the payment card. Accepted format is MM.</summary>
     [JsonPropertyName("expiry_month")]
     public CardExpiryMonth ExpiryMonth { get; set; }
-    /// <summary>Year from the expiration time of the payment card. Accepted formats are `YY` and `YYYY`.</summary>
+    /// <summary>Year from the expiration time of the payment card. Accepted formats are YY and YYYY.</summary>
     [JsonPropertyName("expiry_year")]
     public string ExpiryYear { get; set; } = default!;
     /// <summary>Name of the cardholder as it appears on the payment card.</summary>

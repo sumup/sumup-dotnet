@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>A set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. **Warning**: Updating Meta will overwrite the existing data. Make sure to always include the complete JSON object.</summary>
+/// <summary>A set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Warning: Updating Meta will overwrite the existing data. Make sure to always include the complete JSON object.</summary>
 public sealed partial class Meta : Dictionary<string, string>
 {
 }

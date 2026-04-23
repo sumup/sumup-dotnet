@@ -10,7 +10,7 @@ public sealed partial class MembersUpdateRequestUser
     /// <summary>User's preferred name. Used for display purposes only.</summary>
     [JsonPropertyName("nickname")]
     public string? Nickname { get; set; }
-    /// <summary>Password of the member to add. Only used if `is_managed_user` is true.</summary>
+    /// <summary>Password of the member to add. Only used if is_managed_user is true.</summary>
     [JsonPropertyName("password")]
     public string? Password { get; set; }
 }

@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class CreateReaderCheckoutResponseData
 {
-    /// <summary>The client transaction ID is a unique identifier for the transaction that is generated for the client. It can be used later to fetch the transaction details via the [Transactions API](https://developer.sumup.com/api/transactions/get).</summary>
+    /// <summary>The client transaction ID is a unique identifier for the transaction that is generated for the client. It can be used later to fetch the transaction details via the Transactions API.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string ClientTransactionId { get; set; } = default!;
 }

@@ -10,13 +10,13 @@ public sealed partial class TransactionMixinHistory
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
     public TransactionMixinHistoryPayoutPlan? PayoutPlan { get; set; }
-    /// <summary>Number of payouts that are made to the registered user specified in the `user` property.</summary>
+    /// <summary>Number of payouts that are made to the registered user specified in the user property.</summary>
     [JsonPropertyName("payouts_received")]
     public int? PayoutsReceived { get; set; }
-    /// <summary>Total number of payouts to the registered user specified in the `user` property.</summary>
+    /// <summary>Total number of payouts to the registered user specified in the user property.</summary>
     [JsonPropertyName("payouts_total")]
     public int? PayoutsTotal { get; set; }
-    /// <summary>Short description of the payment. The value is taken from the `description` property of the related checkout resource.</summary>
+    /// <summary>Short description of the payment. The value is taken from the description property of the related checkout resource.</summary>
     [JsonPropertyName("product_summary")]
     public string? ProductSummary { get; set; }
 }

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// <summary>Instructions for the next action the payer or client must take.</summary>
 public sealed partial class CheckoutAcceptedNextStep
 {
-    /// <summary>Allowed presentation mechanisms for the next step. `iframe` means the flow can be embedded, while `browser` means it can be completed through a full-page redirect.</summary>
+    /// <summary>Allowed presentation mechanisms for the next step. iframe means the flow can be embedded, while browser means it can be completed through a full-page redirect.</summary>
     [JsonPropertyName("mechanism")]
     public IEnumerable<CheckoutAcceptedNextStepMechanismItem>? Mechanism { get; set; }
     /// <summary>HTTP method to use when following the next step.</summary>
