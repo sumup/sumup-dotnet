@@ -22,6 +22,9 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>Short merchant-defined description shown in SumUp tools and reporting for easier identification of the checkout.</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
+    /// <summary>Hosted Checkout configuration. Enable it to receive a SumUp-hosted payment page URL in the checkout response.</summary>
+    [JsonPropertyName("hosted_checkout")]
+    public HostedCheckout? HostedCheckout { get; set; }
     /// <summary>Merchant account that should receive the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string MerchantCode { get; set; } = default!;

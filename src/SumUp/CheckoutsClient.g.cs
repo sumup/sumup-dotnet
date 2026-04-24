@@ -27,7 +27,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create a checkout
     /// </summary>
-    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
+    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. To use the Hosted Checkout page, set the hosted_checkout.enabled to true. Follow by processing a checkout to charge the provided payment instrument.</remarks>
     /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -92,7 +92,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create a checkout
     /// </summary>
-    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. Follow by processing a checkout to charge the provided payment instrument.</remarks>
+    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. To use the Hosted Checkout page, set the hosted_checkout.enabled to true. Follow by processing a checkout to charge the provided payment instrument.</remarks>
     /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
