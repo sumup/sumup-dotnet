@@ -26,6 +26,10 @@ public sealed partial class CheckoutSuccess
     /// <summary>Short merchant-defined description shown in SumUp tools and reporting. Use it to make the checkout easier to recognize in dashboards, support workflows, and reconciliation.</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
+    /// <summary>URL of the SumUp-hosted payment page that handles the payment flow. Returned when Hosted Checkout is enabled for the checkout.</summary>
+    [JsonPropertyName("hosted_checkout_url")]
+    [JsonInclude]
+    public string? HostedCheckoutUrl { get; private set; }
     /// <summary>Unique SumUp identifier of the checkout resource.</summary>
     [JsonPropertyName("id")]
     [JsonInclude]
