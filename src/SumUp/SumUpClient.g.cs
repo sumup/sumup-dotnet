@@ -18,7 +18,6 @@ public partial class SumUpClient
         Readers = new ReadersClient(apiClient);
         Receipts = new ReceiptsClient(apiClient);
         Roles = new RolesClient(apiClient);
-        Subaccounts = new SubaccountsClient(apiClient);
         Transactions = new TransactionsClient(apiClient);
     }
 
@@ -66,11 +65,6 @@ public partial class SumUpClient
     /// Access the Roles API endpoints.
     /// </summary>
     public RolesClient Roles { get; private set; } = default!;
-
-    /// <summary>
-    /// Access the Subaccounts API endpoints.
-    /// </summary>
-    public SubaccountsClient Subaccounts { get; private set; } = default!;
 
     /// <summary>
     /// Access the Transactions API endpoints.

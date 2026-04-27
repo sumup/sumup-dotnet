@@ -27,12 +27,12 @@ public sealed partial class PayoutsClient
     /// <summary>
     /// List payouts
     /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
+    /// <remarks>Lists payout and payout-deduction records for the specified merchant account within the requested date range. The response can include: - regular payouts (type = PAYOUT) - deduction records for refunds, chargebacks, direct debit returns, or balance adjustments Results are sorted by payout date in the requested order.</remarks>
     /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<FinancialPayoutsItem>> List(string merchantCode, PayoutsListOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<IEnumerable<FinancialPayout>> List(string merchantCode, PayoutsListOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
@@ -76,8 +76,8 @@ public sealed partial class PayoutsClient
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
             using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var result = JsonSerializer.Deserialize<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions);
-            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            var result = JsonSerializer.Deserialize<IEnumerable<FinancialPayout>>(stream, _client.SerializerOptions);
+            return ApiResponse<IEnumerable<FinancialPayout>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
@@ -88,12 +88,12 @@ public sealed partial class PayoutsClient
     /// <summary>
     /// List payouts
     /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
+    /// <remarks>Lists payout and payout-deduction records for the specified merchant account within the requested date range. The response can include: - regular payouts (type = PAYOUT) - deduction records for refunds, chargebacks, direct debit returns, or balance adjustments Results are sorted by payout date in the requested order.</remarks>
     /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListAsync(string merchantCode, PayoutsListOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<IEnumerable<FinancialPayout>>> ListAsync(string merchantCode, PayoutsListOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/payouts", builder =>
@@ -137,126 +137,8 @@ public sealed partial class PayoutsClient
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var result = await JsonSerializer.DeserializeAsync<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-        finally
-        {
-            timeoutScope?.Dispose();
-        }
-    }
-
-    /// <summary>
-    /// List payouts
-    /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
-    /// <param name="options">Query and header parameters for the request.</param>
-    /// <param name="requestOptions">Optional per-request overrides.</param>
-    /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<IEnumerable<FinancialPayoutsItem>> ListDeprecated(PayoutsListDeprecatedOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
-    {
-        var operationOptions = options;
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
-        {
-            builder.AddQuery("start_date", operationOptions.StartDate);
-            builder.AddQuery("end_date", operationOptions.EndDate);
-            builder.AddQuery("format", operationOptions.Format);
-            builder.AddQuery("limit", operationOptions.Limit);
-            builder.AddQuery("order", operationOptions.Order);
-        });
-        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
-        try
-        {
-            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
-
-            using var response = _client.HttpClient.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
-                effectiveCancellationToken).GetAwaiter().GetResult();
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = response.Content is null
-                    ? null
-                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
-                switch ((int)response.StatusCode)
-                {
-                    case 400:
-                    {
-                        var errorForStatus400 = _client.TryDeserialize<IEnumerable<ErrorExtended>>(responseBody);
-                        throw new ApiException<IEnumerable<ErrorExtended>>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                }
-                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
-            }
-            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var result = JsonSerializer.Deserialize<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions);
-            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-        finally
-        {
-            timeoutScope?.Dispose();
-        }
-    }
-
-    /// <summary>
-    /// List payouts
-    /// </summary>
-    /// <remarks>Lists ordered payouts for the merchant account.</remarks>
-    /// <param name="options">Query and header parameters for the request.</param>
-    /// <param name="requestOptions">Optional per-request overrides.</param>
-    /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<IEnumerable<FinancialPayoutsItem>>> ListDeprecatedAsync(PayoutsListDeprecatedOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
-    {
-        var operationOptions = options;
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/financials/payouts", builder =>
-        {
-            builder.AddQuery("start_date", operationOptions.StartDate);
-            builder.AddQuery("end_date", operationOptions.EndDate);
-            builder.AddQuery("format", operationOptions.Format);
-            builder.AddQuery("limit", operationOptions.Limit);
-            builder.AddQuery("order", operationOptions.Order);
-        });
-        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
-        try
-        {
-            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
-
-            using var response = await _client.HttpClient.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
-                effectiveCancellationToken).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = response.Content is null
-                    ? null
-                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
-                switch ((int)response.StatusCode)
-                {
-                    case 400:
-                    {
-                        var errorForStatus400 = _client.TryDeserialize<IEnumerable<ErrorExtended>>(responseBody);
-                        throw new ApiException<IEnumerable<ErrorExtended>>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                }
-                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
-            }
-            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var result = await JsonSerializer.DeserializeAsync<IEnumerable<FinancialPayoutsItem>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<IEnumerable<FinancialPayoutsItem>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            var result = await JsonSerializer.DeserializeAsync<IEnumerable<FinancialPayout>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<IEnumerable<FinancialPayout>>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
