@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum FinancialPayoutsItemType
+public enum FinancialPayoutType
 {
     [EnumMember(Value = "PAYOUT")]
     Payout,

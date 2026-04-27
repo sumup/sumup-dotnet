@@ -145,118 +145,6 @@ public sealed partial class TransactionsClient
     }
 
     /// <summary>
-    /// Retrieve a transaction
-    /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - id - transaction_code - foreign_transaction_id - client_transaction_id</remarks>
-    /// <param name="options">Query and header parameters for the request.</param>
-    /// <param name="requestOptions">Optional per-request overrides.</param>
-    /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionFull> GetDeprecated(TransactionsGetDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
-    {
-        var operationOptions = options ?? new TransactionsGetDeprecatedOptions();
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
-        {
-            builder.AddQuery("id", operationOptions.Id);
-            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
-        });
-        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
-        try
-        {
-            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
-
-            using var response = _client.HttpClient.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
-                effectiveCancellationToken).GetAwaiter().GetResult();
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = response.Content is null
-                    ? null
-                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
-                switch ((int)response.StatusCode)
-                {
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 404:
-                    {
-                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                }
-                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
-            }
-            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var result = JsonSerializer.Deserialize<TransactionFull>(stream, _client.SerializerOptions);
-            return ApiResponse<TransactionFull>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-        finally
-        {
-            timeoutScope?.Dispose();
-        }
-    }
-
-    /// <summary>
-    /// Retrieve a transaction
-    /// </summary>
-    /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - id - transaction_code - foreign_transaction_id - client_transaction_id</remarks>
-    /// <param name="options">Query and header parameters for the request.</param>
-    /// <param name="requestOptions">Optional per-request overrides.</param>
-    /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionFull>> GetDeprecatedAsync(TransactionsGetDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
-    {
-        var operationOptions = options ?? new TransactionsGetDeprecatedOptions();
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions", builder =>
-        {
-            builder.AddQuery("id", operationOptions.Id);
-            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
-        });
-        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
-        try
-        {
-            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
-
-            using var response = await _client.HttpClient.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
-                effectiveCancellationToken).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = response.Content is null
-                    ? null
-                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
-                switch ((int)response.StatusCode)
-                {
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 404:
-                    {
-                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                }
-                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
-            }
-            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var result = await JsonSerializer.DeserializeAsync<TransactionFull>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<TransactionFull>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-        finally
-        {
-            timeoutScope?.Dispose();
-        }
-    }
-
-    /// <summary>
     /// List transactions
     /// </summary>
     /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
@@ -395,150 +283,20 @@ public sealed partial class TransactionsClient
     }
 
     /// <summary>
-    /// List transactions
-    /// </summary>
-    /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
-    /// <param name="options">Query and header parameters for the request.</param>
-    /// <param name="requestOptions">Optional per-request overrides.</param>
-    /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<TransactionsListDeprecatedResponse> ListDeprecated(TransactionsListDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
-    {
-        var operationOptions = options ?? new TransactionsListDeprecatedOptions();
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions/history", builder =>
-        {
-            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
-            builder.AddQuery("order", operationOptions.Order);
-            builder.AddQuery("limit", operationOptions.Limit);
-            builder.AddQuery("users", operationOptions.Users);
-            builder.AddQuery("statuses[]", operationOptions.Statuses);
-            builder.AddQuery("payment_types", operationOptions.PaymentTypes);
-            builder.AddQuery("types", operationOptions.Types);
-            builder.AddQuery("changes_since", operationOptions.ChangesSince);
-            builder.AddQuery("newest_time", operationOptions.NewestTime);
-            builder.AddQuery("newest_ref", operationOptions.NewestRef);
-            builder.AddQuery("oldest_time", operationOptions.OldestTime);
-            builder.AddQuery("oldest_ref", operationOptions.OldestRef);
-        });
-        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
-        try
-        {
-            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
-
-            using var response = _client.HttpClient.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
-                effectiveCancellationToken).GetAwaiter().GetResult();
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = response.Content is null
-                    ? null
-                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
-                switch ((int)response.StatusCode)
-                {
-                    case 400:
-                    {
-                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                }
-                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
-            }
-            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
-            var result = JsonSerializer.Deserialize<TransactionsListDeprecatedResponse>(stream, _client.SerializerOptions);
-            return ApiResponse<TransactionsListDeprecatedResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-        finally
-        {
-            timeoutScope?.Dispose();
-        }
-    }
-
-    /// <summary>
-    /// List transactions
-    /// </summary>
-    /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
-    /// <param name="options">Query and header parameters for the request.</param>
-    /// <param name="requestOptions">Optional per-request overrides.</param>
-    /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<TransactionsListDeprecatedResponse>> ListDeprecatedAsync(TransactionsListDeprecatedOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
-    {
-        var operationOptions = options ?? new TransactionsListDeprecatedOptions();
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/me/transactions/history", builder =>
-        {
-            builder.AddQuery("transaction_code", operationOptions.TransactionCode);
-            builder.AddQuery("order", operationOptions.Order);
-            builder.AddQuery("limit", operationOptions.Limit);
-            builder.AddQuery("users", operationOptions.Users);
-            builder.AddQuery("statuses[]", operationOptions.Statuses);
-            builder.AddQuery("payment_types", operationOptions.PaymentTypes);
-            builder.AddQuery("types", operationOptions.Types);
-            builder.AddQuery("changes_since", operationOptions.ChangesSince);
-            builder.AddQuery("newest_time", operationOptions.NewestTime);
-            builder.AddQuery("newest_ref", operationOptions.NewestRef);
-            builder.AddQuery("oldest_time", operationOptions.OldestTime);
-            builder.AddQuery("oldest_ref", operationOptions.OldestRef);
-        });
-        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
-        try
-        {
-            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
-
-            using var response = await _client.HttpClient.SendAsync(
-                request,
-                HttpCompletionOption.ResponseHeadersRead,
-                effectiveCancellationToken).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var responseBody = response.Content is null
-                    ? null
-                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
-                switch ((int)response.StatusCode)
-                {
-                    case 400:
-                    {
-                        var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 401:
-                    {
-                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                }
-                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
-            }
-            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
-            var result = await JsonSerializer.DeserializeAsync<TransactionsListDeprecatedResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
-            return ApiResponse<TransactionsListDeprecatedResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
-        }
-        finally
-        {
-            timeoutScope?.Dispose();
-        }
-    }
-
-    /// <summary>
     /// Refund a transaction
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
-    /// <param name="txnId">Unique ID of the transaction.</param>
+    /// <param name="merchantCode">Merchant code of the account that owns the payment to refund.</param>
+    /// <param name="id">Unique ID of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> Refund(string txnId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> Refund(string merchantCode, string id, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/me/refund/{txn_id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/payments/{id}/refunds", builder =>
         {
-            builder.AddPath("txn_id", txnId);
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("id", id);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -587,15 +345,17 @@ public sealed partial class TransactionsClient
     /// Refund a transaction
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
-    /// <param name="txnId">Unique ID of the transaction.</param>
+    /// <param name="merchantCode">Merchant code of the account that owns the payment to refund.</param>
+    /// <param name="id">Unique ID of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> RefundAsync(string txnId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> RefundAsync(string merchantCode, string id, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Post, "/v0.1/me/refund/{txn_id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/payments/{id}/refunds", builder =>
         {
-            builder.AddPath("txn_id", txnId);
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("id", id);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
