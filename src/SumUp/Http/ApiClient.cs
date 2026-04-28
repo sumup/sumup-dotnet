@@ -96,6 +96,88 @@ internal sealed class ApiClient
         }
     }
 
+    internal TModel? GetAbsolute<TModel>(
+        string absoluteUrl,
+        RequestOptions? requestOptions = null,
+        CancellationToken cancellationToken = default)
+        where TModel : class
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, absoluteUrl);
+        request.Headers.Accept.Clear();
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/problem+json"));
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        request.Headers.UserAgent.ParseAdd(_options.UserAgent);
+        RuntimeHeaders.Apply(request.Headers);
+
+        var effectiveCancellationToken = CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _httpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                var fallbackError = TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+
+            using var stream = ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            return JsonSerializer.Deserialize<TModel>(stream, _serializerOptions);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    internal async Task<TModel?> GetAbsoluteAsync<TModel>(
+        string absoluteUrl,
+        RequestOptions? requestOptions = null,
+        CancellationToken cancellationToken = default)
+        where TModel : class
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, absoluteUrl);
+        request.Headers.Accept.Clear();
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/problem+json"));
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        request.Headers.UserAgent.ParseAdd(_options.UserAgent);
+        RuntimeHeaders.Apply(request.Headers);
+
+        var effectiveCancellationToken = CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _httpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                var fallbackError = TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+
+            using var stream = await ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            return await JsonSerializer.DeserializeAsync<TModel>(stream, _serializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
     internal static Task<string> ReadContentAsStringAsync(HttpContent content, CancellationToken cancellationToken)
     {
 #if NETSTANDARD2_0
