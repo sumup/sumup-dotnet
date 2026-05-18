@@ -30,9 +30,9 @@ public sealed partial class CheckoutSuccessTransactionsItem
     /// <summary>Payment type used for the transaction.</summary>
     [JsonPropertyName("payment_type")]
     public PaymentType? PaymentType { get; set; }
-    /// <summary>Current status of the transaction.</summary>
+    /// <summary>Current status of the transaction. - PENDING: The transaction has been created but its final outcome is not known yet. - SUCCESSFUL: The transaction completed successfully. - CANCELLED: The transaction was cancelled or otherwise reversed before completion. - FAILED: The transaction attempt did not complete successfully. - REFUNDED: The transaction was refunded in full or in part.</summary>
     [JsonPropertyName("status")]
-    public CheckoutSuccessTransactionsItemStatus? Status { get; set; }
+    public TransactionStatus? Status { get; set; }
     /// <summary>Date and time of the creation of the transaction. Response format expressed according to ISO8601 code.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
