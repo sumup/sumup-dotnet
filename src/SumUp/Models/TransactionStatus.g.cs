@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum TransactionBaseStatus
+public enum TransactionStatus
 {
     [EnumMember(Value = "SUCCESSFUL")]
     Successful,
@@ -17,4 +17,6 @@ public enum TransactionBaseStatus
     Failed,
     [EnumMember(Value = "PENDING")]
     Pending,
+    [EnumMember(Value = "REFUNDED")]
+    Refunded,
 }
