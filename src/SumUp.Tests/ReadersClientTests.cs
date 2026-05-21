@@ -256,7 +256,7 @@ public class ReadersClientTests
 
         await client.Readers.GetAsync(
             merchantCode: "merchant-123",
-            id: "reader-456",
+            readerId: "reader-456",
             requestOptions: null,
             cancellationToken: CancellationToken.None);
 
@@ -297,7 +297,7 @@ public class ReadersClientTests
 
         await client.Readers.GetAsync(
             merchantCode: "merchant-123",
-            id: "reader-456",
+            readerId: "reader-456",
             requestOptions: requestOptions,
             cancellationToken: CancellationToken.None);
 
@@ -372,7 +372,7 @@ public class ReadersClientTests
 
         await Assert.ThrowsAsync<TaskCanceledException>(() => client.Readers.GetAsync(
             merchantCode: "merchant-123",
-            id: "reader-456",
+            readerId: "reader-456",
             requestOptions: requestOptions,
             cancellationToken: CancellationToken.None));
     }

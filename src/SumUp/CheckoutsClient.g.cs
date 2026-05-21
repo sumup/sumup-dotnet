@@ -158,15 +158,15 @@ public sealed partial class CheckoutsClient
     /// Create an Apple Pay session
     /// </summary>
     /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling ApplePaySession.completeMerchantValidation(...) in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> CreateApplePaySession(string id, CheckoutsCreateApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> CreateApplePaySession(string checkoutId, CheckoutsCreateApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Put, "/v0.2/checkouts/{id}/apple-pay-session", builder =>
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.2/checkouts/{checkout_id}/apple-pay-session", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -217,15 +217,15 @@ public sealed partial class CheckoutsClient
     /// Create an Apple Pay session
     /// </summary>
     /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling ApplePaySession.completeMerchantValidation(...) in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> CreateApplePaySessionAsync(string id, CheckoutsCreateApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> CreateApplePaySessionAsync(string checkoutId, CheckoutsCreateApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Put, "/v0.2/checkouts/{id}/apple-pay-session", builder =>
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.2/checkouts/{checkout_id}/apple-pay-session", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -276,14 +276,14 @@ public sealed partial class CheckoutsClient
     /// Deactivate a checkout
     /// </summary>
     /// <remarks>Deactivates an identified checkout resource. If the checkout has already been processed it can not be deactivated.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Checkout> Deactivate(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Checkout> Deactivate(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/checkouts/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/checkouts/{checkout_id}", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -335,14 +335,14 @@ public sealed partial class CheckoutsClient
     /// Deactivate a checkout
     /// </summary>
     /// <remarks>Deactivates an identified checkout resource. If the checkout has already been processed it can not be deactivated.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Checkout>> DeactivateAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Checkout>> DeactivateAsync(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/checkouts/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/checkouts/{checkout_id}", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -394,14 +394,14 @@ public sealed partial class CheckoutsClient
     /// Retrieve a checkout
     /// </summary>
     /// <remarks>Retrieves an identified checkout resource. Use this request after processing a checkout to confirm its status and inform the end user respectively.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<CheckoutSuccess> Get(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<CheckoutSuccess> Get(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts/{checkout_id}", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -448,14 +448,14 @@ public sealed partial class CheckoutsClient
     /// Retrieve a checkout
     /// </summary>
     /// <remarks>Retrieves an identified checkout resource. Use this request after processing a checkout to confirm its status and inform the end user respectively.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<CheckoutSuccess>> GetAsync(string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<CheckoutSuccess>> GetAsync(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/checkouts/{checkout_id}", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -708,15 +708,15 @@ public sealed partial class CheckoutsClient
     /// Process a checkout
     /// </summary>
     /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<CheckoutSuccess> Process(string id, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<CheckoutSuccess> Process(string checkoutId, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{checkout_id}", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -777,15 +777,15 @@ public sealed partial class CheckoutsClient
     /// Process a checkout
     /// </summary>
     /// <remarks>Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
-    /// <param name="id">Unique ID of the checkout resource.</param>
+    /// <param name="checkoutId">Unique ID of the checkout resource.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<CheckoutSuccess>> ProcessAsync(string id, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<CheckoutSuccess>> ProcessAsync(string checkoutId, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{checkout_id}", builder =>
         {
-            builder.AddPath("id", id);
+            builder.AddPath("checkout_id", checkoutId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try

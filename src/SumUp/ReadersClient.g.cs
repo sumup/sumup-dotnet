@@ -298,15 +298,15 @@ public sealed partial class ReadersClient
     /// </summary>
     /// <remarks>Delete a reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="id">The unique identifier of the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> Delete(string merchantCode, string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> Delete(string merchantCode, string readerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/readers/{reader_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("reader_id", readerId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -347,15 +347,15 @@ public sealed partial class ReadersClient
     /// </summary>
     /// <remarks>Delete a reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="id">The unique identifier of the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> DeleteAsync(string merchantCode, string id, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> DeleteAsync(string merchantCode, string readerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Delete, "/v0.1/merchants/{merchant_code}/readers/{reader_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("reader_id", readerId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -396,17 +396,17 @@ public sealed partial class ReadersClient
     /// </summary>
     /// <remarks>Retrieve a Reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="id">The unique identifier of the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Reader> Get(string merchantCode, string id, ReadersGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Reader> Get(string merchantCode, string readerId, ReadersGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var operationOptions = options ?? new ReadersGetOptions();
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("reader_id", readerId);
             builder.AddHeader("If-Modified-Since", operationOptions.IfModifiedSince);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
@@ -450,17 +450,17 @@ public sealed partial class ReadersClient
     /// </summary>
     /// <remarks>Retrieve a Reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="id">The unique identifier of the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Reader>> GetAsync(string merchantCode, string id, ReadersGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Reader>> GetAsync(string merchantCode, string readerId, ReadersGetOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var operationOptions = options ?? new ReadersGetOptions();
-        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("reader_id", readerId);
             builder.AddHeader("If-Modified-Since", operationOptions.IfModifiedSince);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
@@ -856,16 +856,16 @@ public sealed partial class ReadersClient
     /// </summary>
     /// <remarks>Update a Reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="id">The unique identifier of the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="body">Request body payload.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Reader> Update(string merchantCode, string id, ReadersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Reader> Update(string merchantCode, string readerId, ReadersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
+        var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/readers/{reader_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("reader_id", readerId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -917,16 +917,16 @@ public sealed partial class ReadersClient
     /// </summary>
     /// <remarks>Update a Reader.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
-    /// <param name="id">The unique identifier of the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="body">Request body payload.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Reader>> UpdateAsync(string merchantCode, string id, ReadersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Reader>> UpdateAsync(string merchantCode, string readerId, ReadersUpdateRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/readers/{id}", builder =>
+        var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/readers/{reader_id}", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("reader_id", readerId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
