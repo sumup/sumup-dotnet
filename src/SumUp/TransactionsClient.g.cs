@@ -287,16 +287,16 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
     /// <param name="merchantCode">Merchant code of the account that owns the payment to refund.</param>
-    /// <param name="id">Unique ID of the transaction.</param>
+    /// <param name="transactionId">Unique ID of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<JsonDocument> Refund(string merchantCode, string id, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<JsonDocument> Refund(string merchantCode, string transactionId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/payments/{id}/refunds", builder =>
+        var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/payments/{transaction_id}/refunds", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("transaction_id", transactionId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -346,16 +346,16 @@ public sealed partial class TransactionsClient
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
     /// <param name="merchantCode">Merchant code of the account that owns the payment to refund.</param>
-    /// <param name="id">Unique ID of the transaction.</param>
+    /// <param name="transactionId">Unique ID of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<JsonDocument>> RefundAsync(string merchantCode, string id, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<JsonDocument>> RefundAsync(string merchantCode, string transactionId, TransactionsRefundRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/payments/{id}/refunds", builder =>
+        var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/payments/{transaction_id}/refunds", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
-            builder.AddPath("id", id);
+            builder.AddPath("transaction_id", transactionId);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
