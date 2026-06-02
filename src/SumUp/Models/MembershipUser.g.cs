@@ -22,7 +22,7 @@ public sealed partial class MembershipUser
     /// <summary>True if the user has enabled MFA on login.</summary>
     [JsonPropertyName("mfa_on_login_enabled")]
     public bool MfaOnLoginEnabled { get; set; }
-    /// <summary>User's preferred name. Used for display purposes only.</summary>
+    /// <summary>User's nickname. Used for display purposes only.</summary>
     [JsonPropertyName("nickname")]
     public string? Nickname { get; set; }
     /// <summary>URL of the End-User's profile picture. This URL refers to an image file (for example, a PNG, JPEG, or GIF image file), rather than to a Web page containing an image.</summary>
