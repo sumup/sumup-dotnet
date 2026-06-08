@@ -1,5 +1,7 @@
 using System;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using SumUp.Http;
 
 namespace SumUp;
@@ -34,6 +36,34 @@ public partial class SumUpClient : IDisposable
     }
 
     partial void InitializeGeneratedClients(ApiClient apiClient);
+
+    /// <summary>
+    /// Creates a webhook handler bound to this client for typed event parsing and object fetches.
+    /// </summary>
+    /// <param name="secret">The webhook signing secret. Falls back to <see cref="WebhookConstants.SecretEnvironmentVariable"/> when omitted.</param>
+    /// <param name="tolerance">The allowed clock skew when validating webhook timestamps.</param>
+    public WebhookHandler CreateWebhookHandler(string? secret = null, TimeSpan? tolerance = null)
+    {
+        return new WebhookHandler(secret, tolerance, this);
+    }
+
+    internal TModel? FetchWebhookObject<TModel>(
+        string absoluteUrl,
+        RequestOptions? requestOptions = null,
+        CancellationToken cancellationToken = default)
+        where TModel : class
+    {
+        return _apiClient.GetAbsolute<TModel>(absoluteUrl, requestOptions, cancellationToken);
+    }
+
+    internal Task<TModel?> FetchWebhookObjectAsync<TModel>(
+        string absoluteUrl,
+        RequestOptions? requestOptions = null,
+        CancellationToken cancellationToken = default)
+        where TModel : class
+    {
+        return _apiClient.GetAbsoluteAsync<TModel>(absoluteUrl, requestOptions, cancellationToken);
+    }
 
     public void Dispose()
     {
