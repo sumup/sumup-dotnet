@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.0.16](https://github.com/sumup/sumup-dotnet/compare/v0.0.15...v0.0.16) (2026-06-08)
+
+
+### Features
+
+* issue templates ([#120](https://github.com/sumup/sumup-dotnet/issues/120)) ([04ee302](https://github.com/sumup/sumup-dotnet/commit/04ee302dd56d1d659f2f7603b9a703c5efcfcafd))
+
+
+### Chores
+
+* **deps:** bump actions/create-github-app-token from 3.1.1 to 3.2.0 ([#122](https://github.com/sumup/sumup-dotnet/issues/122)) ([4cf7305](https://github.com/sumup/sumup-dotnet/commit/4cf7305cd6b49d90c9c33547954d148272692088))
+* **deps:** bump actions/setup-dotnet from 5.2.0 to 5.3.0 ([#129](https://github.com/sumup/sumup-dotnet/issues/129)) ([b238fb3](https://github.com/sumup/sumup-dotnet/commit/b238fb3d6081f676a7f49a7b7c6674866ef85d68))
+* **deps:** bump github.com/pb33f/libopenapi from 0.36.3 to 0.36.4 in /codegen ([#123](https://github.com/sumup/sumup-dotnet/issues/123)) ([806ceb6](https://github.com/sumup/sumup-dotnet/commit/806ceb6e78b7fa1e777beb892b2938fd1d0501cc))
+* **deps:** bump github.com/pb33f/libopenapi from 0.36.4 to 0.36.6 in /codegen ([#125](https://github.com/sumup/sumup-dotnet/issues/125)) ([3469b50](https://github.com/sumup/sumup-dotnet/commit/3469b5070eb0ddb3a525ec48f9ae070259d5a356))
+* **deps:** bump github.com/pb33f/libopenapi from 0.36.6 to 0.37.2 in /codegen ([#128](https://github.com/sumup/sumup-dotnet/issues/128)) ([8a20204](https://github.com/sumup/sumup-dotnet/commit/8a202043f64d24dbbe43e3e5d527d1ee63593534))
+* **deps:** bump golangci/golangci-lint-action from 9.2.0 to 9.2.1 ([#126](https://github.com/sumup/sumup-dotnet/issues/126)) ([531d6fe](https://github.com/sumup/sumup-dotnet/commit/531d6fe425e2e9766e3b7c730749d45720194c71))
+* synced file(s) with sumup/apis ([#121](https://github.com/sumup/sumup-dotnet/issues/121)) ([0ab36ec](https://github.com/sumup/sumup-dotnet/commit/0ab36ecdd1208c826a86e30e72a2e7323807e73d))
+* synced file(s) with sumup/apis ([#124](https://github.com/sumup/sumup-dotnet/issues/124)) ([b149f2d](https://github.com/sumup/sumup-dotnet/commit/b149f2d290052d152f3a351bc25063a239ad4336))
+
 ## [0.0.15](https://github.com/sumup/sumup-dotnet/compare/v0.0.14...v0.0.15) (2026-05-19)
 
 
