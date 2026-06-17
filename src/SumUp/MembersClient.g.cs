@@ -184,6 +184,11 @@ public sealed partial class MembersClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 403:
+                    {
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
@@ -233,6 +238,11 @@ public sealed partial class MembersClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 403:
+                    {
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
