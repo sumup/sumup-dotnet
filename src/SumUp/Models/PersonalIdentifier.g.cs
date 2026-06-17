@@ -6,10 +6,10 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class PersonalIdentifier
 {
-    /// <summary>The unique reference for the personal identifier type as defined in the country SDK.</summary>
+    /// <summary>The unique reference for the personal identifier type.</summary>
     [JsonPropertyName("ref")]
     public string RefValue { get; set; } = default!;
-    /// <summary>The value of the personal identifier.</summary>
+    /// <summary>The company identifier value.</summary>
     [JsonPropertyName("value")]
     public string Value { get; set; } = default!;
 }

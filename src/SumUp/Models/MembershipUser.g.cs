@@ -31,6 +31,9 @@ public sealed partial class MembershipUser
     /// <summary>True if the user is a service account.</summary>
     [JsonPropertyName("service_account_user")]
     public bool ServiceAccountUser { get; set; }
+    /// <summary>Type of the user account.</summary>
+    [JsonPropertyName("type")]
+    public UserType Type { get; set; }
     /// <summary>True if the user is a virtual user (operator).</summary>
     [JsonPropertyName("virtual_user")]
     public bool VirtualUser { get; set; }
