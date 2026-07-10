@@ -10,6 +10,9 @@ public sealed partial class Branding
     /// <summary>A hex color value representing the preferred background color of this merchant.</summary>
     [JsonPropertyName("background_color")]
     public string? BackgroundColor { get; set; }
+    /// <summary>Footer text rendered on receipts and other customer-facing products.</summary>
+    [JsonPropertyName("footer_text")]
+    public string? FooterText { get; set; }
     /// <summary>Data-URL encoded hero image for the merchant business.</summary>
     [JsonPropertyName("hero")]
     public string? Hero { get; set; }

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum EventStatus
+public enum TransactionEventStatus
 {
     [EnumMember(Value = "FAILED")]
     Failed,

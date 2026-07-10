@@ -4,7 +4,7 @@
 namespace SumUp;
 
 /// <summary>
-/// Optional parameters for Retrieve a Merchant.
+/// Optional parameters for Get Merchant.
 /// </summary>
 public sealed partial class MerchantsGetOptions
 {
