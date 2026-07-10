@@ -18,7 +18,7 @@ public sealed partial class Merchant
     /// <summary>The business type. * sole_trader: The business is run by an self-employed individual. * company: The business is run as a company with one or more shareholders * partnership: The business is run as a company with two or more shareholders that can be also other legal entities * non_profit: The business is run as a nonprofit organization that operates for public or social benefit * government_entity: The business is state owned and operated</summary>
     [JsonPropertyName("business_type")]
     public string? BusinessType { get; set; }
-    /// <summary>Reflects the status of changes submitted through the PATCH endpoints for the merchant or persons. If some changes have not been applied yet, the status will be pending. If all changes have been applied, the status done. The status is only returned after write operations or on read endpoints when the version query parameter is provided.</summary>
+    /// <summary>Reflects the status of changes submitted through the PATCH endpoints for the Merchant or Persons. If some changes have not been applied yet, the status will be pending. If all changes have been applied, the status done. The status is only returned after write operations or on read endpoints when the version query parameter is provided.</summary>
     [JsonPropertyName("change_status")]
     [JsonInclude]
     public string? ChangeStatus { get; private set; }

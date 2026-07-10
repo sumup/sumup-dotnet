@@ -4,7 +4,7 @@
 namespace SumUp;
 
 /// <summary>
-/// Optional parameters for Retrieve a Person.
+/// Optional parameters for Get Person.
 /// </summary>
 public sealed partial class MerchantsGetPersonOptions
 {

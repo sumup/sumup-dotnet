@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum EventType
+public enum TransactionEventType
 {
     [EnumMember(Value = "PAYOUT")]
     Payout,

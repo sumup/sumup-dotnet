@@ -17,16 +17,16 @@ public sealed partial class MerchantsClient
     /// <summary>
     /// Client for the Merchants API endpoints.
     /// </summary>
-    /// <remarks>Merchant account represents a single business entity at SumUp.</remarks>
+    /// <remarks>A Merchant represents a single business which can use SumUp products like payment processing.</remarks>
     internal MerchantsClient(ApiClient client)
     {
         _client = client;
     }
 
     /// <summary>
-    /// Retrieve a Merchant
+    /// Get Merchant
     /// </summary>
-    /// <remarks>Retrieve a merchant.</remarks>
+    /// <remarks>Returns a Merchant for a valid Merchant code.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -76,9 +76,9 @@ public sealed partial class MerchantsClient
     }
 
     /// <summary>
-    /// Retrieve a Merchant
+    /// Get Merchant
     /// </summary>
-    /// <remarks>Retrieve a merchant.</remarks>
+    /// <remarks>Returns a Merchant for a valid Merchant code.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -128,9 +128,9 @@ public sealed partial class MerchantsClient
     }
 
     /// <summary>
-    /// Retrieve a Person
+    /// Get Person
     /// </summary>
-    /// <remarks>Returns a single person related to the merchant.</remarks>
+    /// <remarks>Returns a single Person related to a Merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="personId">Person ID</param>
     /// <param name="options">Query and header parameters for the request.</param>
@@ -182,9 +182,9 @@ public sealed partial class MerchantsClient
     }
 
     /// <summary>
-    /// Retrieve a Person
+    /// Get Person
     /// </summary>
-    /// <remarks>Returns a single person related to the merchant.</remarks>
+    /// <remarks>Returns a single Person related to a Merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="personId">Person ID</param>
     /// <param name="options">Query and header parameters for the request.</param>
@@ -238,7 +238,7 @@ public sealed partial class MerchantsClient
     /// <summary>
     /// List Persons
     /// </summary>
-    /// <remarks>Returns a list of persons related to the merchant.</remarks>
+    /// <remarks>Returns the Persons related to a Merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -290,7 +290,7 @@ public sealed partial class MerchantsClient
     /// <summary>
     /// List Persons
     /// </summary>
-    /// <remarks>Returns a list of persons related to the merchant.</remarks>
+    /// <remarks>Returns the Persons related to a Merchant.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
