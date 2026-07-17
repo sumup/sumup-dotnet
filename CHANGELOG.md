@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.0.16](https://github.com/sumup/sumup-dotnet/compare/v0.0.15...v0.0.16) (2026-07-17)
+
+
+### Features
+
+* issue templates ([#120](https://github.com/sumup/sumup-dotnet/issues/120)) ([04ee302](https://github.com/sumup/sumup-dotnet/commit/04ee302dd56d1d659f2f7603b9a703c5efcfcafd))
+
+
+### Chores
+
+* **cd:** don't run release please on release ([#146](https://github.com/sumup/sumup-dotnet/issues/146)) ([24c02e7](https://github.com/sumup/sumup-dotnet/commit/24c02e7f6288b439d9c9f734618fe8e5adbaa3b8))
+* **deps:** bump actions/checkout from 6.0.2 to 6.0.3 ([#133](https://github.com/sumup/sumup-dotnet/issues/133)) ([c9a5ae4](https://github.com/sumup/sumup-dotnet/commit/c9a5ae48c22ee5cdb2e9f7b41660ff4fd19b59bd))
+* **deps:** bump actions/checkout from 6.0.3 to 7.0.0 ([#140](https://github.com/sumup/sumup-dotnet/issues/140)) ([9b63f59](https://github.com/sumup/sumup-dotnet/commit/9b63f59491c8c44a1b39088b0d61a0f4a4a1e0dc))
+* **deps:** bump actions/create-github-app-token from 3.1.1 to 3.2.0 ([#122](https://github.com/sumup/sumup-dotnet/issues/122)) ([4cf7305](https://github.com/sumup/sumup-dotnet/commit/4cf7305cd6b49d90c9c33547954d148272692088))
+* **deps:** bump actions/setup-dotnet from 5.2.0 to 5.3.0 ([#129](https://github.com/sumup/sumup-dotnet/issues/129)) ([b238fb3](https://github.com/sumup/sumup-dotnet/commit/b238fb3d6081f676a7f49a7b7c6674866ef85d68))
+* **deps:** bump actions/setup-dotnet from 5.3.0 to 5.4.0 ([#142](https://github.com/sumup/sumup-dotnet/issues/142)) ([ae5ceb9](https://github.com/sumup/sumup-dotnet/commit/ae5ceb94629778ec5ef82fd6f0f671b908092b07))
+* **deps:** bump actions/setup-go from 6.4.0 to 6.5.0 ([#143](https://github.com/sumup/sumup-dotnet/issues/143)) ([42bbd6e](https://github.com/sumup/sumup-dotnet/commit/42bbd6ed76ef6f5d03a03aa54d74fbc95976c481))
+* **deps:** bump github.com/pb33f/libopenapi from 0.36.3 to 0.36.4 in /codegen ([#123](https://github.com/sumup/sumup-dotnet/issues/123)) ([806ceb6](https://github.com/sumup/sumup-dotnet/commit/806ceb6e78b7fa1e777beb892b2938fd1d0501cc))
+* **deps:** bump github.com/pb33f/libopenapi from 0.36.4 to 0.36.6 in /codegen ([#125](https://github.com/sumup/sumup-dotnet/issues/125)) ([3469b50](https://github.com/sumup/sumup-dotnet/commit/3469b5070eb0ddb3a525ec48f9ae070259d5a356))
+* **deps:** bump github.com/pb33f/libopenapi from 0.36.6 to 0.37.2 in /codegen ([#128](https://github.com/sumup/sumup-dotnet/issues/128)) ([8a20204](https://github.com/sumup/sumup-dotnet/commit/8a202043f64d24dbbe43e3e5d527d1ee63593534))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#134](https://github.com/sumup/sumup-dotnet/issues/134)) ([567bd76](https://github.com/sumup/sumup-dotnet/commit/567bd766072af5125d2b7cf5d0d810672936744b))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#138](https://github.com/sumup/sumup-dotnet/issues/138)) ([222cf51](https://github.com/sumup/sumup-dotnet/commit/222cf51e6c32fcb6fed2938ed423d53474b4f3f5))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#141](https://github.com/sumup/sumup-dotnet/issues/141)) ([8079b1b](https://github.com/sumup/sumup-dotnet/commit/8079b1b9ae0b4282ec8144136746329b51ad743d))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#147](https://github.com/sumup/sumup-dotnet/issues/147)) ([c13d5cc](https://github.com/sumup/sumup-dotnet/commit/c13d5ccaf0c2be89ff2a5961499b89d51c454b4d))
+* **deps:** bump go.yaml.in/yaml/v4 in /codegen ([#139](https://github.com/sumup/sumup-dotnet/issues/139)) ([034df1e](https://github.com/sumup/sumup-dotnet/commit/034df1ec15be836dbcdbabaf3cfbd3370089c8fe))
+* **deps:** bump golangci/golangci-lint-action from 9.2.0 to 9.2.1 ([#126](https://github.com/sumup/sumup-dotnet/issues/126)) ([531d6fe](https://github.com/sumup/sumup-dotnet/commit/531d6fe425e2e9766e3b7c730749d45720194c71))
+* **deps:** bump golangci/golangci-lint-action from 9.2.1 to 9.3.0 ([#148](https://github.com/sumup/sumup-dotnet/issues/148)) ([674a851](https://github.com/sumup/sumup-dotnet/commit/674a8510654c55abe5b30993cf35aaf2dac069a7))
+* **deps:** bump Microsoft.NET.Test.Sdk from 18.3.0 to 18.7.0 ([#144](https://github.com/sumup/sumup-dotnet/issues/144)) ([7f61ee7](https://github.com/sumup/sumup-dotnet/commit/7f61ee7e17e93363f5b8f0785b04692696c52885))
+* synced file(s) with sumup/apis ([#121](https://github.com/sumup/sumup-dotnet/issues/121)) ([0ab36ec](https://github.com/sumup/sumup-dotnet/commit/0ab36ecdd1208c826a86e30e72a2e7323807e73d))
+* synced file(s) with sumup/apis ([#124](https://github.com/sumup/sumup-dotnet/issues/124)) ([b149f2d](https://github.com/sumup/sumup-dotnet/commit/b149f2d290052d152f3a351bc25063a239ad4336))
+* synced file(s) with sumup/apis ([#132](https://github.com/sumup/sumup-dotnet/issues/132)) ([ef5a53a](https://github.com/sumup/sumup-dotnet/commit/ef5a53adaeabaa79ea23e7bd95524693f5a857d7))
+* synced file(s) with sumup/apis ([#145](https://github.com/sumup/sumup-dotnet/issues/145)) ([ff06a79](https://github.com/sumup/sumup-dotnet/commit/ff06a79b6ef158cb9cff6e5b78b5bac2361604ce))
+* synced file(s) with sumup/apis ([#149](https://github.com/sumup/sumup-dotnet/issues/149)) ([28c3572](https://github.com/sumup/sumup-dotnet/commit/28c35728751b10c173e3d060474e47720dd17df2))
+* synced local 'openapi.json' with remote 'specs/openapi.json' ([#135](https://github.com/sumup/sumup-dotnet/issues/135)) ([19385ee](https://github.com/sumup/sumup-dotnet/commit/19385ee7cf41d03cb5ceaaf970d39ec26557edf6))
+
 ## [0.0.15](https://github.com/sumup/sumup-dotnet/compare/v0.0.14...v0.0.15) (2026-05-19)
 
 
