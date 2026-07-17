@@ -319,21 +319,38 @@ public sealed partial class TransactionsClient
                     : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 403:
+                    {
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 409:
                     {
-                        var errorForStatus409 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus409 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
-            return ApiResponse<JsonDocument>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            using var jsonStream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var document = JsonDocument.Parse(jsonStream);
+            return ApiResponse<JsonDocument>.From((JsonDocument)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
@@ -378,21 +395,38 @@ public sealed partial class TransactionsClient
                     : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 switch ((int)response.StatusCode)
                 {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 403:
+                    {
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                    }
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
                     }
                     case 409:
                     {
-                        var errorForStatus409 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                        var errorForStatus409 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
             }
-            return ApiResponse<JsonDocument>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+            using var jsonStream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var document = await JsonDocument.ParseAsync(jsonStream, cancellationToken: effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<JsonDocument>.From((JsonDocument)(object)document, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
