@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.17](https://github.com/sumup/sumup-dotnet/compare/v0.0.16...v0.0.17) (2026-07-21)
+
+
+### Chores
+
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#150](https://github.com/sumup/sumup-dotnet/issues/150)) ([bd3e12d](https://github.com/sumup/sumup-dotnet/commit/bd3e12d2d4093198080afdbc9134eb5d0968918a))
+
 ## [0.0.16](https://github.com/sumup/sumup-dotnet/compare/v0.0.15...v0.0.16) (2026-07-17)
 
 
