@@ -17,7 +17,6 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Client for the Readers API endpoints.
     /// </summary>
-    /// <remarks>A reader represents a device that accepts payments. You can use the SumUp Solo to accept in-person payments.</remarks>
     internal ReadersClient(ApiClient client)
     {
         _client = client;
@@ -294,6 +293,164 @@ public sealed partial class ReadersClient
     }
 
     /// <summary>
+    /// Create a Go Reader Payment
+    /// </summary>
+    /// <remarks>Initiates a payment on the SumUp Go terminal identified by the reader ID. Use client_transaction_id as an idempotency key: retrying the request with the same value returns the result of the original payment instead of creating a duplicate.</remarks>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
+    /// <param name="body">Payment details to initiate on the reader.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public ApiResponse<ReaderPaymentResponse> CreateGoCheckout(string merchantCode, string readerId, ReaderPaymentRequestParams body, ReadersCreateGoCheckoutOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var operationOptions = options;
+        var request = _client.CreateRequest(HttpMethod.Post, "/v0/merchants/{merchant_code}/readers/{reader_id}/go-checkout", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+            builder.AddHeader("Authorization", operationOptions.Authorization);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<ReaderPaymentResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<ReaderPaymentResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Create a Go Reader Payment
+    /// </summary>
+    /// <remarks>Initiates a payment on the SumUp Go terminal identified by the reader ID. Use client_transaction_id as an idempotency key: retrying the request with the same value returns the result of the original payment instead of creating a duplicate.</remarks>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
+    /// <param name="body">Payment details to initiate on the reader.</param>
+    /// <param name="options">Query and header parameters for the request.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public async Task<ApiResponse<ReaderPaymentResponse>> CreateGoCheckoutAsync(string merchantCode, string readerId, ReaderPaymentRequestParams body, ReadersCreateGoCheckoutOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var operationOptions = options;
+        var request = _client.CreateRequest(HttpMethod.Post, "/v0/merchants/{merchant_code}/readers/{reader_id}/go-checkout", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+            builder.AddHeader("Authorization", operationOptions.Authorization);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 500:
+                    {
+                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<ReaderPaymentResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<ReaderPaymentResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
     /// Delete a reader
     /// </summary>
     /// <remarks>Delete a reader.</remarks>
@@ -492,6 +649,122 @@ public sealed partial class ReadersClient
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
             var result = await JsonSerializer.DeserializeAsync<Reader>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
             return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Get a Reader Checkout
+    /// </summary>
+    /// <remarks>Get a Checkout for a Reader.</remarks>
+    /// <param name="merchantCode">Merchant Code</param>
+    /// <param name="readerId">The unique identifier of the Reader</param>
+    /// <param name="checkoutId">The unique identifier of the Checkout</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public ApiResponse<GetReaderCheckoutResponse> GetCheckout(string merchantCode, string readerId, string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}/checkout/{checkout_id}", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+            builder.AddPath("checkout_id", checkoutId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<GetReaderCheckoutResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<GetReaderCheckoutResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Get a Reader Checkout
+    /// </summary>
+    /// <remarks>Get a Checkout for a Reader.</remarks>
+    /// <param name="merchantCode">Merchant Code</param>
+    /// <param name="readerId">The unique identifier of the Reader</param>
+    /// <param name="checkoutId">The unique identifier of the Checkout</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public async Task<ApiResponse<GetReaderCheckoutResponse>> GetCheckoutAsync(string merchantCode, string readerId, string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}/checkout/{checkout_id}", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+            builder.AddPath("checkout_id", checkoutId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<GetReaderCheckoutResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<GetReaderCheckoutResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
