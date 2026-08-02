@@ -11,6 +11,13 @@ help:
 generate:
   go -C codegen run ./... --spec ../openapi.json --output ../src/SumUp --namespace SumUp
 
+# Generate the versioned C# code-sample catalog.
+generate-codesamples output="code-samples.json":
+  go -C codegen run . samples \
+    --spec ../openapi.json \
+    --sdk-version-file ../src/SumUp/SumUp.csproj \
+    --output "{{ absolute_path(output) }}"
+
 # Format the entire solution using dotnet-format.
 fmt:
   dotnet format SumUp.sln

@@ -732,6 +732,7 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 		usesCollections = true
 	}
 	data := operationTemplateData{
+		OperationID:         op.OperationId,
 		MethodName:          methodName,
 		HttpMethod:          method,
 		HttpMethodExpr:      httpMethodExpression(method),
@@ -756,6 +757,7 @@ func (g *Generator) buildOperation(path, method, methodName, clientName string, 
 		HasErrorResponses:   len(errorResponses) > 0,
 		ErrorResponses:      errorResponses,
 		ResponseMode:        responseMode,
+		RequestExamples:     requestExamples(op),
 	}
 	return data, nil
 }
@@ -1608,6 +1610,7 @@ type clientTemplateData struct {
 }
 
 type operationTemplateData struct {
+	OperationID         string
 	MethodName          string
 	HttpMethod          string
 	HttpMethodExpr      string
@@ -1632,6 +1635,7 @@ type operationTemplateData struct {
 	HasErrorResponses   bool
 	ErrorResponses      []errorResponseTemplateData
 	ResponseMode        string
+	RequestExamples     []requestExample
 }
 
 type errorResponseTemplateData struct {

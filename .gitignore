@@ -14,5 +14,6 @@ dist/
 
 # SumUp SDK generated assets
 *.nupkg
+/code-samples.json
 /.turbo/
 .justfile.cache

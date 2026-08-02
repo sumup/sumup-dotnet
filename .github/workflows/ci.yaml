@@ -24,6 +24,10 @@ jobs:
         with:
           go-version-file: ./codegen/go.mod
 
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
       - name: Generate SDK
         working-directory: codegen
         run: go run ./... --spec ../openapi.json --output ../src/SumUp --namespace SumUp
@@ -34,10 +38,6 @@ jobs:
 
       - name: Check no diff after generation
         run: git diff --exit-code
-
-      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Restore
         run: dotnet restore SumUp.sln
