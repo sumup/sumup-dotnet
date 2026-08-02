@@ -6,12 +6,18 @@ on:
       - main
     paths:
       - "codegen/**"
+      - "openapi.json"
+      - "src/SumUp/SumUp.csproj"
+      - "justfile"
       - ".github/workflows/codegen.yaml"
   pull_request:
     branches:
       - main
     paths:
       - "codegen/**"
+      - "openapi.json"
+      - "src/SumUp/SumUp.csproj"
+      - "justfile"
       - ".github/workflows/codegen.yaml"
 
 env:
@@ -50,6 +56,10 @@ jobs:
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version-file: './codegen/go.mod'
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: '8.0.x'
 
       - name: Test
         run: make test
