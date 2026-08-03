@@ -6,6 +6,9 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class CreateReaderCheckoutResponseData
 {
+    /// <summary>The checkout ID is a unique identifier for the checkout.</summary>
+    [JsonPropertyName("checkout_id")]
+    public string? CheckoutId { get; set; }
     /// <summary>The client transaction ID is a unique identifier for the transaction that is generated for the client. It can be used later to fetch the transaction details via the Transactions API.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string ClientTransactionId { get; set; } = default!;
