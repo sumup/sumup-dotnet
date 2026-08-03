@@ -13,7 +13,7 @@ public sealed partial class Reader
     /// <summary>Information about the underlying physical device.</summary>
     [JsonPropertyName("device")]
     public ReaderDevice Device { get; set; } = default!;
-    /// <summary>Unique identifier of the object. Note that this identifies the instance of the physical devices pairing with your SumUp account. If you delete a reader, and pair the device again, the ID will be different. Do not use this ID to refer to a physical device.</summary>
+    /// <summary>Unique identifier of the reader that the payment is initiated on.</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
     /// <summary>Set of user-defined key-value pairs attached to the object. Partial updates are not supported. When updating, always submit whole metadata. Maximum of 64 parameters are allowed in the object.</summary>
