@@ -3118,36 +3118,6 @@
       "post": {
         "description": "Initiates a payment on the SumUp Go terminal identified by the reader ID.\n\nUse `client_transaction_id` as an idempotency key: retrying the request with the same value returns the result of the original payment instead of creating a duplicate.",
         "operationId": "CreateGoReaderCheckout",
-        "parameters": [
-          {
-            "description": "Access token in the format 'Bearer {token}'.",
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "merchant_code",
-            "description": "Short unique identifier for the merchant.",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "MK10CL2A"
-            }
-          },
-          {
-            "name": "reader_id",
-            "in": "path",
-            "description": "The unique identifier of the reader.",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/ReaderID"
-            }
-          }
-        ],
         "requestBody": {
           "required": true,
           "description": "Payment details to initiate on the reader.",
@@ -3266,6 +3236,27 @@
           "method_name": "create_go_checkout",
           "ignore": true
         },
+        "parameters": [
+          {
+            "name": "merchant_code",
+            "description": "Short unique identifier for the merchant.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "MK10CL2A"
+            }
+          },
+          {
+            "name": "reader_id",
+            "in": "path",
+            "description": "The unique identifier of the reader.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ReaderID"
+            }
+          }
+        ],
         "security": [
           {
             "apiKey": []
