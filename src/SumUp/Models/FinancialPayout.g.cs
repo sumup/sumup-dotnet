@@ -21,7 +21,7 @@ public sealed partial class FinancialPayout
     public float Fee { get; set; }
     /// <summary>Unique identifier of the payout-related record.</summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public long Id { get; set; }
     /// <summary>Processor or payout reference associated with the record.</summary>
     [JsonPropertyName("reference")]
     public string Reference { get; set; } = default!;
