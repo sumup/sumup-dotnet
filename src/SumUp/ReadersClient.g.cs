@@ -299,17 +299,14 @@ public sealed partial class ReadersClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="body">Payment details to initiate on the reader.</param>
-    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<ReaderPaymentResponse> CreateGoCheckout(string merchantCode, string readerId, ReaderPaymentRequestParams body, ReadersCreateGoCheckoutOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<ReaderPaymentResponse> CreateGoCheckout(string merchantCode, string readerId, ReaderPaymentRequestParams body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Post, "/v0/merchants/{merchant_code}/readers/{reader_id}/go-checkout", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
-            builder.AddHeader("Authorization", operationOptions.Authorization);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
@@ -378,17 +375,14 @@ public sealed partial class ReadersClient
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="body">Payment details to initiate on the reader.</param>
-    /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<ReaderPaymentResponse>> CreateGoCheckoutAsync(string merchantCode, string readerId, ReaderPaymentRequestParams body, ReadersCreateGoCheckoutOptions options, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<ReaderPaymentResponse>> CreateGoCheckoutAsync(string merchantCode, string readerId, ReaderPaymentRequestParams body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var operationOptions = options;
         var request = _client.CreateRequest(HttpMethod.Post, "/v0/merchants/{merchant_code}/readers/{reader_id}/go-checkout", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
             builder.AddPath("reader_id", readerId);
-            builder.AddHeader("Authorization", operationOptions.Authorization);
         });
         var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
         try
