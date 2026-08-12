@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.0.17](https://github.com/sumup/sumup-dotnet/compare/v0.0.16...v0.0.17) (2026-08-12)
+
+
+### Features
+
+* **codegen:** generate validated .NET code samples ([#159](https://github.com/sumup/sumup-dotnet/issues/159)) ([98e4993](https://github.com/sumup/sumup-dotnet/commit/98e4993f70bd661120366f21e1a3e14f4ad4c59f))
+
+
+### Chores
+
+* **deps:** bump actions/checkout from 7.0.0 to 7.0.1 ([#155](https://github.com/sumup/sumup-dotnet/issues/155)) ([0fb4031](https://github.com/sumup/sumup-dotnet/commit/0fb4031759bbc8fe411c31ac05267b325a8c4155))
+* **deps:** bump actions/setup-dotnet from 5.4.0 to 6.0.0 ([#154](https://github.com/sumup/sumup-dotnet/issues/154)) ([eea4cb3](https://github.com/sumup/sumup-dotnet/commit/eea4cb3690cc97268786509ae85bd12f872cc855))
+* **deps:** bump actions/setup-go from 6.5.0 to 7.0.0 ([#156](https://github.com/sumup/sumup-dotnet/issues/156)) ([dacd40c](https://github.com/sumup/sumup-dotnet/commit/dacd40caacbab659066d23a536a05a4af94ff175))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#150](https://github.com/sumup/sumup-dotnet/issues/150)) ([bd3e12d](https://github.com/sumup/sumup-dotnet/commit/bd3e12d2d4093198080afdbc9134eb5d0968918a))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#153](https://github.com/sumup/sumup-dotnet/issues/153)) ([9db58bc](https://github.com/sumup/sumup-dotnet/commit/9db58bc8d84aeeb1b73c44264ccc11f551642923))
+* **deps:** bump reviewdog/action-actionlint from 1.72.0 to 1.73.0 ([#158](https://github.com/sumup/sumup-dotnet/issues/158)) ([3190ab7](https://github.com/sumup/sumup-dotnet/commit/3190ab756fada9db5e29af1483602d40187ef9ca))
+* synced file(s) with sumup/apis ([#152](https://github.com/sumup/sumup-dotnet/issues/152)) ([f6f2b86](https://github.com/sumup/sumup-dotnet/commit/f6f2b86dcc988ff20333cfe39b71bf3d3a13ebb6))
+* synced file(s) with sumup/apis ([#160](https://github.com/sumup/sumup-dotnet/issues/160)) ([f67553e](https://github.com/sumup/sumup-dotnet/commit/f67553eed2063ddb0f990b7828801175342f8d79))
+
 ## [0.0.16](https://github.com/sumup/sumup-dotnet/compare/v0.0.15...v0.0.16) (2026-07-17)
 
 
