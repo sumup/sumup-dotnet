@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.18](https://github.com/sumup/sumup-dotnet/compare/v0.0.17...v0.0.18) (2026-08-12)
+
+
+### Chores
+
+* synced file(s) with sumup/apis ([#162](https://github.com/sumup/sumup-dotnet/issues/162)) ([8adacdc](https://github.com/sumup/sumup-dotnet/commit/8adacdcd495b15064127aa084d62575337958efe))
+
 ## [0.0.17](https://github.com/sumup/sumup-dotnet/compare/v0.0.16...v0.0.17) (2026-08-12)
 
 
