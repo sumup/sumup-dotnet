@@ -10,16 +10,16 @@ public sealed partial class Link
     /// <summary>URL for accessing the related resource.</summary>
     [JsonPropertyName("href")]
     public string? Href { get; set; }
-    /// <summary>Maximum allowed amount for the refund.</summary>
+    /// <summary>Maximum amount allowed for a refund, in major units.</summary>
     [JsonPropertyName("max_amount")]
     public float? MaxAmount { get; set; }
-    /// <summary>Minimum allowed amount for the refund.</summary>
+    /// <summary>Minimum amount allowed for a refund, in major units.</summary>
     [JsonPropertyName("min_amount")]
     public float? MinAmount { get; set; }
-    /// <summary>Specifies the relation to the current resource.</summary>
+    /// <summary>Relation of the linked resource to the current resource.</summary>
     [JsonPropertyName("rel")]
     public string? Rel { get; set; }
-    /// <summary>Specifies the media type of the related resource.</summary>
+    /// <summary>Media type of the linked resource.</summary>
     [JsonPropertyName("type")]
     public string? Type { get; set; }
 }

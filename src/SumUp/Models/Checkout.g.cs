@@ -14,13 +14,13 @@ public sealed partial class Checkout
     /// <summary>Merchant-defined reference for the checkout. Use it to correlate the SumUp checkout with your own order, cart, subscription, or payment attempt in your systems.</summary>
     [JsonPropertyName("checkout_reference")]
     public string? CheckoutReference { get; set; }
-    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Merchant-scoped identifier of the customer associated with the checkout. Use it when storing payment instruments or reusing saved customer context for recurring and returning-payer flows.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
-    /// <summary>Date and time of the creation of the payment checkout. Response format expressed according to ISO8601 code.</summary>
+    /// <summary>The timestamp of when the checkout was created.</summary>
     [JsonPropertyName("date")]
     public DateTimeOffset? Date { get; set; }
     /// <summary>Short merchant-defined description shown in SumUp tools and reporting. Use it to make the checkout easier to recognize in dashboards, support workflows, and reconciliation.</summary>
@@ -37,7 +37,7 @@ public sealed partial class Checkout
     /// <summary>Details of the mandate linked to the saved payment instrument.</summary>
     [JsonPropertyName("mandate")]
     public MandateResponse? Mandate { get; set; }
-    /// <summary>Merchant account that receives the payment.</summary>
+    /// <summary>Short unique identifier for the merchant that receives the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
     /// <summary>Optional backend callback URL used by SumUp to notify your platform about processing updates for the checkout.</summary>

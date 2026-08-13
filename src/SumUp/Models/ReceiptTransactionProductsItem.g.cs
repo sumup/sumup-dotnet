@@ -6,34 +6,34 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class ReceiptTransactionProductsItem
 {
-    /// <summary>Product description</summary>
+    /// <summary>Product description.</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-    /// <summary>Product name</summary>
+    /// <summary>Product name.</summary>
     [JsonPropertyName("name")]
     public string? Name { get; set; }
-    /// <summary>Product price</summary>
+    /// <summary>Product price.</summary>
     [JsonPropertyName("price")]
     public string? Price { get; set; }
-    /// <summary>Product price including VAT</summary>
+    /// <summary>Product price including VAT.</summary>
     [JsonPropertyName("price_with_vat")]
     public string? PriceWithVat { get; set; }
-    /// <summary>Product quantity</summary>
+    /// <summary>Product quantity.</summary>
     [JsonPropertyName("quantity")]
     public long? Quantity { get; set; }
-    /// <summary>VAT amount for a single product</summary>
+    /// <summary>VAT amount for a single product.</summary>
     [JsonPropertyName("single_vat_amount")]
     public string? SingleVatAmount { get; set; }
-    /// <summary>Quantity x product price</summary>
+    /// <summary>Total price calculated as the product price multiplied by the quantity.</summary>
     [JsonPropertyName("total_price")]
     public string? TotalPrice { get; set; }
-    /// <summary>Total price including VAT</summary>
+    /// <summary>Total product price including VAT.</summary>
     [JsonPropertyName("total_with_vat")]
     public string? TotalWithVat { get; set; }
-    /// <summary>VAT amount</summary>
+    /// <summary>Total VAT amount for the product quantity.</summary>
     [JsonPropertyName("vat_amount")]
     public string? VatAmount { get; set; }
-    /// <summary>VAT rate</summary>
+    /// <summary>VAT rate.</summary>
     [JsonPropertyName("vat_rate")]
     public string? VatRate { get; set; }
 }

@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text;
-/// <summary>Error message for forbidden requests.</summary>
+/// <summary>Details of an error returned for a forbidden request.</summary>
 public sealed partial class ErrorForbidden
 {
     /// <summary>Platform code for the error.</summary>

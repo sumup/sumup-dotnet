@@ -28,7 +28,7 @@ public sealed partial class PayoutsClient
     /// List payouts
     /// </summary>
     /// <remarks>Lists payout and payout-deduction records for the specified merchant account within the requested date range. The response can include: - regular payouts (type = PAYOUT) - deduction records for refunds, chargebacks, direct debit returns, or balance adjustments Results are sorted by payout date in the requested order.</remarks>
-    /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -89,7 +89,7 @@ public sealed partial class PayoutsClient
     /// List payouts
     /// </summary>
     /// <remarks>Lists payout and payout-deduction records for the specified merchant account within the requested date range. The response can include: - regular payouts (type = PAYOUT) - deduction records for refunds, chargebacks, direct debit returns, or balance adjustments Results are sorted by payout date in the requested order.</remarks>
-    /// <param name="merchantCode">Merchant code of the account whose payouts should be listed.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>

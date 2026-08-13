@@ -7,10 +7,10 @@ using System.Text.Json.Serialization;
 /// <summary>Card reader details displayed on the receipt.</summary>
 public sealed partial class ReceiptReader
 {
-    /// <summary>Reader serial number.</summary>
+    /// <summary>Unique identifier of the physical card reader.</summary>
     [JsonPropertyName("code")]
     public string? Code { get; set; }
-    /// <summary>Reader type.</summary>
+    /// <summary>Model of the physical card reader.</summary>
     [JsonPropertyName("type")]
     public string? Type { get; set; }
 }

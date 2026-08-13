@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Text;
-/// <summary>Error message structure.</summary>
+/// <summary>Details of an API error.</summary>
 public sealed partial class Error
 {
     /// <summary>Platform code for the error.</summary>

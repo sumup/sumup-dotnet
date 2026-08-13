@@ -7,20 +7,28 @@ using System.Text.Json.Serialization;
 /// <summary>Merchant profile details displayed on the receipt.</summary>
 public sealed partial class ReceiptMerchantDataMerchantProfile
 {
+    /// <summary>Business address of the merchant.</summary>
     [JsonPropertyName("address")]
     public ReceiptMerchantDataMerchantProfileAddress? Address { get; set; }
+    /// <summary>Business name of the merchant.</summary>
     [JsonPropertyName("business_name")]
     public string? BusinessName { get; set; }
+    /// <summary>Company registration number of the merchant.</summary>
     [JsonPropertyName("company_registration_number")]
     public string? CompanyRegistrationNumber { get; set; }
+    /// <summary>Email address of the merchant.</summary>
     [JsonPropertyName("email")]
     public string? Email { get; set; }
+    /// <summary>Language configured for the merchant profile.</summary>
     [JsonPropertyName("language")]
     public string? Language { get; set; }
+    /// <summary>Short unique identifier for the merchant.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
+    /// <summary>VAT identification number of the merchant.</summary>
     [JsonPropertyName("vat_id")]
     public string? VatId { get; set; }
+    /// <summary>Website of the merchant.</summary>
     [JsonPropertyName("website")]
     public string? Website { get; set; }
 }

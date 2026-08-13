@@ -13,7 +13,7 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>Merchant-defined reference for the new checkout. It should be unique enough for you to identify the payment attempt in your own systems.</summary>
     [JsonPropertyName("checkout_reference")]
     public string CheckoutReference { get; set; } = default!;
-    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency Currency { get; set; }
     /// <summary>Merchant-scoped customer identifier. Required when setting up recurring payments and useful when the checkout should be linked to a returning payer.</summary>
@@ -25,7 +25,7 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>Hosted Checkout configuration. Enable it to receive a SumUp-hosted payment page URL in the checkout response.</summary>
     [JsonPropertyName("hosted_checkout")]
     public HostedCheckout? HostedCheckout { get; set; }
-    /// <summary>Merchant account that should receive the payment.</summary>
+    /// <summary>Short unique identifier for the merchant that should receive the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string MerchantCode { get; set; } = default!;
     /// <summary>Business purpose of the checkout. Use CHECKOUT for a standard payment and SETUP_RECURRING_PAYMENT when collecting consent and payment details for future recurring charges.</summary>

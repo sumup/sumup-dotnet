@@ -158,7 +158,7 @@ public sealed partial class CustomersClient
     /// Deactivate a payment instrument
     /// </summary>
     /// <remarks>Deactivates an identified card payment instrument resource for a customer.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="token">Unique token identifying the card saved as a payment instrument resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -222,7 +222,7 @@ public sealed partial class CustomersClient
     /// Deactivate a payment instrument
     /// </summary>
     /// <remarks>Deactivates an identified card payment instrument resource for a customer.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="token">Unique token identifying the card saved as a payment instrument resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -286,7 +286,7 @@ public sealed partial class CustomersClient
     /// Retrieve a customer
     /// </summary>
     /// <remarks>Retrieves an identified saved customer resource through the unique customer_id parameter, generated upon customer creation.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<Customer> Get(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -345,7 +345,7 @@ public sealed partial class CustomersClient
     /// Retrieve a customer
     /// </summary>
     /// <remarks>Retrieves an identified saved customer resource through the unique customer_id parameter, generated upon customer creation.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<Customer>> GetAsync(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -404,7 +404,7 @@ public sealed partial class CustomersClient
     /// List payment instruments
     /// </summary>
     /// <remarks>Lists all payment instrument resources that are saved for an identified customer.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<IEnumerable<PaymentInstrumentResponse>> ListPaymentInstruments(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -463,7 +463,7 @@ public sealed partial class CustomersClient
     /// List payment instruments
     /// </summary>
     /// <remarks>Lists all payment instrument resources that are saved for an identified customer.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<IEnumerable<PaymentInstrumentResponse>>> ListPaymentInstrumentsAsync(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -522,7 +522,7 @@ public sealed partial class CustomersClient
     /// Update a customer
     /// </summary>
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="body">Customer fields to update.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -586,7 +586,7 @@ public sealed partial class CustomersClient
     /// Update a customer
     /// </summary>
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
-    /// <param name="customerId">Unique ID of the saved customer resource.</param>
+    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
     /// <param name="body">Customer fields to update.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>

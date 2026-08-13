@@ -13,10 +13,10 @@ public sealed partial class Receipt
     /// <summary>EMV-specific metadata returned for card-present payments.</summary>
     [JsonPropertyName("emv_data")]
     public JsonObject? EmvData { get; set; }
-    /// <summary>Receipt merchant data</summary>
+    /// <summary>Merchant details displayed on a transaction receipt.</summary>
     [JsonPropertyName("merchant_data")]
     public ReceiptMerchantData? MerchantData { get; set; }
-    /// <summary>Transaction information.</summary>
+    /// <summary>Transaction details displayed on a receipt.</summary>
     [JsonPropertyName("transaction_data")]
     public ReceiptTransaction? TransactionData { get; set; }
 }

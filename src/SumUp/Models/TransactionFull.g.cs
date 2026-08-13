@@ -17,10 +17,10 @@ public sealed partial class TransactionFull
     /// <summary>Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public CardResponse? Card { get; set; }
-    /// <summary>Client transaction id.</summary>
+    /// <summary>Client-supplied identifier of the transaction.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string? ClientTransactionId { get; set; }
-    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Details of the device used to create the transaction.</summary>
@@ -38,16 +38,16 @@ public sealed partial class TransactionFull
     /// <summary>Transaction SumUp total fee amount.</summary>
     [JsonPropertyName("fee_amount")]
     public decimal? FeeAmount { get; set; }
-    /// <summary>External/foreign transaction id (passed by clients).</summary>
+    /// <summary>External transaction identifier supplied by the client.</summary>
     [JsonPropertyName("foreign_transaction_id")]
     public string? ForeignTransactionId { get; set; }
     /// <summary>Indication of the precision of the geographical position received from the payment terminal.</summary>
     [JsonPropertyName("horizontal_accuracy")]
     public float? HorizontalAccuracy { get; set; }
-    /// <summary>Unique ID of the transaction.</summary>
+    /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("id")]
     public string? Id { get; set; }
-    /// <summary>Current number of the installment for deferred payments.</summary>
+    /// <summary>Number of installments for a deferred payment.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
     /// <summary>Latitude value from the coordinates of the payment location (as received from the payment terminal reader).</summary>
@@ -56,7 +56,7 @@ public sealed partial class TransactionFull
     /// <summary>List of hyperlinks for accessing related resources.</summary>
     [JsonPropertyName("links")]
     public IEnumerable<Link>? Links { get; set; }
-    /// <summary>Local date and time of the creation of the transaction.</summary>
+    /// <summary>Local timestamp of when the transaction was created.</summary>
     [JsonPropertyName("local_time")]
     public DateTimeOffset? LocalTime { get; set; }
     /// <summary>Details of the payment location as received from the payment terminal.</summary>
@@ -68,7 +68,7 @@ public sealed partial class TransactionFull
     /// <summary>Unique code of the registered merchant to whom the payment is made.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
-    /// <summary>SumUp merchant internal Id.</summary>
+    /// <summary>Internal SumUp identifier of the merchant.</summary>
     [JsonPropertyName("merchant_id")]
     public long? MerchantId { get; set; }
     /// <summary>Payment type used for the transaction.</summary>
@@ -89,7 +89,7 @@ public sealed partial class TransactionFull
     /// <summary>Total number of payouts to the registered user specified in the user property.</summary>
     [JsonPropertyName("payouts_total")]
     public int? PayoutsTotal { get; set; }
-    /// <summary>Debit/Credit.</summary>
+    /// <summary>Whether the transaction was processed as credit or debit.</summary>
     [JsonPropertyName("process_as")]
     public TransactionFullProcessAs? ProcessAs { get; set; }
     /// <summary>Short description of the payment. The value is taken from the description property of the related checkout resource.</summary>
@@ -110,7 +110,7 @@ public sealed partial class TransactionFull
     /// <summary>Indicates whether tax deduction is enabled for the transaction.</summary>
     [JsonPropertyName("tax_enabled")]
     public bool? TaxEnabled { get; set; }
-    /// <summary>Date and time of the creation of the transaction. Response format expressed according to ISO8601 code.</summary>
+    /// <summary>The timestamp of when the transaction was created.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
     /// <summary>Amount of the tip (out of the total transaction amount).</summary>

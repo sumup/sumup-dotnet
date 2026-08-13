@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>Details of the saved payment instrument created or reused during checkout processing.</summary>
 public sealed partial class CheckoutSuccessPaymentInstrument
 {
-    /// <summary>Token value</summary>
+    /// <summary>Unique token of the saved payment instrument.</summary>
     [JsonPropertyName("token")]
     public string? Token { get; set; }
 }

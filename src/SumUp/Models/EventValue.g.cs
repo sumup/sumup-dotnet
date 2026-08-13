@@ -7,31 +7,31 @@ using System.Text.Json.Serialization;
 /// <summary>High-level transaction event details.</summary>
 public sealed partial class EventValue
 {
-    /// <summary>Amount of the event.</summary>
+    /// <summary>Amount associated with the transaction event, in major units.</summary>
     [JsonPropertyName("amount")]
     public float? Amount { get; set; }
-    /// <summary>Amount deducted for the event.</summary>
+    /// <summary>Amount deducted from the merchant for the event, in major units.</summary>
     [JsonPropertyName("deducted_amount")]
     public float? DeductedAmount { get; set; }
-    /// <summary>Amount of the fee deducted for the event.</summary>
+    /// <summary>Fee deducted from the merchant for the event, in major units.</summary>
     [JsonPropertyName("deducted_fee_amount")]
     public float? DeductedFeeAmount { get; set; }
-    /// <summary>Amount of the fee related to the event.</summary>
+    /// <summary>Fee associated with the transaction event, in major units.</summary>
     [JsonPropertyName("fee_amount")]
     public float? FeeAmount { get; set; }
-    /// <summary>Unique ID of the transaction event.</summary>
+    /// <summary>Unique identifier of the transaction event.</summary>
     [JsonPropertyName("id")]
     public long? Id { get; set; }
-    /// <summary>Consecutive number of the installment.</summary>
+    /// <summary>Consecutive number of the installment associated with the event.</summary>
     [JsonPropertyName("installment_number")]
     public int? InstallmentNumber { get; set; }
     /// <summary>Status of the transaction event. Not every value is used for every event type. - PENDING: The event has been created but is not final yet. Used for events that are still being processed and whose final outcome is not known yet. - SCHEDULED: The event is planned for a future payout cycle but has not been executed yet. This applies to payout events before money is actually sent out. - RECONCILED: The underlying payment has been matched with settlement data and is ready to continue through payout processing, but the funds have not been paid out yet. This applies to payout events. - PAID_OUT: The payout event has been completed and the funds were included in a merchant payout. - REFUNDED: A refund event has been accepted and recorded in the refund flow. This is the status returned for refund events once the transaction amount is being or has been returned to the payer. - SUCCESSFUL: The event completed successfully. Use this as the generic terminal success status for event types that do not expose a more specific business outcome such as PAID_OUT or REFUNDED. - FAILED: The event could not be completed. Typical examples are a payout that could not be executed or an event that was rejected during processing.</summary>
     [JsonPropertyName("status")]
     public TransactionEventStatus? Status { get; set; }
-    /// <summary>Date and time of the transaction event.</summary>
+    /// <summary>The timestamp of when the transaction event occurred.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
-    /// <summary>Unique ID of the transaction.</summary>
+    /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("transaction_id")]
     public string? TransactionId { get; set; }
     /// <summary>Type of the transaction event.</summary>

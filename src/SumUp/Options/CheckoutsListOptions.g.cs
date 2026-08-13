@@ -8,6 +8,6 @@ namespace SumUp;
 /// </summary>
 public sealed partial class CheckoutsListOptions
 {
-    /// <summary>Filters the list of checkout resources by the unique ID of the checkout.</summary>
+    /// <summary>Filters the list of checkout resources by the unique reference of the checkout.</summary>
     public string? CheckoutReference { get; set; }
 }

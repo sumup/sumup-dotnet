@@ -6,8 +6,10 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class DetailsErrorFailedConstraintsItem
 {
+    /// <summary>Human-readable description of the violated constraint.</summary>
     [JsonPropertyName("message")]
     public string? Message { get; set; }
+    /// <summary>Name of the field that violated the constraint.</summary>
     [JsonPropertyName("reference")]
     public string? Reference { get; set; }
 }
