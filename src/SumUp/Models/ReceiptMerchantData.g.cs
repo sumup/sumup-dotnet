@@ -4,7 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Receipt merchant data</summary>
+/// <summary>Merchant details displayed on a transaction receipt.</summary>
 public sealed partial class ReceiptMerchantData
 {
     /// <summary>Locale used for rendering localized receipt fields.</summary>

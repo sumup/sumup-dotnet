@@ -5,10 +5,10 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>Transaction information.</summary>
+/// <summary>Transaction details displayed on a receipt.</summary>
 public sealed partial class ReceiptTransaction
 {
-    /// <summary>Transaction amount.</summary>
+    /// <summary>Total transaction amount, in major units.</summary>
     [JsonPropertyName("amount")]
     public string? Amount { get; set; }
     /// <summary>Payment card details displayed on the receipt.</summary>
@@ -17,52 +17,52 @@ public sealed partial class ReceiptTransaction
     /// <summary>Card reader details displayed on the receipt.</summary>
     [JsonPropertyName("card_reader")]
     public ReceiptReader? CardReader { get; set; }
-    /// <summary>Transaction currency.</summary>
+    /// <summary>Three-letter ISO 4217 currency code of the transaction.</summary>
     [JsonPropertyName("currency")]
     public string? Currency { get; set; }
-    /// <summary>Transaction entry mode.</summary>
+    /// <summary>Entry mode of the payment details.</summary>
     [JsonPropertyName("entry_mode")]
     public string? EntryMode { get; set; }
-    /// <summary>Events</summary>
+    /// <summary>Transaction events displayed on the receipt.</summary>
     [JsonPropertyName("events")]
     public IEnumerable<ReceiptEvent>? Events { get; set; }
     /// <summary>Number of installments.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
-    /// <summary>Merchant code.</summary>
+    /// <summary>Short unique identifier for the merchant.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
-    /// <summary>Transaction type.</summary>
+    /// <summary>Payment type used for the transaction.</summary>
     [JsonPropertyName("payment_type")]
     public string? PaymentType { get; set; }
-    /// <summary>Debit/Credit.</summary>
+    /// <summary>Whether the transaction was processed as credit or debit.</summary>
     [JsonPropertyName("process_as")]
     public ReceiptTransactionProcessAs? ProcessAs { get; set; }
-    /// <summary>Products</summary>
+    /// <summary>Products associated with the transaction.</summary>
     [JsonPropertyName("products")]
     public IEnumerable<ReceiptTransactionProductsItem>? Products { get; set; }
-    /// <summary>Receipt number</summary>
+    /// <summary>Receipt number associated with the transaction.</summary>
     [JsonPropertyName("receipt_no")]
     public string? ReceiptNo { get; set; }
-    /// <summary>Transaction processing status.</summary>
+    /// <summary>Current processing status of the transaction.</summary>
     [JsonPropertyName("status")]
     public string? Status { get; set; }
-    /// <summary>Time created at.</summary>
+    /// <summary>The timestamp of when the transaction was created.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
-    /// <summary>Tip amount (included in transaction amount).</summary>
+    /// <summary>Tip included in the transaction amount, in major units.</summary>
     [JsonPropertyName("tip_amount")]
     public string? TipAmount { get; set; }
-    /// <summary>Transaction code.</summary>
+    /// <summary>Transaction code returned after processing the transaction.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
-    /// <summary>Unique ID of the transaction.</summary>
+    /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("transaction_id")]
     public string? TransactionId { get; set; }
-    /// <summary>Transaction VAT amount.</summary>
+    /// <summary>VAT included in the transaction amount, in major units.</summary>
     [JsonPropertyName("vat_amount")]
     public string? VatAmount { get; set; }
-    /// <summary>Vat rates.</summary>
+    /// <summary>VAT breakdown for the transaction.</summary>
     [JsonPropertyName("vat_rates")]
     public IEnumerable<ReceiptTransactionVatRatesItem>? VatRates { get; set; }
     /// <summary>Cardholder verification method.</summary>

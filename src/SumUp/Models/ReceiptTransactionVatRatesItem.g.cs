@@ -6,16 +6,16 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class ReceiptTransactionVatRatesItem
 {
-    /// <summary>Gross</summary>
+    /// <summary>Gross amount to which the VAT rate applies.</summary>
     [JsonPropertyName("gross")]
     public float? Gross { get; set; }
-    /// <summary>Net</summary>
+    /// <summary>Net amount to which the VAT rate applies.</summary>
     [JsonPropertyName("net")]
     public float? Net { get; set; }
-    /// <summary>Rate</summary>
+    /// <summary>VAT rate applied to the transaction amount.</summary>
     [JsonPropertyName("rate")]
     public float? Rate { get; set; }
-    /// <summary>Vat</summary>
+    /// <summary>VAT amount included in the gross amount.</summary>
     [JsonPropertyName("vat")]
     public float? Vat { get; set; }
 }

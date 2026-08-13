@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class CheckoutsListAvailablePaymentMethodsResponseAvailablePaymentMethodsItem
 {
-    /// <summary>The ID of the payment method.</summary>
+    /// <summary>Unique identifier of the payment method.</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
 }

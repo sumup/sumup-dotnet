@@ -7,10 +7,10 @@ using System.Text.Json.Serialization;
 /// <summary>Payment card details displayed on the receipt.</summary>
 public sealed partial class ReceiptCard
 {
-    /// <summary>Card last 4 digits.</summary>
+    /// <summary>Last four digits of the payment card number.</summary>
     [JsonPropertyName("last_4_digits")]
     public string? Last4Digits { get; set; }
-    /// <summary>Card Scheme.</summary>
+    /// <summary>Issuing card network of the payment card.</summary>
     [JsonPropertyName("type")]
     public string? Type { get; set; }
 }

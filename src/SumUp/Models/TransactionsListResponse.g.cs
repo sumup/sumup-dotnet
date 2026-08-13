@@ -7,8 +7,10 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 public sealed partial class TransactionsListResponse
 {
+    /// <summary>Transactions in the current result page.</summary>
     [JsonPropertyName("items")]
     public IEnumerable<TransactionHistory>? Items { get; set; }
+    /// <summary>Pagination links for navigating the transaction history.</summary>
     [JsonPropertyName("links")]
     public IEnumerable<TransactionsHistoryLink>? Links { get; set; }
 }

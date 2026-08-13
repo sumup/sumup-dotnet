@@ -4,7 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Payment Instrument Response</summary>
+/// <summary>Details of a saved payment instrument.</summary>
 public sealed partial class PaymentInstrumentResponse
 {
     /// <summary>Indicates whether the payment instrument is active and can be used for payments. To deactivate it, send a DELETE request to the resource endpoint.</summary>
@@ -14,7 +14,7 @@ public sealed partial class PaymentInstrumentResponse
     /// <summary>Details of the payment card.</summary>
     [JsonPropertyName("card")]
     public PaymentInstrumentResponseCard? Card { get; set; }
-    /// <summary>Creation date of payment instrument. Response format expressed according to ISO8601 code.</summary>
+    /// <summary>The timestamp of when the payment instrument was created.</summary>
     [JsonPropertyName("created_at")]
     public DateTimeOffset? CreatedAt { get; set; }
     /// <summary>Details of the mandate linked to the saved payment instrument.</summary>

@@ -13,16 +13,16 @@ public sealed partial class TransactionHistory
     /// <summary>Issuing card network of the payment card used for the transaction.</summary>
     [JsonPropertyName("card_type")]
     public CardType? CardType { get; set; }
-    /// <summary>Client-specific ID of the transaction.</summary>
+    /// <summary>Client-supplied identifier of the transaction.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string? ClientTransactionId { get; set; }
-    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
-    /// <summary>Unique ID of the transaction.</summary>
+    /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("id")]
     public string? Id { get; set; }
-    /// <summary>Current number of the installment for deferred payments.</summary>
+    /// <summary>Number of installments for a deferred payment.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
     /// <summary>Payment type used for the transaction.</summary>
@@ -52,13 +52,13 @@ public sealed partial class TransactionHistory
     /// <summary>Current status of the transaction. - PENDING: The transaction has been created but its final outcome is not known yet. - SUCCESSFUL: The transaction completed successfully. - CANCELLED: The transaction was cancelled or otherwise reversed before completion. - FAILED: The transaction attempt did not complete successfully. - REFUNDED: The transaction was refunded in full or in part.</summary>
     [JsonPropertyName("status")]
     public TransactionStatus? Status { get; set; }
-    /// <summary>Date and time of the creation of the transaction. Response format expressed according to ISO8601 code.</summary>
+    /// <summary>The timestamp of when the transaction was created.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
     /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
-    /// <summary>Unique ID of the transaction.</summary>
+    /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("transaction_id")]
     public string? TransactionId { get; set; }
     /// <summary>Type of the transaction for the registered user specified in the user property.</summary>

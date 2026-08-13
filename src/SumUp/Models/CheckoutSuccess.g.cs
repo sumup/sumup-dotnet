@@ -14,13 +14,13 @@ public sealed partial class CheckoutSuccess
     /// <summary>Merchant-defined reference for the checkout. Use it to correlate the SumUp checkout with your own order, cart, subscription, or payment attempt in your systems.</summary>
     [JsonPropertyName("checkout_reference")]
     public string? CheckoutReference { get; set; }
-    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Merchant-scoped identifier of the customer associated with the checkout. Use it when storing payment instruments or reusing saved customer context for recurring and returning-payer flows.</summary>
     [JsonPropertyName("customer_id")]
     public string? CustomerId { get; set; }
-    /// <summary>Date and time of the creation of the payment checkout. Response format expressed according to ISO8601 code.</summary>
+    /// <summary>The timestamp of when the checkout was created.</summary>
     [JsonPropertyName("date")]
     public DateTimeOffset? Date { get; set; }
     /// <summary>Short merchant-defined description shown in SumUp tools and reporting. Use it to make the checkout easier to recognize in dashboards, support workflows, and reconciliation.</summary>
@@ -37,10 +37,10 @@ public sealed partial class CheckoutSuccess
     /// <summary>Details of the mandate linked to the saved payment instrument.</summary>
     [JsonPropertyName("mandate")]
     public MandateResponse? Mandate { get; set; }
-    /// <summary>Merchant account that receives the payment.</summary>
+    /// <summary>Short unique identifier for the merchant that receives the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
-    /// <summary>Name of the merchant</summary>
+    /// <summary>Name of the merchant.</summary>
     [JsonPropertyName("merchant_name")]
     public string? MerchantName { get; set; }
     /// <summary>Details of the saved payment instrument created or reused during checkout processing.</summary>
@@ -59,7 +59,7 @@ public sealed partial class CheckoutSuccess
     [JsonPropertyName("transaction_code")]
     [JsonInclude]
     public string? TransactionCode { get; private set; }
-    /// <summary>Transaction ID of the successful transaction with which the payment for the checkout is completed.</summary>
+    /// <summary>Unique identifier of the successful transaction that completed payment for the checkout.</summary>
     [JsonPropertyName("transaction_id")]
     [JsonInclude]
     public string? TransactionId { get; private set; }

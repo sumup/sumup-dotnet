@@ -13,7 +13,7 @@ public sealed partial class CheckoutUpdateRequest
     /// <summary>Updated merchant-defined reference for the checkout.</summary>
     [JsonPropertyName("checkout_reference")]
     public string? CheckoutReference { get; set; }
-    /// <summary>Three-letter ISO4217 code of the currency for the amount. Currently supported currency values are enumerated above.</summary>
+    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
     /// <summary>Updated merchant-scoped customer identifier associated with the checkout.</summary>

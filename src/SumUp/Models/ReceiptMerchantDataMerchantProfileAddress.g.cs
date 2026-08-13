@@ -4,24 +4,34 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
+/// <summary>Business address of the merchant.</summary>
 public sealed partial class ReceiptMerchantDataMerchantProfileAddress
 {
+    /// <summary>First line of the merchant address.</summary>
     [JsonPropertyName("address_line1")]
     public string? AddressLine1 { get; set; }
+    /// <summary>Second line of the merchant address.</summary>
     [JsonPropertyName("address_line2")]
     public string? AddressLine2 { get; set; }
+    /// <summary>City of the merchant address.</summary>
     [JsonPropertyName("city")]
     public string? City { get; set; }
+    /// <summary>Two-letter ISO 3166-1 alpha-2 country code of the merchant address.</summary>
     [JsonPropertyName("country")]
     public string? Country { get; set; }
+    /// <summary>English name of the country in the merchant address.</summary>
     [JsonPropertyName("country_en_name")]
     public string? CountryEnName { get; set; }
+    /// <summary>Localized name of the country in the merchant address.</summary>
     [JsonPropertyName("country_native_name")]
     public string? CountryNativeName { get; set; }
+    /// <summary>Landline phone number of the merchant.</summary>
     [JsonPropertyName("landline")]
     public string? Landline { get; set; }
+    /// <summary>Postal code of the merchant address.</summary>
     [JsonPropertyName("post_code")]
     public string? PostCode { get; set; }
+    /// <summary>Region or state of the merchant address.</summary>
     [JsonPropertyName("region_name")]
     public string? RegionName { get; set; }
 }

@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 public sealed partial class CheckoutsListAvailablePaymentMethodsResponse
 {
+    /// <summary>Payment methods available to the merchant for the checkout.</summary>
     [JsonPropertyName("available_payment_methods")]
     public IEnumerable<CheckoutsListAvailablePaymentMethodsResponseAvailablePaymentMethodsItem>? AvailablePaymentMethods { get; set; }
 }

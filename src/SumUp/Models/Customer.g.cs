@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>Saved customer details.</summary>
 public sealed partial class Customer
 {
-    /// <summary>Unique ID of the customer.</summary>
+    /// <summary>Unique identifier of the customer.</summary>
     [JsonPropertyName("customer_id")]
     public string CustomerId { get; set; } = default!;
     /// <summary>Personal details for the customer.</summary>

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text;
-/// <summary>Error message structure.</summary>
+/// <summary>Details of a request validation error.</summary>
 public sealed partial class DetailsError
 {
     /// <summary>Details of the error.</summary>
@@ -16,7 +16,7 @@ public sealed partial class DetailsError
     /// <summary>List of violated validation constraints.</summary>
     [JsonPropertyName("failed_constraints")]
     public IEnumerable<DetailsErrorFailedConstraintsItem>? FailedConstraints { get; set; }
-    /// <summary>The status code.</summary>
+    /// <summary>HTTP status code for the error.</summary>
     [JsonPropertyName("status")]
     public decimal? Status { get; set; }
     /// <summary>Short title of the error.</summary>

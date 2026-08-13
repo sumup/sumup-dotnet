@@ -7,12 +7,16 @@ using System.Text.Json.Serialization;
 /// <summary>Acquirer-specific metadata related to the card authorization.</summary>
 public sealed partial class ReceiptAcquirerData
 {
+    /// <summary>Authorization code returned by the acquirer.</summary>
     [JsonPropertyName("authorization_code")]
     public string? AuthorizationCode { get; set; }
+    /// <summary>Local timestamp of the card authorization.</summary>
     [JsonPropertyName("local_time")]
     public string? LocalTime { get; set; }
+    /// <summary>Return code reported by the acquirer.</summary>
     [JsonPropertyName("return_code")]
     public string? ReturnCode { get; set; }
+    /// <summary>Identifier of the terminal used for the authorization.</summary>
     [JsonPropertyName("tid")]
     public string? Tid { get; set; }
 }

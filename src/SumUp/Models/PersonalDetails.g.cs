@@ -25,7 +25,7 @@ public sealed partial class PersonalDetails
     /// <summary>Phone number of the customer.</summary>
     [JsonPropertyName("phone")]
     public string? Phone { get; set; }
-    /// <summary>An identification number user for tax purposes (e.g. CPF)</summary>
+    /// <summary>Identification number used for tax purposes, such as a CPF in Brazil.</summary>
     [JsonPropertyName("tax_id")]
     public string? TaxId { get; set; }
 }

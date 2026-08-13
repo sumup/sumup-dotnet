@@ -8,8 +8,8 @@ namespace SumUp;
 /// </summary>
 public sealed partial class ReceiptsGetOptions
 {
-    /// <summary>Merchant code.</summary>
+    /// <summary>Short unique identifier for the merchant.</summary>
     public string Mid { get; set; } = default!;
-    /// <summary>The ID of the transaction event (refund).</summary>
+    /// <summary>Unique identifier of the transaction event to include on the receipt.</summary>
     public int? TxEventId { get; set; }
 }

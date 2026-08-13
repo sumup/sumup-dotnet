@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>Details of the mandate linked to the saved payment instrument.</summary>
 public sealed partial class MandateResponse
 {
-    /// <summary>Merchant account for which the mandate is valid.</summary>
+    /// <summary>Short unique identifier for the merchant for which the mandate is valid.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
     /// <summary>Current lifecycle status of the mandate.</summary>

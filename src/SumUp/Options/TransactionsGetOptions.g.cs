@@ -12,8 +12,8 @@ public sealed partial class TransactionsGetOptions
     public string? Id { get; set; }
     /// <summary>Retrieves the transaction resource with the specified transaction code.</summary>
     public string? TransactionCode { get; set; }
-    /// <summary>External/foreign transaction id (passed by clients).</summary>
+    /// <summary>External transaction identifier supplied by the client.</summary>
     public string? ForeignTransactionId { get; set; }
-    /// <summary>Client transaction id.</summary>
+    /// <summary>Client-supplied identifier of the transaction.</summary>
     public string? ClientTransactionId { get; set; }
 }

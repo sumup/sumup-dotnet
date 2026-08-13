@@ -19,7 +19,7 @@ public sealed partial class TransactionEvent
     /// <summary>Type of the transaction event.</summary>
     [JsonPropertyName("event_type")]
     public TransactionEventType? EventType { get; set; }
-    /// <summary>Unique ID of the transaction event.</summary>
+    /// <summary>Unique identifier of the transaction event.</summary>
     [JsonPropertyName("id")]
     public long? Id { get; set; }
     /// <summary>Consecutive number of the installment that is paid. Applicable only payout events, i.e. event_type = PAYOUT.</summary>

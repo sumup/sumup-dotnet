@@ -28,7 +28,7 @@ public sealed partial class TransactionsClient
     /// Retrieve a transaction
     /// </summary>
     /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - id - transaction_code - foreign_transaction_id - client_transaction_id</remarks>
-    /// <param name="merchantCode">Merchant code of the account whose transaction should be retrieved.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -88,7 +88,7 @@ public sealed partial class TransactionsClient
     /// Retrieve a transaction
     /// </summary>
     /// <remarks>Retrieves the full details of an identified transaction. The transaction resource is identified by a query parameter and *one* of following parameters is required: - id - transaction_code - foreign_transaction_id - client_transaction_id</remarks>
-    /// <param name="merchantCode">Merchant code of the account whose transaction should be retrieved.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -148,7 +148,7 @@ public sealed partial class TransactionsClient
     /// List transactions
     /// </summary>
     /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
-    /// <param name="merchantCode">Merchant code of the account whose transaction history should be listed.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -217,7 +217,7 @@ public sealed partial class TransactionsClient
     /// List transactions
     /// </summary>
     /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
-    /// <param name="merchantCode">Merchant code of the account whose transaction history should be listed.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -286,8 +286,8 @@ public sealed partial class TransactionsClient
     /// Refund a transaction
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
-    /// <param name="merchantCode">Merchant code of the account that owns the payment to refund.</param>
-    /// <param name="transactionId">Unique ID of the transaction.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
+    /// <param name="transactionId">Unique identifier of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -362,8 +362,8 @@ public sealed partial class TransactionsClient
     /// Refund a transaction
     /// </summary>
     /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
-    /// <param name="merchantCode">Merchant code of the account that owns the payment to refund.</param>
-    /// <param name="transactionId">Unique ID of the transaction.</param>
+    /// <param name="merchantCode">Short unique identifier for the merchant.</param>
+    /// <param name="transactionId">Unique identifier of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
