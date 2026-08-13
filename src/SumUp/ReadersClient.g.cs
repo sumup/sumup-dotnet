@@ -349,11 +349,6 @@ public sealed partial class ReadersClient
                         var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
                         throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
                     }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
-                    }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
                 throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
@@ -424,11 +419,6 @@ public sealed partial class ReadersClient
                     {
                         var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
                         throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri);
-                    }
-                    case 500:
-                    {
-                        var errorForStatus500 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus500, responseBody, response.RequestMessage?.RequestUri);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
