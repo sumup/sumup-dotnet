@@ -17,6 +17,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Client for the Readers API endpoints.
     /// </summary>
+    /// <remarks>A reader represents a device that accepts payments. You can use the SumUp Solo to accept in-person payments.</remarks>
     internal ReadersClient(ApiClient client)
     {
         _client = client;
