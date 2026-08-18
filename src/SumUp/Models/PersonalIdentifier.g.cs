@@ -9,7 +9,7 @@ public sealed partial class PersonalIdentifier
     /// <summary>The unique reference for the personal identifier type.</summary>
     [JsonPropertyName("ref")]
     public string RefValue { get; set; } = default!;
-    /// <summary>The company identifier value.</summary>
+    /// <summary>The personal identifier value.</summary>
     [JsonPropertyName("value")]
     public string Value { get; set; } = default!;
 }
