@@ -15,10 +15,12 @@ public class JsonObjectTests
     {
         using var httpClient = new HttpClient { BaseAddress = new Uri("https://api.sumup.com") };
         var apiClient = new ApiClient(httpClient, new SumUpClientOptions());
-        var request = new ProcessCheckout
+        var request = new CreateReaderCheckoutRequestAffiliate
         {
-            PaymentType = ProcessCheckoutPaymentType.Card,
-            ApplePay = new JsonObject
+            AppId = "app-id",
+            ForeignTransactionId = "txn-id",
+            Key = "affiliate-key",
+            Tags = new JsonObject
             {
                 ["token"] = new JsonObject
                 {
@@ -33,7 +35,7 @@ public class JsonObjectTests
         using var reader = new StreamReader(stream, Encoding.UTF8);
         var body = reader.ReadToEnd();
 
-        Assert.Contains("\"apple_pay\":{\"token\":{\"version\":\"EC_v1\"},\"sandbox\":true}", body);
+        Assert.Contains("\"tags\":{\"token\":{\"version\":\"EC_v1\"},\"sandbox\":true}", body);
     }
 
     [Fact]
