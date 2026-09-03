@@ -19,7 +19,7 @@ The .NET SDK for the SumUp [API](https://developer.sumup.com).
 dotnet add package SumUp --prerelease
 ```
 
-See `examples/Basic`, `examples/CardReaderCheckout`, and `examples/OAuth2` for runnable projects.
+See `examples/Basic`, `examples/CardReaderCheckout`, `examples/OAuth2`, and `examples/Webhooks` for runnable projects.
 
 ## Supported .NET Versions
 
@@ -104,11 +104,32 @@ var readerCheckout = await client.Readers.CreateCheckoutAsync(
 Console.WriteLine($"Reader checkout created: {readerCheckout.Data?.Data?.ClientTransactionId}");
 ```
 
+### Handling Webhooks
+
+```csharp
+using SumUp;
+
+using var client = new SumUpClient();
+var webhookHandler = client.CreateWebhookHandler(secret: "whsec_...");
+
+var eventNotification = webhookHandler.VerifyAndParse(
+    signatureHeader: request.Headers[WebhookConstants.SignatureHeader].ToString(),
+    timestampHeader: request.Headers[WebhookConstants.TimestampHeader].ToString(),
+    body: rawRequestBody);
+
+if (eventNotification is CheckoutCreatedEvent checkoutCreated)
+{
+    var checkout = await checkoutCreated.FetchObjectAsync();
+    Console.WriteLine($"Received checkout {checkout?.Id}");
+}
+```
+
 ## Examples
 
 - `examples/Basic` – lists recent checkouts to sanity check your API token.
 - `examples/CardReaderCheckout` – mirrors the `../sumup-rs/examples/card_reader_checkout.rs` sample by listing the merchant’s paired readers and creating a €10 checkout on the first available device.
 - `examples/OAuth2` – starts a local OAuth2 Authorization Code flow with PKCE, exchanges the callback code for an access token, and fetches merchant information using the returned `merchant_code`.
+- `examples/Webhooks` – runs a minimal ASP.NET Core endpoint that verifies `X-SumUp-Webhook-*` headers, parses typed webhook events, and fetches the referenced object through the SDK.
 
 To run the card reader example:
 
@@ -127,6 +148,14 @@ export CLIENT_ID="your_client_id"
 export CLIENT_SECRET="your_client_secret"
 export REDIRECT_URI="http://localhost:8080/callback"
 dotnet run --project examples/OAuth2
+```
+
+To run the webhook example:
+
+```sh
+export SUMUP_ACCESS_TOKEN="your_api_key"
+export SUMUP_WEBHOOK_SECRET="whsec_..."
+dotnet run --project examples/Webhooks
 ```
 
 [docs-badge]: https://img.shields.io/badge/SumUp-documentation-white.svg?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgY29sb3I9IndoaXRlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPHBhdGggZD0iTTIyLjI5IDBIMS43Qy43NyAwIDAgLjc3IDAgMS43MVYyMi4zYzAgLjkzLjc3IDEuNyAxLjcxIDEuN0gyMi4zYy45NCAwIDEuNzEtLjc3IDEuNzEtMS43MVYxLjdDMjQgLjc3IDIzLjIzIDAgMjIuMjkgMFptLTcuMjIgMTguMDdhNS42MiA1LjYyIDAgMCAxLTcuNjguMjQuMzYuMzYgMCAwIDEtLjAxLS40OWw3LjQ0LTcuNDRhLjM1LjM1IDAgMCAxIC40OSAwIDUuNiA1LjYgMCAwIDEtLjI0IDcuNjlabTEuNTUtMTEuOS03LjQ0IDcuNDVhLjM1LjM1IDAgMCAxLS41IDAgNS42MSA1LjYxIDAgMCAxIDcuOS03Ljk2bC4wMy4wM2MuMTMuMTMuMTQuMzUuMDEuNDlaIiBmaWxsPSJjdXJyZW50Q29sb3IiLz4KPC9zdmc+
