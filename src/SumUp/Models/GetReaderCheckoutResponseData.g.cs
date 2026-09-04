@@ -20,13 +20,13 @@ public sealed partial class GetReaderCheckoutResponseData
     public DateTimeOffset CreatedAt { get; set; }
     /// <summary>Number of installments for the transaction. Required for some countries.</summary>
     [JsonPropertyName("installments")]
-    public int? Installments { get; set; }
+    public int Installments { get; set; }
     /// <summary>Payment failure reason</summary>
     [JsonPropertyName("payment_failure_reason")]
     public string? PaymentFailureReason { get; set; }
     /// <summary>Payment status from payments v2 event</summary>
     [JsonPropertyName("payment_status")]
-    public string? PaymentStatus { get; set; }
+    public string PaymentStatus { get; set; } = default!;
     /// <summary>Type of the payment. Required for some countries</summary>
     [JsonPropertyName("payment_type")]
     public GetReaderCheckoutResponseDataPaymentType PaymentType { get; set; }
@@ -47,5 +47,5 @@ public sealed partial class GetReaderCheckoutResponseData
     public DateTimeOffset UpdatedAt { get; set; }
     /// <summary>Checkout expiration timestamp. After this time, the checkout will be automatically cancelled.</summary>
     [JsonPropertyName("valid_until")]
-    public DateTimeOffset? ValidUntil { get; set; }
+    public DateTimeOffset ValidUntil { get; set; }
 }

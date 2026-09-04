@@ -705,6 +705,144 @@ public sealed partial class CheckoutsClient
     }
 
     /// <summary>
+    /// Process a checkout
+    /// </summary>
+    /// <remarks>:::caution[PCI DSS compliance required] When you submit raw card details directly to the Checkout API, your systems store, process, or transmit cardholder data and are therefore subject to applicable PCI DSS requirements. You should only use this integration if your environment is appropriately PCI DSS compliant. ::: Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
+    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <param name="body">Details of the payment instrument for processing the checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public ApiResponse<CheckoutsProcessResponse> Process(string checkoutId, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{checkout_id}", builder =>
+        {
+            builder.AddPath("checkout_id", checkoutId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 409:
+                    {
+                        var errorForStatus409 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<CheckoutsProcessResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<CheckoutsProcessResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Process a checkout
+    /// </summary>
+    /// <remarks>:::caution[PCI DSS compliance required] When you submit raw card details directly to the Checkout API, your systems store, process, or transmit cardholder data and are therefore subject to applicable PCI DSS requirements. You should only use this integration if your environment is appropriately PCI DSS compliant. ::: Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
+    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <param name="body">Details of the payment instrument for processing the checkout.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public async Task<ApiResponse<CheckoutsProcessResponse>> ProcessAsync(string checkoutId, ProcessCheckout body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Put, "/v0.1/checkouts/{checkout_id}", builder =>
+        {
+            builder.AddPath("checkout_id", checkoutId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                    case 409:
+                    {
+                        var errorForStatus409 = _client.TryDeserialize<Error>(responseBody);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<CheckoutsProcessResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<CheckoutsProcessResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
     /// Update a checkout
     /// </summary>
     /// <remarks>Updates an identified checkout resource.</remarks>

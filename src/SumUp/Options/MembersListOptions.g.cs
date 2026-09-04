@@ -19,6 +19,8 @@ public sealed partial class MembersListOptions
     public string? Email { get; set; }
     /// <summary>Search for a member by user id.</summary>
     public Guid? UserId { get; set; }
+    /// <summary>Filter the returned members by user type. Repeat this parameter to include multiple user types.</summary>
+    public IEnumerable<UserType>? UserType { get; set; }
     /// <summary>Filter the returned members by the membership status.</summary>
     public MembershipStatus? Status { get; set; }
     /// <summary>Filter the returned members by role.</summary>
