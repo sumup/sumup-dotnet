@@ -135,6 +135,91 @@ func TestBuildModels_UsesJsonObjectForFreeFormObjects(t *testing.T) {
 	}
 }
 
+func TestBuildModels_HandlesOpenAPI31NullableTypes(t *testing.T) {
+	const spec = `{
+	  "openapi": "3.1.0",
+	  "info": {
+	    "title": "test",
+	    "version": "1.0.0"
+	  },
+	  "paths": {},
+	  "components": {
+	    "schemas": {
+	      "Status": {
+	        "type": "string",
+	        "enum": ["paid"]
+	      },
+	      "Payment": {
+	        "type": "object",
+	        "properties": {
+	          "installments": { "type": ["integer", "null"] },
+	          "valid_until": { "type": ["string", "null"], "format": "date-time" },
+	          "status": {
+	            "allOf": [{ "$ref": "#/components/schemas/Status" }],
+	            "type": "null"
+	          }
+	        },
+	        "required": ["installments", "valid_until", "status"]
+	      }
+	    }
+	  }
+	}`
+
+	doc := mustBuildV3Document(t, spec)
+	g := New(Config{Namespace: "SumUp"})
+	models, err := g.buildModels(doc)
+	if err != nil {
+		t.Fatalf("buildModels() error = %v", err)
+	}
+
+	payment := findModel(t, models, "Payment")
+	for property, want := range map[string]string{
+		"Installments": "int?",
+		"ValidUntil":   "DateTimeOffset?",
+		"Status":       "PaymentStatus?",
+	} {
+		if got := propertyType(payment.Properties, property); got != want {
+			t.Errorf("%s property type = %q, want %q", property, got, want)
+		}
+	}
+}
+
+func TestBuildClients_UsesOptionalQueryForOpenAPI31NullableTypes(t *testing.T) {
+	const spec = `{
+	  "openapi": "3.1.0",
+	  "info": {
+	    "title": "test",
+	    "version": "1.0.0"
+	  },
+	  "paths": {
+	    "/memberships": {
+	      "get": {
+	        "tags": ["Memberships"],
+	        "operationId": "ListMemberships",
+	        "parameters": [{
+	          "name": "resource.parent.id",
+	          "in": "query",
+	          "schema": { "type": ["string", "null"] }
+	        }],
+	        "responses": { "204": { "description": "ok" } }
+	      }
+	    }
+	  }
+	}`
+
+	doc := mustBuildV3Document(t, spec)
+	g := New(Config{Namespace: "SumUp"})
+	clients, err := g.buildClients(doc)
+	if err != nil {
+		t.Fatalf("buildClients() error = %v", err)
+	}
+
+	parameter := clients[0].Operations[0].QueryParams[0]
+	if got, want := parameter.Declaration, "OptionalQuery<string> resourceParentId = default"; got != want {
+		t.Fatalf("parameter declaration = %q, want %q", got, want)
+	}
+}
+
 func TestBuildRequestBody_UsesJsonObjectForOpaqueObjectRequests(t *testing.T) {
 	const spec = `{
 	  "openapi": "3.0.3",

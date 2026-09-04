@@ -868,6 +868,9 @@ func schemaAllowsNull(schemaRef *base.SchemaProxy) bool {
 	if schema.Nullable != nil && *schema.Nullable {
 		return true
 	}
+	if schemaHasType(schema, "null") {
+		return true
+	}
 	if len(schema.AllOf) == 1 {
 		return schemaAllowsNull(schema.AllOf[0])
 	}
@@ -926,6 +929,9 @@ func (g *Generator) resolveInlineSchemaType(schemaRef *base.SchemaProxy, require
 func (g *Generator) resolveInlineSchemaTypeForUsage(schemaRef *base.SchemaProxy, required bool, inlineBase string, usage schemaUsage) (typeInfo, error) {
 	if schemaRef == nil {
 		return g.nullableType("JsonDocument", false, required), nil
+	}
+	if schemaAllowsNull(schemaRef) {
+		required = false
 	}
 	if inlineBase != "" && !schemaRef.IsReference() {
 		schema := g.schemaFromProxy(schemaRef)
@@ -1342,6 +1348,9 @@ func (g *Generator) resolveType(schemaRef *base.SchemaProxy, required bool) type
 	if schemaRef.IsReference() {
 		name := componentName(schemaRef.GetReference())
 		if info, ok := g.schemaTypes[name]; ok {
+			if schemaAllowsNull(info.Schema) {
+				required = false
+			}
 			typeName := info.TypeName
 			isValueType := info.AliasIsValueType
 			if info.Kind == schemaKindAlias && info.AliasType != "" {
@@ -1360,7 +1369,7 @@ func (g *Generator) resolveType(schemaRef *base.SchemaProxy, required bool) type
 	if schema == nil {
 		return g.nullableType("JsonDocument", false, required)
 	}
-	if schema.Nullable != nil && *schema.Nullable {
+	if schemaAllowsNull(schemaRef) {
 		required = false
 	}
 	if len(schema.AllOf) == 1 {
