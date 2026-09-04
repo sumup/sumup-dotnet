@@ -381,6 +381,7 @@ public sealed partial class MembersClient
             builder.AddQuery("scroll", operationOptions.Scroll);
             builder.AddQuery("email", operationOptions.Email);
             builder.AddQuery("user.id", operationOptions.UserId);
+            builder.AddQuery("user.type", operationOptions.UserType);
             builder.AddQuery("status", operationOptions.Status);
             builder.AddQuery("roles", operationOptions.Roles);
         });
@@ -439,6 +440,7 @@ public sealed partial class MembersClient
             builder.AddQuery("scroll", operationOptions.Scroll);
             builder.AddQuery("email", operationOptions.Email);
             builder.AddQuery("user.id", operationOptions.UserId);
+            builder.AddQuery("user.type", operationOptions.UserType);
             builder.AddQuery("status", operationOptions.Status);
             builder.AddQuery("roles", operationOptions.Roles);
         });
