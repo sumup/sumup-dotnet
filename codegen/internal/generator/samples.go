@@ -61,12 +61,18 @@ func (g *Generator) Samples(doc *v3.Document, sdkVersion string) (*SampleCatalog
 	g.modelNames = map[string]struct{}{}
 	g.errorModels = map[string]struct{}{}
 	g.optionNames = map[string]struct{}{}
-	if _, err := g.buildModels(doc); err != nil {
+	models, err := g.buildModels(doc)
+	if err != nil {
 		return nil, fmt.Errorf("build models: %w", err)
 	}
 	clients, err := g.buildClients(doc)
 	if err != nil {
 		return nil, fmt.Errorf("build clients: %w", err)
+	}
+
+	renderer := sampleRenderer{models: map[string]modelTemplateData{}}
+	for _, model := range append(models, g.inlineModels...) {
+		renderer.models[model.Name] = model
 	}
 
 	samples := make([]Sample, 0)
@@ -88,6 +94,10 @@ func (g *Generator) Samples(doc *v3.Document, sdkVersion string) (*SampleCatalog
 				if example.description != "" {
 					description = strings.TrimSpace(example.description)
 				}
+				source, err := g.renderSample(client, operation, example, renderer)
+				if err != nil {
+					return nil, fmt.Errorf("render sample %s: %w", id, err)
+				}
 				samples = append(samples, Sample{
 					ID:          id,
 					OperationID: operation.OperationID,
@@ -96,7 +106,7 @@ func (g *Generator) Samples(doc *v3.Document, sdkVersion string) (*SampleCatalog
 					Description: description,
 					HTTPMethod:  strings.ToUpper(operation.HttpMethod),
 					Path:        operation.Path,
-					Source:      g.renderSample(client, operation, example),
+					Source:      source,
 				})
 			}
 		}
@@ -115,7 +125,7 @@ func (g *Generator) Samples(doc *v3.Document, sdkVersion string) (*SampleCatalog
 	}, nil
 }
 
-func (g *Generator) renderSample(client clientTemplateData, operation operationTemplateData, example requestExample) string {
+func (g *Generator) renderSample(client clientTemplateData, operation operationTemplateData, example requestExample, renderer sampleRenderer) (string, error) {
 	arguments := make([]string, 0, len(operation.PathParams)+2)
 	for _, parameter := range operation.PathParams {
 		arguments = append(arguments, g.sampleValue(parameter.TypeName, parameter.Name))
@@ -126,11 +136,17 @@ func (g *Generator) renderSample(client clientTemplateData, operation operationT
 		if payload == "" {
 			payload = "{}"
 		}
-		arguments = append(arguments, fmt.Sprintf(
-			"JsonSerializer.Deserialize<%s>(@\"%s\")!",
-			bodyType,
-			strings.ReplaceAll(payload, "\"", "\"\""),
-		))
+		var value any
+		decoder := json.NewDecoder(strings.NewReader(payload))
+		decoder.UseNumber()
+		if err := decoder.Decode(&value); err != nil {
+			return "", fmt.Errorf("decode request example: %w", err)
+		}
+		body, err := renderer.value(bodyType, value)
+		if err != nil {
+			return "", fmt.Errorf("render request body: %w", err)
+		}
+		arguments = append(arguments, body)
 	}
 	if operation.OperationOptions != nil {
 		properties := make([]string, 0, len(operation.OperationOptions.Properties))
@@ -153,7 +169,7 @@ func (g *Generator) renderSample(client clientTemplateData, operation operationT
 		call = fmt.Sprintf("client.%s.%sAsync(\n%s)", client.PropertyName, operation.MethodName, strings.Join(indented, ",\n"))
 	}
 
-	return fmt.Sprintf(`using System;
+	source := fmt.Sprintf(`using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -170,6 +186,10 @@ public static class Program
     }
 }
 `, call)
+	if !strings.Contains(call, "JsonDocument.") && !strings.Contains(call, "JsonElement") {
+		source = strings.Replace(source, "using System.Text.Json;\n", "", 1)
+	}
+	return source, nil
 }
 
 func (g *Generator) sampleValue(typeName, name string) string {

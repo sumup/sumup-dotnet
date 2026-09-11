@@ -45,6 +45,9 @@ func TestSamples(t *testing.T) {
 			t.Fatalf("duplicate sample ID %q", sample.ID)
 		}
 		seen[sample.ID] = struct{}{}
+		if strings.Contains(sample.Source, "JsonSerializer.Deserialize") {
+			t.Errorf("sample %q deserializes its request instead of constructing it", sample.ID)
+		}
 		if !strings.Contains(sample.Source, "public static async Task Main()") {
 			t.Errorf("sample %q is not a complete program", sample.ID)
 		}
@@ -56,6 +59,17 @@ func TestSamples(t *testing.T) {
 	}
 	if !strings.Contains(createCheckout.Source, `b50pr914-6k0e-3091-a592-890010285b3d`) {
 		t.Fatalf("CreateCheckout sample does not preserve the OpenAPI example:\n%s", createCheckout.Source)
+	}
+	reader := sampleByID(t, catalog.Samples, "CreateReader")
+	for _, want := range []string{
+		"new ReadersCreateRequest",
+		"Metadata = new Metadata { }",
+		`Name = "Frontdesk"`,
+		`PairingCode = "4WLFDSBF"`,
+	} {
+		if !strings.Contains(reader.Source, want) {
+			t.Errorf("reader sample missing %q:\n%s", want, reader.Source)
+		}
 	}
 	encoded, err := json.Marshal(createCheckout)
 	if err != nil {
@@ -96,6 +110,65 @@ func TestRequestExamplesPreserveWholeRequestExample(t *testing.T) {
 	examples := requestExamples(operation)
 	if len(examples) != 1 || examples[0].json != `{"selected":"request-example"}` {
 		t.Fatalf("request example was expanded with schema values: %#v", examples)
+	}
+}
+
+func TestSampleRequestValues(t *testing.T) {
+	t.Parallel()
+	renderer := sampleRenderer{models: map[string]modelTemplateData{
+		"Request": {
+			Properties: []modelPropertyTemplateData{
+				{JsonName: "items", PropertyName: "Items", TypeName: "IEnumerable<Item>"},
+				{JsonName: "metadata", PropertyName: "Metadata", TypeName: "IDictionary<string, string>"},
+				{JsonName: "response_only", PropertyName: "ResponseOnly", TypeName: "string", IsReadOnly: true},
+				{JsonName: "omitted", PropertyName: "Omitted", TypeName: "string?"},
+			},
+			HasExtensionData: true, ExtensionDataValueType: "object?",
+		},
+		"Item": {Properties: []modelPropertyTemplateData{
+			{JsonName: "status", PropertyName: "Status", TypeName: "Status?"},
+			{JsonName: "amount", PropertyName: "Amount", TypeName: "decimal"},
+			{JsonName: "note", PropertyName: "Note", TypeName: "string?"},
+		}},
+		"Status": {Kind: schemaKindEnum, EnumValues: []enumValueTemplateData{
+			{Name: "Pending", Value: "pending"}, {Name: "Paid", Value: "paid"},
+		}},
+	}}
+	value := map[string]any{
+		"items":         []any{map[string]any{"status": "paid", "amount": json.Number("123456789.123456789"), "note": nil}},
+		"metadata":      map[string]any{"b": "second", "a": "quote\"\n\x01"},
+		"response_only": "skip", "custom": map[string]any{"enabled": true},
+	}
+	got, err := renderer.value("Request", value)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := `new Request
+{
+    Items = new Item[]
+    {
+        new Item
+        {
+            Status = Status.Paid,
+            Amount = 123456789.123456789m,
+            Note = null,
+        },
+    },
+    Metadata = new Dictionary<string, string>
+    {
+        ["a"] = "quote\"\n\u0001",
+        ["b"] = "second",
+    },
+    AdditionalProperties = new Dictionary<string, object?>
+    {
+        ["custom"] = new JsonObject
+        {
+            ["enabled"] = true,
+        },
+    },
+}`
+	if got != want {
+		t.Fatalf("request initializer mismatch:\ngot:\n%s\nwant:\n%s", got, want)
 	}
 }
 
