@@ -27,7 +27,7 @@ public sealed partial class MembersClient
     /// <summary>
     /// Create a member
     /// </summary>
-    /// <remarks>Create a merchant member.</remarks>
+    /// <remarks>Adds a member to the merchant account with the specified roles. By default, sends an invitation email to the provided address. The recipient must accept the invitation to join the account. When is_managed_user is true, creates a managed user with the provided password and optional nickname and assigns the roles directly, without sending an invitation.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="body">Request body payload.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -91,7 +91,7 @@ public sealed partial class MembersClient
     /// <summary>
     /// Create a member
     /// </summary>
-    /// <remarks>Create a merchant member.</remarks>
+    /// <remarks>Adds a member to the merchant account with the specified roles. By default, sends an invitation email to the provided address. The recipient must accept the invitation to join the account. When is_managed_user is true, creates a managed user with the provided password and optional nickname and assigns the roles directly, without sending an invitation.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="body">Request body payload.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -381,7 +381,6 @@ public sealed partial class MembersClient
             builder.AddQuery("scroll", operationOptions.Scroll);
             builder.AddQuery("email", operationOptions.Email);
             builder.AddQuery("user.id", operationOptions.UserId);
-            builder.AddQuery("user.type", operationOptions.UserType);
             builder.AddQuery("status", operationOptions.Status);
             builder.AddQuery("roles", operationOptions.Roles);
         });
@@ -440,7 +439,6 @@ public sealed partial class MembersClient
             builder.AddQuery("scroll", operationOptions.Scroll);
             builder.AddQuery("email", operationOptions.Email);
             builder.AddQuery("user.id", operationOptions.UserId);
-            builder.AddQuery("user.type", operationOptions.UserType);
             builder.AddQuery("status", operationOptions.Status);
             builder.AddQuery("roles", operationOptions.Roles);
         });
@@ -483,7 +481,7 @@ public sealed partial class MembersClient
     /// <summary>
     /// Update a member
     /// </summary>
-    /// <remarks>Update the merchant member.</remarks>
+    /// <remarks>Updates a merchant member and returns the updated member. Providing roles replaces the member's assigned roles and can grant or revoke access. Providing metadata replaces the entire metadata object. For managed users, user.nickname changes the display name and user.password replaces the password. Updating the password also enables the managed user account.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
     /// <param name="body">Request body payload.</param>
@@ -554,7 +552,7 @@ public sealed partial class MembersClient
     /// <summary>
     /// Update a member
     /// </summary>
-    /// <remarks>Update the merchant member.</remarks>
+    /// <remarks>Updates a merchant member and returns the updated member. Providing roles replaces the member's assigned roles and can grant or revoke access. Providing metadata replaces the entire metadata object. For managed users, user.nickname changes the display name and user.password replaces the password. Updating the password also enables the managed user account.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="memberId">The ID of the member to retrieve.</param>
     /// <param name="body">Request body payload.</param>

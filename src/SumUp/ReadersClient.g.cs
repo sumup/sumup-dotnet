@@ -1112,7 +1112,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Update a Reader
     /// </summary>
-    /// <remarks>Update a Reader.</remarks>
+    /// <remarks>Updates a reader's name or metadata and returns the updated reader. Providing metadata replaces the entire metadata object; include all entries that should be retained. Omitted fields remain unchanged.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="body">Request body payload.</param>
@@ -1173,7 +1173,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Update a Reader
     /// </summary>
-    /// <remarks>Update a Reader.</remarks>
+    /// <remarks>Updates a reader's name or metadata and returns the updated reader. Providing metadata replaces the entire metadata object; include all entries that should be retained. Omitted fields remain unchanged.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="readerId">The unique identifier of the reader.</param>
     /// <param name="body">Request body payload.</param>
