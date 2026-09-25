@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.20](https://github.com/sumup/sumup-dotnet/compare/v0.0.19...v0.0.20) (2026-09-25)
+
+
+### Chores
+
+* **deps:** bump reviewdog/action-actionlint from 1.73.2 to 1.74.0 ([#179](https://github.com/sumup/sumup-dotnet/issues/179)) ([c6e7cb2](https://github.com/sumup/sumup-dotnet/commit/c6e7cb260fd8675590289eb87de714c0503d8b25))
+* synced file(s) with sumup/apis ([#182](https://github.com/sumup/sumup-dotnet/issues/182)) ([a76c81f](https://github.com/sumup/sumup-dotnet/commit/a76c81f253203880f3a6238718ff133d608cdc8d))
+
 ## [0.0.19](https://github.com/sumup/sumup-dotnet/compare/v0.0.18...v0.0.19) (2026-09-11)
 
 
