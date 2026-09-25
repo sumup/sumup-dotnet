@@ -43,6 +43,7 @@ public sealed partial class MembershipsClient
             builder.AddQuery("resource.type", operationOptions.ResourceType);
             builder.AddQuery("resource.attributes.sandbox", operationOptions.ResourceAttributesSandbox);
             builder.AddQuery("resource.name", operationOptions.ResourceName);
+            builder.AddQuery("resource.id", operationOptions.ResourceId);
             builder.AddQuery("resource.parent.id", operationOptions.ResourceParentId);
             builder.AddQuery("resource.parent.type", operationOptions.ResourceParentType);
             builder.AddQuery("roles", operationOptions.Roles);
@@ -107,6 +108,7 @@ public sealed partial class MembershipsClient
             builder.AddQuery("resource.type", operationOptions.ResourceType);
             builder.AddQuery("resource.attributes.sandbox", operationOptions.ResourceAttributesSandbox);
             builder.AddQuery("resource.name", operationOptions.ResourceName);
+            builder.AddQuery("resource.id", operationOptions.ResourceId);
             builder.AddQuery("resource.parent.id", operationOptions.ResourceParentId);
             builder.AddQuery("resource.parent.type", operationOptions.ResourceParentType);
             builder.AddQuery("roles", operationOptions.Roles);

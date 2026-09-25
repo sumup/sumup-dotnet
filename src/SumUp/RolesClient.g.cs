@@ -452,7 +452,7 @@ public sealed partial class RolesClient
     /// <summary>
     /// Update a role
     /// </summary>
-    /// <remarks>Update a custom role.</remarks>
+    /// <remarks>Updates a custom role's name, description, or permissions and returns the updated role. Providing permissions replaces the role's permission list and changes the access granted to members assigned to that role. Omitted fields remain unchanged.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
     /// <param name="body">Request body payload.</param>
@@ -513,7 +513,7 @@ public sealed partial class RolesClient
     /// <summary>
     /// Update a role
     /// </summary>
-    /// <remarks>Update a custom role.</remarks>
+    /// <remarks>Updates a custom role's name, description, or permissions and returns the updated role. Providing permissions replaces the role's permission list and changes the access granted to members assigned to that role. Omitted fields remain unchanged.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="roleId">The ID of the role to retrieve.</param>
     /// <param name="body">Request body payload.</param>

@@ -194,10 +194,6 @@ public static class Program
 
 func (g *Generator) sampleValue(typeName, name string) string {
 	typeName = strings.TrimSuffix(strings.TrimSpace(typeName), "?")
-	if strings.HasPrefix(typeName, "OptionalQuery<") && strings.HasSuffix(typeName, ">") {
-		inner := strings.TrimSuffix(strings.TrimPrefix(typeName, "OptionalQuery<"), ">")
-		return fmt.Sprintf("%s.From(%s)", typeName, g.sampleValue(inner, name))
-	}
 	if strings.HasPrefix(typeName, "IEnumerable<") && strings.HasSuffix(typeName, ">") {
 		inner := strings.TrimSuffix(strings.TrimPrefix(typeName, "IEnumerable<"), ">")
 		return fmt.Sprintf("Array.Empty<%s>()", inner)

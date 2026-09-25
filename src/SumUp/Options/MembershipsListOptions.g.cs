@@ -23,10 +23,12 @@ public sealed partial class MembershipsListOptions
     public bool? ResourceAttributesSandbox { get; set; }
     /// <summary>Filter memberships by the name of the resource the membership is in.</summary>
     public string? ResourceName { get; set; }
-    /// <summary>Filter memberships by the parent of the resource the membership is in. When filtering by parent both resource.parent.id and resource.parent.type must be present. Pass explicit null to filter for resources without a parent.</summary>
-    public OptionalQuery<string> ResourceParentId { get; set; }
-    /// <summary>Filter memberships by the parent of the resource the membership is in. When filtering by parent both resource.parent.id and resource.parent.type must be present. Pass explicit null to filter for resources without a parent.</summary>
-    public OptionalQuery<string> ResourceParentType { get; set; }
+    /// <summary>Filter memberships by the ID of the resource the membership is in.</summary>
+    public string? ResourceId { get; set; }
+    /// <summary>Filter memberships by the parent of the resource the membership is in. Omit both resource.parent.id and resource.parent.type to skip parent filtering. When filtering by parent, both parameters must be present. To select resources without a parent, set each parameter to an empty value. Otherwise, both parameters must identify a parent.</summary>
+    public string? ResourceParentId { get; set; }
+    /// <summary>Filter memberships by the parent of the resource the membership is in. Omit both resource.parent.id and resource.parent.type to skip parent filtering. When filtering by parent, both parameters must be present. To select resources without a parent, set each parameter to an empty value. Otherwise, both parameters must identify a parent.</summary>
+    public string? ResourceParentType { get; set; }
     /// <summary>Filter the returned memberships by role.</summary>
     public IEnumerable<string>? Roles { get; set; }
 }

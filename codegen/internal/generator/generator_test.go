@@ -184,13 +184,16 @@ func TestBuildModels_HandlesOpenAPI31NullableTypes(t *testing.T) {
 	}
 }
 
-func TestBuildClients_UsesOptionalQueryForOpenAPI31NullableTypes(t *testing.T) {
+func TestBuildClients_UsesOptionalStringsForAllowEmptyQueryParameters(t *testing.T) {
+	t.Parallel()
+
 	const spec = `{
 	  "openapi": "3.1.0",
 	  "info": {
 	    "title": "test",
 	    "version": "1.0.0"
 	  },
+	  "components": { "schemas": { "ResourceType": { "type": "string" } } },
 	  "paths": {
 	    "/memberships": {
 	      "get": {
@@ -199,7 +202,13 @@ func TestBuildClients_UsesOptionalQueryForOpenAPI31NullableTypes(t *testing.T) {
 	        "parameters": [{
 	          "name": "resource.parent.id",
 	          "in": "query",
-	          "schema": { "type": ["string", "null"] }
+	          "allowEmptyValue": true,
+	          "schema": { "type": "string" }
+	        }, {
+	          "name": "resource.parent.type",
+	          "in": "query",
+	          "allowEmptyValue": true,
+	          "schema": { "$ref": "#/components/schemas/ResourceType" }
 	        }],
 	        "responses": { "204": { "description": "ok" } }
 	      }
@@ -214,9 +223,11 @@ func TestBuildClients_UsesOptionalQueryForOpenAPI31NullableTypes(t *testing.T) {
 		t.Fatalf("buildClients() error = %v", err)
 	}
 
-	parameter := clients[0].Operations[0].QueryParams[0]
-	if got, want := parameter.Declaration, "OptionalQuery<string> resourceParentId = default"; got != want {
-		t.Fatalf("parameter declaration = %q, want %q", got, want)
+	for i, want := range []string{"string? resourceParentId = null", "string? resourceParentType = null"} {
+		parameter := clients[0].Operations[0].QueryParams[i]
+		if got := parameter.Declaration; got != want {
+			t.Errorf("parameter declaration = %q, want %q", got, want)
+		}
 	}
 }
 

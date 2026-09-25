@@ -27,7 +27,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create a checkout
     /// </summary>
-    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. To use the Hosted Checkout page, set the hosted_checkout.enabled to true. Follow by processing a checkout to charge the provided payment instrument.</remarks>
+    /// <remarks>Creates a payment checkout for the specified merchant, amount, and currency. Supply a checkout_reference to identify the payment attempt in your own systems. Creating a checkout does not charge a payment instrument. Set hosted_checkout.enabled to true to receive a Hosted Checkout URL where the customer can complete the payment. Use redirect_url for redirect-based payment and 3DS flows. If return_url is provided, SumUp sends processing updates to that backend callback URL. Complete the payment through Hosted Checkout or the Payment Widget.</remarks>
     /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -92,7 +92,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Create a checkout
     /// </summary>
-    /// <remarks>Creates a new payment checkout resource. The unique checkout_reference created by this request, is used for further manipulation of the checkout. For 3DS checkouts, add the redirect_url parameter to your request body schema. To use the Hosted Checkout page, set the hosted_checkout.enabled to true. Follow by processing a checkout to charge the provided payment instrument.</remarks>
+    /// <remarks>Creates a payment checkout for the specified merchant, amount, and currency. Supply a checkout_reference to identify the payment attempt in your own systems. Creating a checkout does not charge a payment instrument. Set hosted_checkout.enabled to true to receive a Hosted Checkout URL where the customer can complete the payment. Use redirect_url for redirect-based payment and 3DS flows. If return_url is provided, SumUp sends processing updates to that backend callback URL. Complete the payment through Hosted Checkout or the Payment Widget.</remarks>
     /// <param name="body">Details for creating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -845,7 +845,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Update a checkout
     /// </summary>
-    /// <remarks>Updates an identified checkout resource.</remarks>
+    /// <remarks>Updates the amount, currency, description, reference, expiration, or customer associated with an existing checkout. Only the supplied fields are updated. This request changes the checkout details; it does not charge a payment instrument. Process the checkout separately to attempt a payment.</remarks>
     /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
     /// <param name="body">Details for updating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -904,7 +904,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Update a checkout
     /// </summary>
-    /// <remarks>Updates an identified checkout resource.</remarks>
+    /// <remarks>Updates the amount, currency, description, reference, expiration, or customer associated with an existing checkout. Only the supplied fields are updated. This request changes the checkout details; it does not charge a payment instrument. Process the checkout separately to attempt a payment.</remarks>
     /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
     /// <param name="body">Details for updating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>

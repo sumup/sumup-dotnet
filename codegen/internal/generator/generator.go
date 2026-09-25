@@ -769,17 +769,11 @@ func (g *Generator) convertParameter(param *v3.Parameter) (parameterTemplateData
 	required := param.Required != nil && *param.Required
 	typeInfo := g.resolveType(param.Schema, required)
 	argName := naming.Identifier(param.Name)
-	declaration := ""
-	if shouldUseOptionalQueryParameter(param, required, typeInfo) {
-		baseType := strings.TrimSuffix(typeInfo.TypeName, "?")
-		declaration = fmt.Sprintf("OptionalQuery<%s> %s = default", baseType, argName)
-	} else {
-		defaultValue := ""
-		if !required {
-			defaultValue = " = null"
-		}
-		declaration = fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue)
+	defaultValue := ""
+	if !required {
+		defaultValue = " = null"
 	}
+	declaration := fmt.Sprintf("%s %s%s", typeInfo.TypeName, argName, defaultValue)
 	return parameterTemplateData{
 		Location:         param.In,
 		Name:             param.Name,
@@ -845,16 +839,6 @@ func (g *Generator) buildOperationOptions(clientName, methodName, summary string
 		Required:        hasRequired,
 		Signature:       signature,
 	}
-}
-
-func shouldUseOptionalQueryParameter(param *v3.Parameter, required bool, typeInfo typeInfo) bool {
-	if param == nil || required || param.In != "query" {
-		return false
-	}
-	if typeInfo.IsValueType || typeInfo.IsCollection {
-		return false
-	}
-	return schemaAllowsNull(param.Schema)
 }
 
 func schemaAllowsNull(schemaRef *base.SchemaProxy) bool {

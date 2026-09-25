@@ -51,23 +51,23 @@ public class RequestBuilderTests
     }
 
     [Fact]
-    public void Build_OmitsUnsetOptionalQuery()
+    public void Build_OmitsNullQuery()
     {
         var builder = new RequestBuilder(HttpMethod.Get, "/v0.1/items", new Uri("https://api.sumup.com"));
-        builder.AddQuery("status", OptionalQuery<string>.Unset);
+        builder.AddQuery("status", null);
         var request = builder.Build();
 
         Assert.Equal("https://api.sumup.com/v0.1/items", request.RequestUri!.AbsoluteUri);
     }
 
     [Fact]
-    public void Build_EmitsExplicitNullOptionalQuery()
+    public void Build_PreservesEmptyQuery()
     {
         var builder = new RequestBuilder(HttpMethod.Get, "/v0.1/items", new Uri("https://api.sumup.com"));
-        builder.AddQuery("status", OptionalQuery<string>.Null());
+        builder.AddQuery("status", string.Empty);
         var request = builder.Build();
 
-        Assert.Equal("https://api.sumup.com/v0.1/items?status=null", request.RequestUri!.AbsoluteUri);
+        Assert.Equal("https://api.sumup.com/v0.1/items?status=", request.RequestUri!.AbsoluteUri);
     }
 
     [Fact]
