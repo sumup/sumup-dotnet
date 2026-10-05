@@ -9,8 +9,6 @@ using System.Text.Json.Serialization;
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
 public enum Currency
 {
-    [EnumMember(Value = "BGN")]
-    Bgn,
     [EnumMember(Value = "BRL")]
     Brl,
     [EnumMember(Value = "CHF")]
