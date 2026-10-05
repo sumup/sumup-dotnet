@@ -11,6 +11,9 @@ public sealed partial class CardResponse
     [JsonPropertyName("last_4_digits")]
     [JsonInclude]
     public string? Last4Digits { get; private set; }
+    /// <summary>PAR (Payment account reference) if available for the card.</summary>
+    [JsonPropertyName("payment_account_reference")]
+    public string? PaymentAccountReference { get; set; }
     /// <summary>Issuing card network of the payment card used for the transaction.</summary>
     [JsonPropertyName("type")]
     public CardType? Type { get; set; }
