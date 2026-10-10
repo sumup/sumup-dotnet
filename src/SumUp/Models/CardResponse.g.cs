@@ -11,7 +11,7 @@ public sealed partial class CardResponse
     [JsonPropertyName("last_4_digits")]
     [JsonInclude]
     public string? Last4Digits { get; private set; }
-    /// <summary>PAR (Payment account reference) if available for the card.</summary>
+    /// <summary>Payment Account Reference (PAR) defined by EMVCo. It links a card's primary account number (PAN) with its affiliated payment tokens, allowing transactions made with the physical card and tokenized versions of that card, such as digital wallets, to be correlated when PAR is available. This reference cannot be used to initiate a payment and is separate from the saved payment instrument token used to process checkouts. Returned only when available for the card; integrations must handle its absence.</summary>
     [JsonPropertyName("payment_account_reference")]
     public string? PaymentAccountReference { get; set; }
     /// <summary>Issuing card network of the payment card used for the transaction.</summary>

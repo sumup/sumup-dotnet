@@ -10,7 +10,7 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>Amount to be charged to the payer, expressed in major units.</summary>
     [JsonPropertyName("amount")]
     public float Amount { get; set; }
-    /// <summary>Merchant-defined reference for the new checkout. It should be unique enough for you to identify the payment attempt in your own systems.</summary>
+    /// <summary>Merchant-defined reference for the new checkout, up to 64 characters. Use it to correlate the checkout with an order or payment attempt in your own system. If a checkout already exists for the supplied unique parameters, creation returns 409 with DUPLICATED_CHECKOUT; see the conflict response.</summary>
     [JsonPropertyName("checkout_reference")]
     public string CheckoutReference { get; set; } = default!;
     /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
@@ -34,7 +34,7 @@ public sealed partial class CheckoutCreateRequest
     /// <summary>URL where the payer should be sent after a redirect-based payment or SCA flow completes. This is required for APMs and recommended for card checkouts that may require 3DS. If it is omitted, the Payment Widget can render the challenge in an iframe instead of using a full-page redirect.</summary>
     [JsonPropertyName("redirect_url")]
     public string? RedirectUrl { get; set; }
-    /// <summary>Optional backend callback URL used by SumUp to notify your platform about processing updates for the checkout.</summary>
+    /// <summary>Optional backend callback URL for checkout status notifications. SumUp sends an HTTP POST with event_type and the checkout id. Retrieve the checkout to verify its current status before updating your order. See the webhook guide for the payload and response requirements.</summary>
     [JsonPropertyName("return_url")]
     public string? ReturnUrl { get; set; }
     /// <summary>Optional expiration timestamp. The checkout must be processed before this moment, otherwise it becomes unusable. If omitted, the checkout does not have an explicit expiry time.</summary>

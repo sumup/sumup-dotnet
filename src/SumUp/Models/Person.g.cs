@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Collections.Generic;
 public sealed partial class Person
 {
-    /// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, city is post_town. In the United States, the top-level administrative unit used in addresses is state, whereas in Chile it's region. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
+    /// <summary>The address of the individual.</summary>
     [JsonPropertyName("address")]
     public Address? Address { get; set; }
     /// <summary>The date of birth of the individual, represented as an ISO 8601:2004 [ISO8601‑2004] YYYY-MM-DD format.</summary>
@@ -17,7 +17,7 @@ public sealed partial class Person
     [JsonPropertyName("change_status")]
     [JsonInclude]
     public string? ChangeStatus { get; private set; }
-    /// <summary>An ISO3166-1 alpha-2 country code. This definition users oneOf with a two-character string type to allow for support of future countries in client code.</summary>
+    /// <summary>The Alpha-2 ISO code of the country where the Person is a citizen.</summary>
     [JsonPropertyName("citizenship")]
     public string? Citizenship { get; set; }
     /// <summary>An ISO3166-1 alpha-2 country code representing the country where the Person resides.</summary>
@@ -42,9 +42,10 @@ public sealed partial class Person
     /// <summary>The Person's nationality. May be an ISO3166-1 alpha-2 country code, but legacy data may not conform to this standard.</summary>
     [JsonPropertyName("nationality")]
     public string? Nationality { get; set; }
+    /// <summary>Details about the ownership relationship between the Person and the Merchant. This is only set if the Person has a relationship of type owner.</summary>
     [JsonPropertyName("ownership")]
     public Ownership? Ownership { get; set; }
-    /// <summary>A publicly available phone number in E.164 format.</summary>
+    /// <summary>The (mobile) phone number of the individual (used for verification) in E.164 format.</summary>
     [JsonPropertyName("phone_number")]
     public string? PhoneNumber { get; set; }
     /// <summary>A list of roles the Person has in the Merchant or towards SumUp. A Merchant must have at least one Person with the relationship representative.</summary>

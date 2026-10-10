@@ -10,7 +10,7 @@ public sealed partial class PersonalDetails
     /// <summary>Profile's personal address information.</summary>
     [JsonPropertyName("address")]
     public AddressLegacy? Address { get; set; }
-    /// <summary>Date of birth of the customer.</summary>
+    /// <summary>Date of birth of the customer in YYYY-MM-DD format, without a time or timezone.</summary>
     [JsonPropertyName("birth_date")]
     public DateOnly? BirthDate { get; set; }
     /// <summary>Email address of the customer.</summary>

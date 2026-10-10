@@ -19,6 +19,15 @@ public sealed class ReaderCreatedEvent : EventNotification<Reader>;
 /// <summary>Sent when a reader is unpaired from a merchant account and is no longer available through the Readers API.</summary>
 public sealed class ReaderDeletedEvent : EventNotification<Reader>;
 
+/// <summary>Sent when a role is created for a merchant account.</summary>
+public sealed class RoleCreatedEvent : EventNotification<Role>;
+
+/// <summary>Sent when a role is deleted for a merchant account.</summary>
+public sealed class RoleDeletedEvent : EventNotification<Role>;
+
+/// <summary>Sent when a role is updated for a merchant account.</summary>
+public sealed class RoleUpdatedEvent : EventNotification<Role>;
+
 public sealed partial class EventsHandler
 {
     /// <summary>Registers a callback for <c>"members.created"</c>, replacing any previous callback for this type.</summary>
@@ -51,6 +60,24 @@ public sealed partial class EventsHandler
     public EventsHandler OnReaderDeleted(Func<ReaderDeletedEvent, CancellationToken, Task> callback) =>
         Register("readers.deleted", callback);
 
+    /// <summary>Registers a callback for <c>"roles.created"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnRoleCreated(Func<RoleCreatedEvent, CancellationToken, Task> callback) =>
+        Register("roles.created", callback);
+
+    /// <summary>Registers a callback for <c>"roles.deleted"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnRoleDeleted(Func<RoleDeletedEvent, CancellationToken, Task> callback) =>
+        Register("roles.deleted", callback);
+
+    /// <summary>Registers a callback for <c>"roles.updated"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnRoleUpdated(Func<RoleUpdatedEvent, CancellationToken, Task> callback) =>
+        Register("roles.updated", callback);
+
 }
 
 public partial class SumUpClient
@@ -62,6 +89,9 @@ public partial class SumUpClient
         "members.updated" => root.Deserialize<MemberUpdatedEvent>()!,
         "readers.created" => root.Deserialize<ReaderCreatedEvent>()!,
         "readers.deleted" => root.Deserialize<ReaderDeletedEvent>()!,
+        "roles.created" => root.Deserialize<RoleCreatedEvent>()!,
+        "roles.deleted" => root.Deserialize<RoleDeletedEvent>()!,
+        "roles.updated" => root.Deserialize<RoleUpdatedEvent>()!,
         _ => root.Deserialize<EventNotification>()!,
     };
 }

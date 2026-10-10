@@ -8,6 +8,6 @@ namespace SumUp;
 /// </summary>
 public sealed partial class CheckoutsListOptions
 {
-    /// <summary>Filters the list of checkout resources by the unique reference of the checkout.</summary>
+    /// <summary>Filters checkouts by the merchant-defined checkout_reference supplied when creating the checkout. This is separate from the SumUp-generated checkout id.</summary>
     public string? CheckoutReference { get; set; }
 }

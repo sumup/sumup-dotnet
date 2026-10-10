@@ -34,7 +34,7 @@ public sealed partial class Product
     /// <summary>Total VAT amount for the product quantity.</summary>
     [JsonPropertyName("vat_amount")]
     public decimal? VatAmount { get; set; }
-    /// <summary>VAT rate applied to the product price.</summary>
+    /// <summary>VAT rate as a decimal fraction, for example 0.19 for 19%.</summary>
     [JsonPropertyName("vat_rate")]
     public decimal? VatRate { get; set; }
 }
