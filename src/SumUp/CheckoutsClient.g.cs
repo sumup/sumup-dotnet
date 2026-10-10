@@ -158,8 +158,8 @@ public sealed partial class CheckoutsClient
     /// Create an Apple Pay session
     /// </summary>
     /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling ApplePaySession.completeMerchantValidation(...) in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
-    /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
+    /// <param name="body">Merchant validation details from the Apple Pay session in the payer's browser.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<JsonDocument> CreateApplePaySession(string checkoutId, CheckoutsCreateApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -217,8 +217,8 @@ public sealed partial class CheckoutsClient
     /// Create an Apple Pay session
     /// </summary>
     /// <remarks>Creates an Apple Pay merchant session for the specified checkout. Use this endpoint after the customer selects Apple Pay and before calling ApplePaySession.completeMerchantValidation(...) in the browser. SumUp validates the merchant session request and returns the Apple Pay session object that your frontend should pass to Apple's JavaScript API.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
-    /// <param name="body">The data needed to create an apple pay session for a checkout.</param>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
+    /// <param name="body">Merchant validation details from the Apple Pay session in the payer's browser.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<JsonDocument>> CreateApplePaySessionAsync(string checkoutId, CheckoutsCreateApplePaySessionRequest? body = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -276,7 +276,7 @@ public sealed partial class CheckoutsClient
     /// Deactivate a checkout
     /// </summary>
     /// <remarks>Deactivates an identified checkout resource. If the checkout has already been processed it can not be deactivated.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<Checkout> Deactivate(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -335,7 +335,7 @@ public sealed partial class CheckoutsClient
     /// Deactivate a checkout
     /// </summary>
     /// <remarks>Deactivates an identified checkout resource. If the checkout has already been processed it can not be deactivated.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<Checkout>> DeactivateAsync(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -393,8 +393,8 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Retrieve a checkout
     /// </summary>
-    /// <remarks>Retrieves an identified checkout resource. Use this request after processing a checkout to confirm its status and inform the end user respectively.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <remarks>Retrieves a checkout by its SumUp checkout_id. After processing a payment, returning from a redirect, or receiving a checkout notification, retrieve the checkout to confirm its current status before updating your order or displaying the payment outcome to the payer.</remarks>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<CheckoutSuccess> Get(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -447,8 +447,8 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Retrieve a checkout
     /// </summary>
-    /// <remarks>Retrieves an identified checkout resource. Use this request after processing a checkout to confirm its status and inform the end user respectively.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <remarks>Retrieves a checkout by its SumUp checkout_id. After processing a payment, returning from a redirect, or receiving a checkout notification, retrieve the checkout to confirm its current status before updating your order or displaying the payment outcome to the payer.</remarks>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<CheckoutSuccess>> GetAsync(string checkoutId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -601,7 +601,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Get available payment methods
     /// </summary>
-    /// <remarks>Get payment methods available for the given merchant to use with a checkout.</remarks>
+    /// <remarks>Lists the payment methods available to the merchant for checkout payments. Use the optional amount and currency filters to check eligibility for a particular payment before presenting payment options to the payer.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -654,7 +654,7 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Get available payment methods
     /// </summary>
-    /// <remarks>Get payment methods available for the given merchant to use with a checkout.</remarks>
+    /// <remarks>Lists the payment methods available to the merchant for checkout payments. Use the optional amount and currency filters to check eligibility for a particular payment before presenting payment options to the payer.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -707,8 +707,8 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Process a checkout
     /// </summary>
-    /// <remarks>:::caution[PCI DSS compliance required] When you submit raw card details directly to the Checkout API, your systems store, process, or transmit cardholder data and are therefore subject to applicable PCI DSS requirements. You should only use this integration if your environment is appropriately PCI DSS compliant. ::: Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <remarks>:::caution[PCI DSS compliance required] When you submit raw card details directly to the Checkout API, your systems store, process, or transmit cardholder data and are therefore subject to applicable PCI DSS requirements. You should only use this integration if your environment is appropriately PCI DSS compliant. ::: Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. A processing response can require an additional payer action, such as a 3DS challenge or a payment-provider redirect. If next_step is returned, follow its instructions to continue the payment flow. Retrieve the checkout afterwards to confirm its payment status. Acceptance of the processing request does not by itself mean the checkout is paid.</remarks>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -776,8 +776,8 @@ public sealed partial class CheckoutsClient
     /// <summary>
     /// Process a checkout
     /// </summary>
-    /// <remarks>:::caution[PCI DSS compliance required] When you submit raw card details directly to the Checkout API, your systems store, process, or transmit cardholder data and are therefore subject to applicable PCI DSS requirements. You should only use this integration if your environment is appropriately PCI DSS compliant. ::: Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. Follow this request with Retrieve a checkout to confirm its status.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <remarks>:::caution[PCI DSS compliance required] When you submit raw card details directly to the Checkout API, your systems store, process, or transmit cardholder data and are therefore subject to applicable PCI DSS requirements. You should only use this integration if your environment is appropriately PCI DSS compliant. ::: Processing a checkout will attempt to charge the provided payment instrument for the amount of the specified checkout resource initiated in the Create a checkout endpoint. A processing response can require an additional payer action, such as a 3DS challenge or a payment-provider redirect. If next_step is returned, follow its instructions to continue the payment flow. Retrieve the checkout afterwards to confirm its payment status. Acceptance of the processing request does not by itself mean the checkout is paid.</remarks>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="body">Details of the payment instrument for processing the checkout.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -846,7 +846,7 @@ public sealed partial class CheckoutsClient
     /// Update a checkout
     /// </summary>
     /// <remarks>Updates the amount, currency, description, reference, expiration, or customer associated with an existing checkout. Only the supplied fields are updated. This request changes the checkout details; it does not charge a payment instrument. Process the checkout separately to attempt a payment.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="body">Details for updating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -905,7 +905,7 @@ public sealed partial class CheckoutsClient
     /// Update a checkout
     /// </summary>
     /// <remarks>Updates the amount, currency, description, reference, expiration, or customer associated with an existing checkout. Only the supplied fields are updated. This request changes the checkout details; it does not charge a payment instrument. Process the checkout separately to attempt a payment.</remarks>
-    /// <param name="checkoutId">Unique identifier of the checkout resource.</param>
+    /// <param name="checkoutId">SumUp-generated id returned when creating a checkout. Use this value to retrieve, update, process, or deactivate the checkout.</param>
     /// <param name="body">Details for updating a checkout resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>

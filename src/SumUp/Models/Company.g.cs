@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// <summary>Information about the company or business. This is legal information that is used for verification.</summary>
 public sealed partial class Company
 {
-    /// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, city is post_town. In the United States, the top-level administrative unit used in addresses is state, whereas in Chile it's region. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
+    /// <summary>The company's primary address.</summary>
     [JsonPropertyName("address")]
     public Address? Address { get; set; }
     /// <summary>Object attributes that are modifiable only by SumUp applications.</summary>
@@ -17,7 +17,7 @@ public sealed partial class Company
     /// <summary>A list of country-specific company identifiers.</summary>
     [JsonPropertyName("identifiers")]
     public IEnumerable<CompanyIdentifier>? Identifiers { get; set; }
-    /// <summary>The unique legal type reference as defined in the country SDK. We do not rely on IDs as used by other services. Consumers of this API are expected to use the country SDK to map to any other IDs, translation keys, or descriptions.</summary>
+    /// <summary>The category identifying the legal structure of the company or legal entity.</summary>
     [JsonPropertyName("legal_type")]
     public string? LegalType { get; set; }
     /// <summary>The merchant category code for the account as specified by ISO18245. MCCs are used to classify businesses based on the goods or services they provide.</summary>
@@ -26,10 +26,10 @@ public sealed partial class Company
     /// <summary>The company's legal name.</summary>
     [JsonPropertyName("name")]
     public string? Name { get; set; }
-    /// <summary>A publicly available phone number in E.164 format.</summary>
+    /// <summary>The company's phone number (used for verification) in E.164 format.</summary>
     [JsonPropertyName("phone_number")]
     public string? PhoneNumber { get; set; }
-    /// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, city is post_town. In the United States, the top-level administrative unit used in addresses is state, whereas in Chile it's region. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
+    /// <summary>A trading address is where your suppliers, banks or customers send you correspondence to. Trading address can be different to the company's registered address (address).</summary>
     [JsonPropertyName("trading_address")]
     public Address? TradingAddress { get; set; }
     /// <summary>HTTP(S) URL of the company's website.</summary>

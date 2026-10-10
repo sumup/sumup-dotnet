@@ -31,7 +31,7 @@ public sealed partial class ProcessCheckout
     /// <summary>Personal details for the customer.</summary>
     [JsonPropertyName("personal_details")]
     public PersonalDetails? PersonalDetails { get; set; }
-    /// <summary>Saved-card token to use instead of raw card details when processing with a previously stored payment instrument.</summary>
+    /// <summary>Token of a saved payment instrument returned by checkout processing or the customer's payment-instruments endpoint. To charge a saved card, set payment_type to card and provide both this token and the associated customer_id instead of raw card details.</summary>
     [JsonPropertyName("token")]
     public string? Token { get; set; }
 }

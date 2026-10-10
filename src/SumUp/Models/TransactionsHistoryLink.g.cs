@@ -7,10 +7,10 @@ using System.Text.Json.Serialization;
 /// <summary>Hypermedia link used for transaction history pagination.</summary>
 public sealed partial class TransactionsHistoryLink
 {
-    /// <summary>Location.</summary>
+    /// <summary>Query string to use with the transaction history endpoint when requesting the linked page. Preserve the returned pagination references and query parameters.</summary>
     [JsonPropertyName("href")]
     public string Href { get; set; } = default!;
-    /// <summary>Relation.</summary>
+    /// <summary>Pagination relation indicating which page the link retrieves, for example next.</summary>
     [JsonPropertyName("rel")]
     public string Rel { get; set; } = default!;
 }

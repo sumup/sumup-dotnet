@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 public sealed partial class ReaderPaymentRequestParams
 {
     [JsonPropertyName("affiliate")]
-    public Affiliate? Affiliate { get; set; }
+    public ReaderPaymentRequestParamsAffiliate? Affiliate { get; set; }
     /// <summary>Caller-supplied correlation identifier, used as the idempotency key.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string ClientTransactionId { get; set; } = default!;
@@ -15,5 +15,5 @@ public sealed partial class ReaderPaymentRequestParams
     [JsonPropertyName("tip_amount")]
     public int? TipAmount { get; set; }
     [JsonPropertyName("total_amount")]
-    public Amount TotalAmount { get; set; } = default!;
+    public ReaderPaymentRequestParamsTotalAmount TotalAmount { get; set; } = default!;
 }

@@ -11,13 +11,13 @@ public sealed partial class TransactionsListOptions
 {
     /// <summary>Retrieves the transaction resource with the specified transaction code.</summary>
     public string? TransactionCode { get; set; }
-    /// <summary>Specifies the order in which the returned results are displayed.</summary>
+    /// <summary>Sort direction for the transaction history. Use ascending or descending; the default is ascending.</summary>
     public string? Order { get; set; }
-    /// <summary>Specifies the maximum number of results per page. Value must be a positive integer and if not specified, will return 10 results.</summary>
+    /// <summary>Maximum number of transactions per page. Must be a positive integer. Defaults to 10 when omitted; a page can contain fewer results.</summary>
     public int? Limit { get; set; }
-    /// <summary>Filters the returned results by user email.</summary>
+    /// <summary>Filters transactions by user email. For multiple values, repeat the query parameter, for example users[]=first@example.com&amp;users[]=second@example.com.</summary>
     public IEnumerable<string>? Users { get; set; }
-    /// <summary>Filters the returned results by the specified list of final statuses of the transactions.</summary>
+    /// <summary>Filters transactions by the listed final statuses. For multiple values, repeat the query parameter, for example statuses[]=SUCCESSFUL&amp;statuses[]=REFUNDED.</summary>
     public IEnumerable<string>? Statuses { get; set; }
     /// <summary>Filters the returned results by the specified list of payment types used for the transactions.</summary>
     public IEnumerable<PaymentType>? PaymentTypes { get; set; }
@@ -29,10 +29,10 @@ public sealed partial class TransactionsListOptions
     public DateTimeOffset? ChangesSince { get; set; }
     /// <summary>Filters the results by the creation time of resources and returns only transactions that are created *before* the specified timestamp (in ISO8601 format).</summary>
     public DateTimeOffset? NewestTime { get; set; }
-    /// <summary>Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *smaller* than the specified value. This parameters supersedes the newest_time parameter (if both are provided in the request).</summary>
+    /// <summary>Pagination reference that returns results before the specified reference. Use the value from a returned pagination link rather than constructing it yourself. This parameter takes precedence over newest_time when both are provided.</summary>
     public string? NewestRef { get; set; }
     /// <summary>Filters the results by the creation time of resources and returns only transactions that are created *at or after* the specified timestamp (in ISO8601 format).</summary>
     public DateTimeOffset? OldestTime { get; set; }
-    /// <summary>Filters the results by the reference ID of transaction events and returns only transactions with events whose IDs are *greater* than the specified value. This parameters supersedes the oldest_time parameter (if both are provided in the request).</summary>
+    /// <summary>Pagination reference that returns results after the specified reference. Use the value from a returned pagination link rather than constructing it yourself. This parameter takes precedence over oldest_time when both are provided.</summary>
     public string? OldestRef { get; set; }
 }

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>Core details shared by transaction resources.</summary>
 public sealed partial class TransactionBase
 {
-    /// <summary>Total amount of the transaction.</summary>
+    /// <summary>Total amount of the transaction in major units of currency, for example 10.1 for EUR 10.10.</summary>
     [JsonPropertyName("amount")]
     public float? Amount { get; set; }
     /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
@@ -19,7 +19,7 @@ public sealed partial class TransactionBase
     /// <summary>Number of installments for a deferred payment.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
-    /// <summary>Payment type used for the transaction.</summary>
+    /// <summary>Payment category recorded on a transaction, for example POS for a point-of-sale card payment, ECOM for an online card payment, or RECURRING for a recurring card payment. These reporting values are separate from the lowercase payment_type values used to process checkouts.</summary>
     [JsonPropertyName("payment_type")]
     public PaymentType? PaymentType { get; set; }
     /// <summary>Current status of the transaction. - PENDING: The transaction has been created but its final outcome is not known yet. - SUCCESSFUL: The transaction completed successfully. - CANCELLED: The transaction was cancelled or otherwise reversed before completion. - FAILED: The transaction attempt did not complete successfully. - REFUNDED: The transaction was refunded in full or in part.</summary>
@@ -28,7 +28,7 @@ public sealed partial class TransactionBase
     /// <summary>The timestamp of when the transaction was created.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
-    /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>
+    /// <summary>SumUp transaction code, for example TEENSK4W2K. Use it to look up the transaction with the transaction_code query parameter. This is separate from the transaction's id and the card issuer's auth_code.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
 }

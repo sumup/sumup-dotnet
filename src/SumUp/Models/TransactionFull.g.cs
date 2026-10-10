@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// <summary>Full transaction resource with checkout, payout, and event details.</summary>
 public sealed partial class TransactionFull
 {
-    /// <summary>Total amount of the transaction.</summary>
+    /// <summary>Total amount of the transaction in major units of currency, for example 10.1 for EUR 10.10.</summary>
     [JsonPropertyName("amount")]
     public float? Amount { get; set; }
     /// <summary>Authorization code for the transaction sent by the payment card issuer or bank. Applicable only to card payments.</summary>
@@ -29,13 +29,13 @@ public sealed partial class TransactionFull
     /// <summary>Details of the ELV card account associated with the transaction.</summary>
     [JsonPropertyName("elv_account")]
     public ElvCardAccount? ElvAccount { get; set; }
-    /// <summary>Entry mode of the payment details.</summary>
+    /// <summary>How the payment details were captured, for example CHIP or CONTACTLESS for card-present payments and CUSTOMER_ENTRY for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as APPLE_PAY or BLIK.</summary>
     [JsonPropertyName("entry_mode")]
     public EntryMode? EntryMode { get; set; }
     /// <summary>Compact list of events related to the transaction.</summary>
     [JsonPropertyName("events")]
     public IEnumerable<EventValue>? Events { get; set; }
-    /// <summary>Transaction SumUp total fee amount.</summary>
+    /// <summary>Total SumUp transaction fee in major units of the transaction's currency.</summary>
     [JsonPropertyName("fee_amount")]
     public decimal? FeeAmount { get; set; }
     /// <summary>External transaction identifier supplied by the client.</summary>
@@ -71,7 +71,7 @@ public sealed partial class TransactionFull
     /// <summary>Internal SumUp identifier of the merchant.</summary>
     [JsonPropertyName("merchant_id")]
     public long? MerchantId { get; set; }
-    /// <summary>Payment type used for the transaction.</summary>
+    /// <summary>Payment category recorded on a transaction, for example POS for a point-of-sale card payment, ECOM for an online card payment, or RECURRING for a recurring card payment. These reporting values are separate from the lowercase payment_type values used to process checkouts.</summary>
     [JsonPropertyName("payment_type")]
     public PaymentType? PaymentType { get; set; }
     /// <summary>The date of the payout.</summary>
@@ -113,10 +113,10 @@ public sealed partial class TransactionFull
     /// <summary>The timestamp of when the transaction was created.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
-    /// <summary>Amount of the tip (out of the total transaction amount).</summary>
+    /// <summary>Tip included in the total transaction amount, in major units of the transaction's currency.</summary>
     [JsonPropertyName("tip_amount")]
     public float? TipAmount { get; set; }
-    /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>
+    /// <summary>SumUp transaction code, for example TEENSK4W2K. Use it to look up the transaction with the transaction_code query parameter. This is separate from the transaction's id and the card issuer's auth_code.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
     /// <summary>Detailed list of events related to the transaction.</summary>
@@ -125,7 +125,7 @@ public sealed partial class TransactionFull
     /// <summary>Email address of the registered user (merchant) to whom the payment is made.</summary>
     [JsonPropertyName("username")]
     public string? Username { get; set; }
-    /// <summary>Amount of the applicable VAT (out of the total transaction amount).</summary>
+    /// <summary>VAT included in the total transaction amount, in major units of the transaction's currency.</summary>
     [JsonPropertyName("vat_amount")]
     public float? VatAmount { get; set; }
     /// <summary>List of VAT rates applicable to the transaction.</summary>

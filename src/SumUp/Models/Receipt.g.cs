@@ -4,7 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Receipt details for a transaction.</summary>
+/// <summary>Structured receipt details for a transaction. The transaction's amount, vat_amount, and tip_amount, as well as event amounts, are returned as decimal strings in major currency units, for example "10.10" for EUR 10.10.</summary>
 public sealed partial class Receipt
 {
     /// <summary>Acquirer-specific metadata related to the card authorization.</summary>

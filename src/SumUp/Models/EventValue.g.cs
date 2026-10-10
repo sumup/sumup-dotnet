@@ -19,7 +19,7 @@ public sealed partial class EventValue
     /// <summary>Fee associated with the transaction event, in major units.</summary>
     [JsonPropertyName("fee_amount")]
     public float? FeeAmount { get; set; }
-    /// <summary>Unique identifier of the transaction event.</summary>
+    /// <summary>Numeric identifier of a transaction event. Use it as tx_event_id when requesting receipt details for a specific event. This is separate from the transaction ID and the transaction history pagination references.</summary>
     [JsonPropertyName("id")]
     public long? Id { get; set; }
     /// <summary>Consecutive number of the installment associated with the event.</summary>
@@ -34,7 +34,7 @@ public sealed partial class EventValue
     /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("transaction_id")]
     public string? TransactionId { get; set; }
-    /// <summary>Type of the transaction event.</summary>
+    /// <summary>Financial event associated with a transaction. - PAYOUT: Funds from the transaction being prepared for or included in a merchant payout. Check the event status to determine whether they have been paid out. - REFUND: Money returned to the payer. - CHARGE_BACK: A reversal of the payment following a chargeback. - PAYOUT_DEDUCTION: An amount deducted from a merchant payout, for example to cover a refund or chargeback.</summary>
     [JsonPropertyName("type")]
     public TransactionEventType? Type { get; set; }
 }

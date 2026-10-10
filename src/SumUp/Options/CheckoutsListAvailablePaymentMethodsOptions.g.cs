@@ -8,8 +8,8 @@ namespace SumUp;
 /// </summary>
 public sealed partial class CheckoutsListAvailablePaymentMethodsOptions
 {
-    /// <summary>The amount for which the payment methods should be eligible, in major units.</summary>
+    /// <summary>Payment amount in major units, for example 9.99 for EUR 9.99. When filtering by amount, also provide currency.</summary>
     public decimal? Amount { get; set; }
-    /// <summary>The currency for which the payment methods should be eligible.</summary>
+    /// <summary>Three-letter ISO 4217 currency code for which the payment methods should be eligible, for example EUR.</summary>
     public string? Currency { get; set; }
 }

@@ -18,7 +18,7 @@ public sealed partial class CustomersClient
     /// <summary>
     /// Client for the Customers API endpoints.
     /// </summary>
-    /// <remarks>Allow your regular customers to save their information with the Customers model. This will prevent re-entering payment instrument information for recurring payments on your platform. Depending on the needs you can allow, creating, listing or deactivating payment instruments &amp; creating, retrieving and updating customers.</remarks>
+    /// <remarks>Customers represent payers in your integration. Create a customer with your own customer_id to associate their personal details and saved payment instruments with your business records. To save a card, create a checkout for that customer with purpose = SETUP_RECURRING_PAYMENT, then process it with the payer's consent and mandate details. See the tokenization guide. Use the Customers endpoints to create, retrieve, or update customer details and to list or deactivate saved payment instruments. For subsequent payments, process a new checkout with the saved instrument's token and its associated customer_id.</remarks>
     internal CustomersClient(ApiClient client)
     {
         _client = client;
@@ -27,7 +27,7 @@ public sealed partial class CustomersClient
     /// <summary>
     /// Create a customer
     /// </summary>
-    /// <remarks>Creates a new saved customer resource which you can later manipulate and save payment instruments to.</remarks>
+    /// <remarks>Creates a customer using the customer_id you supply. Choose an identifier that maps to the payer in your own system and reuse it when retrieving the customer or associating checkouts and saved payment instruments with them.</remarks>
     /// <param name="body">Details of the customer.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -92,7 +92,7 @@ public sealed partial class CustomersClient
     /// <summary>
     /// Create a customer
     /// </summary>
-    /// <remarks>Creates a new saved customer resource which you can later manipulate and save payment instruments to.</remarks>
+    /// <remarks>Creates a customer using the customer_id you supply. Choose an identifier that maps to the payer in your own system and reuse it when retrieving the customer or associating checkouts and saved payment instruments with them.</remarks>
     /// <param name="body">Details of the customer.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -158,7 +158,7 @@ public sealed partial class CustomersClient
     /// Deactivate a payment instrument
     /// </summary>
     /// <remarks>Deactivates an identified card payment instrument resource for a customer.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="token">Unique token identifying the card saved as a payment instrument resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -222,7 +222,7 @@ public sealed partial class CustomersClient
     /// Deactivate a payment instrument
     /// </summary>
     /// <remarks>Deactivates an identified card payment instrument resource for a customer.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="token">Unique token identifying the card saved as a payment instrument resource.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -285,8 +285,8 @@ public sealed partial class CustomersClient
     /// <summary>
     /// Retrieve a customer
     /// </summary>
-    /// <remarks>Retrieves an identified saved customer resource through the unique customer_id parameter, generated upon customer creation.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <remarks>Retrieves a saved customer using the customer_id you supplied when creating the customer.</remarks>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<Customer> Get(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -344,8 +344,8 @@ public sealed partial class CustomersClient
     /// <summary>
     /// Retrieve a customer
     /// </summary>
-    /// <remarks>Retrieves an identified saved customer resource through the unique customer_id parameter, generated upon customer creation.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <remarks>Retrieves a saved customer using the customer_id you supplied when creating the customer.</remarks>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<Customer>> GetAsync(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -404,7 +404,7 @@ public sealed partial class CustomersClient
     /// List payment instruments
     /// </summary>
     /// <remarks>Lists all payment instrument resources that are saved for an identified customer.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public ApiResponse<IEnumerable<PaymentInstrumentResponse>> ListPaymentInstruments(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -463,7 +463,7 @@ public sealed partial class CustomersClient
     /// List payment instruments
     /// </summary>
     /// <remarks>Lists all payment instrument resources that are saved for an identified customer.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
     public async Task<ApiResponse<IEnumerable<PaymentInstrumentResponse>>> ListPaymentInstrumentsAsync(string customerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
@@ -522,7 +522,7 @@ public sealed partial class CustomersClient
     /// Update a customer
     /// </summary>
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="body">Customer fields to update.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
@@ -586,7 +586,7 @@ public sealed partial class CustomersClient
     /// Update a customer
     /// </summary>
     /// <remarks>Updates an identified saved customer resource's personal details. The request only overwrites the parameters included in the request, all other parameters will remain with their initially assigned values.</remarks>
-    /// <param name="customerId">Unique identifier of the saved customer resource.</param>
+    /// <param name="customerId">The customer_id you supplied when creating the customer.</param>
     /// <param name="body">Customer fields to update.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
