@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class CheckoutsProcessResponseTransactionsItem
 {
-    /// <summary>Total amount of the transaction.</summary>
+    /// <summary>Total amount of the transaction in major units of currency, for example 10.1 for EUR 10.10.</summary>
     [JsonPropertyName("amount")]
     public float? Amount { get; set; }
     /// <summary>Authorization code for the transaction sent by the payment card issuer or bank. Applicable only to card payments.</summary>
@@ -15,7 +15,7 @@ public sealed partial class CheckoutsProcessResponseTransactionsItem
     /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
-    /// <summary>Entry mode of the payment details.</summary>
+    /// <summary>How the payment details were captured, for example CHIP or CONTACTLESS for card-present payments and CUSTOMER_ENTRY for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as APPLE_PAY or BLIK.</summary>
     [JsonPropertyName("entry_mode")]
     public EntryMode? EntryMode { get; set; }
     /// <summary>Unique identifier of the transaction.</summary>
@@ -27,7 +27,7 @@ public sealed partial class CheckoutsProcessResponseTransactionsItem
     /// <summary>Unique code of the registered merchant to whom the payment is made.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
-    /// <summary>Payment type used for the transaction.</summary>
+    /// <summary>Payment category recorded on a transaction, for example POS for a point-of-sale card payment, ECOM for an online card payment, or RECURRING for a recurring card payment. These reporting values are separate from the lowercase payment_type values used to process checkouts.</summary>
     [JsonPropertyName("payment_type")]
     public PaymentType? PaymentType { get; set; }
     /// <summary>Current status of the transaction. - PENDING: The transaction has been created but its final outcome is not known yet. - SUCCESSFUL: The transaction completed successfully. - CANCELLED: The transaction was cancelled or otherwise reversed before completion. - FAILED: The transaction attempt did not complete successfully. - REFUNDED: The transaction was refunded in full or in part.</summary>
@@ -36,13 +36,13 @@ public sealed partial class CheckoutsProcessResponseTransactionsItem
     /// <summary>The timestamp of when the transaction was created.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
-    /// <summary>Amount of the tip (out of the total transaction amount).</summary>
+    /// <summary>Tip included in the total transaction amount, in major units of the transaction's currency.</summary>
     [JsonPropertyName("tip_amount")]
     public float? TipAmount { get; set; }
-    /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>
+    /// <summary>SumUp transaction code, for example TEENSK4W2K. Use it to look up the transaction with the transaction_code query parameter. This is separate from the transaction's id and the card issuer's auth_code.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
-    /// <summary>Amount of the applicable VAT (out of the total transaction amount).</summary>
+    /// <summary>VAT included in the total transaction amount, in major units of the transaction's currency.</summary>
     [JsonPropertyName("vat_amount")]
     public float? VatAmount { get; set; }
 }

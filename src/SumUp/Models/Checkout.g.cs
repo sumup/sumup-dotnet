@@ -40,7 +40,7 @@ public sealed partial class Checkout
     /// <summary>Short unique identifier for the merchant that receives the payment.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
-    /// <summary>Optional backend callback URL used by SumUp to notify your platform about processing updates for the checkout.</summary>
+    /// <summary>Optional backend callback URL for checkout status notifications. SumUp sends an HTTP POST with event_type and the checkout id. Retrieve the checkout to verify its current status before updating your order. See the webhook guide for the payload and response requirements.</summary>
     [JsonPropertyName("return_url")]
     public string? ReturnUrl { get; set; }
     /// <summary>Current high-level state of the checkout. PENDING means the checkout exists but is not yet completed, PAID means a payment succeeded, FAILED means the latest processing attempt failed, and EXPIRED means the checkout can no longer be processed.</summary>

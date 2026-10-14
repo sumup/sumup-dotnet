@@ -147,7 +147,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// List transactions
     /// </summary>
-    /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
+    /// <remarks>Lists transaction history for the merchant, with optional filters for payment type, status, and date range. The response contains the current page in items and pagination query strings in links. To request another page, use the query string from the relevant link's href with this history endpoint. Use changes_since when retrieving transactions modified since a previous synchronization, including transactions created earlier whose status has changed.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -216,7 +216,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// List transactions
     /// </summary>
-    /// <remarks>Lists detailed history of all transactions associated with the merchant profile.</remarks>
+    /// <remarks>Lists transaction history for the merchant, with optional filters for payment type, status, and date range. The response contains the current page in items and pagination query strings in links. To request another page, use the query string from the relevant link's href with this history endpoint. Use changes_since when retrieving transactions modified since a previous synchronization, including transactions created earlier whose status has changed.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -285,7 +285,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Refund a transaction
     /// </summary>
-    /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
+    /// <remarks>Refunds a transaction identified by its SumUp transaction ID. Omit the request body to request a full refund, or provide amount for a partial refund in the transaction's currency. Retrieve the transaction afterwards to inspect its refunded amount and refund events. The transaction must be eligible for a refund; see the error responses for invalid amounts, permissions, and processing failures.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="transactionId">Unique identifier of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
@@ -361,7 +361,7 @@ public sealed partial class TransactionsClient
     /// <summary>
     /// Refund a transaction
     /// </summary>
-    /// <remarks>Refunds an identified transaction either in full or partially.</remarks>
+    /// <remarks>Refunds a transaction identified by its SumUp transaction ID. Omit the request body to request a full refund, or provide amount for a partial refund in the transaction's currency. Retrieve the transaction afterwards to inspect its refunded amount and refund events. The transaction must be eligible for a refund; see the error responses for invalid amounts, permissions, and processing failures.</remarks>
     /// <param name="merchantCode">Short unique identifier for the merchant.</param>
     /// <param name="transactionId">Unique identifier of the transaction.</param>
     /// <param name="body">Optional amount for partial refunds.</param>
