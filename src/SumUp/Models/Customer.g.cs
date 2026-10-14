@@ -4,10 +4,10 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Saved customer details.</summary>
+/// <summary>Saved payer details identified by the customer_id supplied by your integration. A customer can have saved payment instruments for subsequent payments.</summary>
 public sealed partial class Customer
 {
-    /// <summary>Unique identifier of the customer.</summary>
+    /// <summary>Identifier you supply when creating the customer. Use an ID from your own system and retain it for subsequent customer, checkout, and saved-payment-instrument requests.</summary>
     [JsonPropertyName("customer_id")]
     public string CustomerId { get; set; } = default!;
     /// <summary>Personal details for the customer.</summary>

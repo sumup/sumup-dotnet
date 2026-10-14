@@ -13,6 +13,8 @@ public enum CardType
     Alelo,
     [EnumMember(Value = "AMEX")]
     Amex,
+    [EnumMember(Value = "BANCOMAT")]
+    Bancomat,
     [EnumMember(Value = "CONECS")]
     Conecs,
     [EnumMember(Value = "CUP")]

@@ -17,7 +17,7 @@ public sealed partial class ReceiptsClient
     /// <summary>
     /// Client for the Receipts API endpoints.
     /// </summary>
-    /// <remarks>The Receipts model obtains receipt-like details for specific transactions.</remarks>
+    /// <remarks>Retrieve structured receipt data for a transaction, including payment, merchant, and acquirer details. Use this data to display a receipt in your application. The response is JSON, rather than a rendered receipt document.</remarks>
     internal ReceiptsClient(ApiClient client)
     {
         _client = client;
@@ -26,7 +26,7 @@ public sealed partial class ReceiptsClient
     /// <summary>
     /// Retrieve receipt details
     /// </summary>
-    /// <remarks>Retrieves receipt specific data for a transaction.</remarks>
+    /// <remarks>Retrieves structured receipt data for a transaction belonging to the merchant specified by mid. The path accepts either the SumUp transaction ID or transaction code. Provide tx_event_id to include a specific transaction event, such as a refund, on the receipt.</remarks>
     /// <param name="transactionId">SumUp unique transaction ID or transaction code, e.g. TS7HDYLSKD.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
@@ -89,7 +89,7 @@ public sealed partial class ReceiptsClient
     /// <summary>
     /// Retrieve receipt details
     /// </summary>
-    /// <remarks>Retrieves receipt specific data for a transaction.</remarks>
+    /// <remarks>Retrieves structured receipt data for a transaction belonging to the merchant specified by mid. The path accepts either the SumUp transaction ID or transaction code. Provide tx_event_id to include a specific transaction event, such as a refund, on the receipt.</remarks>
     /// <param name="transactionId">SumUp unique transaction ID or transaction code, e.g. TS7HDYLSKD.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>

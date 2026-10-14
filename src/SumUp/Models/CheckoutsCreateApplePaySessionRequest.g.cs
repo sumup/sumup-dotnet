@@ -6,10 +6,10 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class CheckoutsCreateApplePaySessionRequest
 {
-    /// <summary>the context to create this apple pay session.</summary>
+    /// <summary>Hostname of the website displaying the Apple Pay payment sheet, without a URL scheme or path. Use the domain registered for Apple Pay.</summary>
     [JsonPropertyName("context")]
     public string Context { get; set; } = default!;
-    /// <summary>The target url to create this apple pay session.</summary>
+    /// <summary>Apple Pay validation URL received as validationURL in the browser's onvalidatemerchant event.</summary>
     [JsonPropertyName("target")]
     public string Target { get; set; } = default!;
 }

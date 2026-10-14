@@ -20,7 +20,7 @@ public sealed partial class PaymentInstrumentResponse
     /// <summary>Details of the mandate linked to the saved payment instrument.</summary>
     [JsonPropertyName("mandate")]
     public MandateResponse? Mandate { get; set; }
-    /// <summary>Unique token identifying the saved payment card for a customer.</summary>
+    /// <summary>Token identifying the customer's saved payment card. Pass it as token, together with the associated customer_id and payment_type = card, when processing a checkout with this instrument.</summary>
     [JsonPropertyName("token")]
     [JsonInclude]
     public string? Token { get; private set; }

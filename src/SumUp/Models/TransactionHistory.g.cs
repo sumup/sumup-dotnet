@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>Transaction entry returned in history listing responses.</summary>
 public sealed partial class TransactionHistory
 {
-    /// <summary>Total amount of the transaction.</summary>
+    /// <summary>Total amount of the transaction in major units of currency, for example 10.1 for EUR 10.10.</summary>
     [JsonPropertyName("amount")]
     public float? Amount { get; set; }
     /// <summary>Issuing card network of the payment card used for the transaction.</summary>
@@ -25,7 +25,7 @@ public sealed partial class TransactionHistory
     /// <summary>Number of installments for a deferred payment.</summary>
     [JsonPropertyName("installments_count")]
     public int? InstallmentsCount { get; set; }
-    /// <summary>Payment type used for the transaction.</summary>
+    /// <summary>Payment category recorded on a transaction, for example POS for a point-of-sale card payment, ECOM for an online card payment, or RECURRING for a recurring card payment. These reporting values are separate from the lowercase payment_type values used to process checkouts.</summary>
     [JsonPropertyName("payment_type")]
     public PaymentType? PaymentType { get; set; }
     /// <summary>Payout date (if paid out at once).</summary>
@@ -46,7 +46,7 @@ public sealed partial class TransactionHistory
     /// <summary>Short description of the payment. The value is taken from the description property of the related checkout resource.</summary>
     [JsonPropertyName("product_summary")]
     public string? ProductSummary { get; set; }
-    /// <summary>Total refunded amount.</summary>
+    /// <summary>Total amount refunded for this transaction, in major units of the transaction's currency.</summary>
     [JsonPropertyName("refunded_amount")]
     public decimal? RefundedAmount { get; set; }
     /// <summary>Current status of the transaction. - PENDING: The transaction has been created but its final outcome is not known yet. - SUCCESSFUL: The transaction completed successfully. - CANCELLED: The transaction was cancelled or otherwise reversed before completion. - FAILED: The transaction attempt did not complete successfully. - REFUNDED: The transaction was refunded in full or in part.</summary>
@@ -55,7 +55,7 @@ public sealed partial class TransactionHistory
     /// <summary>The timestamp of when the transaction was created.</summary>
     [JsonPropertyName("timestamp")]
     public DateTimeOffset? Timestamp { get; set; }
-    /// <summary>Transaction code returned by the acquirer/processing entity after processing the transaction.</summary>
+    /// <summary>SumUp transaction code, for example TEENSK4W2K. Use it to look up the transaction with the transaction_code query parameter. This is separate from the transaction's id and the card issuer's auth_code.</summary>
     [JsonPropertyName("transaction_code")]
     public string? TransactionCode { get; set; }
     /// <summary>Unique identifier of the transaction.</summary>

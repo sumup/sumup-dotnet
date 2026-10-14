@@ -10,16 +10,16 @@ public sealed partial class TransactionCheckoutInfo
     /// <summary>Authorization code for the transaction sent by the payment card issuer or bank. Applicable only to card payments.</summary>
     [JsonPropertyName("auth_code")]
     public string? AuthCode { get; set; }
-    /// <summary>Entry mode of the payment details.</summary>
+    /// <summary>How the payment details were captured, for example CHIP or CONTACTLESS for card-present payments and CUSTOMER_ENTRY for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as APPLE_PAY or BLIK.</summary>
     [JsonPropertyName("entry_mode")]
     public EntryMode? EntryMode { get; set; }
     /// <summary>Unique code of the registered merchant to whom the payment is made.</summary>
     [JsonPropertyName("merchant_code")]
     public string? MerchantCode { get; set; }
-    /// <summary>Amount of the tip (out of the total transaction amount).</summary>
+    /// <summary>Tip included in the total transaction amount, in major units of the transaction's currency.</summary>
     [JsonPropertyName("tip_amount")]
     public float? TipAmount { get; set; }
-    /// <summary>Amount of the applicable VAT (out of the total transaction amount).</summary>
+    /// <summary>VAT included in the total transaction amount, in major units of the transaction's currency.</summary>
     [JsonPropertyName("vat_amount")]
     public float? VatAmount { get; set; }
 }
