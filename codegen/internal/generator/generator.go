@@ -285,6 +285,7 @@ func (g *Generator) renderOptions(t *template.Template, options []optionsTemplat
 }
 
 func (g *Generator) buildModels(doc *v3.Document) ([]modelTemplateData, error) {
+	normalizeSchemaAnnotations(doc)
 	g.schemaTypes = map[string]*schemaTypeInfo{}
 	if doc.Components == nil || doc.Components.Schemas == nil || doc.Components.Schemas.Len() == 0 {
 		return nil, nil
