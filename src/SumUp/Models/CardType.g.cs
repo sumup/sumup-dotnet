@@ -43,6 +43,8 @@ public enum CardType
     Mastercard,
     [EnumMember(Value = "PLUXEE")]
     Pluxee,
+    [EnumMember(Value = "SUMUP")]
+    Sumup,
     [EnumMember(Value = "SWILE")]
     Swile,
     [EnumMember(Value = "TICKET")]
