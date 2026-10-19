@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.0.20](https://github.com/sumup/sumup-dotnet/compare/v0.0.19...v0.0.20) (2026-10-19)
+
+
+### Bug Fixes
+
+* **codegen:** preserve annotated schema types ([#192](https://github.com/sumup/sumup-dotnet/issues/192)) ([8f3d6cb](https://github.com/sumup/sumup-dotnet/commit/8f3d6cb99a77f203805c63dfa2bae8c6d5dd888e))
+
+
+### Chores
+
+* **deps:** bump coverlet.collector from 8.0.1 to 10.1.0 ([#191](https://github.com/sumup/sumup-dotnet/issues/191)) ([b0a0826](https://github.com/sumup/sumup-dotnet/commit/b0a08262f77d2ce73850c6c699453b4cacd71b7f))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#189](https://github.com/sumup/sumup-dotnet/issues/189)) ([5704409](https://github.com/sumup/sumup-dotnet/commit/570440908782deee4ddc8aebc673111be21074c4))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#193](https://github.com/sumup/sumup-dotnet/issues/193)) ([f3cf53d](https://github.com/sumup/sumup-dotnet/commit/f3cf53d9949a0bb6751337081782ef4c7e357bcd))
+* **deps:** bump github.com/pb33f/libopenapi in /codegen ([#196](https://github.com/sumup/sumup-dotnet/issues/196)) ([b9c92cd](https://github.com/sumup/sumup-dotnet/commit/b9c92cd4aa12f504d1f3e0d378fc73ef3d0339e9))
+* **deps:** bump Microsoft.NET.Test.Sdk from 18.9.0 to 18.10.1 ([#184](https://github.com/sumup/sumup-dotnet/issues/184)) ([c526685](https://github.com/sumup/sumup-dotnet/commit/c5266853d9fca02f9d24f33b6a63e57d9306bc93))
+* **deps:** bump reviewdog/action-actionlint from 1.73.2 to 1.74.0 ([#179](https://github.com/sumup/sumup-dotnet/issues/179)) ([c6e7cb2](https://github.com/sumup/sumup-dotnet/commit/c6e7cb260fd8675590289eb87de714c0503d8b25))
+* **deps:** bump reviewdog/action-actionlint from 1.74.0 to 1.76.0 ([#183](https://github.com/sumup/sumup-dotnet/issues/183)) ([546cadf](https://github.com/sumup/sumup-dotnet/commit/546cadf061be969002c89fae34a0d58bb19ffd91))
+* **deps:** bump reviewdog/action-actionlint from 1.76.0 to 1.77.0 ([#185](https://github.com/sumup/sumup-dotnet/issues/185)) ([e9820f3](https://github.com/sumup/sumup-dotnet/commit/e9820f30fc3ef7dbd1fa21598acf628a282bf180))
+* **deps:** bump reviewdog/action-actionlint from 1.77.0 to 1.79.1 ([#190](https://github.com/sumup/sumup-dotnet/issues/190)) ([1b9e630](https://github.com/sumup/sumup-dotnet/commit/1b9e630acff27a736f444d6fc7d073fd249b6b89))
+* **deps:** bump reviewdog/action-actionlint from 1.79.1 to 1.80.0 ([#195](https://github.com/sumup/sumup-dotnet/issues/195)) ([f477e0d](https://github.com/sumup/sumup-dotnet/commit/f477e0d8dc90714f4881e0887c11a9aa6f8e4e33))
+* **deps:** Bump xunit.runner.visualstudio from 4.0.0 to 4.0.1 ([#197](https://github.com/sumup/sumup-dotnet/issues/197)) ([e6b3232](https://github.com/sumup/sumup-dotnet/commit/e6b323272a91e39547782d5f59178eeba09df544))
+* synced file(s) with sumup/apis ([#182](https://github.com/sumup/sumup-dotnet/issues/182)) ([a76c81f](https://github.com/sumup/sumup-dotnet/commit/a76c81f253203880f3a6238718ff133d608cdc8d))
+* synced file(s) with sumup/apis ([#187](https://github.com/sumup/sumup-dotnet/issues/187)) ([573906a](https://github.com/sumup/sumup-dotnet/commit/573906a01280279a7f6b6f4c304b379edf73ecb5))
+* synced file(s) with sumup/apis ([#188](https://github.com/sumup/sumup-dotnet/issues/188)) ([4ce20f3](https://github.com/sumup/sumup-dotnet/commit/4ce20f3f82effe6b1cda3f37845af90eda0b23b7))
+* synced file(s) with sumup/apis ([#194](https://github.com/sumup/sumup-dotnet/issues/194)) ([9854277](https://github.com/sumup/sumup-dotnet/commit/9854277f56ca58f18b99233270e2932a63782590))
+* synced file(s) with sumup/apis ([#198](https://github.com/sumup/sumup-dotnet/issues/198)) ([057d2b1](https://github.com/sumup/sumup-dotnet/commit/057d2b1554bd356a157a73190b11dbeaa354dd79))
+* update create-github-app-token ([ae1a5a4](https://github.com/sumup/sumup-dotnet/commit/ae1a5a411a85dddd897fd7013359e4a41d7cb2c8))
+
 ## [0.0.19](https://github.com/sumup/sumup-dotnet/compare/v0.0.18...v0.0.19) (2026-09-11)
 
 
