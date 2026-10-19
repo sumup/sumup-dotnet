@@ -4,6 +4,21 @@ using System.Text.Json;
 
 namespace SumUp;
 
+/// <summary>Sent once when a checkout is first observed in the checkout snapshot stream, even if it is already paid, failed, or expired. The event timestamp is the original checkout creation time.</summary>
+public sealed class CheckoutCreatedEvent : EventNotification<Checkout>;
+
+/// <summary>Sent once when a checkout is first observed with status EXPIRED. Expiry or deactivation without an upstream snapshot cannot produce this event. Later EXPIRED snapshots do not emit another expired event.</summary>
+public sealed class CheckoutExpiredEvent : EventNotification<Checkout>;
+
+/// <summary>Sent once when a checkout is first observed with status FAILED. A failed checkout can subsequently be retried and paid. Later FAILED snapshots do not emit another failed event.</summary>
+public sealed class CheckoutFailedEvent : EventNotification<Checkout>;
+
+/// <summary>Sent once when a checkout is first observed with status PAID. Later PAID snapshots do not emit another paid event. The timestamp is the snapshot update time, not necessarily the payment completion time.</summary>
+public sealed class CheckoutPaidEvent : EventNotification<Checkout>;
+
+/// <summary>Sent when a checkout snapshot is published, including creation and payment status updates. Fetch the checkout to inspect its current status. This is not a guarantee that every checkout mutation produces a notification.</summary>
+public sealed class CheckoutUpdatedEvent : EventNotification<Checkout>;
+
 /// <summary>Sent when a member is created, invited, or accepts an invitation for a merchant account.</summary>
 public sealed class MemberCreatedEvent : EventNotification<Member>;
 
@@ -30,6 +45,36 @@ public sealed class RoleUpdatedEvent : EventNotification<Role>;
 
 public sealed partial class EventsHandler
 {
+    /// <summary>Registers a callback for <c>"checkouts.created"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnCheckoutCreated(Func<CheckoutCreatedEvent, CancellationToken, Task> callback) =>
+        Register("checkouts.created", callback);
+
+    /// <summary>Registers a callback for <c>"checkouts.expired"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnCheckoutExpired(Func<CheckoutExpiredEvent, CancellationToken, Task> callback) =>
+        Register("checkouts.expired", callback);
+
+    /// <summary>Registers a callback for <c>"checkouts.failed"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnCheckoutFailed(Func<CheckoutFailedEvent, CancellationToken, Task> callback) =>
+        Register("checkouts.failed", callback);
+
+    /// <summary>Registers a callback for <c>"checkouts.paid"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnCheckoutPaid(Func<CheckoutPaidEvent, CancellationToken, Task> callback) =>
+        Register("checkouts.paid", callback);
+
+    /// <summary>Registers a callback for <c>"checkouts.updated"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnCheckoutUpdated(Func<CheckoutUpdatedEvent, CancellationToken, Task> callback) =>
+        Register("checkouts.updated", callback);
+
     /// <summary>Registers a callback for <c>"members.created"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
@@ -84,6 +129,11 @@ public partial class SumUpClient
 {
     private static EventNotification DeserializeEvent(JsonElement root, string? type) => type switch
     {
+        "checkouts.created" => root.Deserialize<CheckoutCreatedEvent>()!,
+        "checkouts.expired" => root.Deserialize<CheckoutExpiredEvent>()!,
+        "checkouts.failed" => root.Deserialize<CheckoutFailedEvent>()!,
+        "checkouts.paid" => root.Deserialize<CheckoutPaidEvent>()!,
+        "checkouts.updated" => root.Deserialize<CheckoutUpdatedEvent>()!,
         "members.created" => root.Deserialize<MemberCreatedEvent>()!,
         "members.deleted" => root.Deserialize<MemberDeletedEvent>()!,
         "members.updated" => root.Deserialize<MemberUpdatedEvent>()!,
