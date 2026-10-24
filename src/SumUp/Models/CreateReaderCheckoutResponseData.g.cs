@@ -9,7 +9,7 @@ public sealed partial class CreateReaderCheckoutResponseData
     /// <summary>The checkout ID is a unique identifier for the checkout.</summary>
     [JsonPropertyName("checkout_id")]
     public string? CheckoutId { get; set; }
-    /// <summary>The client transaction ID is a unique identifier for the transaction that is generated for the client. It can be used later to fetch the transaction details via the Transactions API.</summary>
+    /// <summary>SumUp API flow. Unique identifier for this checkout-generated transaction. Pass this value as terminal.client_id when the reader creates the terminal so checkout metadata (including affiliate sent here) is merged into the payment. SDK clients do not use this field for affiliate metadata; they send affiliate in terminal.affiliate on POST /api/terminals instead.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string ClientTransactionId { get; set; } = default!;
 }

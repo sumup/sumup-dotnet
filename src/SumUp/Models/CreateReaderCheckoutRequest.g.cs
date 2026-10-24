@@ -5,28 +5,31 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>Reader Checkout</summary>
+/// <summary>Reader Checkout request for SumUp API clients. SumUp API integrators send affiliate metadata in the affiliate field below. SDK clients use POST /api/terminals with terminal.affiliate instead.</summary>
 public sealed partial class CreateReaderCheckoutRequest
 {
     /// <summary>Optional object containing data for transactions from ERP integrators in Greece that comply with the AADE 1155 protocol. When such regulatory/business requirements apply, this object must be provided and contains the data needed to validate the transaction with the AADE signature provider.</summary>
     [JsonPropertyName("aade")]
     public CreateReaderCheckoutRequestAade? Aade { get; set; }
-    /// <summary>Affiliate metadata for the transaction. It is a field that allow for integrators to track the source of the transaction.</summary>
+    /// <summary>SumUp API clients: affiliate ingress for Reader Checkout. Send integrator metadata here when creating a checkout. When app_id and key are both present, the key is validated against Identity Admin, stored server-side, and merged into the payment when the reader starts the transaction using the returned client_transaction_id as terminal.client_id. SDK clients send affiliate on POST /api/terminals instead.</summary>
     [JsonPropertyName("affiliate")]
     public CreateReaderCheckoutRequestAffiliate? Affiliate { get; set; }
-    /// <summary>The card type of the card used for the transaction. Is is required only for some countries (e.g: Brazil).</summary>
+    /// <summary>The card type of the card used for the transaction. It is required only for some countries (e.g: Brazil).</summary>
     [JsonPropertyName("card_type")]
     public CreateReaderCheckoutRequestCardType? CardType { get; set; }
     /// <summary>Description of the checkout to be shown in the Merchant Sales</summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; }
-    /// <summary>Number of installments for the transaction. It may vary according to the merchant country. For example, in Brazil, the maximum number of installments is 12. Omit if the merchant country does support installments. Otherwise, the checkout will be rejected.</summary>
+    /// <summary>Number of installments for the transaction. It may vary according to the merchant country. For example, in Brazil, the maximum number of installments is 12. Omit if the merchant country does not support installments. Otherwise, the checkout will be rejected.</summary>
     [JsonPropertyName("installments")]
     public int? Installments { get; set; }
+    /// <summary>The payment method type for the transaction. Defaults to card. Use pix to initiate a Pix QR-code payment flow on the device. Pix is only supported for Brazilian merchants; other merchants will receive a 422 error.</summary>
+    [JsonPropertyName("payment_type")]
+    public CreateReaderCheckoutRequestPaymentType? PaymentType { get; set; }
     /// <summary>Webhook URL to which the payment result will be sent. It must be a HTTPS url.</summary>
     [JsonPropertyName("return_url")]
     public string? ReturnUrl { get; set; }
-    /// <summary>List of tipping rates to be displayed to the cardholder. The rates are in percentage and should be between 0.01 and 0.99. The list should be sorted in ascending order.</summary>
+    /// <summary>Exactly three distinct tipping rates to be displayed to the cardholder. Each rate is a fraction between 0.01 and 1.00 in increments of 0.01. The rates are sorted in ascending order by the server.</summary>
     [JsonPropertyName("tip_rates")]
     public IEnumerable<float>? TipRates { get; set; }
     /// <summary>Time in seconds the cardholder has to select a tip rate. If not provided, the default value is 30 seconds. It can only be set if tip_rates is provided. Note: If the target device is a Solo, it must be in version 3.3.38.0 or higher.</summary>
