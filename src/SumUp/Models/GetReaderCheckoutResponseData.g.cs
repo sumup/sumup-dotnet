@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class GetReaderCheckoutResponseData
 {
-    /// <summary>Type of the card. Required for some countries</summary>
+    /// <summary>Type of the card, or null when no card type was specified.</summary>
     [JsonPropertyName("card_type")]
     public GetReaderCheckoutResponseDataCardType? CardType { get; set; }
     /// <summary>Unique identifier for the checkout</summary>

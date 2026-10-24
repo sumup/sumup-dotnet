@@ -13,4 +13,6 @@ public enum GetReaderCheckoutResponseDataCardType
     Credit,
     [EnumMember(Value = "debit")]
     Debit,
+    [EnumMember(Value = "null")]
+    NullValue,
 }
