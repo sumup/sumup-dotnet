@@ -9,7 +9,7 @@ public sealed partial class CreateReaderCheckoutResponseData
     /// <summary>The checkout ID is a unique identifier for the checkout.</summary>
     [JsonPropertyName("checkout_id")]
     public string? CheckoutId { get; set; }
-    /// <summary>The client transaction ID is a unique identifier for the transaction that is generated for the client. It can be used later to fetch the transaction details via the Transactions API.</summary>
+    /// <summary>Unique identifier for the transaction associated with this checkout. Use this value to match the checkout with payment events and transaction records.</summary>
     [JsonPropertyName("client_transaction_id")]
     public string ClientTransactionId { get; set; } = default!;
 }
