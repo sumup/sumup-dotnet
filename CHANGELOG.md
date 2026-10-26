@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.0.21](https://github.com/sumup/sumup-dotnet/compare/v0.0.20...v0.0.21) (2026-10-26)
+
+
+### Features
+
+* expose Problem details through the common API exception ([#203](https://github.com/sumup/sumup-dotnet/issues/203)) ([dd72198](https://github.com/sumup/sumup-dotnet/commit/dd72198f09e3f6cf529a34f4b54652aab5cb059c))
+
+
+### Chores
+
+* **deps:** bump actions/create-github-app-token from 3.2.0 to 3.3.0 ([#201](https://github.com/sumup/sumup-dotnet/issues/201)) ([8a57e21](https://github.com/sumup/sumup-dotnet/commit/8a57e21fdff33f43b8f7299d79c864b0ca137e48))
+* **deps:** Bump Microsoft.NET.Test.Sdk from 18.10.1 to 18.11.0 ([#202](https://github.com/sumup/sumup-dotnet/issues/202)) ([680d63c](https://github.com/sumup/sumup-dotnet/commit/680d63c0af541610610d98df5ef5da8c12d45e80))
+* **deps:** bump reviewdog/action-actionlint from 1.80.0 to 1.80.4 ([#200](https://github.com/sumup/sumup-dotnet/issues/200)) ([05176c8](https://github.com/sumup/sumup-dotnet/commit/05176c8e3b504e19f103540f60652b222e51eca1))
+* synced file(s) with sumup/apis ([#199](https://github.com/sumup/sumup-dotnet/issues/199)) ([b20eee9](https://github.com/sumup/sumup-dotnet/commit/b20eee9f1882d22f26f3dc87fd92aca86987fab7))
+
 ## [0.0.20](https://github.com/sumup/sumup-dotnet/compare/v0.0.19...v0.0.20) (2026-10-19)
 
 
