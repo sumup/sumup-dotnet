@@ -21,6 +21,27 @@ public class ApiExceptionTests
     }
 
     [Theory]
+    [InlineData("Invalid amount", "Bad request", "Invalid amount")]
+    [InlineData(null, "Bad request", "Bad request")]
+    public void ProblemDetailsAppearInMessages(string? detail, string title, string expected)
+    {
+        var problem = new Problem { Type = "about:blank", Detail = detail, Title = title };
+        var payload = System.Text.Json.JsonSerializer.Serialize(problem);
+        ApiException typed = new ApiException<Problem>(HttpStatusCode.BadRequest, problem, payload, null);
+        var fallback = new ApiException(HttpStatusCode.BadRequest, null, payload, null);
+        Assert.Equal($"SumUp API request failed with status code 400. {expected}", typed.Message);
+        Assert.Equal(typed.Message, fallback.Message);
+    }
+
+    [Fact]
+    public void IncompleteProblemIsNotExposedByTheConvenienceProperty()
+    {
+        var problem = new Problem { Detail = "Missing type" };
+        ApiException error = new ApiException<Problem>(HttpStatusCode.BadRequest, problem, "{}", null);
+        Assert.Null(error.Problem);
+    }
+
+    [Theory]
     [InlineData("{invalid")]
     [InlineData("Bad gateway")]
     [InlineData("{\"message\":\"Unknown\"}")]

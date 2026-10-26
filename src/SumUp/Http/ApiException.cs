@@ -15,9 +15,12 @@ public class ApiException : Exception
         : this(statusCode, error, payload, requestUri, (HttpResponseHeaders?)null) { }
 
     public ApiException(HttpStatusCode statusCode, ApiError? error, string? payload, Uri? requestUri, HttpResponseHeaders? headers)
-        : this(statusCode, error, payload, requestUri, BuildMessage(statusCode, error), headers)
+        : this(statusCode, error, payload, requestUri, headers, ParseProblem(payload)) { }
+
+    private ApiException(HttpStatusCode statusCode, ApiError? error, string? payload, Uri? requestUri, HttpResponseHeaders? headers, Problem? problem)
+        : this(statusCode, error, payload, requestUri, BuildMessage(statusCode, error, problem), headers)
     {
-        Problem = ParseProblem(payload);
+        Problem = problem;
     }
 
     /// <summary>Typed Problem details, when the API returned a Problem response.</summary>
@@ -88,8 +91,13 @@ public class ApiException : Exception
         }
     }
 
-    private static string BuildMessage(HttpStatusCode statusCode, ApiError? error)
+    protected static string BuildMessage(HttpStatusCode statusCode, ApiError? error, Problem? problem)
     {
+        var detail = !string.IsNullOrWhiteSpace(problem?.Detail) ? problem!.Detail : problem?.Title;
+        if (!string.IsNullOrWhiteSpace(detail))
+        {
+            return $"SumUp API request failed with status code {(int)statusCode}. {detail}";
+        }
         if (!string.IsNullOrWhiteSpace(error?.Code) || !string.IsNullOrWhiteSpace(error?.Message))
         {
             var code = string.IsNullOrWhiteSpace(error?.Code) ? "" : $" ({error!.Code})";
@@ -120,14 +128,14 @@ public class ApiException<TError> : ApiException where TError : class
         : this(statusCode, error, payload, requestUri, (HttpResponseHeaders?)null) { }
 
     public ApiException(HttpStatusCode statusCode, TError? error, string? payload, Uri? requestUri, HttpResponseHeaders? headers)
-        : base(statusCode, null, payload, requestUri, BuildMessage(statusCode), headers)
+        : base(statusCode, null, payload, requestUri, BuildMessage(statusCode, null, error as Problem), headers)
     {
         Error = error;
     }
 
     public new TError? Error { get; }
 
-    public override Problem? Problem => Error as Problem;
+    public override Problem? Problem => Error is Problem { Type: not null } problem ? problem : null;
 
     protected override void AppendDetails(StringBuilder builder)
     {
@@ -136,11 +144,6 @@ public class ApiException<TError> : ApiException where TError : class
         {
             builder.Append("Error: ").Append(Error).AppendLine();
         }
-    }
-
-    private static string BuildMessage(HttpStatusCode statusCode)
-    {
-        return $"SumUp API request failed with status code {(int)statusCode}.";
     }
 }
 
