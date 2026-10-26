@@ -154,7 +154,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Create a Reader Checkout
     /// </summary>
-    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. Note: If the target device is a Solo, it must be in version 3.3.24.3 or higher.</remarks>
+    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. Note: If the target device is a Solo, it must be in version 3.3.24.3 or higher. Optionally include an affiliate object to attach integrator metadata to the payment. Provide both app_id and key when including this object.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="body">A checkout initial attributes</param>
@@ -225,7 +225,7 @@ public sealed partial class ReadersClient
     /// <summary>
     /// Create a Reader Checkout
     /// </summary>
-    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. Note: If the target device is a Solo, it must be in version 3.3.24.3 or higher.</remarks>
+    /// <remarks>Creates a Checkout for a Reader. This process is asynchronous and the actual transaction may take some time to be started on the device. There are some caveats when using this endpoint: * The target device must be online, otherwise checkout won't be accepted * After the checkout is accepted, the system has 60 seconds to start the payment on the target device. During this time, any other checkout for the same device will be rejected. Note: If the target device is a Solo, it must be in version 3.3.24.3 or higher. Optionally include an affiliate object to attach integrator metadata to the payment. Provide both app_id and key when including this object.</remarks>
     /// <param name="merchantCode">Merchant Code</param>
     /// <param name="readerId">The unique identifier of the Reader</param>
     /// <param name="body">A checkout initial attributes</param>
@@ -758,6 +758,128 @@ public sealed partial class ReadersClient
     }
 
     /// <summary>
+    /// Get Reader Settings
+    /// </summary>
+    /// <remarks>Returns the menu lock settings for a Solo reader. For an online reader, returns the current settings. For an offline reader, returns the last saved settings, which may differ from its current configuration. Returns 404 if the reader is offline and no saved settings are available. The response may include the menu lock PIN.</remarks>
+    /// <param name="merchantCode">The merchant code of the account that owns the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public ApiResponse<GetReaderSettingsResponse> GetReaderSettings(string merchantCode, string readerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}/settings", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<GetReaderSettingsResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<GetReaderSettingsResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Get Reader Settings
+    /// </summary>
+    /// <remarks>Returns the menu lock settings for a Solo reader. For an online reader, returns the current settings. For an offline reader, returns the last saved settings, which may differ from its current configuration. Returns 404 if the reader is offline and no saved settings are available. The response may include the menu lock PIN.</remarks>
+    /// <param name="merchantCode">The merchant code of the account that owns the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public async Task<ApiResponse<GetReaderSettingsResponse>> GetReaderSettingsAsync(string merchantCode, string readerId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(HttpMethod.Get, "/v0.1/merchants/{merchant_code}/readers/{reader_id}/settings", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<GetReaderSettingsResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<GetReaderSettingsResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
     /// Get a Reader Status
     /// </summary>
     /// <remarks>Provides the last known status for a Reader. This endpoint allows you to retrieve updates from the connected card reader, including the current screen being displayed during the payment process and the device status (battery level, connectivity, and update state). Supported States * IDLE – Reader ready for next transaction * SELECTING_TIP – Waiting for tip input * WAITING_FOR_CARD – Awaiting card insert/tap * WAITING_FOR_PIN – Waiting for PIN entry * WAITING_FOR_SIGNATURE – Waiting for customer signature * UPDATING_FIRMWARE – Firmware update in progress Device Status * ONLINE – Device connected and operational * OFFLINE – Device disconnected (last state persisted) Note: If the target device is a Solo, it must be in version 3.3.39.0 or higher.</remarks>
@@ -1224,6 +1346,148 @@ public sealed partial class ReadersClient
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
             var result = await JsonSerializer.DeserializeAsync<Reader>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
             return ApiResponse<Reader>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Update Reader Settings
+    /// </summary>
+    /// <remarks>Updates the menu lock settings for a Solo reader. The reader must be online. A successful response confirms that the reader applied the update. Include at least one of menu_lock.enabled or menu_lock.passcode. Omitted settings keep their current values. The response contains only the settings included in the request. When enabling menu lock for a reader without a PIN, include a four-digit PIN in menu_lock.passcode in the same request.</remarks>
+    /// <param name="merchantCode">The merchant code of the account that owns the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
+    /// <param name="body">Menu lock settings to update.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public ApiResponse<UpdateReaderSettingsResponse> UpdateReaderSettings(string merchantCode, string readerId, UpdateReaderSettingsRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/readers/{reader_id}/settings", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).GetAwaiter().GetResult();
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).GetAwaiter().GetResult();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).GetAwaiter().GetResult();
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+            }
+            using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
+            var result = JsonSerializer.Deserialize<UpdateReaderSettingsResponse>(stream, _client.SerializerOptions);
+            return ApiResponse<UpdateReaderSettingsResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
+        }
+        finally
+        {
+            timeoutScope?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Update Reader Settings
+    /// </summary>
+    /// <remarks>Updates the menu lock settings for a Solo reader. The reader must be online. A successful response confirms that the reader applied the update. Include at least one of menu_lock.enabled or menu_lock.passcode. Omitted settings keep their current values. The response contains only the settings included in the request. When enabling menu lock for a reader without a PIN, include a four-digit PIN in menu_lock.passcode in the same request.</remarks>
+    /// <param name="merchantCode">The merchant code of the account that owns the reader.</param>
+    /// <param name="readerId">The unique identifier of the reader.</param>
+    /// <param name="body">Menu lock settings to update.</param>
+    /// <param name="requestOptions">Optional per-request overrides.</param>
+    /// <param name="cancellationToken">Token used to cancel the request.</param>
+    public async Task<ApiResponse<UpdateReaderSettingsResponse>> UpdateReaderSettingsAsync(string merchantCode, string readerId, UpdateReaderSettingsRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    {
+        var request = _client.CreateRequest(new HttpMethod("PATCH"), "/v0.1/merchants/{merchant_code}/readers/{reader_id}/settings", builder =>
+        {
+            builder.AddPath("merchant_code", merchantCode);
+            builder.AddPath("reader_id", readerId);
+        });
+        var effectiveCancellationToken = ApiClient.CreateCancellationToken(cancellationToken, requestOptions, out var timeoutScope);
+        try
+        {
+            await _client.ApplyAuthorizationHeaderAsync(request, effectiveCancellationToken, requestOptions).ConfigureAwait(false);
+            if (body is not null && request.Content is null)
+            {
+                request.Content = _client.CreateContent(body, "application/json");
+            }
+
+            using var response = await _client.HttpClient.SendAsync(
+                request,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseBody = response.Content is null
+                    ? null
+                    : await ApiClient.ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
+                switch ((int)response.StatusCode)
+                {
+                    case 400:
+                    {
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 401:
+                    {
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 404:
+                    {
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                    case 422:
+                    {
+                        var errorForStatus422 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus422, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                    }
+                }
+                var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+            }
+            using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
+            var result = await JsonSerializer.DeserializeAsync<UpdateReaderSettingsResponse>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
+            return ApiResponse<UpdateReaderSettingsResponse>.From(result, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
         finally
         {
