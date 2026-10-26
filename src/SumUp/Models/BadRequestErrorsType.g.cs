@@ -9,6 +9,10 @@ using System.Text.Json.Serialization;
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
 public enum BadRequestErrorsType
 {
+    [EnumMember(Value = "INVALID_AFFILIATE_KEY")]
+    InvalidAffiliateKey,
+    [EnumMember(Value = "APP_OUTDATED")]
+    AppOutdated,
     [EnumMember(Value = "INVALID_BEARER_TOKEN")]
     InvalidBearerToken,
     [EnumMember(Value = "INVALID_USER_AGENT")]

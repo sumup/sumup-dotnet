@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 public sealed partial class GetReaderCheckoutResponseData
 {
-    /// <summary>Type of the card. Required for some countries</summary>
+    /// <summary>Type of the card, or null when no card type was specified.</summary>
     [JsonPropertyName("card_type")]
     public GetReaderCheckoutResponseDataCardType? CardType { get; set; }
     /// <summary>Unique identifier for the checkout</summary>
@@ -21,10 +21,10 @@ public sealed partial class GetReaderCheckoutResponseData
     /// <summary>Number of installments for the transaction. Required for some countries.</summary>
     [JsonPropertyName("installments")]
     public int? Installments { get; set; }
-    /// <summary>Payment failure reason</summary>
+    /// <summary>Reason for the payment failure, or null when no failure reason is available.</summary>
     [JsonPropertyName("payment_failure_reason")]
     public string? PaymentFailureReason { get; set; }
-    /// <summary>Payment status from payments v2 event</summary>
+    /// <summary>Status of the payment, or null when no payment status is available.</summary>
     [JsonPropertyName("payment_status")]
     public string? PaymentStatus { get; set; }
     /// <summary>Type of the payment. Required for some countries</summary>
