@@ -119,7 +119,7 @@ internal sealed class ApiClient
                     ? null
                     : await ReadContentAsStringAsync(response.Content, effectiveCancellationToken).ConfigureAwait(false);
                 var fallbackError = TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
 
             using var stream = await ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);

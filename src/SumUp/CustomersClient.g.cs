@@ -58,26 +58,26 @@ public sealed partial class CustomersClient
                     case 400:
                     {
                         var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
-                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 409:
                     {
                         var errorForStatus409 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
             var result = JsonSerializer.Deserialize<Customer>(stream, _client.SerializerOptions);
@@ -123,26 +123,26 @@ public sealed partial class CustomersClient
                     case 400:
                     {
                         var errorForStatus400 = _client.TryDeserialize<JsonDocument>(responseBody);
-                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<JsonDocument>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 409:
                     {
                         var errorForStatus409 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus409, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
             var result = await JsonSerializer.DeserializeAsync<Customer>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
@@ -189,26 +189,26 @@ public sealed partial class CustomersClient
                     case 400:
                     {
                         var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             return ApiResponse<JsonDocument>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
@@ -253,26 +253,26 @@ public sealed partial class CustomersClient
                     case 400:
                     {
                         var errorForStatus400 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             return ApiResponse<JsonDocument>.From(default, response.StatusCode, response.Headers, response.RequestMessage?.RequestUri);
         }
@@ -315,21 +315,21 @@ public sealed partial class CustomersClient
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
             var result = JsonSerializer.Deserialize<Customer>(stream, _client.SerializerOptions);
@@ -374,21 +374,21 @@ public sealed partial class CustomersClient
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
             var result = await JsonSerializer.DeserializeAsync<Customer>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
@@ -433,21 +433,21 @@ public sealed partial class CustomersClient
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
             var result = JsonSerializer.Deserialize<IEnumerable<PaymentInstrumentResponse>>(stream, _client.SerializerOptions);
@@ -492,21 +492,21 @@ public sealed partial class CustomersClient
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
             var result = await JsonSerializer.DeserializeAsync<IEnumerable<PaymentInstrumentResponse>>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);
@@ -556,21 +556,21 @@ public sealed partial class CustomersClient
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).GetAwaiter().GetResult();
             var result = JsonSerializer.Deserialize<Customer>(stream, _client.SerializerOptions);
@@ -620,21 +620,21 @@ public sealed partial class CustomersClient
                     case 401:
                     {
                         var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
-                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
                         var errorForStatus403 = _client.TryDeserialize<ErrorForbidden>(responseBody);
-                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<ErrorForbidden>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
                         var errorForStatus404 = _client.TryDeserialize<Error>(responseBody);
-                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<Error>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
             }
             using var stream = await ApiClient.ReadContentAsStreamAsync(response.Content!, effectiveCancellationToken).ConfigureAwait(false);
             var result = await JsonSerializer.DeserializeAsync<Customer>(stream, _client.SerializerOptions, effectiveCancellationToken).ConfigureAwait(false);

@@ -97,7 +97,7 @@ public sealed partial class {{ .ClientName }}Client
                     case {{ .StatusCodeLiteral }}:
                     {
                         var errorForStatus{{ .StatusCodeLiteral }} = _client.TryDeserialize<{{ .ErrorType }}>(responseBody);
-                        throw new ApiException<{{ .ErrorType }}>(response.StatusCode, errorForStatus{{ .StatusCodeLiteral }}, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<{{ .ErrorType }}>(response.StatusCode, errorForStatus{{ .StatusCodeLiteral }}, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     {{- end }}
                     {{- end }}
@@ -110,14 +110,14 @@ public sealed partial class {{ .ClientName }}Client
                 {{- end }}
                 {{- if $defaultError }}
                 var defaultError = _client.TryDeserialize<{{ $defaultError }}>(responseBody);
-                throw new ApiException<{{ $defaultError }}>(response.StatusCode, defaultError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException<{{ $defaultError }}>(response.StatusCode, defaultError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                 {{- else }}
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                 {{- end }}
                 {{- else }}
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                 {{- end }}
             }
 
@@ -209,7 +209,7 @@ public sealed partial class {{ .ClientName }}Client
                     case {{ .StatusCodeLiteral }}:
                     {
                         var errorForStatus{{ .StatusCodeLiteral }} = _client.TryDeserialize<{{ .ErrorType }}>(responseBody);
-                        throw new ApiException<{{ .ErrorType }}>(response.StatusCode, errorForStatus{{ .StatusCodeLiteral }}, responseBody, response.RequestMessage?.RequestUri);
+                        throw new ApiException<{{ .ErrorType }}>(response.StatusCode, errorForStatus{{ .StatusCodeLiteral }}, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     {{- end }}
                     {{- end }}
@@ -222,14 +222,14 @@ public sealed partial class {{ .ClientName }}Client
                 {{- end }}
                 {{- if $defaultErrorAsync }}
                 var defaultError = _client.TryDeserialize<{{ $defaultErrorAsync }}>(responseBody);
-                throw new ApiException<{{ $defaultErrorAsync }}>(response.StatusCode, defaultError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException<{{ $defaultErrorAsync }}>(response.StatusCode, defaultError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                 {{- else }}
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                 {{- end }}
                 {{- else }}
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
-                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri);
+                throw new ApiException(response.StatusCode, fallbackError, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                 {{- end }}
             }
 

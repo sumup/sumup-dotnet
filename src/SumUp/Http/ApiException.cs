@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -11,8 +12,39 @@ namespace SumUp.Http;
 public class ApiException : Exception
 {
     public ApiException(HttpStatusCode statusCode, ApiError? error, string? payload, Uri? requestUri)
-        : this(statusCode, error, payload, requestUri, BuildMessage(statusCode, error))
+        : this(statusCode, error, payload, requestUri, (HttpResponseHeaders?)null) { }
+
+    public ApiException(HttpStatusCode statusCode, ApiError? error, string? payload, Uri? requestUri, HttpResponseHeaders? headers)
+        : this(statusCode, error, payload, requestUri, BuildMessage(statusCode, error), headers)
     {
+        Problem = ParseProblem(payload);
+    }
+
+    /// <summary>Typed Problem details, when the API returned a Problem response.</summary>
+    public virtual Problem? Problem { get; }
+
+    public HttpResponseHeaders? Headers { get; }
+
+    private static Problem? ParseProblem(string? payload)
+    {
+        if (string.IsNullOrEmpty(payload))
+        {
+            return null;
+        }
+        try
+        {
+            using var json = JsonDocument.Parse(payload);
+            if (json.RootElement.ValueKind != JsonValueKind.Object ||
+                !json.RootElement.TryGetProperty("type", out var type) || type.ValueKind != JsonValueKind.String)
+            {
+                return null;
+            }
+            return JsonSerializer.Deserialize<Problem>(payload);
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
     }
 
     public HttpStatusCode StatusCode { get; }
@@ -69,24 +101,33 @@ public class ApiException : Exception
     }
 
     protected ApiException(HttpStatusCode statusCode, ApiError? error, string? payload, Uri? requestUri, string message)
+        : this(statusCode, error, payload, requestUri, message, null) { }
+
+    protected ApiException(HttpStatusCode statusCode, ApiError? error, string? payload, Uri? requestUri, string message, HttpResponseHeaders? headers)
         : base(message)
     {
         StatusCode = statusCode;
         Error = error;
         ResponseBody = payload;
         RequestUri = requestUri;
+        Headers = headers;
     }
 }
 
 public class ApiException<TError> : ApiException where TError : class
 {
     public ApiException(HttpStatusCode statusCode, TError? error, string? payload, Uri? requestUri)
-        : base(statusCode, null, payload, requestUri, BuildMessage(statusCode))
+        : this(statusCode, error, payload, requestUri, (HttpResponseHeaders?)null) { }
+
+    public ApiException(HttpStatusCode statusCode, TError? error, string? payload, Uri? requestUri, HttpResponseHeaders? headers)
+        : base(statusCode, null, payload, requestUri, BuildMessage(statusCode), headers)
     {
         Error = error;
     }
 
     public new TError? Error { get; }
+
+    public override Problem? Problem => Error as Problem;
 
     protected override void AppendDetails(StringBuilder builder)
     {
