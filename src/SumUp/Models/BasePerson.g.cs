@@ -37,9 +37,6 @@ public sealed partial class BasePerson
     /// <summary>A list of country-specific personal identifiers.</summary>
     [JsonPropertyName("identifiers")]
     public IEnumerable<PersonalIdentifier>? Identifiers { get; set; }
-    /// <summary>Middle name(s) of the End-User. Note that in some cultures, people can have multiple middle names; all can be present, with the names being separated by space characters. Also note that in some cultures, middle names are not used.</summary>
-    [JsonPropertyName("middle_name")]
-    public string? MiddleName { get; set; }
     /// <summary>The Person's nationality. May be an ISO3166-1 alpha-2 country code, but legacy data may not conform to this standard.</summary>
     [JsonPropertyName("nationality")]
     public string? Nationality { get; set; }
