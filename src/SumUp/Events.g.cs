@@ -43,6 +43,12 @@ public sealed class RoleDeletedEvent : EventNotification<Role>;
 /// <summary>Sent when a role is updated for a merchant account.</summary>
 public sealed class RoleUpdatedEvent : EventNotification<Role>;
 
+/// <summary>Sent once per sale when its completion is observed: the sale is closed and has been fully paid. The event created_at is the sale's recorded completion time, rather than the time the notification is delivered. A delayed notification may arrive after subsequent updates, refunds, or chargebacks. Fetch the current sale using object.url with an access token that has the sales.read scope. The sale may briefly be unavailable while the Sales API catches up; retry fetching it after a 404 response. Automatic retries and manual redelivery may deliver the same event more than once; deduplicate by event id.</summary>
+public sealed class SaleCompletedEvent : EventNotification<Sale>;
+
+/// <summary>Sent when a closed, fully paid sale is published or updated, including subsequent refunds and chargebacks. The first notification can occur when the sale becomes fully paid and closed. Fetch the current sale using object.url with an access token that has the sales.read scope. The sale may briefly be unavailable while the Sales API catches up; retry fetching it after a 404 response. Notifications contain the sale identity rather than a snapshot, and delivery order is not guaranteed.</summary>
+public sealed class SaleUpdatedEvent : EventNotification<Sale>;
+
 public sealed partial class EventsHandler
 {
     /// <summary>Registers a callback for <c>"checkouts.created"</c>, replacing any previous callback for this type.</summary>
@@ -123,6 +129,18 @@ public sealed partial class EventsHandler
     public EventsHandler OnRoleUpdated(Func<RoleUpdatedEvent, CancellationToken, Task> callback) =>
         Register("roles.updated", callback);
 
+    /// <summary>Registers a callback for <c>"sales.completed"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnSaleCompleted(Func<SaleCompletedEvent, CancellationToken, Task> callback) =>
+        Register("sales.completed", callback);
+
+    /// <summary>Registers a callback for <c>"sales.updated"</c>, replacing any previous callback for this type.</summary>
+    /// <param name="callback">The callback to await, with the request cancellation token.</param>
+    /// <returns>This handler, for chaining registrations.</returns>
+    public EventsHandler OnSaleUpdated(Func<SaleUpdatedEvent, CancellationToken, Task> callback) =>
+        Register("sales.updated", callback);
+
 }
 
 public partial class SumUpClient
@@ -142,6 +160,8 @@ public partial class SumUpClient
         "roles.created" => root.Deserialize<RoleCreatedEvent>()!,
         "roles.deleted" => root.Deserialize<RoleDeletedEvent>()!,
         "roles.updated" => root.Deserialize<RoleUpdatedEvent>()!,
+        "sales.completed" => root.Deserialize<SaleCompletedEvent>()!,
+        "sales.updated" => root.Deserialize<SaleUpdatedEvent>()!,
         _ => root.Deserialize<EventNotification>()!,
     };
 }
