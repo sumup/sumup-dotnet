@@ -149,6 +149,8 @@ The handler verifies the signature and its five-minute delivery timestamp window
 Acknowledge delivery after `HandleAsync` succeeds, and use event IDs to deduplicate processing.
 `FetchObjectAsync` retrieves the resource's current state; deleted resources may no longer be available.
 
+Notifications inherit the generated `WebhooksEvent` model. Use `notification.Type` with constants such as `EventType.MembersUpdated`, and `notification.ObjectValue` for the generated resource reference. Event and resource type names preserve unknown values in their `Value` property.
+
 For manual dispatch, use `client.ParseEventNotification(rawBody, signatureHeader, secret)` and match the returned event type.
 See [the ASP.NET Core example](examples/Events) for a complete HTTP endpoint.
 

@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 /// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, city is post_town. In the United States, the top-level administrative unit used in addresses is state, whereas in Chile it's region. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
-public sealed partial class Address
+public sealed partial class MerchantsAddress
 {
     /// <summary>In Spain, an autonomous community is the first sub-national level of political and administrative division.</summary>
     [JsonPropertyName("autonomous_community")]

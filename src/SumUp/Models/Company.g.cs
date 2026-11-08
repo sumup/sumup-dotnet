@@ -10,10 +10,10 @@ public sealed partial class Company
 {
     /// <summary>The company's primary address.</summary>
     [JsonPropertyName("address")]
-    public Address? Address { get; set; }
-    /// <summary>Object attributes that are modifiable only by SumUp applications.</summary>
+    public MerchantsAddress? Address { get; set; }
+    /// <summary>Object metadata which should only be writable for internal applications, and readable by all clients. Warning: Updating Attributes will overwrite the existing data. Make sure to always include the complete JSON object.</summary>
     [JsonPropertyName("attributes")]
-    public Attributes? Attributes { get; set; }
+    public MerchantsAttributes? Attributes { get; set; }
     /// <summary>A list of country-specific company identifiers.</summary>
     [JsonPropertyName("identifiers")]
     public IEnumerable<CompanyIdentifier>? Identifiers { get; set; }
@@ -31,7 +31,7 @@ public sealed partial class Company
     public string? PhoneNumber { get; set; }
     /// <summary>A trading address is where your suppliers, banks or customers send you correspondence to. Trading address can be different to the company's registered address (address).</summary>
     [JsonPropertyName("trading_address")]
-    public Address? TradingAddress { get; set; }
+    public MerchantsAddress? TradingAddress { get; set; }
     /// <summary>HTTP(S) URL of the company's website.</summary>
     [JsonPropertyName("website")]
     public string? Website { get; set; }

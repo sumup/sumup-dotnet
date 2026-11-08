@@ -13,9 +13,9 @@ public sealed partial class SaleSearchItem
     /// <summary>Instant when the sale was created.</summary>
     [JsonPropertyName("created_at")]
     public DateTimeOffset CreatedAt { get; set; }
-    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
+    /// <summary>The currency of the sale.</summary>
     [JsonPropertyName("currency")]
-    public Currency Currency { get; set; }
+    public SalesActivityCurrency Currency { get; set; } = default!;
     /// <summary>Sale identifier.</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
@@ -30,7 +30,7 @@ public sealed partial class SaleSearchItem
     public TaxMode TaxMode { get; set; }
     /// <summary>Final sale gross total after discounts and taxes, excluding tips. Same value as Sale.price.gross_amount, in minor units according to currency.scale. Payment amounts include tips and can therefore differ from this total.</summary>
     [JsonPropertyName("total_amount")]
-    public SaleSearchItemTotalAmount TotalAmount { get; set; } = default!;
+    public long TotalAmount { get; set; }
     /// <summary>Identity UUID of the cashier who processed the sale. Omitted when the cashier identity is unknown.</summary>
     [JsonPropertyName("user_id")]
     public Guid? UserId { get; set; }

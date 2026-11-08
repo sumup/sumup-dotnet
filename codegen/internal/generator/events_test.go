@@ -16,7 +16,12 @@ func TestRunEvents(t *testing.T) {
         "x-object":{"$ref":"#/components/schemas/Widget"},
         "responses":{"200":{"description":"ok"}}
       }}},
-      "components":{"schemas":{"Widget":{"type":"object","properties":{"id":{"type":"string"}}}}}
+      "components":{"schemas":{
+        "Widget":{"type":"object","properties":{"id":{"type":"string"}}},
+        "WebhooksEvent":{"type":"object","properties":{"type":{"$ref":"#/components/schemas/EventType"}}},
+        "EventType":{"type":"string","enum":["widgets.updated"]},
+        "EventObjectType":{"type":"string","enum":["widget"]}
+      }}
     }`
 	t.Run("generates types callbacks and dispatch from spec", func(t *testing.T) {
 		t.Parallel()
@@ -30,11 +35,25 @@ func TestRunEvents(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		for _, expected := range []string{"namespace Example;", "class WidgetUpdatedEvent : EventNotification<Widget>", "OnWidgetUpdated", `"widgets.updated" => root.Deserialize<WidgetUpdatedEvent>()`, "Widget changed."} {
+		for _, expected := range []string{"namespace Example;", "class WidgetUpdatedEvent : EventNotification<Widget>", "OnWidgetUpdated", `value == EventType.WidgetsUpdated => root.Deserialize<WidgetUpdatedEvent>()`, "Register(EventType.WidgetsUpdated, callback)", "Widget changed."} {
 			if !strings.Contains(string(output), expected) {
 				t.Errorf("missing %q in generated events", expected)
 			}
 		}
+		for file, expected := range map[string]string{
+			"WebhooksEvent.g.cs":   "public partial class WebhooksEvent",
+			"EventType.g.cs":       "public readonly record struct EventType(string Value)",
+			"EventObjectType.g.cs": "public readonly record struct EventObjectType(string Value)",
+		} {
+			model, err := os.ReadFile(filepath.Join(dir, "Models", file))
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !strings.Contains(string(model), expected) {
+				t.Errorf("missing %q in generated %s", expected, file)
+			}
+		}
+
 		if err := g.Run(doc); err != nil {
 			t.Fatal(err)
 		}

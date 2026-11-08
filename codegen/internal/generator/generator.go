@@ -226,6 +226,10 @@ func (g *Generator) renderModels(t *template.Template, models []modelTemplateDat
 		switch model.Kind {
 		case schemaKindEnum:
 			templateName = "model_enum.tmpl"
+			// Incoming events must retain names introduced after this SDK release.
+			if model.Name == "EventType" || model.Name == "EventObjectType" {
+				templateName = "model_extensible_enum.tmpl"
+			}
 		default:
 			templateName = "model_class.tmpl"
 		}

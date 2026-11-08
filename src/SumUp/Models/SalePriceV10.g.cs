@@ -13,10 +13,10 @@ public sealed partial class SalePriceV10
     public IEnumerable<DiscountLine>? CartDiscounts { get; set; }
     /// <summary>Final gross total for the sale: sum of items[].price.total_gross_amount_final after cart-level discounts (tips excluded). Same value as search total_amount, in minor units according to Sale.currency.scale. Payment amounts include tips and can therefore differ from this gross total.</summary>
     [JsonPropertyName("gross_amount")]
-    public SalePriceV10GrossAmount GrossAmount { get; set; } = default!;
+    public long GrossAmount { get; set; }
     /// <summary>Final net total for the sale: sum of items[].price.total_net_amount_final after cart-level discounts (tips excluded). In minor units according to Sale.currency.scale.</summary>
     [JsonPropertyName("net_amount")]
-    public SalePriceV10NetAmount NetAmount { get; set; } = default!;
+    public long NetAmount { get; set; }
     /// <summary>Tax lines aggregated across the sale (after cart-level discounts). Per-line tax detail remains on items[].price.taxes / taxes_final.</summary>
     [JsonPropertyName("taxes")]
     public IEnumerable<TaxLine> Taxes { get; set; } = default!;

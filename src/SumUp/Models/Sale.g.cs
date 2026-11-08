@@ -14,9 +14,9 @@ public sealed partial class Sale
     /// <summary>Instant when the sale was created.</summary>
     [JsonPropertyName("created_at")]
     public DateTimeOffset CreatedAt { get; set; }
-    /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
+    /// <summary>The currency of the sale.</summary>
     [JsonPropertyName("currency")]
-    public Currency Currency { get; set; }
+    public SalesActivityCurrency Currency { get; set; } = default!;
     /// <summary>The ID of the sale.</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
