@@ -7,7 +7,7 @@ using System.Text.Json;
 namespace SumUp;
 
 /// <summary>An event delivered by SumUp, including event types introduced after this SDK release.</summary>
-public class EventNotification : WebhooksEvent
+public class EventNotification : EventValue
 {
     internal SumUpClient? Client { get; set; }
 }

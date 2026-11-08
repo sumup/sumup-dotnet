@@ -29,7 +29,7 @@ public sealed partial class {{ .Name }} : Dictionary<string, {{ .DictionaryValue
 }
 {{- end }}
 {{- else }}
-public {{ if ne .Name "WebhooksEvent" }}sealed {{ end }}partial class {{ .Name }}
+public {{ if ne .Name "EventValue" }}sealed {{ end }}partial class {{ .Name }}
 {
 {{- range .Properties }}
 

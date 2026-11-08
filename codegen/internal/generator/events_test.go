@@ -18,7 +18,7 @@ func TestRunEvents(t *testing.T) {
       }}},
       "components":{"schemas":{
         "Widget":{"type":"object","properties":{"id":{"type":"string"}}},
-        "WebhooksEvent":{"type":"object","properties":{"type":{"$ref":"#/components/schemas/EventType"}}},
+        "Event":{"type":"object","properties":{"type":{"$ref":"#/components/schemas/EventType"}}},
         "EventType":{"type":"string","enum":["widgets.updated"]},
         "EventObjectType":{"type":"string","enum":["widget"]}
       }}
@@ -41,7 +41,7 @@ func TestRunEvents(t *testing.T) {
 			}
 		}
 		for file, expected := range map[string]string{
-			"WebhooksEvent.g.cs":   "public partial class WebhooksEvent",
+			"EventValue.g.cs":      "public partial class EventValue",
 			"EventType.g.cs":       "public readonly record struct EventType(string Value)",
 			"EventObjectType.g.cs": "public readonly record struct EventObjectType(string Value)",
 		} {
