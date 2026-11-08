@@ -98,7 +98,7 @@ public class EventsTests
         Assert.IsType(model, notification);
         Assert.Equal("evt_123", notification.Id);
         Assert.Equal(type, notification.Type.Value);
-        Assert.IsAssignableFrom<WebhooksEvent>(notification);
+        Assert.IsAssignableFrom<EventValue>(notification);
         Assert.Equal(EventObjectType.Member, notification.ObjectValue.Type);
         Assert.Equal(2026, notification.CreatedAt.Year);
         Assert.IsType(model, client.ParseEventNotificationWithoutVerification(body));

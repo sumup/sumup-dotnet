@@ -34,7 +34,7 @@ public sealed partial class TransactionFull
     public EntryMode? EntryMode { get; set; }
     /// <summary>Compact list of events related to the transaction.</summary>
     [JsonPropertyName("events")]
-    public IEnumerable<EventValue>? Events { get; set; }
+    public IEnumerable<TransactionEvent>? Events { get; set; }
     /// <summary>Total SumUp transaction fee in major units of the transaction's currency.</summary>
     [JsonPropertyName("fee_amount")]
     public decimal? FeeAmount { get; set; }
@@ -121,7 +121,7 @@ public sealed partial class TransactionFull
     public string? TransactionCode { get; set; }
     /// <summary>Detailed list of events related to the transaction.</summary>
     [JsonPropertyName("transaction_events")]
-    public IEnumerable<TransactionEvent>? TransactionEvents { get; set; }
+    public IEnumerable<TransactionEventDetails>? TransactionEvents { get; set; }
     /// <summary>Email address of the registered user (merchant) to whom the payment is made.</summary>
     [JsonPropertyName("username")]
     public string? Username { get; set; }
