@@ -9,7 +9,7 @@ public sealed partial class TaxLine
 {
     /// <summary>Gross amount after applying the tax. The value of the amount in minor units of the currency according to the Sale.currency.scale.</summary>
     [JsonPropertyName("gross_amount")]
-    public TaxLineGrossAmount GrossAmount { get; set; } = default!;
+    public long GrossAmount { get; set; }
     /// <summary>Tax ID from the Tax Service (External Id)</summary>
     [JsonPropertyName("id")]
     public string Id { get; set; } = default!;
@@ -18,11 +18,11 @@ public sealed partial class TaxLine
     public string? Name { get; set; }
     /// <summary>Net amount before applying the tax. The value of the amount in minor units of the currency according to the Sale.currency.scale.</summary>
     [JsonPropertyName("net_amount")]
-    public TaxLineNetAmount NetAmount { get; set; } = default!;
+    public long NetAmount { get; set; }
     /// <summary>The tax rate percentage in minor units (1/100000). For example 19000 = 19%.</summary>
     [JsonPropertyName("percentage")]
     public long? Percentage { get; set; }
     /// <summary>Amount of tax. The value of the amount in minor units of the currency according to the Sale.currency.scale.</summary>
     [JsonPropertyName("tax_amount")]
-    public TaxLineTaxAmount TaxAmount { get; set; } = default!;
+    public long TaxAmount { get; set; }
 }

@@ -9,7 +9,7 @@ public sealed partial class BusinessProfile
 {
     /// <summary>An address somewhere in the world. The address fields used depend on the country conventions. For example, in Great Britain, city is post_town. In the United States, the top-level administrative unit used in addresses is state, whereas in Chile it's region. Whether an address is valid or not depends on whether the locally required fields are present. Fields not supported in a country will be ignored.</summary>
     [JsonPropertyName("address")]
-    public Address? Address { get; set; }
+    public MerchantsAddress? Address { get; set; }
     /// <summary>Settings used to apply the Merchant's branding to email receipts, invoices, checkouts, and other products.</summary>
     [JsonPropertyName("branding")]
     public Branding? Branding { get; set; }
@@ -22,7 +22,7 @@ public sealed partial class BusinessProfile
     /// <summary>The customer-facing business name.</summary>
     [JsonPropertyName("name")]
     public string? Name { get; set; }
-    /// <summary>A publicly available phone number in E.164 format.</summary>
+    /// <summary>A public phone number that customers can call.</summary>
     [JsonPropertyName("phone_number")]
     public string? PhoneNumber { get; set; }
     /// <summary>The business's publicly available website.</summary>

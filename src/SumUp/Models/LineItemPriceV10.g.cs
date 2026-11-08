@@ -19,16 +19,16 @@ public sealed partial class LineItemPriceV10
     public IEnumerable<TaxLine> TaxesFinal { get; set; } = default!;
     /// <summary>The gross amount (including modifiers if applied). It does NOT include discounts.</summary>
     [JsonPropertyName("total_gross_amount")]
-    public LineItemPriceV10TotalGrossAmount TotalGrossAmount { get; set; } = default!;
+    public long TotalGrossAmount { get; set; }
     /// <summary>The final gross amount including discounts, modifiers and taxes. Equals total_gross_amount if no discounts apply.</summary>
     [JsonPropertyName("total_gross_amount_final")]
-    public LineItemPriceV10TotalGrossAmountFinal TotalGrossAmountFinal { get; set; } = default!;
+    public long TotalGrossAmountFinal { get; set; }
     /// <summary>The net amount (including modifiers if applied). It does NOT include discounts.</summary>
     [JsonPropertyName("total_net_amount")]
-    public LineItemPriceV10TotalNetAmount TotalNetAmount { get; set; } = default!;
+    public long TotalNetAmount { get; set; }
     /// <summary>The final net amount including discounts and modifiers. Equals total_net_amount if no discounts apply.</summary>
     [JsonPropertyName("total_net_amount_final")]
-    public LineItemPriceV10TotalNetAmountFinal TotalNetAmountFinal { get; set; } = default!;
+    public long TotalNetAmountFinal { get; set; }
     /// <summary>The price of a single unit. If the tax_mode is GROSS it includes taxes, otherwise no tax is included. It does NOT include discounts.</summary>
     [JsonPropertyName("unit_amount")]
     public long UnitAmount { get; set; }

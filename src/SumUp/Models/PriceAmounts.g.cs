@@ -9,10 +9,10 @@ public sealed partial class PriceAmounts
 {
     /// <summary>The gross amount (including modifiers if applied). It does NOT include discounts.</summary>
     [JsonPropertyName("total_gross_amount")]
-    public PriceAmountsTotalGrossAmount TotalGrossAmount { get; set; } = default!;
+    public long TotalGrossAmount { get; set; }
     /// <summary>The net amount (including modifiers if applied). It does NOT include discounts.</summary>
     [JsonPropertyName("total_net_amount")]
-    public PriceAmountsTotalNetAmount TotalNetAmount { get; set; } = default!;
+    public long TotalNetAmount { get; set; }
     /// <summary>The price of a single unit. If the tax_mode is GROSS, it includes taxes, otherwise no tax included. It doesn't include discounts.</summary>
     [JsonPropertyName("unit_amount")]
     public long UnitAmount { get; set; }

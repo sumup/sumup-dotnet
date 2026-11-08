@@ -4,12 +4,12 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-public sealed partial class PersonalIdentifier
+public sealed partial class MerchantsPersonalIdentifiersItem
 {
-    /// <summary>The unique reference for the personal identifier type.</summary>
+    /// <summary>The unique reference for the personal identifier type as defined in the country SDK.</summary>
     [JsonPropertyName("ref")]
     public string RefValue { get; set; } = default!;
-    /// <summary>The personal identifier value.</summary>
+    /// <summary>The value of the personal identifier.</summary>
     [JsonPropertyName("value")]
     public string Value { get; set; } = default!;
 }

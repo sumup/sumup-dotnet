@@ -27,7 +27,7 @@ public sealed partial class Merchant
     /// <summary>Information about the company or business. This is legal information that is used for verification.</summary>
     [JsonPropertyName("company")]
     public Company? Company { get; set; }
-    /// <summary>An ISO3166-1 alpha-2 country code. This definition users oneOf with a two-character string type to allow for support of future countries in client code.</summary>
+    /// <summary>The https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 country code of the country the merchant is registered and operates in.</summary>
     [JsonPropertyName("country")]
     public string Country { get; set; } = default!;
     /// <summary>The date and time when the resource was created. This is a string as defined in RFC 3339, section 5.6.</summary>
