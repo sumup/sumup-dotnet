@@ -4,7 +4,7 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-public sealed partial class WebhooksEvent
+public partial class WebhooksEvent
 {
     /// <summary>UTC timestamp when the event was created</summary>
     [JsonPropertyName("created_at")]

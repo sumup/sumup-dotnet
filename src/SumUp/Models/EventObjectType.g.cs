@@ -3,14 +3,28 @@
 
 namespace SumUp;
 
-using System.Runtime.Serialization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
-[JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum EventObjectType
+/// <summary>Type of the resource associated with the event</summary>
+/// <remarks>Unknown values are preserved for forward compatibility.</remarks>
+[JsonConverter(typeof(EventObjectType.Converter))]
+public readonly record struct EventObjectType(string Value)
 {
-    [EnumMember(Value = "member")]
-    Member,
-    [EnumMember(Value = "reader")]
-    Reader,
+    /// <summary>The <c>member</c> value.</summary>
+    public static EventObjectType Member { get; } = new("member");
+    /// <summary>The <c>reader</c> value.</summary>
+    public static EventObjectType Reader { get; } = new("reader");
+
+    /// <inheritdoc />
+    public override string ToString() => Value ?? "";
+
+    internal sealed class Converter : JsonConverter<EventObjectType>
+    {
+        public override EventObjectType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
+            new(reader.GetString() ?? "");
+
+        public override void Write(Utf8JsonWriter writer, EventObjectType value, JsonSerializerOptions options) =>
+            writer.WriteStringValue(value.Value);
+    }
 }

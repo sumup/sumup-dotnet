@@ -55,113 +55,113 @@ public sealed partial class EventsHandler
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnCheckoutCreated(Func<CheckoutCreatedEvent, CancellationToken, Task> callback) =>
-        Register("checkouts.created", callback);
+        Register(EventType.CheckoutsCreated, callback);
 
     /// <summary>Registers a callback for <c>"checkouts.expired"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnCheckoutExpired(Func<CheckoutExpiredEvent, CancellationToken, Task> callback) =>
-        Register("checkouts.expired", callback);
+        Register(EventType.CheckoutsExpired, callback);
 
     /// <summary>Registers a callback for <c>"checkouts.failed"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnCheckoutFailed(Func<CheckoutFailedEvent, CancellationToken, Task> callback) =>
-        Register("checkouts.failed", callback);
+        Register(EventType.CheckoutsFailed, callback);
 
     /// <summary>Registers a callback for <c>"checkouts.paid"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnCheckoutPaid(Func<CheckoutPaidEvent, CancellationToken, Task> callback) =>
-        Register("checkouts.paid", callback);
+        Register(EventType.CheckoutsPaid, callback);
 
     /// <summary>Registers a callback for <c>"checkouts.updated"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnCheckoutUpdated(Func<CheckoutUpdatedEvent, CancellationToken, Task> callback) =>
-        Register("checkouts.updated", callback);
+        Register(EventType.CheckoutsUpdated, callback);
 
     /// <summary>Registers a callback for <c>"members.created"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnMemberCreated(Func<MemberCreatedEvent, CancellationToken, Task> callback) =>
-        Register("members.created", callback);
+        Register(EventType.MembersCreated, callback);
 
     /// <summary>Registers a callback for <c>"members.deleted"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnMemberDeleted(Func<MemberDeletedEvent, CancellationToken, Task> callback) =>
-        Register("members.deleted", callback);
+        Register(EventType.MembersDeleted, callback);
 
     /// <summary>Registers a callback for <c>"members.updated"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnMemberUpdated(Func<MemberUpdatedEvent, CancellationToken, Task> callback) =>
-        Register("members.updated", callback);
+        Register(EventType.MembersUpdated, callback);
 
     /// <summary>Registers a callback for <c>"readers.created"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnReaderCreated(Func<ReaderCreatedEvent, CancellationToken, Task> callback) =>
-        Register("readers.created", callback);
+        Register(EventType.ReadersCreated, callback);
 
     /// <summary>Registers a callback for <c>"readers.deleted"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnReaderDeleted(Func<ReaderDeletedEvent, CancellationToken, Task> callback) =>
-        Register("readers.deleted", callback);
+        Register(EventType.ReadersDeleted, callback);
 
     /// <summary>Registers a callback for <c>"roles.created"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnRoleCreated(Func<RoleCreatedEvent, CancellationToken, Task> callback) =>
-        Register("roles.created", callback);
+        Register(EventType.RolesCreated, callback);
 
     /// <summary>Registers a callback for <c>"roles.deleted"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnRoleDeleted(Func<RoleDeletedEvent, CancellationToken, Task> callback) =>
-        Register("roles.deleted", callback);
+        Register(EventType.RolesDeleted, callback);
 
     /// <summary>Registers a callback for <c>"roles.updated"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnRoleUpdated(Func<RoleUpdatedEvent, CancellationToken, Task> callback) =>
-        Register("roles.updated", callback);
+        Register(EventType.RolesUpdated, callback);
 
     /// <summary>Registers a callback for <c>"sales.completed"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnSaleCompleted(Func<SaleCompletedEvent, CancellationToken, Task> callback) =>
-        Register("sales.completed", callback);
+        Register(EventType.SalesCompleted, callback);
 
     /// <summary>Registers a callback for <c>"sales.updated"</c>, replacing any previous callback for this type.</summary>
     /// <param name="callback">The callback to await, with the request cancellation token.</param>
     /// <returns>This handler, for chaining registrations.</returns>
     public EventsHandler OnSaleUpdated(Func<SaleUpdatedEvent, CancellationToken, Task> callback) =>
-        Register("sales.updated", callback);
+        Register(EventType.SalesUpdated, callback);
 
 }
 
 public partial class SumUpClient
 {
-    private static EventNotification DeserializeEvent(JsonElement root, string? type) => type switch
+    private static EventNotification DeserializeEvent(JsonElement root, EventType type) => type switch
     {
-        "checkouts.created" => root.Deserialize<CheckoutCreatedEvent>()!,
-        "checkouts.expired" => root.Deserialize<CheckoutExpiredEvent>()!,
-        "checkouts.failed" => root.Deserialize<CheckoutFailedEvent>()!,
-        "checkouts.paid" => root.Deserialize<CheckoutPaidEvent>()!,
-        "checkouts.updated" => root.Deserialize<CheckoutUpdatedEvent>()!,
-        "members.created" => root.Deserialize<MemberCreatedEvent>()!,
-        "members.deleted" => root.Deserialize<MemberDeletedEvent>()!,
-        "members.updated" => root.Deserialize<MemberUpdatedEvent>()!,
-        "readers.created" => root.Deserialize<ReaderCreatedEvent>()!,
-        "readers.deleted" => root.Deserialize<ReaderDeletedEvent>()!,
-        "roles.created" => root.Deserialize<RoleCreatedEvent>()!,
-        "roles.deleted" => root.Deserialize<RoleDeletedEvent>()!,
-        "roles.updated" => root.Deserialize<RoleUpdatedEvent>()!,
-        "sales.completed" => root.Deserialize<SaleCompletedEvent>()!,
-        "sales.updated" => root.Deserialize<SaleUpdatedEvent>()!,
+        var value when value == EventType.CheckoutsCreated => root.Deserialize<CheckoutCreatedEvent>()!,
+        var value when value == EventType.CheckoutsExpired => root.Deserialize<CheckoutExpiredEvent>()!,
+        var value when value == EventType.CheckoutsFailed => root.Deserialize<CheckoutFailedEvent>()!,
+        var value when value == EventType.CheckoutsPaid => root.Deserialize<CheckoutPaidEvent>()!,
+        var value when value == EventType.CheckoutsUpdated => root.Deserialize<CheckoutUpdatedEvent>()!,
+        var value when value == EventType.MembersCreated => root.Deserialize<MemberCreatedEvent>()!,
+        var value when value == EventType.MembersDeleted => root.Deserialize<MemberDeletedEvent>()!,
+        var value when value == EventType.MembersUpdated => root.Deserialize<MemberUpdatedEvent>()!,
+        var value when value == EventType.ReadersCreated => root.Deserialize<ReaderCreatedEvent>()!,
+        var value when value == EventType.ReadersDeleted => root.Deserialize<ReaderDeletedEvent>()!,
+        var value when value == EventType.RolesCreated => root.Deserialize<RoleCreatedEvent>()!,
+        var value when value == EventType.RolesDeleted => root.Deserialize<RoleDeletedEvent>()!,
+        var value when value == EventType.RolesUpdated => root.Deserialize<RoleUpdatedEvent>()!,
+        var value when value == EventType.SalesCompleted => root.Deserialize<SaleCompletedEvent>()!,
+        var value when value == EventType.SalesUpdated => root.Deserialize<SaleUpdatedEvent>()!,
         _ => root.Deserialize<EventNotification>()!,
     };
 }

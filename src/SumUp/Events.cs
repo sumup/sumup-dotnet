@@ -3,44 +3,13 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace SumUp;
 
 /// <summary>An event delivered by SumUp, including event types introduced after this SDK release.</summary>
-public class EventNotification
+public class EventNotification : WebhooksEvent
 {
-    /// <summary>The event ID. Use it to deduplicate deliveries.</summary>
-    [JsonPropertyName("id")]
-    public string Id { get; init; } = "";
-
-    /// <summary>The event name, such as <c>members.updated</c>.</summary>
-    [JsonPropertyName("type")]
-    public string Type { get; init; } = "";
-
-    /// <summary>When the event occurred. Signature verification uses the delivery timestamp in the signature header.</summary>
-    [JsonPropertyName("created_at")]
-    public DateTimeOffset CreatedAt { get; init; }
-
-    /// <summary>A reference to the affected resource.</summary>
-    [JsonPropertyName("object")]
-    public EventObjectReference Object { get; init; } = new();
-
     internal SumUpClient? Client { get; set; }
-}
-
-/// <summary>Identifies the resource affected by an event.</summary>
-public sealed class EventObjectReference
-{
-    /// <summary>The resource ID, available without an API request.</summary>
-    [JsonPropertyName("id")]
-    public string Id { get; init; } = "";
-    /// <summary>The resource type, such as <c>member</c> or <c>reader</c>.</summary>
-    [JsonPropertyName("type")]
-    public string Type { get; init; } = "";
-    /// <summary>The API URL used to fetch the resource.</summary>
-    [JsonPropertyName("url")]
-    public string Url { get; init; } = "";
 }
 
 /// <summary>An event whose affected resource can be fetched through the originating client.</summary>
@@ -57,7 +26,7 @@ public class EventNotification<T> : EventNotification where T : class
     public Task<T?> FetchObjectAsync(RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var client = Client ?? throw new EventObjectException("Parse the event through a SumUp client before fetching its resource.");
-        return client.FetchEventObjectAsync<T>(Object?.Url ?? "", requestOptions, cancellationToken);
+        return client.FetchEventObjectAsync<T>(ObjectValue?.Url ?? "", requestOptions, cancellationToken);
     }
 
     /// <summary>Synchronously fetches the resource's current state. Prefer <see cref="FetchObjectAsync"/> in asynchronous code.</summary>
@@ -126,7 +95,7 @@ public sealed partial class EventsHandler
     private readonly SumUpClient _client;
     private readonly string _secret;
     private readonly Func<EventNotification, CancellationToken, Task> _fallback;
-    private readonly Dictionary<string, Func<EventNotification, CancellationToken, Task>> _callbacks = new();
+    private readonly Dictionary<EventType, Func<EventNotification, CancellationToken, Task>> _callbacks = new();
 
     internal EventsHandler(SumUpClient client, string secret, Func<EventNotification, CancellationToken, Task> fallback)
     {
@@ -137,7 +106,7 @@ public sealed partial class EventsHandler
         _fallback = fallback;
     }
 
-    private EventsHandler Register<T>(string type, Func<T, CancellationToken, Task> callback) where T : EventNotification
+    private EventsHandler Register<T>(EventType type, Func<T, CancellationToken, Task> callback) where T : EventNotification
     {
         ArgumentNullException.ThrowIfNull(callback);
         _callbacks[type] = (notification, token) => callback((T)notification, token);
@@ -166,7 +135,7 @@ public sealed partial class EventsHandler
     {
         cancellationToken.ThrowIfCancellationRequested();
         var notification = Parse(body.Span, signature);
-        var callback = _callbacks.GetValueOrDefault(notification.Type ?? "") ?? _fallback;
+        var callback = _callbacks.GetValueOrDefault(notification.Type) ?? _fallback;
         try
         {
             await callback(notification, cancellationToken).ConfigureAwait(false);
@@ -218,7 +187,7 @@ public partial class SumUpClient
             if (reader.Read() || document.RootElement.ValueKind != JsonValueKind.Object)
                 throw new JsonException("Expected a JSON object.");
             var root = document.RootElement;
-            var type = root.TryGetProperty("type", out var value) ? value.GetString() : null;
+            var type = root.TryGetProperty("type", out var value) ? value.Deserialize<EventType>() : default;
             var notification = DeserializeEvent(root, type);
             notification.Client = this;
             return notification;

@@ -2,10 +2,11 @@ package generator
 
 import (
 	"bytes"
+	"cmp"
 	"fmt"
 	"os"
 	"path/filepath"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
 	"text/template"
@@ -15,7 +16,7 @@ import (
 )
 
 type eventTemplateData struct {
-	Name, TypeLiteral, Model, Description string
+	Name, TypeLiteral, TypeMember, Model, Description string
 }
 
 func (g *Generator) renderEvents(t *template.Template, doc *v3.Document) error {
@@ -43,10 +44,10 @@ func (g *Generator) renderEvents(t *template.Template, doc *v3.Document) error {
 			if name == "" {
 				return fmt.Errorf("event %s: missing operation ID", eventType)
 			}
-			events = append(events, eventTemplateData{name, strconv.Quote(eventType), model.TypeName, sanitizeText(op.Description)})
+			events = append(events, eventTemplateData{name, strconv.Quote(eventType), naming.PascalIdentifier(eventType), model.TypeName, sanitizeText(op.Description)})
 		}
 	}
-	sort.Slice(events, func(i, j int) bool { return events[i].TypeLiteral < events[j].TypeLiteral })
+	slices.SortFunc(events, func(a, b eventTemplateData) int { return cmp.Compare(a.TypeLiteral, b.TypeLiteral) })
 	var output bytes.Buffer
 	data := struct {
 		Namespace string

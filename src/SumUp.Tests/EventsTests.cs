@@ -79,6 +79,16 @@ public class EventsTests
     [InlineData("members.deleted", typeof(MemberDeletedEvent))]
     [InlineData("readers.created", typeof(ReaderCreatedEvent))]
     [InlineData("readers.deleted", typeof(ReaderDeletedEvent))]
+    [InlineData("checkouts.created", typeof(CheckoutCreatedEvent))]
+    [InlineData("checkouts.expired", typeof(CheckoutExpiredEvent))]
+    [InlineData("checkouts.failed", typeof(CheckoutFailedEvent))]
+    [InlineData("checkouts.paid", typeof(CheckoutPaidEvent))]
+    [InlineData("checkouts.updated", typeof(CheckoutUpdatedEvent))]
+    [InlineData("roles.created", typeof(RoleCreatedEvent))]
+    [InlineData("roles.updated", typeof(RoleUpdatedEvent))]
+    [InlineData("roles.deleted", typeof(RoleDeletedEvent))]
+    [InlineData("sales.completed", typeof(SaleCompletedEvent))]
+    [InlineData("sales.updated", typeof(SaleUpdatedEvent))]
     [InlineData("future.event", typeof(EventNotification))]
     public void Parse_ReturnsTypedEvent(string type, Type model)
     {
@@ -87,9 +97,32 @@ public class EventsTests
         var notification = client.ParseEventNotification(body, Sign(body), Secret);
         Assert.IsType(model, notification);
         Assert.Equal("evt_123", notification.Id);
-        Assert.Equal(type, notification.Type);
+        Assert.Equal(type, notification.Type.Value);
+        Assert.IsAssignableFrom<WebhooksEvent>(notification);
+        Assert.Equal(EventObjectType.Member, notification.ObjectValue.Type);
         Assert.Equal(2026, notification.CreatedAt.Year);
         Assert.IsType(model, client.ParseEventNotificationWithoutVerification(body));
+    }
+
+    [Theory]
+    [InlineData("members.updated", "member")]
+    [InlineData("sales.updated", "sale")]
+    [InlineData("future.event", "future-resource")]
+    public void Parse_PreservesGeneratedModelValuesWhenSerialized(string type, string objectType)
+    {
+        using var client = new SumUpClient();
+        var body = JsonSerializer.SerializeToUtf8Bytes(new
+        {
+            id = "evt_123",
+            type,
+            @object = new { id = "123", type = objectType, url = "https://api.sumup.com/resource/123" }
+        });
+        var notification = client.ParseEventNotificationWithoutVerification(body);
+        Assert.Equal(new EventType(type), notification.Type);
+        Assert.Equal(new EventObjectType(objectType), notification.ObjectValue.Type);
+        using var serialized = JsonDocument.Parse(JsonSerializer.Serialize(notification));
+        Assert.Equal(type, serialized.RootElement.GetProperty("type").GetString());
+        Assert.Equal(objectType, serialized.RootElement.GetProperty("object").GetProperty("type").GetString());
     }
 
     [Theory]
@@ -111,7 +144,8 @@ public class EventsTests
         using var client = new SumUpClient();
         Assert.Throws<EventSignatureException>(() => client.ParseEventNotification("{"u8, null, Secret));
         Assert.IsType<EventNotification>(client.ParseEventNotificationWithoutVerification("{}"u8));
-        Assert.IsType<MemberUpdatedEvent>(client.ParseEventNotificationWithoutVerification("{\"type\":\"members.updated\",\"object\":{\"type\":\"future\"}}"u8));
+        var notification = Assert.IsType<MemberUpdatedEvent>(client.ParseEventNotificationWithoutVerification("{\"type\":\"members.updated\",\"object\":{\"type\":\"future\"}}"u8));
+        Assert.Equal("future", notification.ObjectValue.Type.Value);
     }
 
     [Fact]
@@ -125,6 +159,7 @@ public class EventsTests
         events.OnMemberUpdated((notification, token) =>
         {
             Assert.Equal("evt_123", notification.Id);
+            Assert.Equal(EventType.MembersUpdated, notification.Type);
             Assert.Equal(cancellation.Token, token);
             return completion.Task;
         });
