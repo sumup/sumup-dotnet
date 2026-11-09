@@ -29,7 +29,7 @@ public sealed partial class TransactionFull
     /// <summary>Details of the ELV card account associated with the transaction.</summary>
     [JsonPropertyName("elv_account")]
     public ElvCardAccount? ElvAccount { get; set; }
-    /// <summary>How the payment details were captured, for example CHIP or CONTACTLESS for card-present payments and CUSTOMER_ENTRY for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as APPLE_PAY or BLIK.</summary>
+    /// <summary>How the payment details were captured, for example chip or contactless for card-present payments and customer entry for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as apple pay or blik.</summary>
     [JsonPropertyName("entry_mode")]
     public EntryMode? EntryMode { get; set; }
     /// <summary>Compact list of events related to the transaction.</summary>

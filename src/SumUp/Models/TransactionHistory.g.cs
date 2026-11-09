@@ -19,6 +19,9 @@ public sealed partial class TransactionHistory
     /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
+    /// <summary>How the payment details were captured, for example chip or contactless for card-present payments and customer entry for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as apple pay or blik.</summary>
+    [JsonPropertyName("entry_mode")]
+    public EntryMode? EntryMode { get; set; }
     /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("id")]
     public string? Id { get; set; }

@@ -7,6 +7,9 @@ using System.Text.Json.Serialization;
 /// <summary>Additional transaction fields used by history and detailed views.</summary>
 public sealed partial class TransactionMixinHistory
 {
+    /// <summary>How the payment details were captured, for example chip or contactless for card-present payments and customer entry for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as apple pay or blik.</summary>
+    [JsonPropertyName("entry_mode")]
+    public EntryMode? EntryMode { get; set; }
     /// <summary>Payout plan of the registered user at the time when the transaction was made.</summary>
     [JsonPropertyName("payout_plan")]
     public TransactionMixinHistoryPayoutPlan? PayoutPlan { get; set; }
