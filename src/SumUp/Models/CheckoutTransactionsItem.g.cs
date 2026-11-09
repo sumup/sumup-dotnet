@@ -15,9 +15,9 @@ public sealed partial class CheckoutTransactionsItem
     /// <summary>Three-letter ISO 4217 currency code of the amount.</summary>
     [JsonPropertyName("currency")]
     public Currency? Currency { get; set; }
-    /// <summary>How the payment details were captured, for example CHIP or CONTACTLESS for card-present payments and CUSTOMER_ENTRY for card details entered by the payer. For wallet and alternative payment methods, this can identify the method, such as APPLE_PAY or BLIK.</summary>
+    /// <summary>How the payment details were captured for a checkout transaction, for example CUSTOMER_ENTRY for card details entered by the payer or APPLE_PAY for an Apple Pay payment. Checkout entry modes use uppercase values, unlike entry modes returned by the Transactions endpoints.</summary>
     [JsonPropertyName("entry_mode")]
-    public EntryMode? EntryMode { get; set; }
+    public CheckoutEntryMode? EntryMode { get; set; }
     /// <summary>Unique identifier of the transaction.</summary>
     [JsonPropertyName("id")]
     public string? Id { get; set; }
