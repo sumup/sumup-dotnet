@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.0.23](https://github.com/sumup/sumup-dotnet/compare/v0.0.22...v0.0.23) (2026-11-12)
+
+
+### Chores
+
+* **deps:** Bump github.com/pb33f/libopenapi in /codegen ([#214](https://github.com/sumup/sumup-dotnet/issues/214)) ([056fdf8](https://github.com/sumup/sumup-dotnet/commit/056fdf8e6d06a28085e055fd9e7ff591c7c79dce))
+* **deps:** Bump reviewdog/action-actionlint from 1.80.6 to 1.81.1 ([#215](https://github.com/sumup/sumup-dotnet/issues/215)) ([54e24db](https://github.com/sumup/sumup-dotnet/commit/54e24db85344d0fcaa67de5a229d22e3c2da9cc7))
+* synced file(s) with sumup/apis ([#210](https://github.com/sumup/sumup-dotnet/issues/210)) ([81cbbc3](https://github.com/sumup/sumup-dotnet/commit/81cbbc3b4843ef0cf2dada413d38bbe0fdd18693))
+* synced file(s) with sumup/apis ([#212](https://github.com/sumup/sumup-dotnet/issues/212)) ([ba92892](https://github.com/sumup/sumup-dotnet/commit/ba9289297c25858df1e434781053a5ea6301da4b))
+* synced file(s) with sumup/apis ([#213](https://github.com/sumup/sumup-dotnet/issues/213)) ([90c721c](https://github.com/sumup/sumup-dotnet/commit/90c721cbe6f2bc403eff96ad2e6c6bfdc4387153))
+* synced file(s) with sumup/apis ([#217](https://github.com/sumup/sumup-dotnet/issues/217)) ([bb71bfd](https://github.com/sumup/sumup-dotnet/commit/bb71bfdf70afd724875b40c793cd28e3ca0168e5))
+* synced file(s) with sumup/apis ([#218](https://github.com/sumup/sumup-dotnet/issues/218)) ([56c5968](https://github.com/sumup/sumup-dotnet/commit/56c5968437c18a7ee432b4e56602e318ee563da6))
+
 ## [0.0.22](https://github.com/sumup/sumup-dotnet/compare/v0.0.21...v0.0.22) (2026-11-03)
 
 
