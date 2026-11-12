@@ -14,7 +14,7 @@ public sealed partial class SaleSearchRequest
     /// <summary>Maximum number of results per page.</summary>
     [JsonPropertyName("pagination_limit")]
     public int? PaginationLimit { get; set; }
-    /// <summary>Opaque pagination token from a previous search response. Not interchangeable with tokens from GET /sales.</summary>
+    /// <summary>Opaque token from the previous search response. To load the next page, send it with the same filters. Not interchangeable with tokens from GET /sales.</summary>
     [JsonPropertyName("pagination_token")]
     public string? PaginationToken { get; set; }
     /// <summary>Filters rows by payment outcome. Multiple values match any of them (OR). The search row does not echo this value.</summary>
