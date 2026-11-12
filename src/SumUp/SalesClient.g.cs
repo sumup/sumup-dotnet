@@ -17,21 +17,21 @@ public sealed partial class SalesClient
     /// <summary>
     /// Client for the Sales API endpoints.
     /// </summary>
-    /// <remarks>Operations related to reading sales data.</remarks>
+    /// <remarks>Read a merchant's fully-paid, closed sales, including item lines, taxes, discounts, and payments. List sales to retrieve full Sale objects, or search by date, payment status, and sales channel to retrieve summaries. Use a summary's id to get the full sale. Amounts are expressed in minor units according to each sale's currency.scale.</remarks>
     internal SalesClient(ApiClient client)
     {
         _client = client;
     }
 
     /// <summary>
-    /// Gets a sale
+    /// Get a sale
     /// </summary>
     /// <remarks>Returns Sale for sale_id, including item lines and payments[]. Non-finalised sales are never returned; only fully-paid sales.</remarks>
     /// <param name="merchantCode">The merchant code.</param>
     /// <param name="saleId">The sale ID.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<Sale> GetSaleV10(string merchantCode, string saleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<Sale> Get(string merchantCode, string saleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/sales/{sale_id}", builder =>
         {
@@ -90,14 +90,14 @@ public sealed partial class SalesClient
     }
 
     /// <summary>
-    /// Gets a sale
+    /// Get a sale
     /// </summary>
     /// <remarks>Returns Sale for sale_id, including item lines and payments[]. Non-finalised sales are never returned; only fully-paid sales.</remarks>
     /// <param name="merchantCode">The merchant code.</param>
     /// <param name="saleId">The sale ID.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<Sale>> GetSaleV10Async(string merchantCode, string saleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<Sale>> GetAsync(string merchantCode, string saleId, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/sales/{sale_id}", builder =>
         {
@@ -156,16 +156,16 @@ public sealed partial class SalesClient
     }
 
     /// <summary>
-    /// Lists sales
+    /// List sales
     /// </summary>
     /// <remarks>Returns a paginated list of Sale objects. Results are sorted newest first by the newest event recorded for each sale. Pagination tokens follow that order. Covers the merchant’s last two years of sales. Non-finalised sales are never returned; only fully-paid sales. Use POST /sales/search for filtered queries.</remarks>
     /// <param name="merchantCode">The merchant code.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<SalePage> ListSalesV10(string merchantCode, SalesListSalesV10Options? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<SalePage> List(string merchantCode, SalesListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var operationOptions = options ?? new SalesListSalesV10Options();
+        var operationOptions = options ?? new SalesListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/sales", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
@@ -224,16 +224,16 @@ public sealed partial class SalesClient
     }
 
     /// <summary>
-    /// Lists sales
+    /// List sales
     /// </summary>
     /// <remarks>Returns a paginated list of Sale objects. Results are sorted newest first by the newest event recorded for each sale. Pagination tokens follow that order. Covers the merchant’s last two years of sales. Non-finalised sales are never returned; only fully-paid sales. Use POST /sales/search for filtered queries.</remarks>
     /// <param name="merchantCode">The merchant code.</param>
     /// <param name="options">Query and header parameters for the request.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<SalePage>> ListSalesV10Async(string merchantCode, SalesListSalesV10Options? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<SalePage>> ListAsync(string merchantCode, SalesListOptions? options = null, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
-        var operationOptions = options ?? new SalesListSalesV10Options();
+        var operationOptions = options ?? new SalesListOptions();
         var request = _client.CreateRequest(HttpMethod.Get, "/v1.0/merchants/{merchant_code}/sales", builder =>
         {
             builder.AddPath("merchant_code", merchantCode);
@@ -292,14 +292,14 @@ public sealed partial class SalesClient
     }
 
     /// <summary>
-    /// Searches sales
+    /// Search sales
     /// </summary>
     /// <remarks>Returns a paginated list of SaleSearchItem rows matching filter criteria. Results are sorted newest first by sale close date. Filters from different categories stack with logical AND; multiple values in one array field stack with logical OR. Results cover the merchant’s last two years of sales (narrow further with start_date / end_date). Pagination tokens are not interchangeable with GET /sales.</remarks>
     /// <param name="merchantCode">The merchant code.</param>
     /// <param name="body">Request body payload.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public ApiResponse<SaleSearchResponse> SearchSalesV10(string merchantCode, SaleSearchRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public ApiResponse<SaleSearchResponse> Search(string merchantCode, SaleSearchRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/sales/search", builder =>
         {
@@ -361,14 +361,14 @@ public sealed partial class SalesClient
     }
 
     /// <summary>
-    /// Searches sales
+    /// Search sales
     /// </summary>
     /// <remarks>Returns a paginated list of SaleSearchItem rows matching filter criteria. Results are sorted newest first by sale close date. Filters from different categories stack with logical AND; multiple values in one array field stack with logical OR. Results cover the merchant’s last two years of sales (narrow further with start_date / end_date). Pagination tokens are not interchangeable with GET /sales.</remarks>
     /// <param name="merchantCode">The merchant code.</param>
     /// <param name="body">Request body payload.</param>
     /// <param name="requestOptions">Optional per-request overrides.</param>
     /// <param name="cancellationToken">Token used to cancel the request.</param>
-    public async Task<ApiResponse<SaleSearchResponse>> SearchSalesV10Async(string merchantCode, SaleSearchRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
+    public async Task<ApiResponse<SaleSearchResponse>> SearchAsync(string merchantCode, SaleSearchRequest body, RequestOptions? requestOptions = null, CancellationToken cancellationToken = default)
     {
         var request = _client.CreateRequest(HttpMethod.Post, "/v1.0/merchants/{merchant_code}/sales/search", builder =>
         {

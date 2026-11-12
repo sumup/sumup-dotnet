@@ -10,7 +10,7 @@ public sealed partial class SaleSearchResponse
 {
     [JsonPropertyName("items")]
     public IEnumerable<SaleSearchItem> Items { get; set; } = default!;
-    /// <summary>Opaque token for the next page of search results.</summary>
+    /// <summary>Opaque token for the next page. Pass it as pagination_token in the next search request body with the same filters. Omitted when no further page is available.</summary>
     [JsonPropertyName("pagination_token")]
     public string? PaginationToken { get; set; }
 }

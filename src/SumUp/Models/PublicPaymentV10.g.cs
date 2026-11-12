@@ -10,7 +10,7 @@ public sealed partial class PublicPaymentV10
     /// <summary>The amount of the payment including tips. The value of the amount in minor units of Sale.currency.</summary>
     [JsonPropertyName("amount")]
     public long Amount { get; set; }
-    /// <summary>Alternative payment method type when method is apm. Gift card is not an APM on this API. Input is case-insensitive; the canonical form is lowercase snake_case. VALUES: [qr_code_pix, sepa_dd, paypal, sumup_pay, twint, iris].</summary>
+    /// <summary>Alternative payment method type when method is apm. Gift card is not an APM on this API. Values use lowercase snake_case. Known values are qr_code_pix, sepa_dd, paypal, sumup_pay, twint, and iris. Additional values may be returned as new alternative payment methods become available.</summary>
     [JsonPropertyName("apm_type")]
     public string? ApmType { get; set; }
     /// <summary>Card brand, credit/debit processing type, and last four digits.</summary>
@@ -19,7 +19,7 @@ public sealed partial class PublicPaymentV10
     /// <summary>Gift card used for this payment. Present when method is gift_card and the gift card id is known. Gift card IDs use the format "GC" followed by 9 alphanumeric characters (e.g. GCZ3NTMB1V).</summary>
     [JsonPropertyName("gift_card")]
     public PublicGiftCardPayment? GiftCard { get; set; }
-    /// <summary>Payment method on public sales read API v1.0. Digital wallets are first-class methods. Gift card payments use gift_card, not apm. Input is case-insensitive; the canonical form is lowercase snake_case. VALUES: [card, cash, apm, external, apple_pay, google_pay, whatsapp_pay, gift_card].</summary>
+    /// <summary>Payment method on public sales read API v1.0. Digital wallets are first-class methods. Gift card payments use gift_card, not apm. Values use lowercase snake_case. Known values are card, cash, apm, external, apple_pay, google_pay, whatsapp_pay, and gift_card. Additional values may be returned as new payment methods become available.</summary>
     [JsonPropertyName("method")]
     public string Method { get; set; } = default!;
     /// <summary>UTC date-time when SumUp recorded this payment’s exposed status (successful, failed, or canceled). Server processed time when available; otherwise the payment provider’s transaction time. Not the device clock.</summary>
@@ -31,7 +31,7 @@ public sealed partial class PublicPaymentV10
     /// <summary>The status of the payment.</summary>
     [JsonPropertyName("status")]
     public PublicPaymentV10Status Status { get; set; }
-    /// <summary>Payment operation type. This is distinct from the payment instrument in method. Input is case-insensitive; the canonical form is lowercase snake_case. VALUES: [purchase, unreferenced_refund] Defaults to "purchase" if unspecified. Either a normal purchase or an unreferenced refund for negative sales like deposit returns.</summary>
+    /// <summary>Payment operation type. This is distinct from the payment instrument in method. Values use lowercase snake_case. Known values are purchase for a normal purchase and unreferenced_refund for negative sales such as deposit returns.</summary>
     [JsonPropertyName("type")]
     public string Type { get; set; } = default!;
 }

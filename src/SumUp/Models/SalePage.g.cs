@@ -5,12 +5,12 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>Paginated list of Sale objects. Results are ordered newest first by the newest activity recorded for each sale. See ListSalesV10.</summary>
+/// <summary>Paginated list of Sale objects. Results are ordered newest first by the newest activity recorded for each sale.</summary>
 public sealed partial class SalePage
 {
     [JsonPropertyName("items")]
     public IEnumerable<Sale> Items { get; set; } = default!;
-    /// <summary>Pagination token for subsequent requests. Should only be set by clients if they have received a token in the previous response, and this request is an immediate follow-up request to that response to load the subsequent page. Clients should treat this as an opaque token and should not attempt to parse it in any way.</summary>
+    /// <summary>Opaque token for the next page. Pass it as the pagination_token query parameter on the next list request. Omitted when no further page is available.</summary>
     [JsonPropertyName("pagination_token")]
     public string? PaginationToken { get; set; }
 }
