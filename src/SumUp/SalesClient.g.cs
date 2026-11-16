@@ -57,23 +57,23 @@ public sealed partial class SalesClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
-                        var errorForStatus403 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 412:
                     {
-                        var errorForStatus412 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus412 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -123,23 +123,23 @@ public sealed partial class SalesClient
                 {
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
-                        var errorForStatus403 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 404:
                     {
-                        var errorForStatus404 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus404 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus404, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 412:
                     {
-                        var errorForStatus412 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus412 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -191,23 +191,23 @@ public sealed partial class SalesClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
-                        var errorForStatus403 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 412:
                     {
-                        var errorForStatus412 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus412 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -259,23 +259,23 @@ public sealed partial class SalesClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
-                        var errorForStatus403 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 412:
                     {
-                        var errorForStatus412 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus412 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -328,23 +328,23 @@ public sealed partial class SalesClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
-                        var errorForStatus403 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 412:
                     {
-                        var errorForStatus412 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus412 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);
@@ -397,23 +397,23 @@ public sealed partial class SalesClient
                 {
                     case 400:
                     {
-                        var errorForStatus400 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus400 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus400, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 401:
                     {
-                        var errorForStatus401 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus401 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus401, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 403:
                     {
-                        var errorForStatus403 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus403 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus403, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                     case 412:
                     {
-                        var errorForStatus412 = _client.TryDeserialize<ProblemV10>(responseBody);
-                        throw new ApiException<ProblemV10>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
+                        var errorForStatus412 = _client.TryDeserialize<Problem>(responseBody);
+                        throw new ApiException<Problem>(response.StatusCode, errorForStatus412, responseBody, response.RequestMessage?.RequestUri, response.Headers);
                     }
                 }
                 var fallbackError = _client.TryDeserialize<ApiError>(responseBody);

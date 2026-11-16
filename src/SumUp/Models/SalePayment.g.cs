@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 /// <summary>Payment on a closed sale, for bookkeeping and reconciliation. Acquirer/processing cost is not on this object. Merchant-charged fees (shipping, service charge, etc.) appear as type: "FEE" item lines in Sale.items.</summary>
-public sealed partial class PublicPaymentV10
+public sealed partial class SalePayment
 {
     /// <summary>The amount of the payment including tips. The value of the amount in minor units of Sale.currency.</summary>
     [JsonPropertyName("amount")]
@@ -15,10 +15,10 @@ public sealed partial class PublicPaymentV10
     public string? ApmType { get; set; }
     /// <summary>Card brand, credit/debit processing type, and last four digits.</summary>
     [JsonPropertyName("card")]
-    public PublicCardV10? Card { get; set; }
+    public SalePaymentCard? Card { get; set; }
     /// <summary>Gift card used for this payment. Present when method is gift_card and the gift card id is known. Gift card IDs use the format "GC" followed by 9 alphanumeric characters (e.g. GCZ3NTMB1V).</summary>
     [JsonPropertyName("gift_card")]
-    public PublicGiftCardPayment? GiftCard { get; set; }
+    public SaleGiftCardPayment? GiftCard { get; set; }
     /// <summary>Payment method on public sales read API v1.0. Digital wallets are first-class methods. Gift card payments use gift_card, not apm. Values use lowercase snake_case. Known values are card, cash, apm, external, apple_pay, google_pay, whatsapp_pay, and gift_card. Additional values may be returned as new payment methods become available.</summary>
     [JsonPropertyName("method")]
     public string Method { get; set; } = default!;
@@ -30,7 +30,7 @@ public sealed partial class PublicPaymentV10
     public string Reference { get; set; } = default!;
     /// <summary>The status of the payment.</summary>
     [JsonPropertyName("status")]
-    public PublicPaymentV10Status Status { get; set; }
+    public SalePaymentStatus Status { get; set; }
     /// <summary>Payment operation type. This is distinct from the payment instrument in method. Values use lowercase snake_case. Known values are purchase for a normal purchase and unreferenced_refund for negative sales such as deposit returns.</summary>
     [JsonPropertyName("type")]
     public string Type { get; set; } = default!;

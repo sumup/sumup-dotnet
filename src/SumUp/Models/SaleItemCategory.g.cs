@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 /// <summary>A category a line belongs to.</summary>
-public sealed partial class CategoryV10
+public sealed partial class SaleItemCategory
 {
     /// <summary>The category id. Usually a UUID, but not always (legacy cases).</summary>
     [JsonPropertyName("id")]

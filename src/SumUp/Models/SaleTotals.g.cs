@@ -5,8 +5,8 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
-/// <summary>Sale-level pricing aggregate, parallel to LineItemPrice on each SaleLineItem. Line-level breakdown (unit price, line discounts, per-line taxes) lives on items[].price. This object holds the rolled-up totals and cart-level adjustments that consumers use for receipts and payment reconciliation.</summary>
-public sealed partial class SalePriceV10
+/// <summary>Sale-level pricing aggregate, parallel to SaleItemPrice on each SaleItem. Line-level breakdown (unit price, line discounts, per-line taxes) lives on items[].price. This object holds the rolled-up totals and cart-level adjustments that consumers use for receipts and payment reconciliation.</summary>
+public sealed partial class SaleTotals
 {
     /// <summary>Discounts applied at cart level. Item-level discounts remain on items[].price.discounts.</summary>
     [JsonPropertyName("cart_discounts")]

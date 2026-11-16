@@ -5,14 +5,14 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 /// <summary>Outward identifiers and links for a line, kept in one place rather than scattered per item type.</summary>
-public sealed partial class ItemReferencesV10
+public sealed partial class SaleItemReferences
 {
     /// <summary>Reference to the backing catalog entity (item variant, deposit, ...), typically a URN such as urn:sumup:pos:variant:${MERCHANT_CODE}:${ITEM_ID}:${VARIANT_ID} or urn:sumup:pos:deposit:${MERCHANT_CODE}:${DEPOSIT_ID}. Empty for ad-hoc / manual lines. Type-agnostic on purpose: a new item type backed by a catalog entity reuses this field instead of adding its own.</summary>
     [JsonPropertyName("catalog_reference")]
     public string? CatalogReference { get; set; }
     /// <summary>The source of the catalog the line originates from.</summary>
     [JsonPropertyName("catalog_source")]
-    public ItemReferencesV10CatalogSource? CatalogSource { get; set; }
+    public SaleItemReferencesCatalogSource? CatalogSource { get; set; }
     /// <summary>An external reference id connecting this line to another system.</summary>
     [JsonPropertyName("external_id")]
     public string? ExternalId { get; set; }

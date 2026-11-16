@@ -7,12 +7,8 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum PublicCardV10Type
+public enum SaleLifecycleState
 {
-    [EnumMember(Value = "credit")]
-    Credit,
-    [EnumMember(Value = "debit")]
-    Debit,
-    [EnumMember(Value = "unknown")]
-    Unknown,
+    [EnumMember(Value = "CLOSED")]
+    Closed,
 }

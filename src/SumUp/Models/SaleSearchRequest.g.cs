@@ -19,13 +19,13 @@ public sealed partial class SaleSearchRequest
     public string? PaginationToken { get; set; }
     /// <summary>Filters rows by payment outcome. Multiple values match any of them (OR). The search row does not echo this value.</summary>
     [JsonPropertyName("payment_statuses")]
-    public IEnumerable<PaymentStatusFilterV10>? PaymentStatuses { get; set; }
+    public IEnumerable<SalePaymentStatusFilter>? PaymentStatuses { get; set; }
     /// <summary>Filters rows by sale lifecycle (state). Multiple values match any of them (OR). Uses the same values as Sale.state. Non-finalised sales are never returned; only fully-paid sales.</summary>
     [JsonPropertyName("sale_statuses")]
-    public IEnumerable<SaleStateV10>? SaleStatuses { get; set; }
+    public IEnumerable<SaleLifecycleState>? SaleStatuses { get; set; }
     /// <summary>Sales channel filter. Multiple values match any of them (OR).</summary>
     [JsonPropertyName("sales_channels")]
-    public IEnumerable<SalesChannelFilterV10>? SalesChannels { get; set; }
+    public IEnumerable<SaleChannelFilter>? SalesChannels { get; set; }
     /// <summary>Sale created on or after this instant (inclusive).</summary>
     [JsonPropertyName("start_date")]
     public DateTimeOffset? StartDate { get; set; }
