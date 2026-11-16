@@ -24,7 +24,7 @@ public sealed partial class SaleSearchItem
     public string? Name { get; set; }
     /// <summary>Lifecycle state of the sale. Non-finalised sales are never returned; only fully-paid sales.</summary>
     [JsonPropertyName("state")]
-    public SaleStateV10 State { get; set; }
+    public SaleLifecycleState State { get; set; }
     /// <summary>Checkout tax mode for the sale. Same values as Sale.tax_mode.</summary>
     [JsonPropertyName("tax_mode")]
     public TaxMode TaxMode { get; set; }

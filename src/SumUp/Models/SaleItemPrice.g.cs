@@ -6,7 +6,7 @@ namespace SumUp;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 /// <summary>Pricing for a single line, valid for every item type. Merges the standard amounts (with tax breakdown) and the final amounts (after discounts/modifiers). Totals and tax amounts can be negative for return-like operations (for example a deposit with operation_type = RETURN).</summary>
-public sealed partial class LineItemPriceV10
+public sealed partial class SaleItemPrice
 {
     /// <summary>Discounts applied. Discount amounts do not affect total_net_amount / total_gross_amount; they are reflected in the *_final amounts.</summary>
     [JsonPropertyName("discounts")]

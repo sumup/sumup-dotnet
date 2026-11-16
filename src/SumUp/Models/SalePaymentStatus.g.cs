@@ -7,8 +7,12 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum SaleStateV10
+public enum SalePaymentStatus
 {
-    [EnumMember(Value = "CLOSED")]
-    Closed,
+    [EnumMember(Value = "FAILED")]
+    Failed,
+    [EnumMember(Value = "SUCCESSFUL")]
+    Successful,
+    [EnumMember(Value = "CANCELED")]
+    Canceled,
 }

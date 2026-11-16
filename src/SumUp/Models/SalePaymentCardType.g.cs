@@ -7,10 +7,12 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum ItemReferencesV10CatalogSource
+public enum SalePaymentCardType
 {
-    [EnumMember(Value = "SUMUP")]
-    Sumup,
-    [EnumMember(Value = "EXTERNAL")]
-    External,
+    [EnumMember(Value = "credit")]
+    Credit,
+    [EnumMember(Value = "debit")]
+    Debit,
+    [EnumMember(Value = "unknown")]
+    Unknown,
 }

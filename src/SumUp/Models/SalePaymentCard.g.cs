@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 /// <summary>Card brand, credit/debit processing type, and last four digits.</summary>
-public sealed partial class PublicCardV10
+public sealed partial class SalePaymentCard
 {
     /// <summary>The brand of the card. Input is case-insensitive; the canonical form is lowercase snake_case. VALUES: [amex, cup, diners, discover, elo, elv, hipercard, jcb, maestro, mastercard, visa, visa_electron, visa_vpay, vr, eftpos, conecs, swile, girocard, interac, sumup, bancomat].</summary>
     [JsonPropertyName("brand")]
@@ -15,5 +15,5 @@ public sealed partial class PublicCardV10
     public string Last4Digits { get; set; } = default!;
     /// <summary>Credit or debit processing choice, not brand or funding. unknown when unavailable; prepaid/voucher are not processing types.</summary>
     [JsonPropertyName("type")]
-    public PublicCardV10Type Type { get; set; }
+    public SalePaymentCardType Type { get; set; }
 }

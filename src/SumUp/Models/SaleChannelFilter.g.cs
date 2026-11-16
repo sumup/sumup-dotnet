@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum SalesChannelFilterV10
+public enum SaleChannelFilter
 {
     [EnumMember(Value = "POS")]
     Pos,

@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 [JsonConverter(typeof(EnumMemberJsonConverterFactory))]
-public enum FeatureValueTypeV10
+public enum SaleItemFeatureValueType
 {
     [EnumMember(Value = "TEXT")]
     Text,

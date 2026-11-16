@@ -5,7 +5,7 @@ namespace SumUp;
 
 using System.Text.Json.Serialization;
 /// <summary>Gift card used for this payment. Present when method is gift_card and the gift card id is known. Gift card IDs use the format "GC" followed by 9 alphanumeric characters (e.g. GCZ3NTMB1V).</summary>
-public sealed partial class PublicGiftCardPayment
+public sealed partial class SaleGiftCardPayment
 {
     /// <summary>Gift card identifier. Format "GC" followed by 9 alphanumeric characters (e.g. GCZ3NTMB1V).</summary>
     [JsonPropertyName("id")]
