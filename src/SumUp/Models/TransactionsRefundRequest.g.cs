@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 /// <summary>Optional amount for partial refunds of transactions.</summary>
 public sealed partial class TransactionsRefundRequest
 {
-    /// <summary>Amount to refund in major units of the transaction's currency, for example 5 for EUR 5.00. It must be greater than zero and cannot exceed the amount eligible for a refund. Eligibility depends on the transaction and country/currency rules. If omitted, the system requests a full refund.</summary>
+    /// <summary>Amount to refund in minor units of the transaction's currency, for example 500 for EUR 5.00. It must be greater than zero and cannot exceed the amount eligible for a refund. Eligibility depends on the transaction and country/currency rules. If omitted, the system requests a full refund.</summary>
     [JsonPropertyName("amount")]
-    public float? Amount { get; set; }
+    public int? Amount { get; set; }
 }
