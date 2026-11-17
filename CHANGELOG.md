@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.24](https://github.com/sumup/sumup-dotnet/compare/v0.0.23...v0.0.24) (2026-11-17)
+
+
+### Chores
+
+* **deps:** Bump actions/setup-dotnet from 6.0.0 to 6.1.0 ([#222](https://github.com/sumup/sumup-dotnet/issues/222)) ([0d18194](https://github.com/sumup/sumup-dotnet/commit/0d18194ba299a1fff03879dd43dedd0546e0ac3a))
+* **deps:** Bump amannn/action-semantic-pull-request ([#223](https://github.com/sumup/sumup-dotnet/issues/223)) ([82331e4](https://github.com/sumup/sumup-dotnet/commit/82331e43b77ec462d3c837af733eae954bc7ab28))
+* **deps:** Bump github.com/pb33f/libopenapi in /codegen ([#221](https://github.com/sumup/sumup-dotnet/issues/221)) ([b1dc3c1](https://github.com/sumup/sumup-dotnet/commit/b1dc3c15d8bcf6b1aa47392931d7b1cfb62afd21))
+* **deps:** Bump reviewdog/action-actionlint from 1.81.1 to 1.83.0 ([#220](https://github.com/sumup/sumup-dotnet/issues/220)) ([b713037](https://github.com/sumup/sumup-dotnet/commit/b713037376e2782f31b56f77c4dea66228f2a576))
+* synced file(s) with sumup/apis ([#225](https://github.com/sumup/sumup-dotnet/issues/225)) ([1e6c806](https://github.com/sumup/sumup-dotnet/commit/1e6c806fc6174f02876dd83439318911505c0e44))
+* synced file(s) with sumup/apis ([#226](https://github.com/sumup/sumup-dotnet/issues/226)) ([b83a091](https://github.com/sumup/sumup-dotnet/commit/b83a09114f8d34dad3b97a48307baff774289fbd))
+
 ## [0.0.23](https://github.com/sumup/sumup-dotnet/compare/v0.0.22...v0.0.23) (2026-11-12)
 
 
