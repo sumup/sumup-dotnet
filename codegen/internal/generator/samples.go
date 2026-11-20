@@ -78,9 +78,6 @@ func (g *Generator) Samples(doc *v3.Document, sdkVersion string) (*SampleCatalog
 	samples := make([]Sample, 0)
 	for _, client := range clients {
 		for _, operation := range client.Operations {
-			if operation.Alias {
-				continue
-			}
 			if operation.OperationID == "" {
 				return nil, fmt.Errorf("missing operationId for %s %s", strings.ToUpper(operation.HttpMethod), operation.Path)
 			}

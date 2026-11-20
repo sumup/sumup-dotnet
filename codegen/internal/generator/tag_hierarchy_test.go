@@ -29,6 +29,7 @@ paths:
     post:
       operationId: CreateReaderCheckout
       tags: [ReaderCheckouts]
+      x-codegen: {method_name: create}
       responses:
         '204': {description: OK}
 components: {schemas: {}}
@@ -50,11 +51,11 @@ components: {schemas: {}}
 		if client.ClientName != "Readers" {
 			continue
 		}
-		if len(client.Children) != 1 || len(client.Operations) != 2 {
-			t.Fatalf("expected the parent to expose Checkouts and retain both operations: %+v", client)
+		if len(client.Children) != 1 || len(client.Operations) != 1 || client.Operations[0].MethodName != "ListReaders" {
+			t.Fatalf("expected the parent to expose Checkouts and its own operation: %+v", client)
 		}
 		child := client.Children[0]
-		if child.AccessPath != "Readers.Checkouts" || len(child.Operations) != 1 {
+		if child.AccessPath != "Readers.Checkouts" || len(child.Operations) != 1 || child.Operations[0].MethodName != "Create" {
 			t.Fatalf("expected only the checkout operation on the nested client: %+v", child)
 		}
 		return
