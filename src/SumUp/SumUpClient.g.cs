@@ -15,6 +15,8 @@ public partial class SumUpClient
         Memberships = new MembershipsClient(apiClient);
         Merchants = new MerchantsClient(apiClient);
         Payouts = new PayoutsClient(apiClient);
+        ReaderCheckouts = new ReaderCheckoutsClient(apiClient);
+        ReaderSettings = new ReaderSettingsClient(apiClient);
         Readers = new ReadersClient(apiClient);
         Receipts = new ReceiptsClient(apiClient);
         Roles = new RolesClient(apiClient);
@@ -52,6 +54,16 @@ public partial class SumUpClient
     /// Access the Payouts API endpoints.
     /// </summary>
     public PayoutsClient Payouts { get; private set; } = default!;
+
+    /// <summary>
+    /// Access the ReaderCheckouts API endpoints.
+    /// </summary>
+    public ReaderCheckoutsClient ReaderCheckouts { get; private set; } = default!;
+
+    /// <summary>
+    /// Access the ReaderSettings API endpoints.
+    /// </summary>
+    public ReaderSettingsClient ReaderSettings { get; private set; } = default!;
 
     /// <summary>
     /// Access the Readers API endpoints.
