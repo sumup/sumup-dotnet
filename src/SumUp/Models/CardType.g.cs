@@ -15,6 +15,8 @@ public enum CardType
     Amex,
     [EnumMember(Value = "BANCOMAT")]
     Bancomat,
+    [EnumMember(Value = "CARNET")]
+    Carnet,
     [EnumMember(Value = "CONECS")]
     Conecs,
     [EnumMember(Value = "CUP")]
