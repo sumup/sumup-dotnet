@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"cmp"
 	"embed"
 	"errors"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"sort"
 	"strings"
 	"text/template"
@@ -144,7 +146,7 @@ func (g *Generator) Run(doc *v3.Document) error {
 
 	rootData := rootTemplateData{
 		Namespace: g.config.Namespace,
-		Clients:   clients,
+		Clients:   slices.DeleteFunc(slices.Clone(clients), func(client clientTemplateData) bool { return client.Nested }),
 	}
 	if err := g.renderRoot(tmpl, rootData); err != nil {
 		return err
@@ -570,6 +572,33 @@ func (g *Generator) classifySchema(schema *base.Schema) schemaKind {
 func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error) {
 	clientMap := map[string]*clientTemplateData{}
 	nameCounts := map[string]int{}
+	parents, err := readResourceParents(doc)
+	if err != nil {
+		return nil, err
+	}
+	ensureClient := func(tag string) *clientTemplateData {
+		clientName := naming.PascalIdentifier(tag)
+		if client, ok := clientMap[clientName]; ok {
+			return client
+		}
+		propertyName := clientName
+		var ancestors []string
+		if parent := parents[tag]; parent.tag != "" {
+			propertyName = naming.PascalIdentifier(parent.label)
+			for ancestor := parent.tag; ancestor != ""; ancestor = parents[ancestor].tag {
+				label := cmp.Or(parents[ancestor].label, ancestor)
+				ancestors = append(ancestors, naming.PascalIdentifier(label))
+			}
+		}
+		slices.Reverse(ancestors)
+		client := &clientTemplateData{
+			Namespace: g.config.Namespace, ClientName: clientName,
+			PropertyName: propertyName, TagDescription: findTagDescription(doc, tag),
+			Nested: parents[tag].tag != "", AccessPath: strings.Join(append(ancestors, propertyName), "."),
+		}
+		clientMap[clientName] = client
+		return client
+	}
 
 	if doc.Paths == nil || doc.Paths.PathItems == nil || doc.Paths.PathItems.Len() == 0 {
 		return nil, fmt.Errorf("spec contains no paths")
@@ -591,17 +620,11 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			if len(operation.Tags) > 0 {
 				tag = operation.Tags[0]
 			}
-			clientName := naming.PascalIdentifier(tag)
-			ct, ok := clientMap[clientName]
-			if !ok {
-				ct = &clientTemplateData{
-					Namespace:      g.config.Namespace,
-					ClientName:     clientName,
-					PropertyName:   clientName,
-					TagDescription: findTagDescription(doc, tag),
-				}
-				clientMap[clientName] = ct
+			root := tag
+			for parents[root].tag != "" {
+				root = parents[root].tag
 			}
+			clientName := naming.PascalIdentifier(root)
 
 			httpMethod := canonicalMethodName(methodName)
 			baseName := g.operationBaseName(httpMethod, rawPath, operation)
@@ -621,17 +644,28 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			if err != nil {
 				return nil, err
 			}
-			ct.Operations = append(ct.Operations, method)
-			ct.UsesCollections = ct.UsesCollections || method.UsesCollections
-			ct.UsesJson = true // responses default to JSON
-			if method.HasErrorResponses {
-				ct.UsesErrorResponses = true
+			for owner := tag; owner != ""; owner = parents[owner].tag {
+				ct := ensureClient(owner)
+				method.Alias = owner != tag
+				ct.Operations = append(ct.Operations, method)
+				ct.UsesCollections = ct.UsesCollections || method.UsesCollections
+				ct.UsesJson = true // responses default to JSON
+				ct.UsesErrorResponses = ct.UsesErrorResponses || method.HasErrorResponses
+				if relation := parents[owner]; relation.tag != "" {
+					parent := ensureClient(relation.tag)
+					if !slices.Contains(parent.Children, ct) {
+						parent.Children = append(parent.Children, ct)
+					}
+				}
 			}
 		}
 	}
 
 	clients := make([]clientTemplateData, 0, len(clientMap))
 	for _, client := range clientMap {
+		slices.SortFunc(client.Children, func(left, right *clientTemplateData) int {
+			return cmp.Compare(left.PropertyName, right.PropertyName)
+		})
 		sort.Slice(client.Operations, func(i, j int) bool {
 			return client.Operations[i].MethodName < client.Operations[j].MethodName
 		})
@@ -1600,6 +1634,9 @@ type clientTemplateData struct {
 	Namespace          string
 	ClientName         string
 	PropertyName       string
+	AccessPath         string
+	Nested             bool
+	Children           []*clientTemplateData
 	TagDescription     string
 	Operations         []operationTemplateData
 	UsesCollections    bool
@@ -1608,6 +1645,7 @@ type clientTemplateData struct {
 }
 
 type operationTemplateData struct {
+	Alias               bool
 	OperationID         string
 	MethodName          string
 	HttpMethod          string
@@ -1733,7 +1771,7 @@ func (g *Generator) collectOperationOptions(clients []clientTemplateData) []opti
 	var options []optionsTemplateData
 	for _, client := range clients {
 		for _, operation := range client.Operations {
-			if operation.OperationOptions != nil {
+			if operation.OperationOptions != nil && !operation.Alias {
 				options = append(options, *operation.OperationOptions)
 			}
 		}

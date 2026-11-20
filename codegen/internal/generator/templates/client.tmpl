@@ -17,6 +17,11 @@ using SumUp.Http;
 public sealed partial class {{ .ClientName }}Client
 {
     private readonly ApiClient _client;
+    {{- range .Children }}
+
+    /// <summary>Access the {{ .PropertyName }} API endpoints.</summary>
+    public {{ .ClientName }}Client {{ .PropertyName }} { get; }
+    {{- end }}
 
     /// <summary>
     /// Client for the {{ .ClientName }} API endpoints.
@@ -27,6 +32,9 @@ public sealed partial class {{ .ClientName }}Client
     internal {{ .ClientName }}Client(ApiClient client)
     {
         _client = client;
+        {{- range .Children }}
+        {{ .PropertyName }} = new {{ .ClientName }}Client(client);
+        {{- end }}
     }
 {{- range .Operations }}
 

@@ -78,6 +78,9 @@ func (g *Generator) Samples(doc *v3.Document, sdkVersion string) (*SampleCatalog
 	samples := make([]Sample, 0)
 	for _, client := range clients {
 		for _, operation := range client.Operations {
+			if operation.Alias {
+				continue
+			}
 			if operation.OperationID == "" {
 				return nil, fmt.Errorf("missing operationId for %s %s", strings.ToUpper(operation.HttpMethod), operation.Path)
 			}
@@ -160,13 +163,13 @@ func (g *Generator) renderSample(client clientTemplateData, operation operationT
 		arguments = append(arguments, fmt.Sprintf("new %s\n{\n%s\n}", operation.OperationOptions.Name, strings.Join(properties, "\n")))
 	}
 
-	call := fmt.Sprintf("client.%s.%sAsync()", client.PropertyName, operation.MethodName)
+	call := fmt.Sprintf("client.%s.%sAsync()", client.AccessPath, operation.MethodName)
 	if len(arguments) > 0 {
 		indented := make([]string, len(arguments))
 		for i, argument := range arguments {
 			indented[i] = "            " + strings.ReplaceAll(argument, "\n", "\n            ")
 		}
-		call = fmt.Sprintf("client.%s.%sAsync(\n%s)", client.PropertyName, operation.MethodName, strings.Join(indented, ",\n"))
+		call = fmt.Sprintf("client.%s.%sAsync(\n%s)", client.AccessPath, operation.MethodName, strings.Join(indented, ",\n"))
 	}
 
 	source := fmt.Sprintf(`using System;
