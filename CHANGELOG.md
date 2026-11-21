@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.25](https://github.com/sumup/sumup-dotnet/compare/v0.0.24...v0.0.25) (2026-11-21)
+
+
+### Features
+
+* **codegen:** support nested SDK resources ([#228](https://github.com/sumup/sumup-dotnet/issues/228)) ([1bcdac6](https://github.com/sumup/sumup-dotnet/commit/1bcdac6e2c9c7e53607048503b97a9cc94851363))
+
 ## [0.0.24](https://github.com/sumup/sumup-dotnet/compare/v0.0.23...v0.0.24) (2026-11-17)
 
 
