@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"cmp"
 	"embed"
 	"errors"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"sort"
 	"strings"
 	"text/template"
@@ -144,7 +146,7 @@ func (g *Generator) Run(doc *v3.Document) error {
 
 	rootData := rootTemplateData{
 		Namespace: g.config.Namespace,
-		Clients:   clients,
+		Clients:   slices.DeleteFunc(slices.Clone(clients), func(client clientTemplateData) bool { return client.Nested }),
 	}
 	if err := g.renderRoot(tmpl, rootData); err != nil {
 		return err
@@ -570,6 +572,33 @@ func (g *Generator) classifySchema(schema *base.Schema) schemaKind {
 func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error) {
 	clientMap := map[string]*clientTemplateData{}
 	nameCounts := map[string]int{}
+	parents, err := readResourceParents(doc)
+	if err != nil {
+		return nil, err
+	}
+	var ensureClient func(string) *clientTemplateData
+	ensureClient = func(tag string) *clientTemplateData {
+		clientName := naming.PascalIdentifier(tag)
+		if client, ok := clientMap[clientName]; ok {
+			return client
+		}
+		client := &clientTemplateData{
+			Namespace:      g.config.Namespace,
+			ClientName:     clientName,
+			PropertyName:   clientName,
+			TagDescription: findTagDescription(doc, tag),
+			AccessPath:     clientName,
+		}
+		if relation := parents[tag]; relation.tag != "" {
+			parent := ensureClient(relation.tag)
+			client.Nested = true
+			client.PropertyName = naming.PascalIdentifier(relation.label)
+			client.AccessPath = parent.AccessPath + "." + client.PropertyName
+			parent.Children = append(parent.Children, client)
+		}
+		clientMap[clientName] = client
+		return client
+	}
 
 	if doc.Paths == nil || doc.Paths.PathItems == nil || doc.Paths.PathItems.Len() == 0 {
 		return nil, fmt.Errorf("spec contains no paths")
@@ -591,17 +620,8 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			if len(operation.Tags) > 0 {
 				tag = operation.Tags[0]
 			}
-			clientName := naming.PascalIdentifier(tag)
-			ct, ok := clientMap[clientName]
-			if !ok {
-				ct = &clientTemplateData{
-					Namespace:      g.config.Namespace,
-					ClientName:     clientName,
-					PropertyName:   clientName,
-					TagDescription: findTagDescription(doc, tag),
-				}
-				clientMap[clientName] = ct
-			}
+			client := ensureClient(tag)
+			clientName := client.ClientName
 
 			httpMethod := canonicalMethodName(methodName)
 			baseName := g.operationBaseName(httpMethod, rawPath, operation)
@@ -621,17 +641,18 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			if err != nil {
 				return nil, err
 			}
-			ct.Operations = append(ct.Operations, method)
-			ct.UsesCollections = ct.UsesCollections || method.UsesCollections
-			ct.UsesJson = true // responses default to JSON
-			if method.HasErrorResponses {
-				ct.UsesErrorResponses = true
-			}
+			client.Operations = append(client.Operations, method)
+			client.UsesCollections = client.UsesCollections || method.UsesCollections
+			client.UsesJson = true // responses default to JSON
+			client.UsesErrorResponses = client.UsesErrorResponses || method.HasErrorResponses
 		}
 	}
 
 	clients := make([]clientTemplateData, 0, len(clientMap))
 	for _, client := range clientMap {
+		slices.SortFunc(client.Children, func(left, right *clientTemplateData) int {
+			return cmp.Compare(left.PropertyName, right.PropertyName)
+		})
 		sort.Slice(client.Operations, func(i, j int) bool {
 			return client.Operations[i].MethodName < client.Operations[j].MethodName
 		})
@@ -1600,6 +1621,9 @@ type clientTemplateData struct {
 	Namespace          string
 	ClientName         string
 	PropertyName       string
+	AccessPath         string
+	Nested             bool
+	Children           []*clientTemplateData
 	TagDescription     string
 	Operations         []operationTemplateData
 	UsesCollections    bool
