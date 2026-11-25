@@ -39,7 +39,7 @@ public sealed partial class GetReaderCheckoutResponseData
     /// <summary>Current status of the checkout</summary>
     [JsonPropertyName("status")]
     public GetReaderCheckoutResponseDataStatus Status { get; set; }
-    /// <summary>Amount structure. The amount is represented as an integer value altogether with the currency and the minor unit. For example, EUR 1.00 is represented as value 100 with minor unit of 2.</summary>
+    /// <summary>The checkout amount. The value uses two decimal places, even for currencies such as CLP that use zero decimal places in the create request. For example, EUR 10.00 is returned as 1000 and CLP 1000 as 100000.</summary>
     [JsonPropertyName("total_amount")]
     public GetReaderCheckoutResponseDataTotalAmount TotalAmount { get; set; } = default!;
     /// <summary>Checkout last update timestamp</summary>
