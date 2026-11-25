@@ -1,6 +1,8 @@
 package generator
 
 import (
+	"path/filepath"
+	"slices"
 	"testing"
 
 	"github.com/pb33f/libopenapi"
@@ -14,6 +16,7 @@ openapi: 3.1.0
 info: {title: Readers, version: 1.0.0}
 tags:
   - name: Readers
+  - name: Checkouts
   - name: ReaderCheckouts
     x-displayName: Checkouts
 x-tagGroups:
@@ -32,6 +35,12 @@ paths:
       x-codegen: {method_name: create}
       responses:
         '204': {description: OK}
+  /checkouts:
+    get:
+      operationId: ListCheckouts
+      tags: [Checkouts]
+      responses:
+        '204': {description: OK}
 components: {schemas: {}}
 `))
 	if err != nil {
@@ -47,6 +56,11 @@ components: {schemas: {}}
 	if err != nil {
 		t.Fatal(err)
 	}
+	if !slices.ContainsFunc(clients, func(client clientTemplateData) bool {
+		return client.ClientName == "Checkouts" && client.Namespace == "SumUp.Checkouts" && client.Directory == "Checkouts"
+	}) {
+		t.Fatal("expected a namespace and directory for the standalone Checkouts client")
+	}
 	for _, client := range clients {
 		if client.ClientName != "Readers" {
 			continue
@@ -55,6 +69,12 @@ components: {schemas: {}}
 			t.Fatalf("expected the parent to expose Checkouts and its own operation: %+v", client)
 		}
 		child := client.Children[0]
+		if client.Namespace != "SumUp.Readers" || child.Namespace != client.Namespace {
+			t.Fatalf("expected one feature namespace, got parent %q and child %q", client.Namespace, child.Namespace)
+		}
+		if client.Directory != "Readers" || child.Directory != filepath.Join("Readers", "Checkouts") {
+			t.Fatalf("expected resource folders, got parent %q and child %q", client.Directory, child.Directory)
+		}
 		if child.AccessPath != "Readers.Checkouts" || len(child.Operations) != 1 || child.Operations[0].MethodName != "Create" {
 			t.Fatalf("expected only the checkout operation on the nested client: %+v", child)
 		}

@@ -162,7 +162,7 @@ func (g *Generator) Run(doc *v3.Document) error {
 }
 
 func (g *Generator) renderClient(t *template.Template, client clientTemplateData) (err error) {
-	filePath := filepath.Join(g.config.OutputDir, fmt.Sprintf("%sClient.g.cs", client.ClientName))
+	filePath := filepath.Join(g.config.OutputDir, client.Directory, fmt.Sprintf("%sClient.g.cs", client.ClientName))
 	if err := os.MkdirAll(filepath.Dir(filePath), 0o755); err != nil {
 		return fmt.Errorf("create directory: %w", err)
 	}
@@ -583,7 +583,8 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			return client
 		}
 		client := &clientTemplateData{
-			Namespace:      g.config.Namespace,
+			Directory:      clientName,
+			Namespace:      g.config.Namespace + "." + clientName,
 			ClientName:     clientName,
 			PropertyName:   clientName,
 			TagDescription: findTagDescription(doc, tag),
@@ -594,6 +595,8 @@ func (g *Generator) buildClients(doc *v3.Document) ([]clientTemplateData, error)
 			client.Nested = true
 			client.PropertyName = naming.PascalIdentifier(relation.label)
 			client.AccessPath = parent.AccessPath + "." + client.PropertyName
+			client.Namespace = parent.Namespace
+			client.Directory = filepath.Join(parent.Directory, client.PropertyName)
 			parent.Children = append(parent.Children, client)
 		}
 		clientMap[clientName] = client
@@ -1618,6 +1621,7 @@ type enumValueTemplateData struct {
 }
 
 type clientTemplateData struct {
+	Directory          string
 	Namespace          string
 	ClientName         string
 	PropertyName       string
