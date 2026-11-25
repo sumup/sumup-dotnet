@@ -4,6 +4,18 @@
 namespace SumUp;
 
 using SumUp.Http;
+using SumUp.Checkouts;
+using SumUp.Customers;
+using SumUp.Members;
+using SumUp.Memberships;
+using SumUp.Merchants;
+using SumUp.Payouts;
+using SumUp.Readers;
+using SumUp.Receipts;
+using SumUp.Roles;
+using SumUp.Sales;
+using SumUp.Tokens;
+using SumUp.Transactions;
 
 public partial class SumUpClient
 {

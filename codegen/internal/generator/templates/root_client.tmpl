@@ -5,6 +5,9 @@
 namespace {{ .Namespace }};
 
 using SumUp.Http;
+{{- range .Clients }}
+using {{ .Namespace }};
+{{- end }}
 
 public partial class SumUpClient
 {
