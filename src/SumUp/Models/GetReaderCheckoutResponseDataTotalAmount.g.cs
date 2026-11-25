@@ -4,15 +4,12 @@
 namespace SumUp;
 
 using System.Text.Json.Serialization;
-/// <summary>Amount structure. The amount is represented as an integer value altogether with the currency and the minor unit. For example, EUR 1.00 is represented as value 100 with minor unit of 2.</summary>
+/// <summary>The checkout amount. The value uses two decimal places, even for currencies such as CLP that use zero decimal places in the create request. For example, EUR 10.00 is returned as 1000 and CLP 1000 as 100000.</summary>
 public sealed partial class GetReaderCheckoutResponseDataTotalAmount
 {
     /// <summary>Currency ISO 4217 code</summary>
     [JsonPropertyName("currency")]
     public string Currency { get; set; } = default!;
-    /// <summary>The minor units of the currency. It represents the number of decimals of the currency. For the currencies CLP, COP and HUF, the minor unit is 0.</summary>
-    [JsonPropertyName("minor_unit")]
-    public int MinorUnit { get; set; }
     /// <summary>Integer value of the amount.</summary>
     [JsonPropertyName("value")]
     public int Value { get; set; }
