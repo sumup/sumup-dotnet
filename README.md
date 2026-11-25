@@ -83,7 +83,7 @@ using SumUp;
 
 using var client = new SumUpClient();
 
-var readerCheckout = await client.Readers.CreateCheckoutAsync(
+var readerCheckout = await client.Readers.Checkouts.CreateAsync(
     merchantCode: "your-merchant-code",
     readerId: "your-reader-id",
     body: new CreateReaderCheckoutRequest
@@ -93,7 +93,6 @@ var readerCheckout = await client.Readers.CreateCheckoutAsync(
         TotalAmount = new CreateReaderCheckoutRequestTotalAmount
         {
             Currency = "EUR",
-            MinorUnit = 2,
             Value = 1000, // €10.00
         },
     });

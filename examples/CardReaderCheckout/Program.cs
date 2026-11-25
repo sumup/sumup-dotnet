@@ -25,14 +25,13 @@ var request = new CreateReaderCheckoutRequest
     TotalAmount = new CreateReaderCheckoutRequestTotalAmount
     {
         Currency = "EUR",
-        MinorUnit = 2,
         Value = 1000,
     },
 };
 
 try
 {
-    await client.Readers.CreateCheckoutAsync(merchantCode, readerId!, request);
+    await client.Readers.Checkouts.CreateAsync(merchantCode, readerId!, request);
     Console.WriteLine("✓ Checkout created successfully!");
 }
 catch (ApiException ex)
