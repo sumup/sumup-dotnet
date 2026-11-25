@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.1.0](https://github.com/sumup/sumup-dotnet/compare/v0.0.24...v0.1.0) (2026-11-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* organize resource clients by feature ([#233](https://github.com/sumup/sumup-dotnet/issues/233))
+
+### Features
+
+* **codegen:** support nested SDK resources ([#228](https://github.com/sumup/sumup-dotnet/issues/228)) ([1bcdac6](https://github.com/sumup/sumup-dotnet/commit/1bcdac6e2c9c7e53607048503b97a9cc94851363))
+* organize resource clients by feature ([#233](https://github.com/sumup/sumup-dotnet/issues/233)) ([df8107b](https://github.com/sumup/sumup-dotnet/commit/df8107b4d7fb7d4742d533d0b6946d907afa92a1))
+
+
+### Chores
+
+* **deps:** Bump github.com/pb33f/libopenapi in /codegen ([#231](https://github.com/sumup/sumup-dotnet/issues/231)) ([2932f13](https://github.com/sumup/sumup-dotnet/commit/2932f13bea781c136e7a47cbeb27bb106f123db4))
+* **deps:** Bump Microsoft.NET.Test.Sdk from 18.11.0 to 18.12.0 ([#232](https://github.com/sumup/sumup-dotnet/issues/232)) ([948c2bf](https://github.com/sumup/sumup-dotnet/commit/948c2bf0a81dec44ed28b4ce3e76cd7e942bd7a2))
+* **deps:** Bump reviewdog/action-actionlint from 1.83.0 to 1.84.1 ([#230](https://github.com/sumup/sumup-dotnet/issues/230)) ([13c2557](https://github.com/sumup/sumup-dotnet/commit/13c25574dd2e734664069a8bd19537302b4eaf57))
+* synced file(s) with sumup/apis ([#227](https://github.com/sumup/sumup-dotnet/issues/227)) ([1c836f8](https://github.com/sumup/sumup-dotnet/commit/1c836f82a35f51383c83878710af9e390c39a1f1))
+
 ## [0.0.24](https://github.com/sumup/sumup-dotnet/compare/v0.0.23...v0.0.24) (2026-11-17)
 
 
